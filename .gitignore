@@ -8,8 +8,8 @@
 /.bundle
 /.idea
 
-**/*.vpp~1
-**/*.bak_00*
+**/*.vpp~*
+**/*.bak*
 **/*.vux
 **/*.vbak
 
