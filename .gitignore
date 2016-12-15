@@ -9,6 +9,9 @@
 /.idea
 
 **/*.vpp~1
+**/*.bak_00*
+**/*.vux
+**/*.vbak
 
 /vendor
 /public/system
@@ -39,3 +42,8 @@
 /config/sphinx_remote_server.yml
 /config/unicorn
 /config/cache_store.yml
+
+#ignore macfile
+/.DS_Store
+**/*.swp
+
