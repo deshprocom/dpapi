@@ -12,6 +12,7 @@
 **/*.bak*
 **/*.vux
 **/*.vbak
+**/*.lck
 
 /vendor
 /public/system
