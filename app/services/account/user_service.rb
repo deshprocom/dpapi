@@ -8,7 +8,7 @@ module Services
       def self.create_user_by_mobile(user_params)
         mobile = user_params[:mobile]
 
-        #检查手机格式是否存在
+        #检查手机格式是否正确
         unless UserValidator.mobile_valid?(mobile)
           return ApiResult.error_result(MOBILE_FORMAT_WRONG)
         end
@@ -33,6 +33,36 @@ module Services
       end
 
       def self.create_user_by_email(user_params)
+        email = user_params[:email]
+
+        #检查邮箱格式是否正确
+        unless UserValidator.email_valid?(email)
+          return ApiResult.error_result(EMAIL_FORMAT_WRONG)
+        end
+
+        #检查邮箱是否存在
+        if UserValidator.email_exists?(email)
+          return ApiResult.error_result(EMAIL_ALREADY_USED)
+        end
+
+        #检查密码是否为空
+        password = user_params[:password]
+        return ApiResult.error_result(PASSWORD_NOT_BLANK) if password.blank?
+
+        #可以注册
+
+        user_name = User.unique_username
+        reg_date = Time.now
+        last_visit = reg_date
+
+        create_attrs = {
+            user_name: user_name,
+            email: email,
+            password: password,
+            reg_date: reg_date,
+            last_visit: last_visit
+        }
+        create_user(create_attrs)
       end
 
       protected

@@ -25,6 +25,9 @@ module Constants
     EMAIL_FORMAT_WRONG = 1100011
     MOBILE_FORMAT_WRONG = 1100012
     MOBILE_ALREADY_USED = 1100013
+    EMAIL_ALREADY_USED = 1100014
+    PASSWORD_ALREADY_USED = 1100014
+    PASSWORD_NOT_BLANK = 1100015
   end
 
 
@@ -43,6 +46,8 @@ module Constants
       CommonErrorCode::DATABASE_ERROR => '数据库错误',
       SignUpErrorCode::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
       SignUpErrorCode::MOBILE_FORMAT_WRONG => '无效的手机号码',
-      SignUpErrorCode::MOBILE_ALREADY_USED => '手机号码已被使用'
+      SignUpErrorCode::MOBILE_ALREADY_USED => '手机号码已被使用',
+      SignUpErrorCode::EMAIL_ALREADY_USED => '邮箱已被使用',
+      SignUpErrorCode::PASSWORD_NOT_BLANK => '密码不能为空'
   }
 end
