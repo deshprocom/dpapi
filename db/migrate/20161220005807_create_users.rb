@@ -10,7 +10,9 @@ class CreateUsers < ActiveRecord::Migration[5.0]
       t.string :email, limit: 64, comment: "用户的邮箱 唯一"
       t.string :mobile, limit: 16, comment: "用户手机号 唯一"
       t.string :avatar, limit: 255, comment: "用户头像"
-      t.string :birthday, limit: 8, comment: "用户的生日"
+      t.date :birthday, comment: "用户的生日"
+      t.datetime :reg_date, comment: '注册日期'
+      t.datetime :last_visit, comment: '上次登录时间'
       t.timestamps
     end
 

@@ -20,6 +20,8 @@ gem 'puma', '~> 3.0'
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 
+gem 'jbuilder'
+
 #cache
 gem 'redis', '~> 3.2'
 gem 'hiredis'
