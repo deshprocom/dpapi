@@ -23,7 +23,7 @@ module V10
 
       def register_by_email(user_params)
         api_result = Services::Account::UserService.create_user_by_email(user_params)
-        render_api_error(api_result.code, api_result.msg)
+        render_api_user(api_result)
       end
 
       def render_api_user(api_result)

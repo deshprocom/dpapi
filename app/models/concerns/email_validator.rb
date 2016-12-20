@@ -12,9 +12,9 @@ module EmailValidator
   module ClassMethods
     def email_valid?(email)
       if email =~ EmailValidator::EMAIL_INVALID_FORMAT_REGEX or email !~ EmailValidator::EMAIL_VALID_FORMAT_REGEX
-        ApiResult.error_result(Constants::SignUpErrorCode::EMAIL_FORMAT_WRONG)
+        false
       else
-        ApiResult.success
+        true
       end
     end
   end
