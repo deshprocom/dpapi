@@ -17,6 +17,9 @@ module Services
         end
 
         #检查用户输入的验证码是否正确
+        if vcode != mobile[-4, 4]
+          return ApiResult.error_result(VCODE_NOT_MATCH)
+        end
 
         #移除验证码
 

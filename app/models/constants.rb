@@ -30,6 +30,7 @@ module Constants
     PASSWORD_NOT_BLANK = 1100015
     USER_NOT_FOUND = 1100016
     PASSWORD_NOT_MATCH = 1100017
+    VCODE_NOT_MATCH = 1100018
   end
 
 
@@ -52,6 +53,8 @@ module Constants
       SignErrorCode::EMAIL_ALREADY_USED => '邮箱已被使用',
       SignErrorCode::PASSWORD_NOT_BLANK => '密码不能为空',
       SignErrorCode::USER_NOT_FOUND => '用户不存在',
-      SignErrorCode::PASSWORD_NOT_MATCH => '用户密码不匹配'
+      SignErrorCode::PASSWORD_NOT_MATCH => '用户密码不匹配',
+      SignErrorCode::VCODE_NOT_MATCH => '验证码不匹配'
+
   }
 end
