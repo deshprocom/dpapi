@@ -1,4 +1,4 @@
-LOGIN_TYPES = %w(email mobile vcode).freeze
+LOGIN_TYPES = %w(email vcode).freeze
 
 module V10
   module Account
@@ -10,17 +10,17 @@ module V10
         unless LOGIN_TYPES.include?(login_type)
           return render_api_error(UNSUPPORTED_TYPE)
         end
-        send("login_by_#{login_type}", login_params)
+        send("login_by_#{login_type}")
       end
 
       private
-      def login_by_vcode(user_params)
-        api_result = Services::Account::LoginService.login_by_vcode(user_params[:mobile], user_params[:vcode])
+      def login_by_vcode
+        api_result = login_service.login_by_vcode(login_params[:mobile], login_params[:vcode])
         render_api_user(api_result)
       end
 
-      def login_by_email(user_params)
-        api_result = Services::Account::LoginService.login_by_email(user_params[:email], user_params[:password])
+      def login_by_email
+        api_result = login_service.login_by_email(login_params[:email], login_params[:password])
         render_api_user(api_result)
       end
 
@@ -36,6 +36,10 @@ module V10
 
       def login_params
         params.permit(:type, :mobile, :email, :vcode, :password)
+      end
+
+      def login_service
+        Services::Account::LoginService
       end
     end
   end

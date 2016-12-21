@@ -25,6 +25,7 @@ module Services
 
         create_attrs = {
             user_name: user_name,
+            nick_name: user_name,
             mobile: mobile,
             reg_date: reg_date,
             last_visit: last_visit
@@ -57,6 +58,7 @@ module Services
 
         create_attrs = {
             user_name: user_name,
+            nick_name: user_name,
             email: email,
             password: password,
             reg_date: reg_date,
