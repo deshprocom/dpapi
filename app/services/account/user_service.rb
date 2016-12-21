@@ -2,7 +2,7 @@ module Services
   module Account
     class UserService
       include Constants::HttpErrorCode
-      include Constants::SignUpErrorCode
+      include Constants::SignErrorCode
       include Constants::CommonErrorCode
 
       def self.create_user_by_mobile(user_params)

@@ -20,14 +20,16 @@ module Constants
     DATABASE_ERROR = 1100003
   end
 
-  #注册模块错误
-  module SignUpErrorCode
+  #登录注册模块错误
+  module SignErrorCode
     EMAIL_FORMAT_WRONG = 1100011
     MOBILE_FORMAT_WRONG = 1100012
     MOBILE_ALREADY_USED = 1100013
     EMAIL_ALREADY_USED = 1100014
     PASSWORD_ALREADY_USED = 1100014
     PASSWORD_NOT_BLANK = 1100015
+    USER_NOT_FOUND = 1100016
+    PASSWORD_NOT_MATCH = 1100017
   end
 
 
@@ -44,10 +46,12 @@ module Constants
       CommonErrorCode::MISSING_PARAMETER => '缺少参数',
       CommonErrorCode::UNSUPPORTED_TYPE => '不支持的数据类型',
       CommonErrorCode::DATABASE_ERROR => '数据库错误',
-      SignUpErrorCode::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
-      SignUpErrorCode::MOBILE_FORMAT_WRONG => '无效的手机号码',
-      SignUpErrorCode::MOBILE_ALREADY_USED => '手机号码已被使用',
-      SignUpErrorCode::EMAIL_ALREADY_USED => '邮箱已被使用',
-      SignUpErrorCode::PASSWORD_NOT_BLANK => '密码不能为空'
+      SignErrorCode::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
+      SignErrorCode::MOBILE_FORMAT_WRONG => '无效的手机号码',
+      SignErrorCode::MOBILE_ALREADY_USED => '手机号码已被使用',
+      SignErrorCode::EMAIL_ALREADY_USED => '邮箱已被使用',
+      SignErrorCode::PASSWORD_NOT_BLANK => '密码不能为空',
+      SignErrorCode::USER_NOT_FOUND => '用户不存在',
+      SignErrorCode::PASSWORD_NOT_MATCH => '用户密码不匹配'
   }
 end
