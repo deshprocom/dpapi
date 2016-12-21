@@ -10,19 +10,17 @@ module V10
         unless ALLOW_TYPES.include?(register_type)
           return render_api_error(UNSUPPORTED_TYPE)
         end
-        params = user_params.dup
-        params.delete(:type)
-        send("register_by_#{register_type}", params)
+        send("register_by_#{register_type}")
       end
 
       private
-      def register_by_mobile(user_params)
-        api_result = Services::Account::UserService.create_user_by_mobile(user_params)
+      def register_by_mobile
+        api_result = register_service.create_user_by_mobile(user_params)
         render_api_user(api_result)
       end
 
-      def register_by_email(user_params)
-        api_result = Services::Account::UserService.create_user_by_email(user_params)
+      def register_by_email
+        api_result = register_service.create_user_by_email(user_params)
         render_api_user(api_result)
       end
 
@@ -38,6 +36,10 @@ module V10
 
       def user_params
         params.permit(:type, :email, :mobile, :password)
+      end
+
+      def register_service
+        Services::Account::UserService
       end
     end
   end
