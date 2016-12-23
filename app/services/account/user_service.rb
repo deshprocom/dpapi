@@ -92,6 +92,8 @@ module Services
           return ApiResult.error_result(DATABASE_ERROR)
         end
 
+        #生成用户登录的令牌user_token
+
         data = {
             user: new_user
         }

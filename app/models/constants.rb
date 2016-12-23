@@ -40,7 +40,7 @@ module Constants
       HttpErrorCode::HTTP_NO_CREDENTIAL => '请求缺少身份信息',
       HttpErrorCode::HTTP_INVALID_CREDENTIAL => '无效的请求身份',
       HttpErrorCode::HTTP_CREDENTIAL_NOT_MATCH => '请求身份不匹配',
-      HttpErrorCode::HTTP_TOKEN_EXPIRED => 'Token已失效',
+      HttpErrorCode::HTTP_TOKEN_EXPIRED => 'access token已失效',
       HttpErrorCode::HTTP_LOGIN_REQUIRED => '需要登录后才可以操作',
       HttpErrorCode::HTTP_ACCESS_FORBIDDEN => '无权访问',
 
