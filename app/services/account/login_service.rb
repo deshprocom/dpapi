@@ -54,9 +54,15 @@ module Services
       def self.build_login_result(user)
         user.last_visit = Time.now
         user.save
+        #生成用户令牌
+        app_access_token = AppAccessToken.create(CurrentRequestCredential.client_ip,
+                                                 CurrentRequestCredential.app_key,
+                                                 CurrentRequestCredential.affiliate_app.try(:app_secret),
+                                                 user.user_uuid)
 
         data = {
-            user: user
+            user: user,
+            app_access_token: app_access_token
         }
 
         ApiResult.success_with_data(data)

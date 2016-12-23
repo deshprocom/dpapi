@@ -29,8 +29,12 @@ module V10
           render_api_error(api_result.code, api_result.msg)
         else
           template = "v10/account/users/base"
-          data = api_result.data
-          render template, locals: {api_result: ApiResult.success, user: data[:user]}
+          app_access_token = api_result.data.delete(:app_access_token)
+          view_params = {api_result: api_result,
+                         user: api_result.data[:user],
+                         app_access_token: app_access_token}
+          response.headers.merge!('X-Dp-Access-Token' => app_access_token.access_token)
+          render template, locals: view_params
         end
       end
 

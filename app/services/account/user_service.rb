@@ -93,9 +93,14 @@ module Services
         end
 
         #生成用户登录的令牌user_token
+        app_access_token = AppAccessToken.create(CurrentRequestCredential.client_ip,
+                                                 CurrentRequestCredential.app_key,
+                                                 CurrentRequestCredential.affiliate_app.try(:app_secret),
+                                                 new_user.user_uuid)
 
         data = {
-            user: new_user
+            user: new_user,
+            app_access_token: app_access_token
         }
 
         ApiResult.success_with_data(data)
