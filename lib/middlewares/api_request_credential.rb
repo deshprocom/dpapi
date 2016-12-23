@@ -20,15 +20,15 @@ module DpAPI
       Rails.logger.info "[ApiRequestCredential] client_ip: #{client_ip}, app_key: #{app_key}, access_token: #{access_token}, user_agent: #{user_agent}"
 
       #如果用户有传access_token 那么拿着access_token去缓存获取对应的信息
-      #app_access_token = nil
-      #current_user_id  = nil
-      #if access_token.present?
-        #app_access_token = AppAccessToken.fetch(access_token)
-        #current_user_id  = app_access_token.user_id if app_access_token.present?
-      #end
+      current_user_id  = nil
+      app_access_token = nil
+      if access_token.present?
+        app_access_token = AppAccessToken.fetch(access_token)
+        current_user_id  = app_access_token.user_id if app_access_token.present?
+      end
 
       #初始化信息到线程中
-      CurrentRequestCredential.initialize(client_ip, app_key, access_token, current_user_id = nil, user_agent)
+      CurrentRequestCredential.initialize(client_ip, app_key, access_token, current_user_id, app_access_token, user_agent)
     end
 
     def validate_request(env)
@@ -38,15 +38,16 @@ module DpAPI
       end
 
       #检查app_key是否正确
-      unless CurrentRequestCredential.app_key_valid?
+      if CurrentRequestCredential.affiliate_app.nil?
         return http_invalid_credential
       end
 
       #传递了access_token 但是找不到相应的数据
-      # if CurrentRequestCredential.access_token.present? and CurrentRequestCredential.app_access_token.nil?
-      #   http_credential_not_match
-      # end
+      if CurrentRequestCredential.access_token.present? and CurrentRequestCredential.app_access_token.nil?
+        return http_token_expired
+      end
 
+      CurrentRequestCredential.app_access_token.touch unless CurrentRequestCredential.app_access_token.nil?
       #请求都正常
       @app.call(env)
     end
@@ -69,12 +70,12 @@ module DpAPI
       [status, headers, []]
     end
 
-    def http_credential_not_match
-      status = Constants::HttpErrorCode::HTTP_CREDENTIAL_NOT_MATCH
+    def http_token_expired
+      status = Constants::HttpErrorCode::HTTP_TOKEN_EXPIRED
       headers = {
           "Content-Type"    => "application/json",
           "x-dp-code"  => status,
-          "x_dp_msg"   => "无效的请求身份."}
+          "x_dp_msg"   => "access token已失效."}
       [status, headers, []]
     end
   end
