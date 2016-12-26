@@ -48,8 +48,9 @@ module Services
 
         #检查密码是否为空
         password = user_params[:password]
-        return ApiResult.error_result(PASSWORD_NOT_BLANK) if password.blank?
-
+        unless UserValidator.pwd_valid?(password)
+          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
+        end
         #可以注册
 
         user_name = User.unique_username
