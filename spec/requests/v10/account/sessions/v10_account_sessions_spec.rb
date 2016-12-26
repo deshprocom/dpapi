@@ -146,7 +146,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         it "应当返回 code: 0" do
           post v10_login_url,
                headers: http_headers,
-               params: {type:'email', email: 'ricky@deshpro.com', password: "123456"}
+               params: {type:'email', email: 'ricky@deshpro.com', password: "test123"}
           expect(response).to have_http_status(200)
           json = JSON.parse(response.body)
           expect(json["code"]).to eq(0)
@@ -158,6 +158,60 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
           expect(json["data"]["avatar"].nil?).to be_falsey
           expect(json["data"]["reg_date"]).to be_truthy
           expect(json["data"]["last_visit"]).to be_truthy
+        end
+      end
+
+      context "手机号+密码登录" do
+        context "手机号为空" do
+          it "应当返回 code: 1100001" do
+            post v10_login_url,
+                 headers: http_headers,
+                 params: {type:'mobile', mobile: '', password: "test123"}
+            expect(response).to have_http_status(200)
+            json = JSON.parse(response.body)
+            expect(json["code"]).to eq(1100001)
+          end
+        end
+
+        context "密码为空" do
+          it "应当返回 code: 1100001" do
+            post v10_login_url,
+                 headers: http_headers,
+                 params: {type:'mobile', mobile: '18866668888', password: ""}
+            expect(response).to have_http_status(200)
+            json = JSON.parse(response.body)
+            expect(json["code"]).to eq(1100001)
+          end
+        end
+
+        context "密码不正确" do
+          it "应当返回 code: 1100017" do
+            post v10_login_url,
+                 headers: http_headers,
+                 params: {type:'mobile', mobile: '18018001880', password: "3323232"}
+            expect(response).to have_http_status(200)
+            json = JSON.parse(response.body)
+            expect(json["code"]).to eq(1100017)
+          end
+        end
+
+        context "手机号正常登录" do
+          it "应当返回 code: 0" do
+            post v10_login_url,
+                 headers: http_headers,
+                 params: {type:'mobile', mobile: '18018001880', password: "test123"}
+            expect(response).to have_http_status(200)
+            json = JSON.parse(response.body)
+            expect(json["code"]).to eq(0)
+            expect(json["data"]["user_id"]).to eq("uuid_123456789")
+            expect(json["data"]["nick_name"]).to eq("Ricky")
+            expect(json["data"]["gender"]).to eq(2)
+            expect(json["data"]["mobile"]).to eq("18018001880")
+            expect(json["data"]["email"]).to eq("ricky@deshpro.com")
+            expect(json["data"]["avatar"].nil?).to be_falsey
+            expect(json["data"]["reg_date"]).to be_truthy
+            expect(json["data"]["last_visit"]).to be_truthy
+          end
         end
       end
     end

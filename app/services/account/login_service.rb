@@ -50,6 +50,28 @@ module Services
         build_login_result user
       end
 
+      def self.login_by_mobile(mobile, password)
+        if mobile.blank? or password.blank?
+          return ApiResult.error_result(MISSING_PARAMETER)
+        end
+
+        user = User.by_mobile(mobile)
+        if user.nil?
+          return ApiResult.error_result(USER_NOT_FOUND)
+        end
+
+        #查询出了这个用户  对比密码
+        password_salt = user.password_salt
+        true_password = ::Digest::MD5.hexdigest(password + password_salt)
+
+        if user.password != true_password or password.blank?
+          return ApiResult.error_result(PASSWORD_NOT_MATCH)
+        end
+
+        #登录
+        build_login_result user
+      end
+
       private
       def self.build_login_result(user)
         user.last_visit = Time.now

@@ -7,10 +7,16 @@ module Services
 
       def self.create_user_by_mobile(user_params)
         mobile = user_params[:mobile]
+        vcode = user_params[:vcode]
 
         #检查手机格式是否正确
         unless UserValidator.mobile_valid?(mobile)
           return ApiResult.error_result(MOBILE_FORMAT_WRONG)
+        end
+
+        #检查验证码是否正确
+        if vcode != mobile[-4, 4]
+          return ApiResult.error_result(VCODE_NOT_MATCH)
         end
 
         #检查手机号是否存在
@@ -48,8 +54,9 @@ module Services
 
         #检查密码是否为空
         password = user_params[:password]
-        return ApiResult.error_result(PASSWORD_NOT_BLANK) if password.blank?
-
+        unless UserValidator.pwd_valid?(password)
+          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
+        end
         #可以注册
 
         user_name = User.unique_username
