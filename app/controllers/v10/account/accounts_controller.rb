@@ -39,7 +39,7 @@ module V10
       end
 
       def user_params
-        params.permit(:type, :email, :mobile, :password)
+        params.permit(:type, :email, :mobile, :password, :vcode)
       end
 
       def register_service
