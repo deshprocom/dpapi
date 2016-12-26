@@ -1,4 +1,4 @@
-LOGIN_TYPES = %w(email vcode).freeze
+LOGIN_TYPES = %w(email vcode mobile).freeze
 
 module V10
   module Account
@@ -21,6 +21,11 @@ module V10
 
       def login_by_email
         api_result = login_service.login_by_email(login_params[:email], login_params[:password])
+        render_api_user(api_result)
+      end
+
+      def login_by_mobile
+        api_result = login_service.login_by_mobile(login_params[:mobile], login_params[:password])
         render_api_user(api_result)
       end
 
