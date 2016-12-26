@@ -114,7 +114,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
     it "应当返回code: 0" do
       post v10_register_url,
            headers: http_headers,
-           params: { type: "email", email: "aa@qq.com", password: "123456" }
+           params: { type: "email", email: "aa@qq.com", password: "test123" }
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)

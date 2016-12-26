@@ -26,8 +26,7 @@ module Constants
     MOBILE_FORMAT_WRONG = 1100012
     MOBILE_ALREADY_USED = 1100013
     EMAIL_ALREADY_USED = 1100014
-    PASSWORD_ALREADY_USED = 1100014
-    PASSWORD_NOT_BLANK = 1100015
+    PASSWORD_FORMAT_WRONG = 1100015
     USER_NOT_FOUND = 1100016
     PASSWORD_NOT_MATCH = 1100017
     VCODE_NOT_MATCH = 1100018
@@ -51,7 +50,7 @@ module Constants
       SignErrorCode::MOBILE_FORMAT_WRONG => '无效的手机号码',
       SignErrorCode::MOBILE_ALREADY_USED => '手机号码已被使用',
       SignErrorCode::EMAIL_ALREADY_USED => '邮箱已被使用',
-      SignErrorCode::PASSWORD_NOT_BLANK => '密码不能为空',
+      SignErrorCode::PASSWORD_FORMAT_WRONG => '密码格式不正确',
       SignErrorCode::USER_NOT_FOUND => '用户不存在',
       SignErrorCode::PASSWORD_NOT_MATCH => '用户密码不匹配',
       SignErrorCode::VCODE_NOT_MATCH => '验证码不匹配'
