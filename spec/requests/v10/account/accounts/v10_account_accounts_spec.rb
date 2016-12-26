@@ -58,13 +58,22 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(1100012)
     end
-  end
 
-  context "手机号码格式正确 注册成功" do
-    it "应当返回code: 0" do
+    it "手机号格式正确 验证码不正确" do
       post v10_register_url,
            headers: http_headers,
            params: { type: "mobile", mobile: "13713662222" }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json["code"]).to eq(1100018)
+    end
+  end
+
+  context "手机号码格式 验证码都正确 注册成功" do
+    it "应当返回code: 0" do
+      post v10_register_url,
+           headers: http_headers,
+           params: { type: "mobile", mobile: "13713662222", vcode: "2222" }
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)
