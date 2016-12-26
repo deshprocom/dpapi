@@ -12,6 +12,8 @@ require "action_cable/engine"
 # require "sprockets/railtie"
 require "rails/test_unit/railtie"
 
+require File.expand_path('../../lib/middlewares/api_request_credential', __FILE__)
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -30,5 +32,7 @@ module Dpapi
     # my config
     # set time zone to Beijing
     config.time_zone = 'Beijing'
+
+    config.middleware.insert_before Rack::Head, DpAPI::ApiRequestCredential
   end
 end
