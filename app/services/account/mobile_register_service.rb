@@ -19,6 +19,7 @@ module Services
           return ApiResult.error_result(MOBILE_FORMAT_WRONG)
         end
 
+        #TODO: 验证逻辑需要移到新的验证码校验类
         #检查验证码是否正确
         if vcode != mobile[-4, 4]
           return ApiResult.error_result(VCODE_NOT_MATCH)
