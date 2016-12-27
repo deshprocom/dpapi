@@ -10,5 +10,4 @@ class User < ApplicationRecord
     self.last_visit = Time.now
     self.save
   end
-
 end
