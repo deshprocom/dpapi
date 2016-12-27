@@ -27,6 +27,7 @@ module Services
           return ApiResult.error_result(PASSWORD_NOT_MATCH)
         end
 
+        #刷新上次访问时间
         user.touch_visit!
         #生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)

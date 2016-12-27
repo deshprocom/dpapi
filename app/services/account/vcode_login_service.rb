@@ -26,7 +26,8 @@ module Services
         if vcode != mobile[-4, 4]
           return ApiResult.error_result(VCODE_NOT_MATCH)
         end
-        #登录
+
+        #刷新上次访问时间
         user.touch_visit!
         #生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
