@@ -97,6 +97,13 @@ class AppAccessToken
 
   ##
   # 创建新的令牌
+  def self.from_credential(credential, user_id)
+    self.create credential.client_ip,
+                credential.app_key,
+                credential.affiliate_app.try(:app_secret),
+                user_id
+  end
+
   def self.create(client_ip, app_key, app_secret, user_id)
     app_access_token = self.new
     app_access_token._is_new      = true
