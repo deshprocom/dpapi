@@ -30,7 +30,7 @@ module Services
         end
 
         #可以注册, 创建一个用户
-        user = User.create_user_by_mobile(mobile)
+        user = User.create_by_mobile(mobile)
 
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
         LoginResultHelper.call(user, app_access_token)
