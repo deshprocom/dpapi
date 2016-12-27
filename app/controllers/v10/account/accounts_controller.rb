@@ -43,10 +43,6 @@ module V10
       def user_params
         params.permit(:type, :email, :mobile, :password, :vcode)
       end
-
-      def register_service
-        Services::Account::UserService
-      end
     end
   end
 end
