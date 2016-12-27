@@ -3,8 +3,8 @@ module Services
     class VcodeLoginService
       include Serviceable
 
-      include Constants::CommonErrorCode
-      include Constants::SignErrorCode
+      include Constants::Error::Common
+      include Constants::Error::Sign
 
       attr_accessor :mobile, :vcode
 

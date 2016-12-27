@@ -53,7 +53,7 @@ module DpAPI
     end
 
     def http_no_credential
-      status = Constants::HttpErrorCode::HTTP_NO_CREDENTIAL
+      status = Constants::Error::Http::HTTP_NO_CREDENTIAL
       headers = {
           "Content-Type"    => "application/json",
           "x-dp-code"  => status,
@@ -62,7 +62,7 @@ module DpAPI
     end
 
     def http_invalid_credential
-      status = Constants::HttpErrorCode::HTTP_INVALID_CREDENTIAL
+      status = Constants::Error::Http::HTTP_INVALID_CREDENTIAL
       headers = {
           "Content-Type"    => "application/json",
           "x-dp-code"  => status,
@@ -71,7 +71,7 @@ module DpAPI
     end
 
     def http_token_expired
-      status = Constants::HttpErrorCode::HTTP_TOKEN_EXPIRED
+      status = Constants::Error::Http::HTTP_TOKEN_EXPIRED
       headers = {
           "Content-Type"    => "application/json",
           "x-dp-code"  => status,

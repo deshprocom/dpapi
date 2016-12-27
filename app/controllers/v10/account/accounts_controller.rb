@@ -3,7 +3,7 @@ ALLOW_TYPES = %w(email mobile).freeze
 module V10
   module Account
     class AccountsController < ApplicationController
-      include Constants::CommonErrorCode
+      include Constants::Error::Common
 
       def create
         register_type = params[:type]

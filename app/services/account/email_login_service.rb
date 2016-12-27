@@ -3,8 +3,8 @@ module Services
     class EmailLoginService
       include Serviceable
 
-      include Constants::CommonErrorCode
-      include Constants::SignErrorCode
+      include Constants::Error::Common
+      include Constants::Error::Sign
 
       attr_accessor :email, :password
 
@@ -19,6 +19,7 @@ module Services
         end
 
         user = User.by_email(email)
+        #判断该用户是否存在
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
 
         #查询出了这个用户  对比密码
