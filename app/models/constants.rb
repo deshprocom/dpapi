@@ -1,4 +1,20 @@
 module Constants
+
+  module Error
+    module Http
+
+    end
+
+    module Common
+
+    end
+
+    module Sign
+
+    end
+
+  end
+
   #Http错误
   module HttpErrorCode
     SUCCESS_CALL = 0
