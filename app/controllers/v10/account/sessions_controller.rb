@@ -3,7 +3,7 @@ LOGIN_TYPES = %w(email vcode mobile).freeze
 module V10
   module Account
     class SessionsController < ApplicationController
-      include Constants::CommonErrorCode
+      include Constants::Error::Common
 
       def create
         login_type = params[:type]
@@ -15,17 +15,20 @@ module V10
 
       private
       def login_by_vcode
-        api_result = login_service.login_by_vcode(login_params[:mobile], login_params[:vcode])
+        vcode_service = Services::Account::VcodeLoginService
+        api_result = vcode_service.call(login_params[:mobile], login_params[:vcode])
         render_api_user(api_result)
       end
 
       def login_by_email
-        api_result = login_service.login_by_email(login_params[:email], login_params[:password])
+        email_service = Services::Account::EmailLoginService
+        api_result = email_service.call(login_params[:email], login_params[:password])
         render_api_user(api_result)
       end
 
       def login_by_mobile
-        api_result = login_service.login_by_mobile(login_params[:mobile], login_params[:password])
+        mobile_service = Services::Account::MobileLoginService
+        api_result = mobile_service.call(login_params[:mobile], login_params[:password])
         render_api_user(api_result)
       end
 
@@ -45,10 +48,6 @@ module V10
 
       def login_params
         params.permit(:type, :mobile, :email, :vcode, :password)
-      end
-
-      def login_service
-        Services::Account::LoginService
       end
     end
   end

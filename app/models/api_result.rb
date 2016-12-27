@@ -6,7 +6,7 @@
 #
 class ApiResult
   attr_accessor :code, :msg, :data
-  include Constants::HttpErrorCode
+  include Constants::Error::Http
 
   def initialize(code = 0, msg = nil, data = {})
     @code = code
