@@ -3,7 +3,7 @@ LOGIN_TYPES = %w(email vcode mobile).freeze
 module V10
   module Account
     class SessionsController < ApplicationController
-      include Constants::CommonErrorCode
+      include Constants::Error::Common
 
       def create
         login_type = params[:type]
