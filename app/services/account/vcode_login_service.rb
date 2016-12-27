@@ -29,6 +29,7 @@ module Services
 
         #刷新上次访问时间
         user.touch_visit!
+
         #生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
         LoginResultHelper.call(user, app_access_token)
