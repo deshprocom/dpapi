@@ -23,6 +23,7 @@ module Services
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
 
         #检查用户输入的验证码是否正确
+        #TODO: 验证逻辑需要移到新的验证码校验类
         if vcode != mobile[-4, 4]
           return ApiResult.error_result(VCODE_NOT_MATCH)
         end
