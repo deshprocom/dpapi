@@ -12,8 +12,8 @@ module Services
 
       def call
         data = {
-            user: user,
-            app_access_token: access_token
+          user: user,
+          app_access_token: access_token
         }
         ApiResult.success_with_data(data)
       end

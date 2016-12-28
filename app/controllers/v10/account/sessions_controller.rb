@@ -2,6 +2,7 @@ LOGIN_TYPES = %w(email vcode mobile).freeze
 
 module V10
   module Account
+    # 负责登录相关的业务逻辑
     class SessionsController < ApplicationController
       include Constants::Error::Common
 
@@ -14,6 +15,7 @@ module V10
       end
 
       private
+
       def login_by_vcode
         vcode_service = Services::Account::VcodeLoginService
         api_result = vcode_service.call(login_params[:mobile], login_params[:vcode])
@@ -32,18 +34,17 @@ module V10
         render_api_user(api_result)
       end
 
-      def render_api_user(api_result)
-        if api_result.is_failure?
-          render_api_error(api_result.code, api_result.msg)
-        else
-          template = "v10/account/users/base"
-          app_access_token = api_result.data.delete(:app_access_token)
-          view_params = {api_result: api_result,
-                         user: api_result.data[:user],
-                         app_access_token: app_access_token}
-          response.headers.merge!('X-Dp-Access-Token' => app_access_token.access_token)
-          render template, locals: view_params
-        end
+      def render_api_user(result)
+        return render_api_error(result.code, result.msg) if result.failure?
+
+        template = 'v10/account/users/base'
+        app_access_token = result.data.delete(:app_access_token)
+        view_params = {
+          api_result: result,
+          user: result.data[:user],
+          app_access_token: app_access_token
+        }
+        render template, locals: view_params
       end
 
       def login_params
