@@ -14,26 +14,24 @@ module Services
       end
 
       def call
-        #检查手机格式是否正确
-        unless UserValidator.mobile_valid?(mobile)
-          return ApiResult.error_result(MOBILE_FORMAT_WRONG)
-        end
+        # 检查手机格式是否正确
+        return ApiResult.error_result(MOBILE_FORMAT_WRONG) unless UserValidator.mobile_valid?(mobile)
 
-        #TODO: 验证逻辑需要移到新的验证码校验类
-        #检查验证码是否正确
-        if vcode != mobile[-4, 4]
-          return ApiResult.error_result(VCODE_NOT_MATCH)
-        end
+        # TODO: 验证逻辑需要移到新的验证码校验类
+        # 检查验证码是否正确
+        # if
+        return ApiResult.error_result(VCODE_NOT_MATCH) unless vcode == mobile[-4, 4]
+        # end
 
-        #检查手机号是否存在
+        # 检查手机号是否存在
         if UserValidator.mobile_exists?(mobile)
           return ApiResult.error_result(MOBILE_ALREADY_USED)
         end
 
-        #可以注册, 创建一个用户
+        # 可以注册, 创建一个用户
         user = User.create_by_mobile(mobile)
 
-        #生成用户令牌
+        # 生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
         LoginResultHelper.call(user, app_access_token)
       end
