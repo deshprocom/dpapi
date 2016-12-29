@@ -1,14 +1,15 @@
+# 创建用户生成器
 module UserCreator
   extend ActiveSupport::Concern
 
   module ClassMethods
     def create_by_mobile(mobile)
-      user_attrs = new_user_attributes({mobile: mobile})
+      user_attrs = new_user_attributes(mobile: mobile)
       User.create(user_attrs)
     end
 
     def create_by_email(email, password)
-      user_attrs = new_user_attributes({email: email, password: password})
+      user_attrs = new_user_attributes(email: email, password: password)
       User.create(user_attrs)
     end
 
@@ -21,15 +22,14 @@ module UserCreator
       user_name = User.unique_username
       nick_name = user_name
 
-      {   user_uuid: SecureRandom.hex(16),
-          user_name: user_name,
-          nick_name: nick_name,
-          password: salted_password,
-          password_salt: salt,
-          gender: 2,
-          reg_date: Time.now,
-          last_visit: Time.now
-      }.merge!(default_attrs)
+      { user_uuid: SecureRandom.hex(16),
+        user_name: user_name,
+        nick_name: nick_name,
+        password: salted_password,
+        password_salt: salt,
+        gender: 2,
+        reg_date: Time.zone.now,
+        last_visit: Time.zone.now }.merge!(default_attrs)
     end
   end
 end

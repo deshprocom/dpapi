@@ -14,25 +14,25 @@ module Services
       end
 
       def call
-        #检查邮箱格式是否正确
+        # 检查邮箱格式是否正确
         unless UserValidator.email_valid?(email)
           return ApiResult.error_result(EMAIL_FORMAT_WRONG)
         end
 
-        #检查邮箱是否存在
+        # 检查邮箱是否存在
         if UserValidator.email_exists?(email)
           return ApiResult.error_result(EMAIL_ALREADY_USED)
         end
 
-        #检查密码是否为空
+        # 检查密码是否为空
         unless UserValidator.pwd_valid?(password)
           return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
         end
 
-        #可以注册, 创建一个用户
+        # 可以注册, 创建一个用户
         user = User.create_by_email(email, password)
 
-        #生成用户令牌
+        # 生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
         LoginResultHelper.call(user, app_access_token)
       end

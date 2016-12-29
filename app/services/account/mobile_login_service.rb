@@ -14,12 +14,11 @@ module Services
       end
 
       def call
-        if mobile.blank? or password.blank?
-          return ApiResult.error_result(MISSING_PARAMETER)
-        end
+        # 检查手机号格式是否正确
+        return ApiResult.error_result(MISSING_PARAMETER) if mobile.blank? || password.blank?
 
         user = User.by_mobile(mobile)
-        #判断该用户是否存在
+        # 判断该用户是否存在
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
 
         salted_passwd = ::Digest::MD5.hexdigest(password + user.password_salt)
@@ -27,10 +26,10 @@ module Services
           return ApiResult.error_result(PASSWORD_NOT_MATCH)
         end
 
-        #刷新上次访问时间
+        # 刷新上次访问时间
         user.touch_visit!
 
-        #生成用户令牌
+        # 生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
         LoginResultHelper.call(user, app_access_token)
       end
