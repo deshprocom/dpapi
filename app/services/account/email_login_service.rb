@@ -14,24 +14,25 @@ module Services
       end
 
       def call
-        if email.blank? or password.blank?
+        # 验证密码和邮箱是否为空
+        if email.blank? || password.blank?
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
         user = User.by_email(email)
-        #判断该用户是否存在
+        # 判断该用户是否存在
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
 
-        #查询出了这个用户 对比密码
+        # 查询出了这个用户 对比密码
         salted_passwd = ::Digest::MD5.hexdigest(password + user.password_salt)
         unless salted_passwd.eql?(user.password)
           return ApiResult.error_result(PASSWORD_NOT_MATCH)
         end
 
-        #刷新上次访问时间
+        # 刷新上次访问时间
         user.touch_visit!
 
-        #生成用户令牌
+        # 生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
         LoginResultHelper.call(user, app_access_token)
       end
