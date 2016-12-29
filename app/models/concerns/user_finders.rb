@@ -19,26 +19,25 @@ module UserFinders
     ##
     # 查找指定uuid的用户, 支持二级缓存
     def by_uuid(user_uuid)
-      self.fetch_by_uniq_keys(user_uuid: user_uuid)
+      fetch_by_uniq_keys(user_uuid: user_uuid)
     end
 
     ##
     # 查找指定手机号的用户, 支持二级缓存
     def by_mobile(mobile)
-      self.fetch_by_uniq_keys(mobile: mobile)
+      fetch_by_uniq_keys(mobile: mobile)
     end
 
     ##
     # 查找指定用户名的用户, 支持二级缓存
     def by_uname(uname)
-      self.fetch_by_uniq_keys(user_name: uname)
+      fetch_by_uniq_keys(user_name: uname)
     end
 
     ##
     # 查找指定邮箱的用户, 支持二级缓存
     def by_email(email)
-      self.fetch_by_uniq_keys(email: email)
+      fetch_by_uniq_keys(email: email)
     end
-
   end
 end

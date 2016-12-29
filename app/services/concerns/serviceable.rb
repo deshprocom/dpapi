@@ -3,7 +3,7 @@ module Serviceable
 
   module ClassMethods
     def call(*args)
-      self.new(*args).call
+      new(*args).call
     end
   end
 end
