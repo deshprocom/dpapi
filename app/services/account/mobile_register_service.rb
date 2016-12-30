@@ -6,11 +6,12 @@ module Services
       include Constants::Error::Common
       include Constants::Error::Sign
 
-      attr_accessor :mobile, :vcode
+      attr_accessor :mobile, :vcode, :password
 
-      def initialize(mobile, vcode)
+      def initialize(mobile, vcode, password)
         self.mobile = mobile
         self.vcode = vcode
+        self.password = password
       end
 
       def call
@@ -28,8 +29,13 @@ module Services
           return ApiResult.error_result(MOBILE_ALREADY_USED)
         end
 
+        #检查密码是否太简单
+        unless UserValidator.pwd_valid?(password)
+          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
+        end
+
         # 可以注册, 创建一个用户
-        user = User.create_by_mobile(mobile)
+        user = User.create_by_mobile(mobile, password)
 
         # 生成用户令牌
         app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
