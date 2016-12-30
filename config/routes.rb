@@ -10,10 +10,10 @@ Rails.application.routes.draw do
     namespace :account do
       resource :forward_password, only: [:create]
       resource :vcode, only: [:create]
-      resource :verify_vode, only: [:create]
+      resource :verify_vcode, only: [:create]
 
       resources :users, only: [] do
-        resource :profile, only: [:show, :create]
+        resource :profile, only: [:show, :update]
       end
     end
 
@@ -24,7 +24,7 @@ Rails.application.routes.draw do
     end
 
     scope module: 'users' do
-      resources :users, param: :uuid, only:[:show] do
+      resources :users, only:[:show] do
         resources :events, only: [:index]
       end
     end

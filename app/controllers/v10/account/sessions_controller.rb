@@ -37,7 +37,7 @@ module V10
       def render_api_result(result)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        template = 'v10/account/users/base'
+        template = 'v10/account/users/session'
         app_access_token = result.data.delete(:app_access_token)
         view_params = {
           api_result: result,
