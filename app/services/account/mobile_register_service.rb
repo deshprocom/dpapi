@@ -8,7 +8,7 @@ module Services
 
       attr_accessor :mobile, :vcode, :password
 
-      def initialize(mobile, vcode, password)
+      def initialize(mobile, vcode, password = nil)
         self.mobile = mobile
         self.vcode = vcode
         self.password = password
@@ -30,7 +30,7 @@ module Services
         end
 
         #检查密码是否太简单
-        unless UserValidator.pwd_valid?(password)
+        if password.present? && !UserValidator.pwd_valid?(password)
           return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
         end
 
