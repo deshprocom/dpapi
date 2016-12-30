@@ -8,10 +8,7 @@ module V10
       def show
         # 获取用户信息
         template = 'v10/account/users/base'
-        view_params = {
-          api_result: ApiResult.success_result,
-          user: @current_user
-        }
+        view_params = RenderResultHelper.base_user_result(@current_user)
         render template, locals: view_params
       end
 

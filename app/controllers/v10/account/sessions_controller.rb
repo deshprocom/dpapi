@@ -38,12 +38,7 @@ module V10
         return render_api_error(result.code, result.msg) if result.failure?
 
         template = 'v10/account/users/session'
-        app_access_token = result.data.delete(:app_access_token)
-        view_params = {
-          api_result: result,
-          user: result.data[:user],
-          app_access_token: app_access_token
-        }
+        view_params = RenderResultHelper.session_user_result(result)
         render template, locals: view_params
       end
 
