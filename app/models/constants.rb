@@ -29,6 +29,7 @@ module Constants
       USER_NOT_FOUND = 1100016
       PASSWORD_NOT_MATCH = 1100017
       VCODE_NOT_MATCH = 1100018
+      VCODE_TYPE_WRONG = 1100019
     end
   end
 
@@ -52,6 +53,7 @@ module Constants
     Error::Sign::PASSWORD_FORMAT_WRONG => '密码格式不正确',
     Error::Sign::USER_NOT_FOUND => '用户不存在',
     Error::Sign::PASSWORD_NOT_MATCH => '用户密码不匹配',
-    Error::Sign::VCODE_NOT_MATCH => '验证码不匹配'
+    Error::Sign::VCODE_NOT_MATCH => '验证码不匹配',
+    Error::Sign::VCODE_TYPE_WRONG => '验证码类型不匹配'
   }.freeze
 end
