@@ -1,5 +1,7 @@
 # 初始化请求身份信息
 module CurrentRequestCredential
+  # rubocop:disable Metrics/ParameterLists: 6
+  # rubocop:disable Metrics/LineLength: 130
   def self.initialize(client_ip, app_key, access_token = nil, current_user_id = nil, app_access_token = nil, user_agent = nil)
     self.client_ip = client_ip
     self.app_key = app_key
