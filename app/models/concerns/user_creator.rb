@@ -3,8 +3,8 @@ module UserCreator
   extend ActiveSupport::Concern
 
   module ClassMethods
-    def create_by_mobile(mobile)
-      user_attrs = new_user_attributes(mobile: mobile)
+    def create_by_mobile(mobile, password = nil)
+      user_attrs = new_user_attributes(mobile: mobile, password: password)
       User.create(user_attrs)
     end
 
