@@ -29,7 +29,7 @@ module Services
           return ApiResult.error_result(MOBILE_ALREADY_USED)
         end
 
-        #检查密码是否太简单
+        # 检查密码是否太简单
         if password.present? && !UserValidator.pwd_valid?(password)
           return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
         end

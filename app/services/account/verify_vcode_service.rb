@@ -15,10 +15,10 @@ module Services
         # 检查手机格式是否正确
         return ApiResult.error_result(MOBILE_FORMAT_WRONG) unless UserValidator.mobile_valid?(mobile)
 
-        #判断验证码是否正确
+        # 判断验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) if vcode != mobile[-4, 4]
 
-        #验证码正确
+        # 验证码正确
         ApiResult.success_result
       end
     end
