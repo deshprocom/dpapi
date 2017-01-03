@@ -38,8 +38,7 @@ module V10
         return render_api_error(result.code, result.msg) if result.failure?
 
         template = 'v10/account/users/session'
-        view_params = RenderResultHelper.session_user_result(result)
-        render template, locals: view_params
+        RenderResultHelper.render_session_result(self, template, result)
       end
 
       def login_params
