@@ -94,6 +94,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       expect(json["data"]["avatar"].nil?).to be_falsey
       expect(json["data"]["reg_date"]).to be_truthy
       expect(json["data"]["last_visit"]).to be_truthy
+      expect(json["data"]["signature"].nil?).to be_falsey
     end
   end
 
@@ -113,6 +114,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       expect(json["data"]["avatar"].nil?).to be_falsey
       expect(json["data"]["reg_date"]).to be_truthy
       expect(json["data"]["last_visit"]).to be_truthy
+      expect(json["data"]["signature"].nil?).to be_falsey
     end
   end
 
@@ -163,6 +165,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       expect(json["data"]["avatar"].nil?).to be_falsey
       expect(json["data"]["reg_date"]).to be_truthy
       expect(json["data"]["last_visit"]).to be_truthy
+      expect(json["data"]["signature"].nil?).to be_falsey
     end
   end
 end
