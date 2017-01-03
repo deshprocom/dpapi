@@ -8,8 +8,7 @@ module V10
       def show
         # 获取用户信息
         template = 'v10/account/users/base'
-        view_params = RenderResultHelper.base_user_result(@current_user)
-        render template, locals: view_params
+        RenderResultHelper.render_user_result(self, template, @current_user)
       end
 
       def update
