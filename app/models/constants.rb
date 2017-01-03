@@ -30,6 +30,7 @@ module Constants
       PASSWORD_NOT_MATCH = 1100017
       VCODE_NOT_MATCH = 1100018
       VCODE_TYPE_WRONG = 1100019
+      NICK_NAME_EXIST = 1100020
     end
   end
 
