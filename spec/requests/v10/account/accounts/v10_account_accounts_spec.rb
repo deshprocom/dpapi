@@ -67,6 +67,15 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(1100018)
     end
+
+    it "手机号格式正确 验证码正确 并且传了用户密码过来 密码太简单" do
+      post v10_register_url,
+           headers: http_headers,
+           params: { type: "mobile", mobile: "13713662222", vcode: '2222', password: '12345' }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json["code"]).to eq(1100015)
+    end
   end
 
   context "手机号码格式 验证码都正确 注册成功" do
@@ -85,6 +94,27 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       expect(json["data"]["avatar"].nil?).to be_falsey
       expect(json["data"]["reg_date"]).to be_truthy
       expect(json["data"]["last_visit"]).to be_truthy
+      expect(json["data"]["signature"].nil?).to be_falsey
+    end
+  end
+
+  context "手机号码格式 验证码都正确 密码也很复杂 注册成功" do
+    it "应当返回code: 0" do
+      post v10_register_url,
+           headers: http_headers,
+           params: { type: "mobile", mobile: "13713662222", vcode: "2222", password: "12@#ab" }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json["code"]).to eq(0)
+      expect(json["data"]["user_id"]).to be_truthy
+      expect(json["data"]["nick_name"].nil?).to be_falsey
+      expect(json["data"]["gender"]).to eq(2)
+      expect(json["data"]["mobile"]).to eq("13713662222")
+      expect(json["data"]["email"].nil?).to be_falsey
+      expect(json["data"]["avatar"].nil?).to be_falsey
+      expect(json["data"]["reg_date"]).to be_truthy
+      expect(json["data"]["last_visit"]).to be_truthy
+      expect(json["data"]["signature"].nil?).to be_falsey
     end
   end
 
@@ -135,6 +165,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
       expect(json["data"]["avatar"].nil?).to be_falsey
       expect(json["data"]["reg_date"]).to be_truthy
       expect(json["data"]["last_visit"]).to be_truthy
+      expect(json["data"]["signature"].nil?).to be_falsey
     end
   end
 end

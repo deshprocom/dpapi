@@ -8,15 +8,16 @@ module V10
       def show
         # 获取用户信息
         template = 'v10/account/users/base'
-        view_params = {
-          api_result: ApiResult.success_result,
-          user: @current_user
-        }
-        render template, locals: view_params
+        RenderResultHelper.render_user_result(self, template, @current_user)
       end
 
       def update
         # 修改用户个人信息
+        user_params = user_permit_params.dup
+        user_modified = Services::Account::ModifyProfileService.call(@current_user, user_params)
+
+        template = 'v10/account/users/base'
+        RenderResultHelper.render_user_result(self, template, user_modified)
       end
 
       private
