@@ -34,6 +34,8 @@ gem 'redis-rails'
 gem 'second_level_cache', '~> 2.2.4'
 gem 'request_store'
 
+gem 'carrierwave', '~> 1.0'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
