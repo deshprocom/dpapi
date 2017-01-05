@@ -43,7 +43,8 @@
 /config/sphinx_remote_server.yml
 /config/unicorn
 /config/cache_store.yml
-
+/public/faces
+/public/uploads
 #ignore macfile
 /.DS_Store
 **/*.swp
