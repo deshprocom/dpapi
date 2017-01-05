@@ -28,5 +28,9 @@ Rails.application.routes.draw do
         resources :events, only: [:index]
       end
     end
+
+    namespace :uploaders do
+      resources :avatar, only:[:create]
+    end
   end
 end
