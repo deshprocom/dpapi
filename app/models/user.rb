@@ -26,7 +26,6 @@ class User < ApplicationRecord
   include UserCreator
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :md5
   attr_accessor :avatar_url
 
   # 增加二级查询缓存，缓存过期时间一周
@@ -45,11 +44,11 @@ class User < ApplicationRecord
     if avatar.file.present? &&
        avatar.file.respond_to?(:path) &&
        File.exist?(avatar.file.path)
-      self.md5 = Digest::MD5.file(avatar.file.path).hexdigest
+      self.avatar_md5 = Digest::MD5.file(avatar.file.path).hexdigest
     end
   end
 
   def avatar_url
-    'http://192.168.2.10:3000'
+    'http://192.168.2.10:3000' unless avatar.blank?
   end
 end
