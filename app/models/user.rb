@@ -24,6 +24,10 @@ class User < ApplicationRecord
   include UserUniqueValidator
   include UserNameGenerator
   include UserCreator
+  mount_uploader :avatar, AvatarUploader
+
+  attr_accessor :md5
+  attr_accessor :avatar_url
 
   # 增加二级查询缓存，缓存过期时间一周
   acts_as_cached(version: 1, expires_in: 1.week)
@@ -32,5 +36,20 @@ class User < ApplicationRecord
   def touch_visit!
     self.last_visit = Time.zone.now
     save
+  end
+
+  # 上传图片给图片赋值的时候 创建图片路径
+  def avatar=(value)
+    super
+
+    if avatar.file.present? &&
+       avatar.file.respond_to?(:path) &&
+       File.exist?(avatar.file.path)
+      self.md5 = Digest::MD5.file(avatar.file.path).hexdigest
+    end
+  end
+
+  def avatar_url
+    'http://192.168.2.10:3000'
   end
 end
