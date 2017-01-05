@@ -32,6 +32,13 @@ module Constants
       VCODE_TYPE_WRONG = 1100019
       NICK_NAME_EXIST = 1100020
     end
+
+    module File
+      FORMAT_WRONG = 1200001
+      SIZE_TOO_LARGE = 1200002
+      CREATE_DIR_FAILED = 1200003
+      UPLOAD_FAILED = 1200004
+    end
   end
 
   ERROR_MESSAGES = {
@@ -55,6 +62,11 @@ module Constants
     Error::Sign::USER_NOT_FOUND => '用户不存在',
     Error::Sign::PASSWORD_NOT_MATCH => '用户密码不匹配',
     Error::Sign::VCODE_NOT_MATCH => '验证码不匹配',
-    Error::Sign::VCODE_TYPE_WRONG => '验证码类型不匹配'
+    Error::Sign::VCODE_TYPE_WRONG => '验证码类型不匹配',
+
+    Error::File::FORMAT_WRONG => '文件格式有误',
+    Error::File::SIZE_TOO_LARGE => '文件大小超过限制',
+    Error::File::CREATE_DIR_FAILED => '创建目录失败',
+    Error::File::UPLOAD_FAILED => '文件上传失败'
   }.freeze
 end
