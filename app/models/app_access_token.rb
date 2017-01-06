@@ -1,4 +1,4 @@
-ACCESS_TOKEN_TTL = 2.hours
+ACCESS_TOKEN_TTL = 2.weeks
 
 # AppAccessToken存储相关的模块
 module AppAccessTokenStorage
