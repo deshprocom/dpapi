@@ -26,7 +26,7 @@ class User < ApplicationRecord
   include UserCreator
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :avatar_url
+  attr_accessor :avatar_path
 
   # 增加二级查询缓存，缓存过期时间一周
   acts_as_cached(version: 1, expires_in: 1.week)
@@ -48,7 +48,7 @@ class User < ApplicationRecord
     end
   end
 
-  def avatar_url
-    'http://192.168.2.10:3000' unless avatar.blank?
+  def avatar_path
+    DpapiConfig.domain_path.to_s + avatar.to_s unless avatar.blank?
   end
 end
