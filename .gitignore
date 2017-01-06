@@ -40,6 +40,7 @@
 /config/oneapm.yml
 /config/resque.yml
 /config/secrets.yml
+/config/dpapi.yml
 /config/sphinx_remote_server.yml
 /config/unicorn
 /config/cache_store.yml
