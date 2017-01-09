@@ -20,9 +20,7 @@ module Services
 
         # TODO: 验证逻辑需要移到新的验证码校验类
         # 检查验证码是否正确
-        # if
         return ApiResult.error_result(VCODE_NOT_MATCH) unless vcode == mobile[-4, 4]
-        # end
 
         # 检查手机号是否存在
         if UserValidator.mobile_exists?(mobile)
