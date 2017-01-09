@@ -29,11 +29,11 @@ module V10
         return target if target
         string_file = env['rack.input']
         san_file = CarrierWave::SanitizedFile.new(string_file)
-        san_file.original_filename = "#{@current_user.id}_tmp#{get_ext_name}"
+        san_file.original_filename = "#{@current_user.id}_tmp#{parse_ext_name}"
         san_file
       end
 
-      def get_ext_name
+      def parse_ext_name
         if env['CONTENT_TYPE'].eql?'image/jpeg'
           '.jpg'
         elsif env['CONTENT_TYPE'].eql?'image/png'
