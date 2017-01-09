@@ -27,22 +27,7 @@ module V10
 
       def get_upload_file(target)
         return target if target
-        string_file = env['rack.input']
-        san_file = CarrierWave::SanitizedFile.new(string_file)
-        san_file.original_filename = "#{@current_user.id}_tmp#{parse_ext_name}"
-        san_file
-      end
-
-      def parse_ext_name
-        if env['CONTENT_TYPE'].eql?'image/jpeg'
-          '.jpg'
-        elsif env['CONTENT_TYPE'].eql?'image/png'
-          '.png'
-        elsif env['CONTENT_TYPE'].eql?'image/gif'
-          '.gif'
-        else
-          ''
-        end
+        V10::Uploaders::UploadHelper.parse_file_format(env['rack.input'], env['CONTENT_TYPE'], @current_user.id)
       end
     end
   end
