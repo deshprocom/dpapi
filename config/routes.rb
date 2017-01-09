@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
 
     namespace :account do
-      resource :forward_password, only: [:create]
+      resource :reset_password, only: [:create]
       resource :vcode, only: [:create]
       resource :verify_vcode, only: [:create]
 
