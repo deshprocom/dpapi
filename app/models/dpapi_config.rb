@@ -1,10 +1,8 @@
 class DpapiConfig
-  cattr_accessor :config
-  self.config ||= YAML.load_file(Rails.root.join('config', 'dpapi.yml'))[Rails.env]
 
   class << self
     def domain_path
-      config['domain_path'].dup
+      ENV['DPAPI_DOMAIN_PATH'].dup
     end
   end
 end
