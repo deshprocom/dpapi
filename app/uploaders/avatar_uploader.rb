@@ -16,7 +16,7 @@ class AvatarUploader < CarrierWave::Uploader::Base
 
   def store_dir
     md5 = model["#{mounted_as}_md5".to_sym]
-    "faces/#{md5[0, 3]}/#{md5[1, 3]}"
+    "faces/#{md5[0, 3]}/#{md5[3, 3]}"
   end
 
   # Provide a default URL as a default if there hasn't been a file uploaded:
