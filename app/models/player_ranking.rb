@@ -1,0 +1,2 @@
+class PlayerRanking < ApplicationRecord
+end
