@@ -14,7 +14,7 @@ module Services
       end
 
       def call
-        # 验证密码或手机号是否为空
+        # 验证码或手机号是否为空
         return ApiResult.error_result(MISSING_PARAMETER) if mobile.blank? || vcode.blank?
 
         # 查询用户是否存在

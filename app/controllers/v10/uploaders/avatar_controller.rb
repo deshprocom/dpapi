@@ -7,7 +7,7 @@ module V10
       before_action :login_required
 
       def create
-        @current_user.avatar = upload_params[:avatar]
+        @current_user.avatar = get_upload_file(upload_params[:avatar])
         # 检查文件格式
         if @current_user.avatar.blank? || @current_user.avatar.path.blank?
           return render_api_error(FORMAT_WRONG)
@@ -23,6 +23,11 @@ module V10
 
       def upload_params
         params.permit(:avatar)
+      end
+
+      def get_upload_file(target)
+        return target if target
+        V10::Uploaders::UploadHelper.parse_file_format(env['rack.input'], env['CONTENT_TYPE'], @current_user.id)
       end
     end
   end
