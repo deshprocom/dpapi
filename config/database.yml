@@ -13,20 +13,20 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
-  username: root
-  password:
-  socket: /tmp/mysql.sock
+  username: <%= ENV['DPAPI_DATABASE_USERNAME'] %>
+  password: <%= ENV['DPAPI_DATABASE_PASSWORD'] %>
+  socket:   <%= ENV['DPAPI_DATABASE_SOCKET'] || '/tmp/mysql.sock' %>
 
 development:
   <<: *default
-  database: deshpro_dev
+  database: <%= ENV['DPAPI_DATABASE'] || 'deshpro_dev' %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: deshpro_test
+  database: <%= ENV['DPAPI_DATABASE'] || 'deshpro_test' %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -49,6 +49,6 @@ test:
 #
 production:
   <<: *default
-  database: deshpro_production
-  username: dpapi
+  database: <%= ENV['DPAPI_DATABASE'] || 'deshpro_production' %>
+  username: <%= ENV['DPAPI_DATABASE_USERNAME'] || 'dpapi' %>
   password: <%= ENV['DPAPI_DATABASE_PASSWORD'] %>
