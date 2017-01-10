@@ -35,6 +35,7 @@
 
 /public/faces
 /public/uploads
+/public/.DS_Store
 #ignore macfile
 /.DS_Store
 **/*.swp
