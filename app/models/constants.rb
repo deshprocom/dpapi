@@ -32,6 +32,7 @@ module Constants
       VCODE_TYPE_WRONG = 1100019
       NICK_NAME_EXIST = 1100020
       UNSUPPORTED_RESET_TYPE = 1100021
+      UNSUPPORTED_OPTION_TYPE = 1100022
     end
 
     module File
@@ -65,6 +66,7 @@ module Constants
     Error::Sign::VCODE_NOT_MATCH => '验证码不匹配',
     Error::Sign::VCODE_TYPE_WRONG => '验证码类型不匹配',
     Error::Sign::UNSUPPORTED_RESET_TYPE => '不支持的重置类型 ',
+    Error::Sign::UNSUPPORTED_OPTION_TYPE => '不支持的操作类型 ',
 
     Error::File::FORMAT_WRONG => '文件格式有误',
     Error::File::SIZE_TOO_LARGE => '文件大小超过限制',

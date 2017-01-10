@@ -1,7 +1,4 @@
-RESET_TYPES = [
-  'mobile',
-  'email'
-].freeze
+RESET_TYPES = %w(mobile email).freeze
 
 module V10
   module Account
@@ -16,7 +13,7 @@ module V10
           return render_api_error(UNSUPPORTED_RESET_TYPE)
         end
 
-        self.send("reset_pwd_by_#{reset_type}", reset_params)
+        send("reset_pwd_by_#{reset_type}", reset_params)
       end
 
       private
@@ -48,4 +45,3 @@ module V10
     end
   end
 end
-
