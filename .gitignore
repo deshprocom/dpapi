@@ -45,3 +45,5 @@
 .env.test
 .env.production
 
+#simplecov
+/coverage
