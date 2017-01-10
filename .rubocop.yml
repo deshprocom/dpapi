@@ -1,12 +1,25 @@
+AllCops:
+  TargetRubyVersion: 2.3
+  Exclude:
+    - 'bin/*'
+    - 'config/**/*'
+    - 'db/migrate/*'
+    - 'db/seeds.rb'
+    - 'db/schema.rb'
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'Gemfile'
+
 Rails:
   Enabled: true
 
 Metrics/LineLength:
-
   Max: 120
 
 Style/AsciiComments:
+  Enabled: false
 
+Style/FrozenStringLiteralComment:
   Enabled: false
 
 Metrics/AbcSize:
