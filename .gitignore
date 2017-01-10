@@ -39,6 +39,8 @@
 #ignore macfile
 /.DS_Store
 **/*.swp
+/prod_stop.sh
+/prod_start.sh
 
 # dotenv
 .env.development
