@@ -13,6 +13,7 @@ default: &default
   adapter: mysql2
   encoding: utf8
   pool: 5
+  host: <%= ENV['DPAPI_DATABASE_HOST'] || 'localhost' %>
   username: <%= ENV['DPAPI_DATABASE_USERNAME'] %>
   password: <%= ENV['DPAPI_DATABASE_PASSWORD'] %>
   socket:   <%= ENV['DPAPI_DATABASE_SOCKET'] || '/tmp/mysql.sock' %>
