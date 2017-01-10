@@ -1,4 +1,4 @@
-ALLOW_TYPES = [
+RESET_TYPES = [
   'mobile',
   'email'
 ].freeze
@@ -12,7 +12,7 @@ module V10
         reset_params = permit_reset_params.dup
         reset_type = reset_params.delete(:type)
 
-        unless ALLOW_TYPES.include?(reset_type)
+        unless RESET_TYPES.include?(reset_type)
           return render_api_error(UNSUPPORTED_RESET_TYPE)
         end
 
