@@ -14,6 +14,7 @@ module Services
         self.password = password
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity: 7
       def call
         # 检查参数是否为空
         if email.blank? || vcode.blank? || password.blank?
@@ -37,7 +38,7 @@ module Services
         salt = SecureRandom.hex(6).slice(0, 6)
         new_password = ::Digest::MD5.hexdigest("#{password}#{salt}")
 
-        user.update(password: new_password, password_salt:salt)
+        user.update(password: new_password, password_salt: salt)
         ApiResult.success_result
       end
     end
