@@ -3,10 +3,9 @@ module Services
     class VerifyVcodeService
       include Serviceable
       include Constants::Error::Sign
-      attr_accessor :type, :mobile, :vcode
+      attr_accessor :mobile, :vcode
 
-      def initialize(type, mobile, vcode)
-        self.type = type
+      def initialize(mobile, vcode)
         self.mobile = mobile
         self.vcode = vcode
       end
