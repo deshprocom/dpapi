@@ -16,7 +16,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 1100012" do
         post v10_account_verify_vcode_url,
             headers: http_headers,
-             params: {type: 'register', mobile: '1371366227', vcode: '2278'}
+             params: {option_type: 'register', vcode_type: 'mobile', mobile: '1371366227', vcode: '2278'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100012)
@@ -29,7 +29,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 1100018" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {type: 'register', mobile: '13713662278', vcode: '227'}
+             params: {option_type: 'register', vcode_type: 'mobile', mobile: '13713662278', vcode: '227'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100018)
@@ -42,7 +42,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 0" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {type: 'register', mobile: '13713662278', vcode: '2278'}
+             params: {option_type: 'register', vcode_type: 'mobile', mobile: '13713662278', vcode: '2278'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
