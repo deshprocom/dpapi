@@ -14,6 +14,7 @@ Rails.application.routes.draw do
 
       resources :users, only: [] do
         resource :profile, only: [:show, :update]
+        resource :change_password, only: [:create]
       end
     end
 
