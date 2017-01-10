@@ -17,7 +17,8 @@ require File.expand_path('../../lib/middlewares/api_request_credential', __FILE_
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
-
+# load .env
+Dotenv::Railtie.load
 module Dpapi
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
