@@ -50,3 +50,4 @@
 
 #simplecov
 /coverage
+/bfg.jar

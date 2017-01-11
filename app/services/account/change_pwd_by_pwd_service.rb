@@ -1,6 +1,6 @@
 module Services
   module Account
-    class ChangePasswordService
+    class ChangePwdByPwdService
       include Serviceable
 
       include Constants::Error::Common

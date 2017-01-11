@@ -1,5 +1,4 @@
 class AvatarUploader < CarrierWave::Uploader::Base
-
   # Include RMagick or MiniMagick support:
   # include CarrierWave::RMagick
   # include CarrierWave::MiniMagick
@@ -54,5 +53,4 @@ class AvatarUploader < CarrierWave::Uploader::Base
     md5 = model["#{mounted_as}_md5".to_sym]
     "#{md5}#{File.extname(super)}" if super
   end
-
 end
