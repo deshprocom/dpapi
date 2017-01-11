@@ -22,9 +22,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
         expect(json["code"]).to eq(1100012)
       end
     end
-  end
 
-  context "验证手机验证码是否正确" do
     context "验证码不正确" do
       it "should return code 1100018" do
         post v10_account_verify_vcode_url,
@@ -35,9 +33,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
         expect(json["code"]).to eq(1100018)
       end
     end
-  end
 
-  context "验证手机验证码是否正确" do
     context "验证通过" do
       it "should return code 0" do
         post v10_account_verify_vcode_url,
