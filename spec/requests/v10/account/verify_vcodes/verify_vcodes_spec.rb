@@ -45,4 +45,39 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       end
     end
   end
+
+  context "验证邮箱验证码是否正确" do
+    context "邮箱格式不正确" do
+      it "should return code 1100011" do
+        post v10_account_verify_vcode_url,
+             headers: http_headers,
+             params: {option_type: 'register', vcode_type: 'email', email: 'ricky', vcode: 'abcd'}
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json["code"]).to eq(1100011)
+      end
+    end
+
+    context "验证码不正确" do
+      it "should return code 1100018" do
+        post v10_account_verify_vcode_url,
+             headers: http_headers,
+             params: {option_type: 'register', vcode_type: 'email', email: 'ricky@deshpro.com', vcode: 'abc'}
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json["code"]).to eq(1100018)
+      end
+    end
+
+    context "验证通过" do
+      it "should return code 0" do
+        post v10_account_verify_vcode_url,
+             headers: http_headers,
+             params: {option_type: 'register', vcode_type: 'email', email: 'ricky@deshpro.com', vcode: 'abcd'}
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json["code"]).to eq(0)
+      end
+    end
+  end
 end
