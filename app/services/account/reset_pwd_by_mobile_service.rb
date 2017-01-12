@@ -14,7 +14,7 @@ module Services
         self.password = password
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity: 7
+      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         # 检查参数是否为空
         if mobile.blank? || vcode.blank? || password.blank?

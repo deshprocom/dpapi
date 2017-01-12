@@ -38,11 +38,8 @@ RSpec.describe DpAPI::ApiRequestCredential do
       expect(response[0]).to eql(802)
     end
 
-    let(:app_access_token) do
-      AppAccessToken.create('127.0.0.1',
-                            '467109f4b44be6398c17f6c058dfa7ee',
-                            '18ca083547bb164b94a0f89a7959548b',
-                            user.id)
+    let(:access_token) do
+      AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
     end
 
     it "should return code 803 when access_token is not correct" do
@@ -57,7 +54,7 @@ RSpec.describe DpAPI::ApiRequestCredential do
     it "should return code 200 when everything is correct" do
       env = { 'HTTP_X_DP_APP_KEY' => '467109f4b44be6398c17f6c058dfa7ee',
               'HTTP_X_DP_CLIENT_IP' => 'localhost',
-              'HTTP_X_DP_ACCESS_TOKEN' => app_access_token.access_token,
+              'HTTP_X_DP_ACCESS_TOKEN' => access_token,
               'REQUEST_URI' => '/login'}
       response = request_credential.call(env)
       expect(response[0]).to eql(200)

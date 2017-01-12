@@ -11,11 +11,8 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
     }
   end
   let!(:user) { FactoryGirl.create(:user) }
-  let(:app_access_token) do
-    AppAccessToken.create('127.0.0.1',
-                          '467109f4b44be6398c17f6c058dfa7ee',
-                          '18ca083547bb164b94a0f89a7959548b',
-                          user.user_uuid)
+  let(:access_token) do
+    AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
   end
 
   context "未登录情况下访问" do
@@ -40,7 +37,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
         old_pwd:        '1'
       }
       post v10_account_user_change_password_url('123'),
-           headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+           headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
            params: params
       expect(response).to have_http_status(806)
     end
@@ -55,7 +52,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           old_pwd:     ''
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -71,7 +68,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           old_pwd:     'test123'
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -87,7 +84,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           old_pwd:     'test12'
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -103,7 +100,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           old_pwd:     'test123'
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -122,7 +119,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           vcode:      ''
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -139,7 +136,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           vcode:      '2278'
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -156,7 +153,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           vcode:      '2222'
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
@@ -173,7 +170,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           vcode:      '2278'
         }
         post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
              params: params
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)

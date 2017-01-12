@@ -36,8 +36,9 @@ module Services
         user = User.create_by_mobile(mobile, password)
 
         # 生成用户令牌
-        app_access_token = AppAccessToken.from_credential(CurrentRequestCredential, user.user_uuid)
-        LoginResultHelper.call(user, app_access_token)
+        secret = CurrentRequestCredential.affiliate_app.try(:app_secret)
+        access_token = AppAccessToken.jwt_create(secret, user.user_uuid)
+        LoginResultHelper.call(user, access_token)
       end
     end
   end
