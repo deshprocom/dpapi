@@ -14,7 +14,6 @@ module Services
         self.password = password
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         # 检查参数是否为空
         if email.blank? || vcode.blank? || password.blank?
