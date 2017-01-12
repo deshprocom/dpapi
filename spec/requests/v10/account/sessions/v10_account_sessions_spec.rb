@@ -103,7 +103,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         it "应当返回 code: 1100001" do
           post v10_login_url,
                headers: http_headers,
-               params: {type:'email', email: '', password: "123456"}
+               params: {type:'email', email: '', password: "cc03e747a6afbbcbf8be7668acfebee5"}
           expect(response).to have_http_status(200)
           json = JSON.parse(response.body)
           expect(json["code"]).to eq(1100001)
@@ -125,7 +125,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         it "应当返回 code: 1100016" do
           post v10_login_url,
                headers: http_headers,
-               params: {type:'email', email: 'ruby@deshpro.com', password: "123456"}
+               params: {type:'email', email: 'ruby@deshpro.com', password: "cc03e747a6afbbcbf8be7668acfebee5"}
           expect(response).to have_http_status(200)
           json = JSON.parse(response.body)
           expect(json["code"]).to eq(1100016)
@@ -136,7 +136,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         it "应当返回 code: 1100017" do
           post v10_login_url,
                headers: http_headers,
-               params: {type:'email', email: 'ricky@deshpro.com', password: "23456"}
+               params: {type:'email', email: 'ricky@deshpro.com', password: "cc03e747a6afbbcbf8be7668acfebee6"}
           expect(response).to have_http_status(200)
           json = JSON.parse(response.body)
           expect(json["code"]).to eq(1100017)
@@ -147,7 +147,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         it "应当返回 code: 0" do
           post v10_login_url,
                headers: http_headers,
-               params: {type:'email', email: 'ricky@deshpro.com', password: "test123"}
+               params: {type:'email', email: 'ricky@deshpro.com', password: "cc03e747a6afbbcbf8be7668acfebee5"}
           expect(response).to have_http_status(200)
           json = JSON.parse(response.body)
           expect(json["code"]).to eq(0)
@@ -168,7 +168,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
           it "应当返回 code: 1100001" do
             post v10_login_url,
                  headers: http_headers,
-                 params: {type:'mobile', mobile: '', password: "test123"}
+                 params: {type:'mobile', mobile: '', password: "cc03e747a6afbbcbf8be7668acfebee5"}
             expect(response).to have_http_status(200)
             json = JSON.parse(response.body)
             expect(json["code"]).to eq(1100001)
@@ -190,7 +190,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
           it "应当返回 code: 1100017" do
             post v10_login_url,
                  headers: http_headers,
-                 params: {type:'mobile', mobile: '18018001880', password: "3323232"}
+                 params: {type:'mobile', mobile: '18018001880', password: "cc03e747a6afbbcbf8be7668acfebee6"}
             expect(response).to have_http_status(200)
             json = JSON.parse(response.body)
             expect(json["code"]).to eq(1100017)
@@ -201,7 +201,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
           it "应当返回 code: 0" do
             post v10_login_url,
                  headers: http_headers,
-                 params: {type:'mobile', mobile: '18018001880', password: "test123"}
+                 params: {type:'mobile', mobile: '18018001880', password: "cc03e747a6afbbcbf8be7668acfebee5"}
             expect(response).to have_http_status(200)
             json = JSON.parse(response.body)
             expect(json["code"]).to eq(0)

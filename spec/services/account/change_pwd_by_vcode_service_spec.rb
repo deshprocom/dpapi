@@ -11,10 +11,10 @@ RSpec.describe Services::Account::ChangePwdByVcodeService do
     end
   end
 
-  context "新密码太简单" do
+  context "新密码非md5格式" do
     it "should return code 1100015" do
       vcode_service = Services::Account::ChangePwdByVcodeService
-      api_result = vcode_service.call('new', '13713662278', '2278', user)
+      api_result = vcode_service.call('happy', '13713662278', '2278', user)
       expect(api_result.code).to eq(1100015)
     end
   end
@@ -22,7 +22,7 @@ RSpec.describe Services::Account::ChangePwdByVcodeService do
   context "验证码不一致" do
     it "should return code 1100018" do
       vcode_service = Services::Account::ChangePwdByVcodeService
-      api_result = vcode_service.call('new123', '13713662278', '2222', user)
+      api_result = vcode_service.call('cc03e747a6afbbcbf8be7668acfebee7', '13713662278', '2222', user)
       expect(api_result.code).to eq(1100018)
     end
   end
@@ -30,7 +30,7 @@ RSpec.describe Services::Account::ChangePwdByVcodeService do
   context "密码更新成功" do
     it "should return code 0" do
       vcode_service = Services::Account::ChangePwdByVcodeService
-      api_result = vcode_service.call('new123', '13713662278', '2278', user)
+      api_result = vcode_service.call('cc03e747a6afbbcbf8be7668acfebee7', '13713662278', '2278', user)
       expect(api_result.code).to eq(0)
     end
   end

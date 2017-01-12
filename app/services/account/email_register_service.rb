@@ -24,7 +24,7 @@ module Services
           return ApiResult.error_result(EMAIL_ALREADY_USED)
         end
 
-        # 检查密码是否为空
+        # 检查密码是否合法
         unless UserValidator.pwd_valid?(password)
           return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
         end

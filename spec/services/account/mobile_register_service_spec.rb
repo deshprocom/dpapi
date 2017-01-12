@@ -27,7 +27,7 @@ RSpec.describe Services::Account::MobileRegisterService do
     end
   end
 
-  context "密码太简单" do
+  context "密码不是md5" do
     it "should return code 1100015" do
       mobile_register_service = Services::Account::MobileRegisterService
       api_result = mobile_register_service.call('13967678989', '8989', 'sdfsdf')
@@ -38,7 +38,7 @@ RSpec.describe Services::Account::MobileRegisterService do
   context "正常注册" do
     it "should return code 0" do
       mobile_register_service = Services::Account::MobileRegisterService
-      api_result = mobile_register_service.call('13967678989', '8989', 'sdf123')
+      api_result = mobile_register_service.call('13967678989', '8989', 'cc03e747a6afbbcbf8be7668acfebee5')
       expect(api_result.code).to eq(0)
     end
   end

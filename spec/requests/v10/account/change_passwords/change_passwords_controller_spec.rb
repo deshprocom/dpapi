@@ -60,12 +60,12 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       end
     end
 
-    context "传入的新密码太简单" do
+    context "传入的新密码不是md5" do
       it "应当返回 code: 1100015" do
         params = {
           type:        'pwd',
           new_pwd:     'test',
-          old_pwd:     'test123'
+          old_pwd:     'cc03e747a6afbbcbf8be7668acfebee5'
         }
         post v10_account_user_change_password_url(user.user_uuid),
              headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
@@ -80,8 +80,8 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       it "应当返回 code: 1100017" do
         params = {
           type:        'pwd',
-          new_pwd:     'hello133',
-          old_pwd:     'test12'
+          new_pwd:     'cc03e747a6afbbcbf8be7668acfebee7',
+          old_pwd:     'cc03e747a6afbbcbf8be7668acfebee6'
         }
         post v10_account_user_change_password_url(user.user_uuid),
              headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
@@ -96,8 +96,8 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       it "应当返回 code: 0" do
         params = {
           type:        'pwd',
-          new_pwd:     'hello123',
-          old_pwd:     'test123'
+          new_pwd:     'cc03e747a6afbbcbf8be7668acfebee6',
+          old_pwd:     'cc03e747a6afbbcbf8be7668acfebee5'
         }
         post v10_account_user_change_password_url(user.user_uuid),
              headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
@@ -114,7 +114,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       it "should return code 1100001" do
         params = {
           type:        'vcode',
-          new_pwd:     'hello123',
+          new_pwd:     'cc03e747a6afbbcbf8be7668acfebee6',
           mobile:     '13713662278',
           vcode:      ''
         }
@@ -127,7 +127,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       end
     end
 
-    context "如果新密码过于简单" do
+    context "如果新密码不是md5" do
       it "should return code 1100015" do
         params = {
           type:        'vcode',
@@ -148,7 +148,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       it "should return code 1100018" do
         params = {
           type:        'vcode',
-          new_pwd:     'hello123',
+          new_pwd:     'cc03e747a6afbbcbf8be7668acfebee6',
           mobile:     '13713662278',
           vcode:      '2222'
         }
@@ -165,7 +165,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       it "should return code 0" do
         params = {
           type:        'vcode',
-          new_pwd:     'hello123',
+          new_pwd:     'cc03e747a6afbbcbf8be7668acfebee6',
           mobile:     '13713662278',
           vcode:      '2278'
         }
