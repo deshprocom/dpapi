@@ -24,11 +24,6 @@ module Services
           return ApiResult.error_result(EMAIL_ALREADY_USED)
         end
 
-        # 检查密码是否为空
-        unless UserValidator.pwd_valid?(password)
-          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
-        end
-
         # 可以注册, 创建一个用户
         user = User.create_by_email(email, password)
 

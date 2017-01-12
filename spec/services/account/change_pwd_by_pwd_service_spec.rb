@@ -11,14 +11,6 @@ RSpec.describe Services::Account::ChangePwdByPwdService do
     end
   end
 
-  context "新密码太简单" do
-    it "should return code 1100015" do
-      vcode_service = Services::Account::ChangePwdByPwdService
-      api_result = vcode_service.call('new', 'test123', user)
-      expect(api_result.code).to eq(1100015)
-    end
-  end
-
   context "输入的密码和之前存在的不一致" do
     it "should return code 1100017" do
       vcode_service = Services::Account::ChangePwdByPwdService
