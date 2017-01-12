@@ -21,11 +21,6 @@ module Services
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
-        # 检查密码是否太简单
-        unless UserValidator.pwd_valid?(new_pwd)
-          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
-        end
-
         # 判断验证码是否一致
         return ApiResult.error_result(VCODE_NOT_MATCH) if vcode != mobile[-4, 4]
 

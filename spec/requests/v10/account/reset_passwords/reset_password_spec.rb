@@ -36,28 +36,6 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
        end
      end
 
-    context "传入的密码不符合要求" do
-      it "should return code 1100015" do
-        post v10_account_reset_password_url,
-             headers: http_headers,
-             params: { type: 'mobile', mobile: '13713662278', vcode: '2278', password: 'test' }
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100015)
-      end
-    end
-
-    context "验证码错误" do
-      it "should return code 1100015" do
-        post v10_account_reset_password_url,
-             headers: http_headers,
-             params: { type: 'mobile', mobile: '13713662278', vcode: '2278', password: 'test' }
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100015)
-      end
-    end
-
     context "用户不存在" do
       it "should return code 1100018" do
         post v10_account_reset_password_url,
@@ -112,17 +90,6 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100001)
-      end
-    end
-
-    context "密码不符合规则" do
-      it "should return code 1100015" do
-        post v10_account_reset_password_url,
-             headers: http_headers,
-             params: { type: 'email', email: 'ricky@deshpro.com', vcode: 'abcd', password: 'test' }
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100015)
       end
     end
 

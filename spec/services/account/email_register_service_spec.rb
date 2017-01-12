@@ -19,14 +19,6 @@ RSpec.describe Services::Account::EmailRegisterService do
     end
   end
 
-  context "密码格式不正确" do
-    it "should return code 1100015" do
-      email_register_service = Services::Account::EmailRegisterService
-      api_result = email_register_service.call('ricky@qq.com', 'test')
-      expect(api_result.code).to eq(1100015)
-    end
-  end
-
   context "邮箱密码格式都正确，创建一个新的用户" do
     it "should return code 0" do
       email_register_service = Services::Account::EmailRegisterService

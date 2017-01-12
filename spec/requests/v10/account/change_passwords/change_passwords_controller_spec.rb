@@ -60,22 +60,6 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
       end
     end
 
-    context "传入的新密码太简单" do
-      it "应当返回 code: 1100015" do
-        params = {
-          type:        'pwd',
-          new_pwd:     'test',
-          old_pwd:     'test123'
-        }
-        post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
-             params: params
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100015)
-      end
-    end
-
     context "传入的老密码和原来的不一致" do
       it "应当返回 code: 1100017" do
         params = {
@@ -124,23 +108,6 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100001)
-      end
-    end
-
-    context "如果新密码过于简单" do
-      it "should return code 1100015" do
-        params = {
-          type:        'vcode',
-          new_pwd:     'hello',
-          mobile:     '13713662278',
-          vcode:      '2278'
-        }
-        post v10_account_user_change_password_url(user.user_uuid),
-             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
-             params: params
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100015)
       end
     end
 

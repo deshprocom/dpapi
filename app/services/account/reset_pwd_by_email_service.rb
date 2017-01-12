@@ -21,11 +21,6 @@ module Services
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
-        # 检查密码是否符合规则
-        unless UserValidator.pwd_valid?(password)
-          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
-        end
-
         # TODO: 验证逻辑需要移到新的验证码校验类
         # 检查验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) unless vcode == 'abcd'

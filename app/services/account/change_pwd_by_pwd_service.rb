@@ -20,11 +20,6 @@ module Services
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
-        # 检查密码是否太简单
-        unless UserValidator.pwd_valid?(new_pwd)
-          return ApiResult.error_result(PASSWORD_FORMAT_WRONG)
-        end
-
         # 判断输入的密码是否和之前设定的是一致的
         old_salt = user.password_salt
         old_salted_password = ::Digest::MD5.hexdigest("#{old_pwd}#{old_salt}")
