@@ -3,8 +3,8 @@ module V10
     # 生成需要渲染出去的数据
     class RenderResultHelper
       def self.render_session_result(target, view, result)
-        app_access_token = result.data.delete(:app_access_token)
-        target.render view, locals: { api_result: result, user: result.data[:user], app_access_token: app_access_token }
+        access_token = result.data.delete(:access_token)
+        target.render view, locals: { api_result: result, user: result.data[:user], access_token: access_token }
       end
 
       def self.render_user_result(target, view, user)

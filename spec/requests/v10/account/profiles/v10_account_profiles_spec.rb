@@ -13,11 +13,8 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
 
   let!(:user) { FactoryGirl.create(:user) }
 
-  let(:app_access_token) do
-    AppAccessToken.create('127.0.0.1',
-                          '467109f4b44be6398c17f6c058dfa7ee',
-                          '18ca083547bb164b94a0f89a7959548b',
-                          user.user_uuid)
+  let(:access_token) do
+    AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
   end
 
   context "查询用户个人信息，当传入不正常的uuid" do
@@ -47,7 +44,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
   context "查询用户个人信息，传入正确的uuid 和 正确的access_token" do
     it "应当返回 code: 200" do
       get v10_account_user_profile_url(user.user_uuid),
-          headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token})
+          headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token})
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)
@@ -72,7 +69,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
         signature:     'haha'
       }
       put v10_account_user_profile_url(user.user_uuid),
-          headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: app_access_token.access_token}),
+          headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
           params: params
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)

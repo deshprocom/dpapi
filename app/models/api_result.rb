@@ -15,12 +15,6 @@ class ApiResult
   end
 
   ##
-  # 是否为成功结果
-  def success?
-    code == SUCCESS_CALL
-  end
-
-  ##
   # 是否为失败结果
   def failure?
     code != SUCCESS_CALL
@@ -44,7 +38,7 @@ class ApiResult
     new(SUCCESS_CALL, nil, data)
   end
 
-  def to_s
-    "ApiResult{code: #{code}, msg: '#{msg}', data: #{data.inspect}"
-  end
+  # def to_s
+  #   "ApiResult{code: #{code}, msg: '#{msg}', data: #{data.inspect}"
+  # end
 end
