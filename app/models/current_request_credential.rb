@@ -72,7 +72,7 @@ module CurrentRequestCredential
     RequestStore[:current_request_credential] ||= {}
   end
 
-  def self.clear
-    RequestStore[:current_request_credential] = {}
-  end
+  # def self.clear
+  #   RequestStore[:current_request_credential] = {}
+  # end
 end
