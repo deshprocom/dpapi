@@ -1,9 +1,8 @@
-ALLOW_TYPES = %w(email mobile).freeze
-
 module V10
   module Account
     # 处理注册相关的业务逻辑
     class AccountsController < ApplicationController
+      ALLOW_TYPES = %w(email mobile).freeze
       include Constants::Error::Common
 
       def create
