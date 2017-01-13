@@ -1,8 +1,7 @@
-RESET_TYPES = %w(mobile email).freeze
-
 module V10
   module Account
     class ResetPasswordsController < ApplicationController
+      RESET_TYPES = %w(mobile email).freeze
       include Constants::Error::Sign
 
       def create

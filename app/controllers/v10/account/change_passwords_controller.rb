@@ -1,8 +1,8 @@
-CHANGE_PWD_TYPE = %w(vcode pwd).freeze
 module V10
   module Account
     # 修改密码
     class ChangePasswordsController < ApplicationController
+      CHANGE_PWD_TYPE = %w(vcode pwd).freeze
       include UserAccessible
       include Constants::Error::Sign
       before_action :login_required, :user_self_required
