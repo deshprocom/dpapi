@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
     namespace :account do
       resource :reset_password, only: [:create]
-      resource :vcode, only: [:create]
+      resource :v_codes, only: [:create]
       resource :verify_vcode, only: [:create]
 
       resources :users, only: [] do
