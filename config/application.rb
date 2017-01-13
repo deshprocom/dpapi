@@ -35,5 +35,6 @@ module Dpapi
     config.time_zone = 'Beijing'
 
     config.middleware.insert_before Rack::Head, DpAPI::ApiRequestCredential
+    config.active_job.queue_adapter = :resque
   end
 end

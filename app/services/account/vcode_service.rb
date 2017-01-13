@@ -30,12 +30,14 @@ module Services
         vcode = VCode.generate_mobile_vcode(option_type, account_id)
         sms_content = format(sms_template, vcode)
         Rails.logger.info "send [#{sms_content}] to #{account_id} in queue"
+        SendMobileSmsJob.set(queue: 'send_mobile_sms').perform_later(option_type, account_id, sms_content)
       end
 
       def send_email_vcodes(option_type, sms_template, account_id)
         vcode = VCode.generate_email_vcode(option_type, account_id)
         sms_content = format(sms_template, vcode)
         Rails.logger.info "send [#{sms_content}] to #{account_id} in queue"
+        SendEmailSmsJob.set(queue: 'send_email_sms').perform_later(option_type, account_id, sms_content)
       end
     end
   end
