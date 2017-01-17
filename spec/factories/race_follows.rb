@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :race_subscribe do
+  factory :race_follow do
     
   end
 end
