@@ -9,8 +9,7 @@ module Services
         self.vcode = vcode
       end
 
-      def call
-      end
+      def call; end
     end
   end
 end

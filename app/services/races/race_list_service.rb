@@ -8,8 +8,7 @@ module Services
         self.user_uuid = user_uuid
       end
 
-      def call
-      end
+      def call; end
     end
   end
 end
