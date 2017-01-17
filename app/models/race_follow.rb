@@ -1,0 +1,2 @@
+class RaceFollow < ApplicationRecord
+end
