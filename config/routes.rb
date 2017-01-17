@@ -18,6 +18,12 @@ Rails.application.routes.draw do
       end
     end
 
+    scope module: 'races' do
+      resources :u, only:[] do
+        resources :races, only: [:index, :show]
+      end
+    end
+
     scope module: 'events' do
       resources :events, param: :node_id, only: [:index, :show]
       post 'events/:node_id/apply', to: 'apply#create', as: :event_apply
