@@ -11,8 +11,4 @@ class RaceFollow < ApplicationRecord
   belongs_to :user
   belongs_to :race
 
-  # 判断某个赛事某人是否关注
-  def self.is_follow?(user_id, race_id)
-    where(user_id: user_id, race_id: race_id).present?
-  end
 end

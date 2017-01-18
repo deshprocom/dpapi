@@ -11,8 +11,4 @@ class RaceOrder < ApplicationRecord
   belongs_to :race
   belongs_to :user
 
-  # 判断某个赛事某人是否购票
-  def self.is_order?(user_id, race_id)
-    where(user_id: user_id, race_id: race_id).present?
-  end
 end
