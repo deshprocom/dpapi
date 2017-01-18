@@ -3,15 +3,15 @@ module Services
     class RaceRecentService
       include Serviceable
       include Constants::Error::Common
-      attr_accessor :numbers, :user_uuid
+      attr_accessor :number, :user_uuid
 
-      def initialize(user_uuid, numbers)
+      def initialize(user_uuid, number)
         self.user_uuid = user_uuid
-        self.numbers = numbers
+        self.number = number
       end
 
       def call
-        nums = numbers.to_i.eql?(0) ? nil : numbers.to_i
+        nums = number.to_i.eql?(0) ? nil : number.to_i
         ApiResult.success_with_data(race: Race.limit_recent_races(nums), user: User.by_uuid(user_uuid))
       end
     end

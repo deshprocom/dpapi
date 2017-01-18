@@ -3,7 +3,7 @@ module V10
     # 获取主页赛事列表
     class RecentRacesController < ApplicationController
       def index
-        api_result = Services::Account::RaceRecentService.call(params[:u_id], race_params[:numbers])
+        api_result = Services::Account::RaceRecentService.call(params[:u_id], race_params[:number])
         render_api_result api_result
       end
 
@@ -17,7 +17,7 @@ module V10
       end
 
       def race_params
-        params.permit(:numbers)
+        params.permit(:number)
       end
     end
   end
