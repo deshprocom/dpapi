@@ -5,8 +5,8 @@ class CreateRaces < ActiveRecord::Migration[5.0]
       t.string :logo, limit: 256, comment: '赛事的logo'
       t.integer :prize, default:0, null: false, comment: '赛事的奖池'
       t.string :location, limit:256, comment: '赛事比赛地点'
-      t.datetime :start_time, comment: '赛事开始时间'
-      t.datetime :end_time, comment: '赛事结束的时间'
+      t.date :start_time, comment: '赛事开始时间'
+      t.date :end_time, comment: '赛事结束的时间'
       t.integer :status, default:0, null: false, comment: '赛事的状态 0-未开始  1-进行中  2-已结束  3-已关闭'
       t.timestamps
     end
