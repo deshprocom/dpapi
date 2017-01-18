@@ -41,4 +41,11 @@ Rails.application.routes.draw do
       resources :avatar, only:[:create]
     end
   end
+
+  if Rails.env.test?
+    namespace :factory do
+      post '/data_clear', to: 'application#data_clear'
+      resources :races, only:[:create]
+    end
+  end
 end

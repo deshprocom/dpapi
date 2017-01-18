@@ -39,6 +39,7 @@
 /public/.DS_Store
 #ignore macfile
 /.DS_Store
+**/.DS_Store
 **/*.swp
 /prod_stop.sh
 /prod_start.sh
