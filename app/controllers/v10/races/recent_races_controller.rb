@@ -15,6 +15,7 @@ module V10
         template = 'v10/account/races/index'
         V10::Account::RenderResultHelper.render_race_result(self, template, result)
       end
+
       def race_params
         params.permit(:numbers)
       end
