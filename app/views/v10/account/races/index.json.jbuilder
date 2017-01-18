@@ -5,16 +5,16 @@ json.partial! 'common/api_result', api_result: api_result
 # data
 json.data do
   json.items do
-    json.array! races do |race|
-      json.name          race[:name]
-      json.logo          race[:logo]
-      json.prize         race[:prize]
-      json.location      race[:location]
-      json.start_time    race[:start_time]
-      json.end_time      race[:end_time]
-      json.status        race[:status]
-      json.is_follow     race[:is_follow]
-      json.is_order      race[:is_order]
+    json.array! race do |item|
+      json.name          item[:name].to_s
+      json.logo          item[:logo].to_s
+      json.prize         item[:prize]
+      json.location      item[:location].to_s
+      json.start_time    item[:start_time]
+      json.end_time      item[:end_time]
+      json.status        item[:status]
+      json.followed      RaceFollow.is_follow?(user.try(:id), item[:id])
+      json.ordered       RaceOrder.is_order?(user.try(:id), item[:id])
     end
   end
 end

@@ -31,6 +31,10 @@ class User < ApplicationRecord
   # 增加二级查询缓存，缓存过期时间一周
   acts_as_cached(version: 1, expires_in: 1.week)
 
+  # 关联关系
+  has_many :race_follows
+  has_many :race_orders
+
   # 刷新访问时间
   def touch_visit!
     self.last_visit = Time.zone.now
