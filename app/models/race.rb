@@ -26,7 +26,7 @@ class Race < ApplicationRecord
   # 获取指定条数的近期赛事 (5条)
   def self.limit_recent_races(numbers = nil)
     numbers ||= 5
-    recent_races.limit(numbers).order(start_time: :asc)
+    recent_races.limit(numbers).order(start_time: :asc).order(end_time: :asc).order(created_at: :asc)
   end
 
   def followed?(user_id)
