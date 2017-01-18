@@ -4,7 +4,7 @@ FactoryGirl.define do
     sequence(:logo) { |n| "/logos/#{n}" }
     sequence(:prize) { |n| "100_000_#{n}" }
     sequence(:location) { |n| "location_#{n}" }
-    start_time 5.days.since
-    end_time   8.days.since
+    sequence(:start_time) { Random.rand(1..9).days.since }
+    sequence(:end_time)   { Random.rand(11..19).days.since }
   end
 end
