@@ -22,7 +22,7 @@ module V10
       private
 
       def race_params
-        params.permit(:type)
+        params.permit(:page_size, :page_index)
       end
     end
   end

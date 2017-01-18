@@ -24,8 +24,9 @@ class Race < ApplicationRecord
   scope :history_races, -> { where('end_time < ?', Time.zone.now.end_of_day) }
 
   # 获取指定条数的近期赛事 (5条)
-  def self.limit_recent_races
-    recent_races.limit(5)
+  def self.limit_recent_races(numbers = nil)
+    numbers ||= 5
+    recent_races.limit(numbers)
   end
 
   def followed?(user_id)
