@@ -2,7 +2,6 @@ module Factory
   class RacesController < ApplicationController
     include DataIntegration::Races
     include Constants::Error::Common
-    before_action :data_clear, only: [:create]
 
     def create
       method = params[:method] || ''
@@ -11,6 +10,11 @@ module Factory
       end
       send(method)
       render_api_success
+    end
+
+    def init_followed_or_ordered_races
+      user = User.by_uuid(params[:uuid])
+      super(user)
     end
   end
 end
