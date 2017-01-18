@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     scope module: 'races' do
       resources :u, only:[] do
         resources :races, only: [:index, :show]
-        get 'recent_races/:numbers', to: 'recent_races#index', as: :recent_races
+        get 'recent_races', to: 'recent_races#index', as: :recent_races
       end
     end
 

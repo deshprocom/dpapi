@@ -12,7 +12,7 @@ module V10
       end
 
       def self.render_race_result(target, view, result)
-        target.render view, locals: { api_result: result, race: result.data[:race] }
+        target.render view, locals: { api_result: result, race: result.data[:race], user: result.data[:user] }
       end
     end
   end
