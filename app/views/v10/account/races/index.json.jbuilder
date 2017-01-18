@@ -13,8 +13,8 @@ json.data do
       json.start_time    item[:start_time]
       json.end_time      item[:end_time]
       json.status        item[:status]
-      json.followed      item.is_follow?(user.try(:id))
-      json.ordered       item.is_order?(user.try(:id))
+      json.followed      item.followed?(user.try(:id))
+      json.ordered       item.ordered?(user.try(:id))
     end
   end
 end

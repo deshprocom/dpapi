@@ -2,7 +2,7 @@ module V10
   module Races
     class RacesController < ApplicationController
       include Constants::Error::Common
-      RACE_SEARCH_TYPE = %w(recent history)
+      RACE_SEARCH_TYPE = %w(recent history).freeze
       # 获取赛事列表
       def index
         # 判断路由是否有u_id

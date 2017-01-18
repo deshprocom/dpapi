@@ -18,21 +18,21 @@ class Race < ApplicationRecord
   has_many :race_orders
 
   # 更多近期赛事
-  scope :recent_races,  ->{where('end_time > ?', Time.zone.now.end_of_day).where.not(status: [2, 3])}
+  scope :recent_races,  -> { where('end_time > ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }
 
   # 历史所有赛事
-  scope :history_races, ->{where('end_time < ?', Time.zone.now.end_of_day)}
+  scope :history_races, -> { where('end_time < ?', Time.zone.now.end_of_day) }
 
   # 获取指定条数的近期赛事 (5条)
   def self.limit_recent_races
     recent_races.limit(5)
   end
 
-  def is_follow?(user_id)
+  def followed?(user_id)
     race_follows.exists?(user_id: user_id)
   end
 
-  def is_order?(user_id)
+  def ordered?(user_id)
     race_orders.exists?(user_id: user_id)
   end
 end

@@ -17,7 +17,7 @@ module Services
 
       # 查询近期更多赛事
       def recent_race_lists
-        ApiResult.success_with_data({ race: Race.recent_races, user: User.by_uuid(user_uuid) })
+        ApiResult.success_with_data(race: Race.recent_races, user: User.by_uuid(user_uuid))
       end
 
       # 查询历史更多赛事
