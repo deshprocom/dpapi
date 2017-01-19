@@ -2,18 +2,15 @@ module V10
   module Races
     class RacesController < ApplicationController
       include Constants::Error::Common
-      RACE_SEARCH_TYPE = %w(recent history).freeze
+      OPERATOR_TYPE = %w(up down).freeze
       # 获取赛事列表
       def index
-        # 判断路由是否有u_id
-        return render_api_error(MISSING_PARAMETER) if params[:u_id].nil?
-        # 检查需要查询的类型是否正确
-        unless RACE_SEARCH_TYPE.include?(race_params[:type])
-          return render_api_error(UNSUPPORTED_TYPE)
+        search_params = search_permit_params.dup
+        unless search_params[:page_size] =~ /^[0-9]+$/ && OPERATOR_TYPE.include?(search_params[:operator])
+          return render_api_error(PARAM_FORMAT_ERROR)
         end
-        api_result = Services::Account::RaceListService.call(params[:u_id], race_params[:type])
-        template = 'v10/account/races/index'
-        V10::Account::RenderResultHelper.render_race_result(self, template, api_result)
+        api_result = Services::Account::RaceListService.call(params[:u_id], search_params)
+        render_api_result api_result
       end
 
       # 获取赛事列表某一赛事详情
@@ -21,8 +18,18 @@ module V10
 
       private
 
-      def race_params
-        params.permit(:page_size, :page_index)
+      def search_permit_params
+        params.permit(:page_size,
+                      :seq_id,
+                      :operator,
+                      :begin_date)
+      end
+
+      def render_api_result(result)
+        return render_api_error(result.code, result.msg) if result.failure?
+
+        template = 'v10/account/races/index'
+        V10::Account::RenderResultHelper.render_race_result(self, template, result)
       end
     end
   end

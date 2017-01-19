@@ -19,6 +19,7 @@ module Constants
       UNSUPPORTED_TYPE = 1100002
       DATABASE_ERROR = 1100003
       PARAM_FORMAT_ERROR = 1100004
+      DATE_FORMAT_ERROR = 1100005
     end
 
     module Sign
@@ -56,6 +57,7 @@ module Constants
 
     Error::Common::MISSING_PARAMETER => '缺少参数',
     Error::Common::PARAM_FORMAT_ERROR => '参数格式错误',
+    Error::Common::DATE_FORMAT_ERROR => '日期格式错误',
     Error::Common::UNSUPPORTED_TYPE => '不支持的数据类型',
     Error::Common::DATABASE_ERROR => '数据库错误',
     Error::Sign::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
