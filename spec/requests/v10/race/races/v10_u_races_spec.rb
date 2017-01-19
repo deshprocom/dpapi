@@ -46,8 +46,8 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
         expect(race['logo'].class).to       eq(String)
         expect(race['prize'].class).to      eq(Fixnum)
         expect(race['location'].class).to   eq(String)
-        expect(race['start_time'].class).to eq(String)
-        expect(race['end_time'].class).to   eq(String)
+        expect(race['begin_date'].class).to eq(String)
+        expect(race['end_date'].class).to   eq(String)
         expect(race['status'].class).to     eq(Fixnum)
         expect( %w(true false) ).to    include(race['followed'].to_s)
         expect( %w(true false) ).to    include(race['ordered'].to_s)
@@ -85,12 +85,12 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       expect(races.class).to      eq(Array)
       expect(races.size).to       eq(10)
       races.each_with_index do |race, index|
-        expect(Time.parse(race['end_time']) >= Time.now.beginning_of_day).to be_truthy
+        expect(Time.parse(race['end_date']) >= Time.now.beginning_of_day).to be_truthy
         next if index.zero?
 
-        first_start_time = Time.parse(races[index - 1]['start_time'])
-        second_start_time = Time.parse(race['start_time'])
-        expect(second_start_time >= first_start_time).to be_truthy
+        first_begin_date = Time.parse(races[index - 1]['begin_date'])
+        second_begin_date = Time.parse(race['begin_date'])
+        expect(second_begin_date >= first_begin_date).to be_truthy
       end
     end
   end
