@@ -11,7 +11,10 @@ module Services
       end
 
       def call
-        nums = number.to_i.eql?(0) ? nil : number.to_i
+        nums = number.nil? ? '5' : number
+        unless nums =~ /^[0-9]+$/
+          return ApiResult.error_result(PARAM_FORMAT_ERROR)
+        end
         ApiResult.success_with_data(race: Race.limit_recent_races(nums), user: User.by_uuid(user_uuid))
       end
     end
