@@ -3,7 +3,7 @@ module Factory
     Dir[Rails.root.join('spec/factories/data_integration/*.rb')].each { |f| require f }
 
     def data_clear
-      return unless Rails.env.test?
+      return if Rails.env.production?
 
       DatabaseCleaner.strategy = :truncation, { except: %w(affiliates affiliate_apps) }
       DatabaseCleaner.clean

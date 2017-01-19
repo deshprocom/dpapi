@@ -42,7 +42,7 @@ Rails.application.routes.draw do
     end
   end
 
-  if Rails.env.test?
+  unless Rails.env.production?
     namespace :factory do
       post '/data_clear', to: 'application#data_clear'
       resources :races, only:[:create]

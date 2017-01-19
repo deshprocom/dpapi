@@ -61,11 +61,11 @@ server '192.168.2.231',
   }
 
 set :deploy_to, '/home/deploy/deploy/dpapi_testing'
-set :rails_env, 'test'
+set :rails_env, 'development'
 set :bundle_without, %w{tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
-set :puma_env, fetch(:rails_env, 'test')
+set :puma_env, fetch(:rails_env, 'development')
 set :puma_threads, [0, 16]
 set :puma_workers, 0
