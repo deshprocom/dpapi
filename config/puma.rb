@@ -1,3 +1,4 @@
+# 使用capistrano部署就不需要使用这个文件了，使用的文件请看config/deploy/*.rb中的 set :puma_conf
 require 'dotenv'
 Dotenv.load
 
