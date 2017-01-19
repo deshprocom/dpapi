@@ -19,7 +19,7 @@ class Race < ApplicationRecord
   has_many :race_orders
 
   # 近期赛事
-  scope :recent_races, -> { where('begin_date > ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }
+  scope :recent_races, -> { where('end_date >= ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }
 
   # 排序
   scope :order_race_list, -> { order(begin_date: :asc).order(end_date: :asc).order(created_at: :asc) }
