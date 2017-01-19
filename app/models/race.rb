@@ -6,8 +6,8 @@
 # | logo       | varchar(256) | YES  |     | NULL    |                |
 # | prize      | int(11)      | NO   |     | 0       |                |
 # | address    | varchar(256) | YES  |     | NULL    |                |
-# | start_time | datetime     | YES  |     | NULL    |                |
-# | end_time   | datetime     | YES  |     | NULL    |                |
+# | begin_date | datetime     | YES  |     | NULL    |                |
+# | end_date   | datetime     | YES  |     | NULL    |                |
 # | status     | int(11)      | NO   |     | 0       |                |
 # | created_at | datetime     | NO   |     | NULL    |                |
 # | updated_at | datetime     | NO   |     | NULL    |                |
@@ -18,10 +18,10 @@ class Race < ApplicationRecord
   has_many :race_orders
 
   # 近期赛事
-  scope :recent_races, -> { where('end_time > ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }
+  scope :recent_races, -> { where('begin_date > ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }
 
   # 排序
-  scope :order_race_list, ->{ order(start_time: :asc).order(end_time: :asc).order(created_at: :asc) }
+  scope :order_race_list, -> { order(begin_date: :asc).order(end_date: :asc).order(created_at: :asc) }
 
   # 获取指定条数的近期赛事 (5条)
   def self.limit_recent_races(numbers = 5)

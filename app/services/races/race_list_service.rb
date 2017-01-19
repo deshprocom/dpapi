@@ -28,7 +28,7 @@ module Services
         return ApiResult.error_result(MISSING_PARAMETER) if search_params[:begin_date].blank?
         operator = operator_parse search_params[:operator]
         page_size = search_params[:page_size]
-        lists = Race.where("start_time #{operator} ?", search_params[:begin_date]).limit(page_size).order_race_list
+        lists = Race.where("begin_date #{operator} ?", search_params[:begin_date]).limit(page_size).order_race_list
         ApiResult.success_with_data(race: lists, user: User.by_uuid(user_uuid))
       end
 
