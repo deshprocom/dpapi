@@ -3,7 +3,7 @@ module DpAPI
   # rubocop:disable Metrics/LineLength: 130
   class ApiRequestCredential
     attr_accessor :client_ip, :app_key, :access_token, :user_agent
-
+    SKIP_PATH_REGEX = %r(^/*factory/)
     def initialize(app)
       @app = app
     end
@@ -15,7 +15,11 @@ module DpAPI
       self.access_token  = env['HTTP_X_DP_ACCESS_TOKEN']
       self.user_agent    = env['HTTP_USER_AGENT']
       Rails.logger.info "[ApiRequest] client_ip: #{client_ip}, app_key: #{app_key}, access_token: #{access_token}, user_agent: #{user_agent}"
-      verify_request(env)
+      if env['REQUEST_URI'].match SKIP_PATH_REGEX
+        @app.call(env)
+      else
+        verify_request(env)
+      end
     end
 
     private

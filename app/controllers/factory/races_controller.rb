@@ -13,7 +13,11 @@ module Factory
     end
 
     def init_followed_or_ordered_races
-      user = User.by_uuid(params[:uuid])
+      if params[:uuid]
+        user = User.by_uuid(params[:uuid])
+      else
+        user = FactoryGirl.create(:user, user_params.as_json)
+      end
       super(user)
     end
   end

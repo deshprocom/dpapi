@@ -11,8 +11,6 @@ module Factory
                     :user_name,
                     :nick_name,
                     :gender,
-                    :password_salt,
-                    :password,
                     :mobile,
                     :email,
                     :reg_date,
