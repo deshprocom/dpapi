@@ -3,11 +3,12 @@
 # +------------+--------------+------+-----+---------+----------------+
 # | id         | int(11)      | NO   | PRI | NULL    | auto_increment |
 # | name       | varchar(256) | YES  |     | NULL    |                |
+# | seq_id     | varchar(255) | NO   |     | 0       |                |
 # | logo       | varchar(256) | YES  |     | NULL    |                |
 # | prize      | int(11)      | NO   |     | 0       |                |
-# | address    | varchar(256) | YES  |     | NULL    |                |
-# | begin_date | datetime     | YES  |     | NULL    |                |
-# | end_date   | datetime     | YES  |     | NULL    |                |
+# | location   | varchar(256) | YES  |     | NULL    |                |
+# | begin_date | date         | YES  |     | NULL    |                |
+# | end_date   | date         | YES  |     | NULL    |                |
 # | status     | int(11)      | NO   |     | 0       |                |
 # | created_at | datetime     | NO   |     | NULL    |                |
 # | updated_at | datetime     | NO   |     | NULL    |                |
