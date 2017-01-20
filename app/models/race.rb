@@ -3,7 +3,7 @@
 # +------------+--------------+------+-----+---------+----------------+
 # | id         | int(11)      | NO   | PRI | NULL    | auto_increment |
 # | name       | varchar(256) | YES  |     | NULL    |                |
-# | seq_id     | varchar(255) | NO   |     | 0       |                |
+# | seq_id     | bigint(20)   | NO   |     | 0       |                |
 # | logo       | varchar(256) | YES  |     | NULL    |                |
 # | prize      | int(11)      | NO   |     | 0       |                |
 # | location   | varchar(256) | YES  |     | NULL    |                |
