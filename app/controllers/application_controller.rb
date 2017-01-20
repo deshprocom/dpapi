@@ -13,4 +13,10 @@ class ApplicationController < ActionController::API
   def render_api_success
     render 'common/error', locals: { api_result: ApiResult.success_result }
   end
+
+  public
+
+  rescue_from(ActiveRecord::RecordNotFound) do
+    render_api_error(Constants::Error::Common::NOT_FOUND)
+  end
 end
