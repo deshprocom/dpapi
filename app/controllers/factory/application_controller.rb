@@ -8,6 +8,7 @@ module Factory
       DatabaseCleaner.strategy = :truncation, { except: %w(affiliates affiliate_apps) }
       DatabaseCleaner.clean
       Rails.cache.clear
+      render_api_success
     end
   end
 end

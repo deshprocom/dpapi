@@ -44,9 +44,9 @@ Rails.application.routes.draw do
 
   unless Rails.env.production?
     namespace :factory do
-      post '/data_clear', to: 'application#data_clear'
-      resources :races, only:[:create]
-      resources :users, only:[:create]
+      get '/data_clear', to: 'application#data_clear'
+      resources :races, only:[:index]
+      resources :users, only:[:index]
     end
   end
 end
