@@ -43,6 +43,10 @@ module Constants
       CREATE_DIR_FAILED = 1200003
       UPLOAD_FAILED = 1200004
     end
+
+    module Race
+      RACE_NOT_FOUND = 1300001
+    end
   end
 
   ERROR_MESSAGES = {
@@ -75,6 +79,8 @@ module Constants
     Error::File::FORMAT_WRONG => '文件格式有误',
     Error::File::SIZE_TOO_LARGE => '文件大小超过限制',
     Error::File::CREATE_DIR_FAILED => '创建目录失败',
-    Error::File::UPLOAD_FAILED => '文件上传失败'
+    Error::File::UPLOAD_FAILED => '文件上传失败',
+
+    Error::Race::RACE_NOT_FOUND => '找不到指定的赛事'
   }.freeze
 end
