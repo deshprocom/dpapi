@@ -11,7 +11,7 @@ module V10
         end
         api_result = Services::Account::RaceListService.call(params[:u_id], search_params)
         template = 'v10/account/races/index'
-        render_api_result(api_result,template)
+        render_api_result(api_result, template)
       end
 
       # 获取赛事列表某一赛事详情
@@ -20,7 +20,7 @@ module V10
         race_id = params[:id]
         api_result = Services::Account::RaceDetailService.call(user_uuid, race_id)
         template = 'v10/account/races/show'
-        render_api_result(api_result,template)
+        render_api_result(api_result, template)
       end
 
       private
@@ -35,7 +35,7 @@ module V10
       def render_api_result(result, template)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        V10::Account::RenderResultHelper.render_race_result(self, template, result)
+        RenderResultHelper.render_race_result(self, template, result)
       end
     end
   end
