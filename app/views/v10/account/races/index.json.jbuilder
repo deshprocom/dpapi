@@ -7,7 +7,7 @@ json.data do
   json.items do
     json.array! race do |item|
       json.name          item[:name].to_s
-      json.seq_id        item[:seq_id].to_s
+      json.seq_id        item[:seq_id]
       json.logo          item[:logo].to_s
       json.prize         item[:prize]
       json.location      item[:location].to_s
