@@ -49,13 +49,24 @@
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-# server 'example.com',
-#   user: 'user_name',
-#   roles: %w{web app},
-#   ssh_options: {
-#     user: 'user_name', # overrides user setting above
-#     keys: %w(/home/user_name/.ssh/id_rsa),
-#     forward_agent: false,
-#     auth_methods: %w(publickey password)
-#     # password: 'please use keys'
-#   }
+server '106.75.136.9',
+       user: 'deploy',
+       roles: %w{app db cache},
+       ssh_options: {
+           user: 'deploy', # overrides user setting above
+           keys: %w(~/.ssh/id_rsa),
+           forward_agent: false,
+           port: 5022,
+           auth_methods: %w(publickey password)
+           # password: 'please use keys'
+       }
+
+set :rails_env, 'production'
+set :deploy_to, '/deploy/dpapi'
+set :bundle_without, '%w{test tools development}.join(' ')'
+
+# puma
+set :puma_conf, "#{shared_path}/puma.rb"
+set :puma_env, fetch(:rails_env, 'production')
+set :puma_threads, [0, 16]
+set :puma_workers, 0
