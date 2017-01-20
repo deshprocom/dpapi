@@ -16,7 +16,7 @@ module V10
         return render_api_error(UPLOAD_FAILED) unless @current_user.save
         # 上传成功 返回数据
         template = 'v10/account/users/base'
-        V10::Account::RenderResultHelper.render_user_result(self, template, @current_user)
+        RenderResultHelper.render_user_result(self, template, @current_user)
       end
 
       private
@@ -27,7 +27,7 @@ module V10
 
       def get_upload_file(target)
         return target if target
-        V10::Uploaders::UploadHelper.parse_file_format(env['rack.input'], env['CONTENT_TYPE'], @current_user.id)
+        UploadHelper.parse_file_format(env['rack.input'], env['CONTENT_TYPE'], @current_user.id)
       end
     end
   end

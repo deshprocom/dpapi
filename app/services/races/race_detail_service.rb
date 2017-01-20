@@ -12,9 +12,9 @@ module Services
 
       def call
         # 查询是否有这个赛事
-        return ApiResult.error_result(RACE_NOT_FOUND) unless Race.exists?(id: race_id)
-
-        # 存在赛事，查看是否有赛事详情
+        race = Race.by_race_id(race_id)
+        return ApiResult.error_result(RACE_NOT_FOUND) if race.blank?
+        ApiResult.success_with_data(race: race, user: User.by_uuid(user_uuid))
       end
     end
   end
