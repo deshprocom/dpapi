@@ -10,7 +10,8 @@ module V10
           return render_api_error(PARAM_FORMAT_ERROR)
         end
         api_result = Services::Account::RaceListService.call(params[:u_id], search_params)
-        render_api_result api_result
+        template = 'v10/account/races/index'
+        render_api_result(api_result,template)
       end
 
       # 获取赛事列表某一赛事详情
@@ -19,6 +20,7 @@ module V10
         race_id = params[:id]
         api_result = Services::Account::RaceDetailService.call(user_uuid, race_id)
         template = 'v10/account/races/show'
+        render_api_result(api_result,template)
       end
 
       private
@@ -30,10 +32,9 @@ module V10
                       :begin_date)
       end
 
-      def render_api_result(result)
+      def render_api_result(result, template)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        template = 'v10/account/races/index'
         V10::Account::RenderResultHelper.render_race_result(self, template, result)
       end
     end
