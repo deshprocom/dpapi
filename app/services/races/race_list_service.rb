@@ -32,7 +32,7 @@ module Services
       end
 
       def operator_parse(operator)
-        operator.eql?('up') ? '<=' : '>='
+        operator.eql?('up') ? '<' : '>'
       end
     end
   end
