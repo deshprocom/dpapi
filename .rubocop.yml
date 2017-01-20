@@ -3,9 +3,7 @@ AllCops:
   Exclude:
     - 'bin/*'
     - 'config/**/*'
-    - 'db/migrate/*'
-    - 'db/seeds.rb'
-    - 'db/schema.rb'
+    - 'db/**/*'
     - 'spec/**/*'
     - 'test/**/*'
     - 'vendor/bundle/**/*'
