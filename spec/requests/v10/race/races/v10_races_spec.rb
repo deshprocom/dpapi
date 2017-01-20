@@ -14,6 +14,18 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
   end
   let(:user) { FactoryGirl.create(:user) }
 
+  context '当不传参数进行访问时' do
+    it '应回参数有误' do
+      get v10_u_races_url(0),
+          headers: http_headers,
+          params: { }
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(1100004)
+    end
+  end
+
   context '给定不存在赛事列表，当获取赛事时' do
     it '应当返回空数组' do
       get v10_u_races_url(0),
