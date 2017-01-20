@@ -14,7 +14,12 @@ module V10
       end
 
       # 获取赛事列表某一赛事详情
-      def show; end
+      def show
+        user_uuid = params[:u_id]
+        race_id = params[:id]
+        api_result = Services::Account::RaceDetailService.call(user_uuid, race_id)
+        template = 'v10/account/races/show'
+      end
 
       private
 
