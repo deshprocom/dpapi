@@ -17,7 +17,6 @@ module Services
       private
 
       def search_by_seq_id
-        return ApiResult.error_result(MISSING_PARAMETER) if search_params[:seq_id].blank?
         operator = operator_parse search_params[:operator]
         page_size = search_params[:page_size]
         lists = Race.where("seq_id #{operator} ?", search_params[:seq_id]).limit(page_size).order_race_list
