@@ -12,5 +12,7 @@ json.data do
   json.begin_date   race[:begin_date]
   json.end_date     race[:end_date]
   json.status       race[:status]
-  json.description  race[:description]
+  json.description  race.race_desc.try(:description).to_s
+  json.followed     race.followed?(user.try(:id))
+  json.ordered      race.ordered?(user.try(:id))
 end

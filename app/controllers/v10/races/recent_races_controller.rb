@@ -14,7 +14,7 @@ module V10
         return render_api_error(result.code, result.msg) if result.failure?
 
         template = 'v10/account/races/index'
-        V10::Account::RenderResultHelper.render_race_result(self, template, result)
+        RenderResultHelper.render_race_result(self, template, result)
       end
 
       def race_params
