@@ -20,6 +20,7 @@ module Constants
       DATABASE_ERROR = 1100003
       PARAM_FORMAT_ERROR = 1100004
       DATE_FORMAT_ERROR = 1100005
+      NOT_FOUND = 1100006
     end
 
     module Sign
@@ -43,10 +44,6 @@ module Constants
       CREATE_DIR_FAILED = 1200003
       UPLOAD_FAILED = 1200004
     end
-
-    module Race
-      RACE_NOT_FOUND = 1300001
-    end
   end
 
   ERROR_MESSAGES = {
@@ -64,6 +61,7 @@ module Constants
     Error::Common::DATE_FORMAT_ERROR => '日期格式错误',
     Error::Common::UNSUPPORTED_TYPE => '不支持的数据类型',
     Error::Common::DATABASE_ERROR => '数据库错误',
+    Error::Common::NOT_FOUND => '找不到指定记录',
     Error::Sign::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
     Error::Sign::MOBILE_FORMAT_WRONG => '无效的手机号码',
     Error::Sign::MOBILE_ALREADY_USED => '手机号码已被使用',
@@ -79,8 +77,6 @@ module Constants
     Error::File::FORMAT_WRONG => '文件格式有误',
     Error::File::SIZE_TOO_LARGE => '文件大小超过限制',
     Error::File::CREATE_DIR_FAILED => '创建目录失败',
-    Error::File::UPLOAD_FAILED => '文件上传失败',
-
-    Error::Race::RACE_NOT_FOUND => '找不到指定的赛事'
+    Error::File::UPLOAD_FAILED => '文件上传失败'
   }.freeze
 end

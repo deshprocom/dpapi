@@ -36,9 +36,4 @@ class Race < ApplicationRecord
   def ordered?(user_id)
     race_orders.exists?(user_id: user_id)
   end
-
-  # 根据id查询某个赛事
-  def self.by_race_id(race_id)
-    fetch_by_uniq_keys(id: race_id)
-  end
 end
