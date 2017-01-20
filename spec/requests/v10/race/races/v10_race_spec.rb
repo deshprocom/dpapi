@@ -17,7 +17,7 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
 
   context '当访问不存在赛事详情时' do
     it '应当返回不存在相应的数据' do
-      get v10_u_race_url(0, race_desc.race_id),
+      get v10_u_race_url(0, 'nonexistent'),
           headers: http_headers
 
       expect(response).to have_http_status(200)
