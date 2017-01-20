@@ -16,9 +16,7 @@ module V10
 
       # 获取赛事列表某一赛事详情
       def show
-        user_uuid = params[:u_id]
-        race_id = params[:id]
-        api_result = Services::Account::RaceDetailService.call(user_uuid, race_id)
+        api_result = Services::Account::RaceDetailService.call(params[:u_id], params[:id])
         template = 'v10/account/races/show'
         render_api_result(api_result, template)
       end
