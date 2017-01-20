@@ -3,7 +3,7 @@ module DpAPI
   # rubocop:disable Metrics/LineLength: 130
   class ApiRequestCredential
     attr_accessor :client_ip, :app_key, :access_token, :user_agent
-    SKIP_PATH_REGEX = %r(^/*factory/)
+    SKIP_PATH_REGEX = %r{ ^/*factory/ }
     def initialize(app)
       @app = app
     end
