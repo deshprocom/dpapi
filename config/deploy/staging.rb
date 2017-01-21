@@ -63,7 +63,7 @@ server '106.75.136.9',
 
 set :rails_env, 'production'
 set :deploy_to, '/deploy/dpapi'
-set :bundle_without, '%w{test tools development}.join(' ')'
+set :bundle_without, %w{test tools development}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
