@@ -61,8 +61,9 @@ server '106.75.136.9',
            # password: 'please use keys'
        }
 
-set :rails_env, 'development'
 set :deploy_to, '/deploy/dpapi_testing'
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
+set :rails_env, 'development'
 set :bundle_without, %w{tools}.join(' ')
 
 # puma
