@@ -12,22 +12,11 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
   end
 
   context "验证手机验证码是否正确" do
-    context "手机号格式不正确" do
-      it "should return code 1100012" do
-        post v10_account_verify_vcode_url,
-            headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'mobile', mobile: '1371366227', vcode: '2278'}
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100012)
-      end
-    end
-
     context "验证码不正确" do
       it "should return code 1100018" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'mobile', mobile: '13713662278', vcode: '227'}
+             params: {option_type: 'register', vcode_type: 'mobile', account: '13713662278', vcode: '227'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100018)
@@ -38,7 +27,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 0" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'mobile', mobile: '13713662278', vcode: '2278'}
+             params: {option_type: 'register', vcode_type: 'mobile', account: '13713662278', vcode: '2278'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
@@ -47,22 +36,12 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
   end
 
   context "验证邮箱验证码是否正确" do
-    context "邮箱格式不正确" do
-      it "should return code 1100011" do
-        post v10_account_verify_vcode_url,
-             headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'email', email: 'ricky', vcode: 'abcd'}
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json["code"]).to eq(1100011)
-      end
-    end
-
+    let!(:v_code) {VCode.generate_email_vcode('register', 'ricky@deshpro.com')}
     context "验证码不正确" do
       it "should return code 1100018" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'email', email: 'ricky@deshpro.com', vcode: 'abc'}
+             params: {option_type: 'register', vcode_type: 'email', account: 'ricky@deshpro.com', vcode: '1234'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100018)
@@ -73,7 +52,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 0" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'email', email: 'ricky@deshpro.com', vcode: 'abcd'}
+             params: {option_type: 'register', vcode_type: 'email', account: 'ricky@deshpro.com', vcode: v_code}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
