@@ -114,7 +114,7 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
 
   end
 
-  context '给定存在第一条赛事已关注，第二条赛事已购票' do
+  context '给定存在第一条赛事已关注，第二条赛事已购票, 第三条为已关注，已购票' do
     it '那么应返回正确状态的赛事列表' do
       init_followed_or_ordered_races(user)
       get v10_u_recent_races_url(user.user_uuid),
@@ -128,6 +128,8 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
       expect(races[0]['ordered']).to   be_falsey
       expect(races[1]['followed']).to  be_falsey
       expect(races[1]['ordered']).to   be_truthy
+      expect(races[2]['followed']).to  be_truthy
+      expect(races[2]['ordered']).to   be_truthy
     end
   end
 end

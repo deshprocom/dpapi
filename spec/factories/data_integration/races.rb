@@ -19,8 +19,11 @@ module DataIntegration
                                        end_date: 3.days.since.strftime('%Y-%m-%d'),
                                        status: 1)
       second_race = FactoryGirl.create(:race)
+      third_race = FactoryGirl.create(:race)
       FactoryGirl.create(:race_follow, race_id: first_race.id, user_id: user.id)
       FactoryGirl.create(:race_order, race_id: second_race.id, user_id: user.id)
+      FactoryGirl.create(:race_order, race_id: third_race.id, user_id: user.id)
+      FactoryGirl.create(:race_follow, race_id: third_race.id, user_id: user.id)
     end
 
     def init_races
