@@ -2,7 +2,7 @@ module Factory
   class UsersController < ApplicationController
     def index
       user = FactoryGirl.create(:user, user_params.as_json)
-      template = 'v10/account/users/base'
+      template = 'v10/account/users/base.json'
       render template, locals: { api_result: ApiResult.success_result, user: user }
     end
 
