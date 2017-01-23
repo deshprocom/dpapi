@@ -60,8 +60,9 @@ server '192.168.2.231',
     # password: 'please use keys'
   }
 
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'
-set :bundle_without, '%w{test tools}.join(' ')'
+set :bundle_without, %w{test tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"

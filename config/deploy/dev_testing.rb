@@ -61,6 +61,7 @@ server '192.168.2.231',
   }
 
 set :deploy_to, '/home/deploy/deploy/dpapi_testing'
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'
 set :bundle_without, %w{tools}.join(' ')
 

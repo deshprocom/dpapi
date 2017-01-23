@@ -61,13 +61,13 @@ server '106.75.136.9',
            # password: 'please use keys'
        }
 
-set :deploy_to, '/deploy/dpapi'
+set :deploy_to, '/deploy/dpapi_testing'
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
-set :rails_env, 'production'
-set :bundle_without, %w{test tools development}.join(' ')
+set :rails_env, 'development'
+set :bundle_without, %w{tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
-set :puma_env, fetch(:rails_env, 'production')
+set :puma_env, fetch(:rails_env, 'development')
 set :puma_threads, [0, 16]
 set :puma_workers, 0
