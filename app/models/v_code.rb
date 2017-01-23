@@ -11,6 +11,12 @@ class VCode
       generate_vcode(type, email)
     end
 
+    def check_vcode(type, account, vcode)
+      vcode_key = vcode_cache_key(type, account)
+      cached_vcode = Rails.cache.read(vcode_key)
+      cached_vcode.present? && vcode.present? && cached_vcode.eql?(vcode.to_s)
+    end
+
     private
 
     def generate_vcode(type, account)

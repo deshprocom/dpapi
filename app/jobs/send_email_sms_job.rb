@@ -2,8 +2,9 @@
 class SendEmailSmsJob < ApplicationJob
   queue_as :default
 
-  def perform(sms_type, email, content)
+  def perform(sms_type, email, content, title)
     logger = Resque.logger
     logger.info "[SendEmailSmsJob] Send #{sms_type} SMS to #{email}: #{content}]"
+    UserMailer.welcome(email, content, title).deliver_now
   end
 end

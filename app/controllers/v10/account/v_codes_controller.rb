@@ -9,15 +9,11 @@ module V10
       def create
         return render_api_error(VCODE_TYPE_WRONG) unless user_params[:vcode_type].in?(VCODE_TYPES)
         return render_api_error(UNSUPPORTED_OPTION_TYPE) unless user_params[:option_type].in?(OPTION_TYPES)
-        send_vcode
+        api_result = Services::Account::VcodeServices.call(user_params)
+        render_api_error(api_result.code, api_result.msg)
       end
 
       private
-
-      def send_vcode
-        Services::Account::VcodeServices.call(user_params)
-        render_api_success
-      end
 
       def user_params
         params.permit(:option_type, :vcode_type, :mobile, :email)
