@@ -22,6 +22,18 @@ Rails.application.configure do
   config.consider_all_requests_local       = true
   config.action_controller.perform_caching = false
 
+  # Mailer
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+      address: ENV['MAILER_ADDRESS'],
+      port: ENV['MAILER_PORT'],
+      user_name: ENV['MAILER_USERNAME'],
+      password: ENV['MAILER_PASSWORD'],
+      authentication: 'plain',
+      enable_starttls_auto: true,
+      ssl: true
+  }
+
   # Raise exceptions instead of rendering exception templates.
   config.action_dispatch.show_exceptions = false
 
