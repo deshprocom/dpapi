@@ -29,5 +29,12 @@ module DataIntegration
     def init_races
       20.times { FactoryGirl.create(:race) }
     end
+
+    def followed_and_ordered_race(user)
+      race_desc = FactoryGirl.create(:race_desc)
+      FactoryGirl.create(:race_order, race_id: race_desc.race_id, user_id: user.id)
+      FactoryGirl.create(:race_follow, race_id: race_desc.race_id, user_id: user.id)
+      race_desc
+    end
   end
 end
