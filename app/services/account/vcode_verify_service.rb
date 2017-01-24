@@ -2,6 +2,7 @@ module Services
   module Account
     class VcodeVerifyService
       include Serviceable
+      include Constants::Error::Common
       include Constants::Error::Sign
       attr_accessor :type, :account, :vcode
 
@@ -12,6 +13,7 @@ module Services
       end
 
       def call
+        return ApiResult.error_result(MISSING_PARAMETER) if account.blank?
         # 这段为了暂时保持功能完整添加，后面需要移除
         unless UserValidator.email_valid?(account)
           # 判断验证码是否正确
