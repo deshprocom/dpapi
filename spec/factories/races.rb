@@ -1,9 +1,9 @@
 FactoryGirl.define do
   factory :race do
-    sequence(:name) { |n| "race_name#{n}" }
+    sequence(:name) { |n| "2017APT启航站第#{n}场" }
     sequence(:logo) { |n| "/logos/#{n}" }
     sequence(:prize) { |n| "100_000_#{n}" }
-    sequence(:location) { |n| "location_#{n}" }
+    sequence(:location) { |n| "澳门_#{n}" }
     sequence(:seq_id) { |n| n }
     sequence(:begin_date) { Random.rand(1..9).days.since.strftime('%Y-%m-%d') }
     sequence(:end_date)   { Random.rand(11..19).days.since.strftime('%Y-%m-%d') }

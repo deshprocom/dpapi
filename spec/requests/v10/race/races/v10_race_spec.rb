@@ -17,14 +17,14 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
 
   context '当访问不存在赛事详情时' do
     it '应当返回不存在相应的数据' do
-      get v10_u_race_url(0, 'nonexistent'),
-          headers: http_headers
+    get v10_u_race_url(0, 'nonexistent'),
+        headers: http_headers
 
-      expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
-      expect(json['code']).to eq(1100006)
-    end
+    expect(response).to have_http_status(200)
+    json = JSON.parse(response.body)
+    expect(json['code']).to eq(1100006)
   end
+end
 
   context '当访问赛事详情时' do
     it '应当返回相应的数据' do
@@ -50,4 +50,19 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
     end
   end
 
+  context '当用户已经购票和已关注时' do
+    it '应返回已购票，已关注的状态' do
+      race_desc = followed_and_ordered_race(user)
+      get v10_u_race_url(user.user_uuid, race_desc.race_id),
+          headers: http_headers
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+
+      race = json['data']
+      expect(race['followed']).to  be_truthy
+      expect(race['ordered']).to   be_truthy
+    end
+  end
 end
