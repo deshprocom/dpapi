@@ -14,6 +14,9 @@ module Services
 
       def call
         return ApiResult.error_result(MISSING_PARAMETER) if account.blank?
+        if User.by_email(account).nil? && User.by_mobile(account).nil?
+          return ApiResult.error_result(USER_NOT_FOUND)
+        end
         # 这段为了暂时保持功能完整添加，后面需要移除
         unless UserValidator.email_valid?(account)
           # 判断验证码是否正确
