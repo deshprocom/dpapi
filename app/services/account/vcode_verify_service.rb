@@ -12,6 +12,7 @@ module Services
         self.vcode = vcode
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         return ApiResult.error_result(MISSING_PARAMETER) if account.blank?
         if User.by_email(account).nil? && User.by_mobile(account).nil?
@@ -26,9 +27,7 @@ module Services
         end
 
         # 检查验证码是否正确
-        unless VCode.check_vcode(type, account, vcode)
-          return ApiResult.error_result(VCODE_NOT_MATCH)
-        end
+        return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode(type, account, vcode)
 
         # 验证码正确
         ApiResult.success_result
