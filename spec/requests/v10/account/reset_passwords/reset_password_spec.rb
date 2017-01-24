@@ -138,21 +138,23 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
     end
 
     context "用户不存在" do
+      let!(:v_code) {VCode.generate_email_vcode('reset_pwd', 'ricky@qq.com')}
       it "should return code 1100016" do
         post v10_account_reset_password_url,
              headers: http_headers,
-             params: { type: 'email', email: 'ricky@qq.com', vcode: 'abcd', password: 'cc03e747a6afbbcbf8be7668acfebee5' }
+             params: { type: 'email', email: 'ricky@qq.com', vcode: v_code, password: 'cc03e747a6afbbcbf8be7668acfebee5' }
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100016)
       end
     end
 
-    context "登录成功" do
+    context "重置密码成功" do
+      let!(:v_code) {VCode.generate_email_vcode('reset_pwd', 'ricky@deshpro.com')}
       it "should return code 0" do
         post v10_account_reset_password_url,
              headers: http_headers,
-             params: { type: 'email', email: 'ricky@deshpro.com', vcode: 'abcd', password: 'cc03e747a6afbbcbf8be7668acfebee5' }
+             params: { type: 'email', email: 'ricky@deshpro.com', vcode: v_code, password: 'cc03e747a6afbbcbf8be7668acfebee5' }
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
