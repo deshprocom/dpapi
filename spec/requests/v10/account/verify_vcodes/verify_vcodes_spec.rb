@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request do
+RSpec.describe "/v10/account/VerifyVcodesController", :type => :request do
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
     {
@@ -10,13 +10,14 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       HTTP_X_DP_APP_KEY: "467109f4b44be6398c17f6c058dfa7ee"
     }
   end
+  let!(:user) { FactoryGirl.create(:user) }
 
   context "验证手机验证码是否正确" do
     context "验证码不正确" do
       it "should return code 1100018" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'mobile', account: '13713662278', vcode: '227'}
+             params: {option_type: 'register', vcode_type: 'mobile', account: '18018001880', vcode: '227'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(1100018)
@@ -27,7 +28,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 0" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'mobile', account: '13713662278', vcode: '2278'}
+             params: {option_type: 'register', vcode_type: 'mobile', account: '18018001880', vcode: '1880'}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)

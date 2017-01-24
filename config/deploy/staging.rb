@@ -64,7 +64,7 @@ server '106.75.136.9',
 set :deploy_to, '/deploy/dpapi'
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
 set :rails_env, 'production'
-set :bundle_without, %w{test tools development}.join(' ')
+set :bundle_without, %w{tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
