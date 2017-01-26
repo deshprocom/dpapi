@@ -1,5 +1,25 @@
 module DataIntegration
   module Races
+    def ac_us001_001
+      FactoryGirl.create(:race_desc)
+    end
+
+    def ac_us003_001
+      FactoryGirl.create(:race, begin_date: 1.days.since.strftime('%Y-%m-%d'), status: 0)
+    end
+
+    def ac_us003_002
+      FactoryGirl.create(:race, begin_date: 2.days.since.strftime('%Y-%m-%d'), status: 1)
+    end
+
+    def ac_us003_003
+      FactoryGirl.create(:race, begin_date: 3.days.since.strftime('%Y-%m-%d'), status: 2)
+    end
+
+    def ac_us003_004
+      FactoryGirl.create(:race, begin_date: 4.days.since.strftime('%Y-%m-%d'), status: 3)
+    end
+
     def init_recent_races
       9.times { FactoryGirl.create(:race) }
       FactoryGirl.create(:race,

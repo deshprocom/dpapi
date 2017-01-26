@@ -50,6 +50,48 @@ end
     end
   end
 
+  context '当赛事状态为未开始或进行中或已结束或已关闭' do
+    it '返回的赛事状态应为 未开始' do
+      race_id = ac_us003_001.id
+      get v10_u_race_url(0, race_id),
+          headers: http_headers
+
+      json = JSON.parse(response.body)
+      race = json['data']
+      expect(race['status']).to  eq(0)
+    end
+
+    it '返回的赛事状态应为 进行中' do
+      race_id = ac_us003_002.id
+      get v10_u_race_url(0, race_id),
+          headers: http_headers
+
+      json = JSON.parse(response.body)
+      race = json['data']
+      expect(race['status']).to  eq(1)
+    end
+
+    it '返回的赛事状态应为 已结束' do
+      race_id = ac_us003_003.id
+      get v10_u_race_url(0, race_id),
+          headers: http_headers
+
+      json = JSON.parse(response.body)
+      race = json['data']
+      expect(race['status']).to  eq(2)
+    end
+
+    it '返回的赛事状态应为 已终止' do
+      race_id = ac_us003_004.id
+      get v10_u_race_url(0, race_id),
+          headers: http_headers
+
+      json = JSON.parse(response.body)
+      race = json['data']
+      expect(race['status']).to  eq(3)
+    end
+  end
+
   context '当用户已经购票和已关注时' do
     it '应返回已购票，已关注的状态' do
       race_desc = followed_and_ordered_race(user)
