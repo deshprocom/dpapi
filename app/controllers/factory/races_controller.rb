@@ -2,6 +2,7 @@ module Factory
   class RacesController < ApplicationController
     include DataIntegration::Races
     include Constants::Error::Common
+    before_action :data_clear, if: :clear?
 
     def index
       method = params[:method] || ''
