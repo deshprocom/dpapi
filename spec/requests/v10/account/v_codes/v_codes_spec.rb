@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request do
+RSpec.describe "/v10/Account/VCodesController (VCodesController)", :type => :request do
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
     {

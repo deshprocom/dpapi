@@ -12,7 +12,6 @@ module Services
         self.vcode = vcode
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         return ApiResult.error_result(MISSING_PARAMETER) if account.blank?
 

@@ -11,6 +11,7 @@ Rails.application.routes.draw do
       resource :reset_password, only: [:create]
       resource :v_codes, only: [:create]
       resource :verify_vcode, only: [:create]
+      resource :verify_user, only: [:create]
 
       resources :users, only: [] do
         resource :profile, only: [:show, :update]

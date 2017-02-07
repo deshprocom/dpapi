@@ -36,6 +36,7 @@ module Constants
       NICK_NAME_EXIST = 1100020
       UNSUPPORTED_RESET_TYPE = 1100021
       UNSUPPORTED_OPTION_TYPE = 1100022
+      USER_ALREADY_EXIST = 1100023
     end
 
     module File
@@ -68,6 +69,7 @@ module Constants
     Error::Sign::EMAIL_ALREADY_USED => '邮箱已被使用',
     Error::Sign::PASSWORD_FORMAT_WRONG => '密码格式不正确',
     Error::Sign::USER_NOT_FOUND => '用户不存在',
+    Error::Sign::USER_ALREADY_EXIST => '用户已存在',
     Error::Sign::PASSWORD_NOT_MATCH => '用户密码不匹配',
     Error::Sign::VCODE_NOT_MATCH => '验证码不匹配',
     Error::Sign::VCODE_TYPE_WRONG => '验证码类型不匹配',

@@ -20,7 +20,12 @@ module Services
         vcode_type = user_params[:vcode_type]
         account_id = user_params[:"#{vcode_type}"]
         return ApiResult.error_result(MISSING_PARAMETER) if account_id.blank?
-        send("send_#{user_params[:vcode_type]}_vcodes", user_params[:option_type], sms_template, account_id)
+        api_result = check_params(user_params[:option_type], account_id)
+        if api_result.failure?
+          api_result
+        else
+          send("send_#{user_params[:vcode_type]}_vcodes", user_params[:option_type], sms_template, account_id)
+        end
       end
 
       private
@@ -41,6 +46,24 @@ module Services
         Rails.logger.info "send [#{sms_content}] to #{account_id} in queue"
         sms_title = option_type.eql?('reset_pwd') ? RESET_PWD_TITLE : COMMON_SMS_TITLE
         SendEmailSmsJob.set(queue: 'send_email_sms').perform_later(option_type, account_id, sms_content, sms_title)
+        ApiResult.success_result
+      end
+
+      # rubocop:disable Metrics/CyclomaticComplexity
+      def check_params(option_type, account_id)
+        # 发送之前检验用户存在性
+        if option_type.eql?('register')
+          # 要求用户不存在
+          if User.by_email(account_id).present? || User.by_mobile(account_id).present?
+            return ApiResult.error_result(USER_ALREADY_EXIST)
+          end
+        end
+        unless option_type.eql?('register')
+          # 要求用户存在
+          if User.by_email(account_id).nil? && User.by_mobile(account_id).nil?
+            return ApiResult.error_result(USER_NOT_FOUND)
+          end
+        end
         ApiResult.success_result
       end
     end
