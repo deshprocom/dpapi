@@ -17,6 +17,11 @@ class VCode
       cached_vcode.present? && vcode.present? && cached_vcode.eql?(vcode.to_s)
     end
 
+    def remove_vcode(type, account)
+      vcode_key = vcode_cache_key(type, account)
+      Rails.cache.delete vcode_key
+    end
+
     private
 
     def generate_vcode(type, account)

@@ -9,7 +9,7 @@ module Services
       attr_accessor :email, :password
 
       def initialize(email, password)
-        self.email = email
+        self.email = email.downcase
         self.password = password
       end
 
