@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
-  include DataIntegration::Races
+  include AcFactory::Races
 
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
