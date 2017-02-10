@@ -38,7 +38,7 @@ module Services
         user.update(password: new_password, password_salt: salt)
 
         # 验证完就清除掉验证码
-        VCode.remove_vcode(type, account)
+        VCode.remove_vcode('reset_pwd', email)
         ApiResult.success_result
       end
     end
