@@ -27,9 +27,6 @@ module Services
         # 检查验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode('reset_pwd', email, vcode)
 
-        # 验证完就清除掉验证码
-        VCode.remove_vcode(type, account)
-
         # 查询用户
         user = User.by_email(email)
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
@@ -39,6 +36,9 @@ module Services
         new_password = ::Digest::MD5.hexdigest("#{password}#{salt}")
 
         user.update(password: new_password, password_salt: salt)
+
+        # 验证完就清除掉验证码
+        VCode.remove_vcode(type, account)
         ApiResult.success_result
       end
     end
