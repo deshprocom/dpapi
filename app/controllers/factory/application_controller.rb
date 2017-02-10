@@ -1,6 +1,7 @@
 module Factory
   class ApplicationController < ::ApplicationController
-    Dir[Rails.root.join('spec/factories/data_integration/*.rb')].each { |f| require f }
+    include Constants::Error::Common
+    before_action :data_clear, if: :clear?
 
     def data_clear
       return if Rails.env.production?
@@ -10,8 +11,18 @@ module Factory
       Rails.cache.clear
     end
 
+    def create
+      ac = params.delete(:ac) || ''
+      result = AcCreator.call(ac, params)
+      if result
+        render_api_success
+      else
+        render_api_error(MISSING_PARAMETER)
+      end
+    end
+
     def clear?
-      params[:clear] == 'true'
+      params.delete(:clear) == 'true'
     end
   end
 end

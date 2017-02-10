@@ -1,4 +1,4 @@
-module DataIntegration
+module AcFactory
   module Races
     def ac_us001_001
       FactoryGirl.create(:race_desc)
