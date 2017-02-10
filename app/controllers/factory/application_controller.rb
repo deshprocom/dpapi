@@ -11,6 +11,11 @@ module Factory
       Rails.cache.clear
     end
 
+    def clear
+      data_clear
+      render_api_success
+    end
+
     def create
       ac = params.delete(:ac) || ''
       result = AcCreator.call(ac, params)
