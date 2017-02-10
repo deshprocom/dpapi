@@ -13,11 +13,12 @@ module Factory
 
     def create
       ac = params.delete(:ac) || ''
-      unless ac.to_sym.in? AcCreator.singleton_methods
-        return render_api_error(MISSING_PARAMETER)
+      result = AcCreator.call(ac, params)
+      if result
+        render_api_success
+      else
+        render_api_error(MISSING_PARAMETER)
       end
-      AcCreator.send(ac, params)
-      render_api_success
     end
 
     def clear?
