@@ -1,9 +1,7 @@
 module AcFactory
-  class AcUs004 < AcBase
-
-    def ac_us004
+  class AcUs002 < AcBase
+    def ac_us002_01
       generate_user
     end
-
   end
 end

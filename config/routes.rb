@@ -43,7 +43,7 @@ Rails.application.routes.draw do
 
   unless Rails.env.production?
     namespace :factory do
-      get '/data_clear', to: 'application#data_clear'
+      get '/clear', to: 'application#clear'
       get '/:ac', to: 'application#create'
     end
   end
