@@ -26,9 +26,6 @@ module Services
         # 检查验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode(type, account, vcode)
 
-        # 验证码验证完 清除验证码
-        VCode.remove_vcode(type, account)
-
         # 验证码正确
         ApiResult.success_result
       end
