@@ -1,5 +1,5 @@
 module AcFactory
-  class AcUs018 < AcBase
+  class AcUs017 < AcBase
     def ac_us017_001
       ticket_params = params.permit(:status,
                                     :price,

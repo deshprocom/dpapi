@@ -1,5 +1,5 @@
 class AcCreator
-  Dir[Rails.root.join('spec/factories/ac_factory/*.rb')].each { |f| require f }
+  # Dir[Rails.root.join('spec/factories/ac_factory/*.rb')].each { |f| require f }
 
   def self.call(ac, params = {})
     ac.downcase!
