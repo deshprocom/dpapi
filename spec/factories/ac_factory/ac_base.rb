@@ -29,8 +29,23 @@ module AcFactory
                     :nick_name).as_json
     end
 
+    def permit_race_parms
+      params.permit(:status,
+                    :name,
+                    :prize,
+                    :location,
+                    :logo).as_json
+    end
+
     def generate_user
       FactoryGirl.create(:user, permit_user_parms)
+    end
+
+    def generate_race
+      race = FactoryGirl.create(:race, permit_race_parms)
+      FactoryGirl.create(:race_desc, race: race)
+      FactoryGirl.create(:race_ticket, race: race)
+      race
     end
   end
 end
