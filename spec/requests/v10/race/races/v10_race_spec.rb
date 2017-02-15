@@ -19,7 +19,6 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
     it '应当返回不存在相应的数据' do
     get v10_u_race_url(0, 'nonexistent'),
         headers: http_headers
-
     expect(response).to have_http_status(200)
     json = JSON.parse(response.body)
     expect(json['code']).to eq(1100006)
