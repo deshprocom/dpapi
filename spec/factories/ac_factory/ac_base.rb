@@ -43,6 +43,7 @@ module AcFactory
 
     def generate_race
       race = FactoryGirl.create(:race, permit_race_parms)
+      FactoryGirl.create(:race_desc, race: race)
       FactoryGirl.create(:race_ticket, race: race)
       race
     end
