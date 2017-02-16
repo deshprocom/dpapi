@@ -47,6 +47,10 @@ module Constants
       CEAR_NO_ALREADY_EXIST = 1100037
     end
 
+    module Address
+      NO_ADDRESS = 1100041
+    end
+
     module File
       FORMAT_WRONG = 1200001
       SIZE_TOO_LARGE = 1200002
