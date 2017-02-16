@@ -24,9 +24,6 @@ Rails.application.routes.draw do
         resources :races, only: [:index, :show]
         get 'recent_races', to: 'recent_races#index', as: :recent_races
       end
-    end
-
-    scope module: 'races' do
       resources :races, only: [] do
         resource :ticket_status, only: [:show]
         resource :new_order, only: [:show]
