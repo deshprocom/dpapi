@@ -31,6 +31,7 @@ module AcFactory
 
     def permit_race_parms
       params.permit(:status,
+                    :ticket_status,
                     :name,
                     :prize,
                     :location,
