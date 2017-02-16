@@ -11,7 +11,7 @@ FactoryGirl.define do
 以多组筹码晋级第2轮的选手只能留用较多一组的筹码
 
 #### 以下为赛程表：
-![enter description here](http://img.dzpk.com/allimg/140604/4454-140604112S4638.jpg)
+![enter description here](http://img.dzpk.com/allimg/140604/4454-140604112S4638.jpg?width=561&height=571)
 
  加 标的赛事均为双日赛，八强决战桌将在次日下午1点开始
 如果双日赛八强在首日晚十点前产生，比赛将转为单日赛
