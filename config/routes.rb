@@ -26,10 +26,12 @@ Rails.application.routes.draw do
       end
     end
 
-    resources :races, only: [] do
-      resource :ticket_status, only: [:show]
-      resource :new_order, only: [:show]
-      resource :order, only: [:create]
+    scope module: 'races' do
+      resources :races, only: [] do
+        resource :ticket_status, only: [:show]
+        resource :new_order, only: [:show]
+        resource :order, only: [:create]
+      end
     end
 
     scope module: 'events' do
