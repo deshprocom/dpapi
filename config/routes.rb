@@ -25,9 +25,9 @@ Rails.application.routes.draw do
         get 'recent_races', to: 'recent_races#index', as: :recent_races
       end
       resources :races, only: [] do
-        resource :ticket_status, only: [:show]
-        resource :new_order, only: [:show]
-        resource :order, only: [:create]
+        get 'ticket_status', to: 'ticket_status#show', as: :ticket_status
+        get 'new_order', to: 'new_order#show', as: :new_order
+        post 'order', to: 'order#create', as: :order
       end
     end
 
