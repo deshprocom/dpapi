@@ -40,6 +40,11 @@ module Constants
     end
 
     module Race
+      NO_CERTIFICATION = 1100033
+      ALREADY_CERTIFICATION = 1100034
+      CERT_NO_FORMAT_WRONG = 1100035
+      REAL_NAME_FORMAT_WRONG = 1100036
+      CEAR_NO_ALREADY_EXIST = 1100037
     end
 
     module File

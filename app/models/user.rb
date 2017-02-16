@@ -34,6 +34,7 @@ class User < ApplicationRecord
   # 关联关系
   has_many :race_follows
   has_many :race_orders
+  has_one  :user_extra
 
   # 刷新访问时间
   def touch_visit!
