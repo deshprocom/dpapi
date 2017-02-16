@@ -26,8 +26,8 @@ Rails.application.routes.draw do
       end
       resources :races, only: [] do
         get 'ticket_status', to: 'ticket_status#show', as: :ticket_status
-        get 'new_order', to: 'new_order#show', as: :new_order
-        post 'order', to: 'order#create', as: :order
+        get 'new_order', to: 'orders#new_order', as: :new_order
+        resource :orders, only: [:create]
       end
     end
 

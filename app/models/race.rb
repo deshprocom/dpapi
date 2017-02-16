@@ -15,6 +15,7 @@
 # +------------+--------------+------+-----+---------+----------------+
 class Race < ApplicationRecord
   has_one :race_desc
+  has_one :ticket_info
   has_many :race_follows
   has_many :race_orders
 
