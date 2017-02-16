@@ -12,5 +12,4 @@
 
 class RaceTicket < ApplicationRecord
   belongs_to :race
-
 end
