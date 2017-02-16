@@ -14,6 +14,8 @@ Rails.application.routes.draw do
       resources :users, only: [] do
         resource :profile, only: [:show, :update]
         resource :change_password, only: [:create]
+        resources :address
+        resources :certification, only: [:index, :create]
       end
     end
 
@@ -22,6 +24,12 @@ Rails.application.routes.draw do
         resources :races, only: [:index, :show]
         get 'recent_races', to: 'recent_races#index', as: :recent_races
       end
+    end
+
+    resources :races, only: [] do
+      resource :ticket_status, only: [:show]
+      resource :new_order, only: [:show]
+      resource :order, only: [:create]
     end
 
     scope module: 'events' do
