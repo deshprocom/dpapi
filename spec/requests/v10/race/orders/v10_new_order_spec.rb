@@ -18,9 +18,8 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
   end
 
   context '获取购票界面所需的数据' do
-    context '当用户有相应的address时' do
-      it '应当返回相应的数据中应有address信息' do
-        shipping_address
+    context '当用户没有address时' do
+      it 'address应为空' do
         get v10_race_new_order_url(race_info.race_id),
             headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
 
@@ -42,6 +41,18 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
         expect(ticket_info.key? 'e_ticket_sold_number').to       be_truthy
         expect(ticket_info.key? 'entity_ticket_sold_number').to  be_truthy
 
+        expect(json['data']['shipping_address']).to  be_falsey
+      end
+    end
+
+    context '当用户有相应的address时' do
+      it '应当返回相应的数据中应有address信息' do
+        shipping_address
+        get v10_race_new_order_url(race_info.race_id),
+            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
+
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
         shipping_address = json['data']['shipping_address']
         expect(shipping_address.key? 'consignee').to      be_truthy
         expect(shipping_address.key? 'mobile').to         be_truthy

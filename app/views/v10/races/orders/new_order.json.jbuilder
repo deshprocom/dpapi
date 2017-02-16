@@ -18,6 +18,7 @@ json.data do
   end
 
   json.shipping_address do
-    json.partial! 'shipping_address', shipping_address: @user.shipping_addresses.first
+    shipping_address = @user.shipping_addresses.first
+    json.partial! 'shipping_address', shipping_address: shipping_address if shipping_address
   end
 end
