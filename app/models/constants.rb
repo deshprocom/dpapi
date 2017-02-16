@@ -39,6 +39,9 @@ module Constants
       USER_ALREADY_EXIST = 1100023
     end
 
+    module Race
+    end
+
     module File
       FORMAT_WRONG = 1200001
       SIZE_TOO_LARGE = 1200002
