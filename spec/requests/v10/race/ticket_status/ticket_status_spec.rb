@@ -48,12 +48,12 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
     end
 
     context "售票结束" do
-      it '应当返回code 1100033' do
+      it '应当返回code 1100038' do
         get v10_race_ticket_status_url(race3.id),
             headers: http_headers
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
-        expect(json['code']).to eq(1100033)
+        expect(json['code']).to eq(1100038)
       end
     end
 

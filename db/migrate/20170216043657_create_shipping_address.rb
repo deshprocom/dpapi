@@ -8,6 +8,7 @@ class CreateShippingAddress < ActiveRecord::Migration[5.0]
       t.string :address_detail, comment: '详细地址'
       t.string :post_code, limit: 50, comment: '邮政编码'
       t.boolean :default, default: 0, comment: '是否为默认地址'
+      t.timestamps
     end
   end
 end

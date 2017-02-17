@@ -11,6 +11,7 @@ class CreateTicket < ActiveRecord::Migration[5.0]
                default: 'unpaid',
                comment: '票的状态 unpaid-未付款, paid-已付款, canceled-取消'
       t.string :memo, comment: '备忘'
+      t.timestamps
     end
   end
 end

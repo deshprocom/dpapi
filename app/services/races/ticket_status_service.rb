@@ -18,7 +18,7 @@ module Services
         when 'end'
           return ApiResult.error_result(TICKET_END)
         when 'sold_out'
-          return ApiResult.error_result(NO_TICKET)
+          return ApiResult.error_result(TICKET_SOLD_OUT)
         when 'selling'
           ApiResult.success_result
         else
