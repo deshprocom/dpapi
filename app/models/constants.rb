@@ -42,16 +42,19 @@ module Constants
     module Race
       NO_TICKET = 1100031
       TICKET_UNSOLD = 1100032
-      NO_CERTIFICATION = 1100033
-      ALREADY_CERTIFICATION = 1100034
-      CERT_NO_FORMAT_WRONG = 1100035
-      REAL_NAME_FORMAT_WRONG = 1100036
-      CEAR_NO_ALREADY_EXIST = 1100037
-      TICKET_END= 1100038
+      TICKET_END= 1100033
     end
 
     module Address
       NO_ADDRESS = 1100041
+    end
+
+    module Account
+      NO_CERTIFICATION = 1100051
+      ALREADY_CERTIFICATION = 1100052
+      CERT_NO_FORMAT_WRONG = 1100053
+      REAL_NAME_FORMAT_WRONG = 1100054
+      CERT_NO_ALREADY_EXIST = 1100055
     end
 
     module File
@@ -98,6 +101,11 @@ module Constants
 
     Error::Race::NO_TICKET => '票已卖完',
     Error::Race::TICKET_END => '售票已结束',
-    Error::Race::TICKET_UNSOLD => '售票还没开始'
+    Error::Race::TICKET_UNSOLD => '售票还没开始',
+
+    Error::Account::NO_CERTIFICATION => '用户未实名',
+    Error::Account::REAL_NAME_FORMAT_WRONG => '真实姓名格式错误',
+    Error::Account::CERT_NO_FORMAT_WRONG => '身份证格式错误',
+    Error::Account::CERT_NO_ALREADY_EXIST => '该用户已实名',
   }.freeze
 end
