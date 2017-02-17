@@ -7,6 +7,7 @@ class CreateTicketInfo < ActiveRecord::Migration[5.0]
       t.integer :entity_ticket_number, default:0, comment: '总实体票数'
       t.integer :e_ticket_sold_number, default:0, comment: '已售电子票数'
       t.integer :entity_ticket_sold_number, default:0, comment: '已售实体票数'
+      t.timestamps
     end
   end
 end

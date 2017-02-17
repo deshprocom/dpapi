@@ -40,14 +40,16 @@ module Constants
     end
 
     module Race
-      NO_TICKET = 1100031
+      TICKET_SOLD_OUT = 1100031
       TICKET_UNSOLD = 1100032
       NO_CERTIFICATION = 1100033
       ALREADY_CERTIFICATION = 1100034
       CERT_NO_FORMAT_WRONG = 1100035
       REAL_NAME_FORMAT_WRONG = 1100036
       CEAR_NO_ALREADY_EXIST = 1100037
-      TICKET_END= 1100038
+      AGAIN_BUY = 1100039
+      E_TICKET_SOLD_OUT = 1100040
+      TICKET_END = 1100038
     end
 
     module Address
@@ -75,7 +77,7 @@ module Constants
     Error::Common::MISSING_PARAMETER => '缺少参数',
     Error::Common::PARAM_FORMAT_ERROR => '参数格式错误',
     Error::Common::DATE_FORMAT_ERROR => '日期格式错误',
-    Error::Common::UNSUPPORTED_TYPE => '不支持的数据类型',
+    Error::Common::UNSUPPORTED_TYPE => '不支持的类型',
     Error::Common::DATABASE_ERROR => '数据库错误',
     Error::Common::NOT_FOUND => '找不到指定记录',
     Error::Sign::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
@@ -96,8 +98,10 @@ module Constants
     Error::File::CREATE_DIR_FAILED => '创建目录失败',
     Error::File::UPLOAD_FAILED => '文件上传失败',
 
-    Error::Race::NO_TICKET => '票已卖完',
+    Error::Race::TICKET_SOLD_OUT => '票已卖完',
     Error::Race::TICKET_END => '售票已结束',
-    Error::Race::TICKET_UNSOLD => '售票还没开始'
+    Error::Race::TICKET_UNSOLD => '售票还没开始',
+    Error::Race::AGAIN_BUY => '您已购买过该票，不允许再次购买',
+    Error::Race::E_TICKET_SOLD_OUT => '电子票已售完'
   }.freeze
 end

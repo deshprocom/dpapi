@@ -32,3 +32,6 @@ Documentation:
 
 NumericLiterals:
   MinDigits: 11
+
+Style/TrailingBlankLines:
+  Enabled: false

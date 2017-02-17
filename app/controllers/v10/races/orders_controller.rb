@@ -11,6 +11,13 @@ module V10
         render 'new_order'
       end
 
+      def create
+        result = Services::Races::OrderGenerator.call(@race, @current_user, params)
+        return render_api_error(result.code, result.msg) if result.failure?
+
+        render_api_success
+      end
+
       private
 
       def set_race
