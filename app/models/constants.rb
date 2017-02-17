@@ -45,6 +45,9 @@ module Constants
       CERT_NO_FORMAT_WRONG = 1100035
       REAL_NAME_FORMAT_WRONG = 1100036
       CEAR_NO_ALREADY_EXIST = 1100037
+      NOT_SELLING = 1100038
+      AGAIN_BUY = 1100039
+      E_TICKET_SOLD_OUT = 1100040
     end
 
     module File
@@ -68,7 +71,7 @@ module Constants
     Error::Common::MISSING_PARAMETER => '缺少参数',
     Error::Common::PARAM_FORMAT_ERROR => '参数格式错误',
     Error::Common::DATE_FORMAT_ERROR => '日期格式错误',
-    Error::Common::UNSUPPORTED_TYPE => '不支持的数据类型',
+    Error::Common::UNSUPPORTED_TYPE => '不支持的类型',
     Error::Common::DATABASE_ERROR => '数据库错误',
     Error::Common::NOT_FOUND => '找不到指定记录',
     Error::Sign::EMAIL_FORMAT_WRONG => '无效的邮箱格式',
@@ -83,6 +86,10 @@ module Constants
     Error::Sign::VCODE_TYPE_WRONG => '验证码类型不匹配',
     Error::Sign::UNSUPPORTED_RESET_TYPE => '不支持的重置类型 ',
     Error::Sign::UNSUPPORTED_OPTION_TYPE => '不支持的操作类型 ',
+
+    Error::Race::NOT_SELLING => '不在售票期间',
+    Error::Race::AGAIN_BUY => '您已购买过该票，不允许再次购买',
+    Error::Race::E_TICKET_SOLD_OUT => '电子票已售完',
 
     Error::File::FORMAT_WRONG => '文件格式有误',
     Error::File::SIZE_TOO_LARGE => '文件大小超过限制',

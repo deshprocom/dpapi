@@ -8,6 +8,7 @@ class CreateUserExtra < ActiveRecord::Migration[5.0]
                comment: '证件类型  chinese_id-中国身份证'
       t.string :cert_no, comment: '证件号码'
       t.string :memo, comment: '备忘'
+      t.timestamps
     end
   end
 end
