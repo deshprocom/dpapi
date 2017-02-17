@@ -11,6 +11,9 @@ module Services
         self.user_params = user_params
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity
+      # rubocop:disable Metrics/PerceivedComplexity
+      # rubocop:disable Metrics/MethodLength
       def call
         # 参数检查
         if user_params.blank? || user_params[:real_name].blank? || user_params[:cert_no].blank?
@@ -18,7 +21,9 @@ module Services
         end
 
         # 姓名检查
-        return ApiResult.error_result(REAL_NAME_FORMAT_WRONG) unless user_params[:real_name] =~ /^[A-z]+$|^[\u4E00-\u9FA5]+$/
+        unless user_params[:real_name] =~ /^[A-z]+$|^[\u4E00-\u9FA5]+$/
+          return ApiResult.error_result(REAL_NAME_FORMAT_WRONG)
+        end
 
         # 身份证格式校验
         unless user_params[:cert_no] =~ /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/
