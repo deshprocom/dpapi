@@ -40,14 +40,20 @@ module Constants
     end
 
     module Race
+      TICKET_SOLD_OUT = 1100031
+      TICKET_UNSOLD = 1100032
       NO_CERTIFICATION = 1100033
       ALREADY_CERTIFICATION = 1100034
       CERT_NO_FORMAT_WRONG = 1100035
       REAL_NAME_FORMAT_WRONG = 1100036
       CEAR_NO_ALREADY_EXIST = 1100037
-      NOT_SELLING = 1100038
       AGAIN_BUY = 1100039
       E_TICKET_SOLD_OUT = 1100040
+      TICKET_END = 1100038
+    end
+
+    module Address
+      NO_ADDRESS = 1100041
     end
 
     module File
@@ -87,13 +93,15 @@ module Constants
     Error::Sign::UNSUPPORTED_RESET_TYPE => '不支持的重置类型 ',
     Error::Sign::UNSUPPORTED_OPTION_TYPE => '不支持的操作类型 ',
 
-    Error::Race::NOT_SELLING => '不在售票期间',
-    Error::Race::AGAIN_BUY => '您已购买过该票，不允许再次购买',
-    Error::Race::E_TICKET_SOLD_OUT => '电子票已售完',
-
     Error::File::FORMAT_WRONG => '文件格式有误',
     Error::File::SIZE_TOO_LARGE => '文件大小超过限制',
     Error::File::CREATE_DIR_FAILED => '创建目录失败',
-    Error::File::UPLOAD_FAILED => '文件上传失败'
+    Error::File::UPLOAD_FAILED => '文件上传失败',
+
+    Error::Race::TICKET_SOLD_OUT => '票已卖完',
+    Error::Race::TICKET_END => '售票已结束',
+    Error::Race::TICKET_UNSOLD => '售票还没开始',
+    Error::Race::AGAIN_BUY => '您已购买过该票，不允许再次购买',
+    Error::Race::E_TICKET_SOLD_OUT => '电子票已售完'
   }.freeze
 end

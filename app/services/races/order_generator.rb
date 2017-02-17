@@ -6,6 +6,11 @@ module Services
       include Constants::Error::Race
 
       TICKET_TYPES = %w(e_ticket entity_ticket).freeze
+      TICKET_STATUS_ERRORS = {
+        unsold: TICKET_UNSOLD,
+        end: TICKET_END,
+        sold_out: TICKET_SOLD_OUT
+      }.freeze
       attr_accessor :race, :user, :params
       def initialize(race, user, params)
         self.race   = race
@@ -19,7 +24,7 @@ module Services
         end
 
         unless race.ticket_status == 'selling'
-          return ApiResult.error_result(NOT_SELLING)
+          return ApiResult.error_result(TICKET_STATUS_ERRORS[race.ticket_status.to_sym])
         end
 
         if Ticket.again_buy?(user.id, race.id)
