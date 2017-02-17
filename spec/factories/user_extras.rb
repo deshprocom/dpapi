@@ -5,5 +5,6 @@ FactoryGirl.define do
     cert_type         'chinese_id'
     cert_no           '611002199301146811'
     memo              '身份证'
+    status            'pending'
   end
 end

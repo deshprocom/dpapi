@@ -13,5 +13,9 @@ module V10
     def self.render_race_result(target, view, result)
       target.render view, locals: { api_result: result, race: result.data[:race], user: result.data[:user] }
     end
+
+    def self.render_certification_result(target, view, result)
+      target.render view, locals: { api_result: result, user_extra: result.data[:user_extra] }
+    end
   end
 end
