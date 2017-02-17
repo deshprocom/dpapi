@@ -40,11 +40,14 @@ module Constants
     end
 
     module Race
+      NO_TICKET = 1100031
+      TICKET_UNSOLD = 1100032
       NO_CERTIFICATION = 1100033
       ALREADY_CERTIFICATION = 1100034
       CERT_NO_FORMAT_WRONG = 1100035
       REAL_NAME_FORMAT_WRONG = 1100036
       CEAR_NO_ALREADY_EXIST = 1100037
+      TICKET_END= 1100038
     end
 
     module Address
@@ -91,6 +94,10 @@ module Constants
     Error::File::FORMAT_WRONG => '文件格式有误',
     Error::File::SIZE_TOO_LARGE => '文件大小超过限制',
     Error::File::CREATE_DIR_FAILED => '创建目录失败',
-    Error::File::UPLOAD_FAILED => '文件上传失败'
+    Error::File::UPLOAD_FAILED => '文件上传失败',
+
+    Error::Race::NO_TICKET => '票已卖完',
+    Error::Race::TICKET_END => '售票已结束',
+    Error::Race::TICKET_UNSOLD => '售票还没开始'
   }.freeze
 end
