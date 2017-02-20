@@ -34,6 +34,10 @@ class User < ApplicationRecord
   # 关联关系
   has_many :race_follows
   has_many :race_orders
+  has_one  :user_extra
+  has_many :shipping_addresses, -> { order(default: :desc) }
+  has_many :tickets
+  has_many :orders, class_name: PurchaseOrder
 
   # 刷新访问时间
   def touch_visit!

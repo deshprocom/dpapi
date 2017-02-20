@@ -60,6 +60,8 @@ server '192.168.2.231',
     # password: 'please use keys'
   }
 
+role :resque_worker, %w{192.168.2.231}
+
 set :deploy_to, '/home/deploy/deploy/dpapi_testing'
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'

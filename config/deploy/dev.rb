@@ -50,15 +50,18 @@
 # The server-based syntax can be used to override options:
 # ------------------------------------
 server '192.168.2.231',
-  user: 'deploy',
-  roles: %w{app db cache},
-  ssh_options: {
-    user: 'deploy', # overrides user setting above
-    keys: %w(~/.ssh/id_rsa),
-    forward_agent: false,
-    auth_methods: %w(publickey password)
-    # password: 'please use keys'
-  }
+       user: 'deploy',
+       roles: %w{app db cache},
+       ssh_options: {
+         user: 'deploy', # overrides user setting above
+         keys: %w(~/.ssh/id_rsa),
+         forward_agent: false,
+         auth_methods: %w(publickey password)
+         # password: 'please use keys'
+       }
+
+role :resque_worker, %w{192.168.2.231}
+set :workers, {send_email_sms: 1, send_mobile_sms: 1}
 
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'
