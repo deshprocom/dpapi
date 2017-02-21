@@ -1,4 +1,4 @@
-class ExtendTicketInfoToRace < ActiveRecord::Migration[5.0]
+class  ExtendIdToTicket < ActiveRecord::Migration[5.0]
   def change
     add_column :tickets, :cert_type, :string,
                limit: 50,
