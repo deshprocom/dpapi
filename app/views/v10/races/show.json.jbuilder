@@ -4,6 +4,7 @@ json.partial! 'common/meta'
 json.partial! 'common/api_result', api_result: api_result
 # data
 json.data do
+  json.race_id       race.id
   json.name          race.name.to_s
   json.seq_id        race.seq_id
   json.logo          race.logo.to_s
