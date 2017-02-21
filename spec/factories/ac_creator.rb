@@ -2,6 +2,7 @@ class AcCreator
   # Dir[Rails.root.join('spec/factories/ac_factory/*.rb')].each { |f| require f }
   COMMON_AC_MAPPING = {
     ac_us017: 'generate_race',
+    ac_us019: 'generate_race',
     ac_us029: 'generate_race',
   }
 
