@@ -11,4 +11,5 @@
 
 # 用户认证信息表
 class UserExtra < ApplicationRecord
+  belongs_to :user
 end

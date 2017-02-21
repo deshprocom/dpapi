@@ -4,6 +4,7 @@ module Services
       include Serviceable
       include Constants::Error::Common
       include Constants::Error::Race
+      include Constants::Error::Account
 
       TICKET_TYPES = %w(e_ticket entity_ticket).freeze
       TICKET_STATUS_ERRORS = {
@@ -26,6 +27,8 @@ module Services
         unless race.ticket_status == 'selling'
           return ApiResult.error_result(TICKET_STATUS_ERRORS[race.ticket_status.to_sym])
         end
+
+        return ApiResult.error_result(NO_CERTIFICATION) unless user.user_extra
 
         if Ticket.again_buy?(user.id, race.id)
           return ApiResult.error_result(AGAIN_BUY)
@@ -58,6 +61,8 @@ module Services
       def ticket_params
         {
           user_id:         user.id,
+          cert_type:       user.user_extra.cert_type,
+          cert_no:         user.user_extra.cert_no,
           ticket_infos_id: race.ticket_info.id,
           race_id:         race.id,
           ticket_type:     params[:ticket_type],

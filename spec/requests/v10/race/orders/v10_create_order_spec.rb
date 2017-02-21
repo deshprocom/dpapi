@@ -13,6 +13,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   let!(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
   let!(:race_info) { FactoryGirl.create(:ticket_info, race: race) }
   let!(:user) { FactoryGirl.create(:user) }
+  let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:shipping_address) { FactoryGirl.create(:shipping_address, user: user) }
   let(:access_token) do
     AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
@@ -89,6 +90,17 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(1100039)
+    end
+
+    it '用户没有实名信息' do
+      user.user_extra.destroy
+      post v10_race_orders_url(race.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(1100051)
     end
 
     it '售票状态不为selling' do
