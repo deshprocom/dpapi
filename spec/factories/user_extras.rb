@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :user_extra do
-    user_id           'user_001'
+    association       :user
     real_name         '王石'
     cert_type         'chinese_id'
     cert_no           '611002199301146811'
