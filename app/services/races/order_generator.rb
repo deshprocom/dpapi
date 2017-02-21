@@ -28,9 +28,7 @@ module Services
           return ApiResult.error_result(TICKET_STATUS_ERRORS[race.ticket_status.to_sym])
         end
 
-        unless user.user_extra
-          return ApiResult.error_result(NO_CERTIFICATION)
-        end
+        return ApiResult.error_result(NO_CERTIFICATION) unless user.user_extra
 
         if Ticket.again_buy?(user.id, race.id)
           return ApiResult.error_result(AGAIN_BUY)
