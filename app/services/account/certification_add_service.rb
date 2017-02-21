@@ -34,7 +34,10 @@ module Services
         extra_info = user.user_extra
         if extra_info.blank?
           user.create_user_extra!(user_params.merge(status: 'pending'))
-          return ApiResult.success_result
+          data = {
+            user_extra: user.user_extra
+          }
+          return ApiResult.success_with_data(data)
         end
 
         if extra_info.cert_no.eql?(user_params[:cert_no]) && extra_info.status.eql?('passed')
@@ -42,7 +45,11 @@ module Services
         end
 
         user.user_extra.update!(user_params.merge(status: 'pending'))
-        ApiResult.success_result
+
+        data = {
+          user_extra: user.user_extra
+        }
+        ApiResult.success_with_data(data)
       end
     end
   end
