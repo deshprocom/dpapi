@@ -10,6 +10,7 @@ json.data do
     json.location     @race.location.to_s
     json.begin_date   @race.begin_date
     json.end_date     @race.end_date
+    json.logo         @race.logo.to_s
     json.ticket_price @race.ticket_price
   end
 

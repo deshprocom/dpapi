@@ -17,5 +17,9 @@ module V10
     def self.render_certification_result(target, view, result)
       target.render view, locals: { api_result: result, user_extra: result.data[:user_extra] }
     end
+
+    def self.render_card_image_result(target, view, user_extra)
+      target.render view, locals: { api_result: ApiResult.success_result, user_extra: user_extra }
+    end
   end
 end

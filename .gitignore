@@ -36,6 +36,7 @@
 
 /public/faces
 /public/uploads
+/public/card_image
 /public/.DS_Store
 #ignore macfile
 /.DS_Store
