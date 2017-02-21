@@ -50,6 +50,7 @@ group :development, :test do
   gem 'capistrano', '~> 3.6'
   gem 'capistrano-rails', '~> 1.2'
   gem 'capistrano3-puma'
+  gem 'capistrano-resque', require: false
 end
 
 group :development do

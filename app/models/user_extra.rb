@@ -15,6 +15,7 @@
 # +------------+--------------+------+-----+------------+----------------+
 # 用户认证信息表
 class UserExtra < ApplicationRecord
+  belongs_to :user
   mount_uploader :image, CardImageUploader
 
   attr_accessor :image_path
@@ -24,7 +25,7 @@ class UserExtra < ApplicationRecord
 
     if image.file.present? &&
        image.file.respond_to?(:path) &&
-       File.exist?(image.file.path)
+    File.exist?(image.file.path)
       self.image_md5 = Digest::MD5.file(image.file.path).hexdigest
     end
   end
