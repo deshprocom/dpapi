@@ -27,9 +27,10 @@ module V10
                       :memo)
       end
 
-      def render_api_result(result)
-        return render_api_error(result.code, result.msg) if result.failure?
-        render_api_success
+      def render_api_result(api_result)
+        return render_api_error(api_result.code, api_result.msg) if api_result.failure?
+        template = 'v10/account/users/extra'
+        RenderResultHelper.render_certification_result(self, template, api_result)
       end
     end
   end

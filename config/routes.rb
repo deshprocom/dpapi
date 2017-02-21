@@ -45,6 +45,7 @@ Rails.application.routes.draw do
 
     namespace :uploaders do
       resources :avatar, only:[:create]
+      resources :card_image, only:[:create]
     end
   end
 
