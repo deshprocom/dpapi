@@ -8,6 +8,8 @@ module V10
 
       def new_order
         @user = @current_user
+        return render_api_error(NOT_FOUND) unless @race.ticket_info
+
         render 'new_order'
       end
 

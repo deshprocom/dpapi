@@ -10,13 +10,24 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
         HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
     }
   end
-  let!(:race_info) { FactoryGirl.create(:ticket_info) }
+  let(:race_info) { FactoryGirl.create(:ticket_info, race: race) }
+  let(:race) { FactoryGirl.create(:race) }
   let!(:user) { FactoryGirl.create(:user) }
   let(:shipping_address) { FactoryGirl.create(:shipping_address, user: user) }
   let(:access_token) do
     AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
   end
 
+  context '当ticket_info不存在时' do
+    it '应返回找不到相应的数据' do
+      get v10_race_new_order_url(race.id),
+          headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(1100006)
+    end
+  end
   context '获取购票界面所需的数据' do
     context '当用户没有address时' do
       it 'address应为空' do
