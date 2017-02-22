@@ -17,7 +17,7 @@ class Race < ApplicationRecord
   has_one :race_desc
   has_one :ticket_info
   has_many :race_follows
-  has_many :race_orders
+  has_many :race_orders, class_name: PurchaseOrder
 
   # 近期赛事
   scope :recent_races, -> { where('end_date >= ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }

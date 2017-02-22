@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe '/v10/u/:u_id/races', :type => :request do
-  include AcFactory::Races
 
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
@@ -13,6 +12,9 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
     }
   end
   let(:user) { FactoryGirl.create(:user) }
+  let(:init_races) do
+    20.times { FactoryGirl.create(:race) }
+  end
 
   context '当不传参数进行访问时' do
     it '应回参数有误' do

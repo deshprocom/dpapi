@@ -3,6 +3,8 @@ class AcCreator
   COMMON_AC_MAPPING = {
     ac_us017: 'generate_race',
     ac_us019: 'generate_race',
+    ac_us023: 'generate_race',
+    ac_us024: 'generate_race',
     ac_us029: 'generate_race',
   }
 

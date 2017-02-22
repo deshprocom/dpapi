@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
-  include AcFactory::Races
 
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
@@ -14,6 +13,12 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
   end
   let(:user) { FactoryGirl.create(:user) }
   let(:race_desc) { FactoryGirl.create(:race_desc) }
+  let(:followed_and_ordered_race) do
+    race_desc = FactoryGirl.create(:race_desc)
+    FactoryGirl.create(:purchase_order, race: race_desc.race, user: user)
+    FactoryGirl.create(:race_follow, race_id: race_desc.race_id, user_id: user.id)
+    race_desc
+  end
 
   context '当访问不存在赛事详情时' do
     it '应当返回不存在相应的数据' do
@@ -51,8 +56,8 @@ end
 
   context '当赛事状态为未开始或进行中或已结束或已关闭' do
     it '返回的赛事状态应为 未开始' do
-      race_id = ac_us003_001.id
-      get v10_u_race_url(0, race_id),
+      race = AcFactory::AcBase.call('generate_race', status: 0)
+      get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -61,8 +66,8 @@ end
     end
 
     it '返回的赛事状态应为 进行中' do
-      race_id = ac_us003_002.id
-      get v10_u_race_url(0, race_id),
+      race = AcFactory::AcBase.call('generate_race', status: 1)
+      get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -71,8 +76,8 @@ end
     end
 
     it '返回的赛事状态应为 已结束' do
-      race_id = ac_us003_003.id
-      get v10_u_race_url(0, race_id),
+      race = AcFactory::AcBase.call('generate_race', status: 2)
+      get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -81,8 +86,8 @@ end
     end
 
     it '返回的赛事状态应为 已终止' do
-      race_id = ac_us003_004.id
-      get v10_u_race_url(0, race_id),
+      race = AcFactory::AcBase.call('generate_race', status: 3)
+      get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -93,7 +98,7 @@ end
 
   context '当用户已经购票和已关注时' do
     it '应返回已购票，已关注的状态' do
-      race_desc = followed_and_ordered_race(user)
+      race_desc = followed_and_ordered_race
       get v10_u_race_url(user.user_uuid, race_desc.race_id),
           headers: http_headers
 
