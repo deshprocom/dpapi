@@ -43,6 +43,12 @@ Rails.application.routes.draw do
       end
     end
 
+    scope module: 'orders' do
+      resources :users, only: [] do
+        resources :orders, only: [:index, :show, :update]
+      end
+    end
+
     namespace :uploaders do
       resources :avatar, only:[:create]
       resources :card_image, only:[:create]
