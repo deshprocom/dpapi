@@ -24,7 +24,7 @@ module V10
       private
 
       def upload_params
-        params.permit(:avatar)
+        params.permit(:image)
       end
 
       def get_upload_file(target)
