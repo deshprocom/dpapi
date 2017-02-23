@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
-  include AcFactory::Races
 
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
@@ -13,6 +12,31 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
     }
   end
   let(:user) { FactoryGirl.create(:user) }
+  let(:init_followed_or_ordered_races) do
+    first_race  = FactoryGirl.create(:race,
+                                     begin_date: 3.days.ago.strftime('%Y-%m-%d'),
+                                     end_date: 3.days.since.strftime('%Y-%m-%d'),
+                                     status: 1)
+    second_race = FactoryGirl.create(:race, begin_date: 2.days.ago.strftime('%Y-%m-%d'),)
+    third_race = FactoryGirl.create(:race)
+    FactoryGirl.create(:race_follow, race_id: first_race.id, user_id: user.id)
+    FactoryGirl.create(:purchase_order, race: second_race, user: user)
+    FactoryGirl.create(:purchase_order, race: third_race, user: user)
+    FactoryGirl.create(:race_follow, race_id: third_race.id, user_id: user.id)
+  end
+
+  let(:init_recent_races) do
+    9.times { FactoryGirl.create(:race) }
+    FactoryGirl.create(:race,
+                       begin_date: 3.days.ago.strftime('%Y-%m-%d'),
+                       end_date: 3.days.since.strftime('%Y-%m-%d'),
+                       status: 1)
+    FactoryGirl.create(:race,
+                       begin_date: 8.days.ago.strftime('%Y-%m-%d'),
+                       end_date: 5.days.ago.strftime('%Y-%m-%d'))
+    FactoryGirl.create(:race, status: 2)
+    FactoryGirl.create(:race, status: 3)
+  end
 
   context '给定不存在即将到来的赛事，当获取赛事时' do
     it '应当返回空数组' do
@@ -116,7 +140,7 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
 
   context '给定存在第一条赛事已关注，第二条赛事已购票, 第三条为已关注，已购票' do
     it '那么应返回正确状态的赛事列表' do
-      init_followed_or_ordered_races(user)
+      init_followed_or_ordered_races
       get v10_u_recent_races_url(user.user_uuid),
           headers: http_headers
 

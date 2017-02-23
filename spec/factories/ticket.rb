@@ -1,5 +1,5 @@
 FactoryGirl.define do
-  factory :race_order do
-    
+  factory :ticket do
+
   end
 end
