@@ -20,6 +20,7 @@
 +----------------+--------------+------+-----+----------+----------------+
 =end
 class PurchaseOrder < ApplicationRecord
+
   include NumberGenerator
 
   belongs_to :user
@@ -27,8 +28,7 @@ class PurchaseOrder < ApplicationRecord
   belongs_to :ticket
   has_one :snapshot, class_name: OrderSnapshot
 
-  validates :race, :order_number,
-            presence: true
+  validates :order_number, presence: true
 
   after_initialize do
     self.order_number ||= self.class.unique_number

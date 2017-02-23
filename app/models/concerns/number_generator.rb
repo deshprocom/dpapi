@@ -6,6 +6,8 @@ module NumberGenerator
   extend ActiveSupport::Concern
   # 类方法
   module ClassMethods
+    cattr_accessor :number_factory
+
     def unique_number(key = :order_number)
       max_tries = 10
       max_tries.times do
@@ -21,10 +23,9 @@ module NumberGenerator
       "#{prefix}#{random_number}"
     end
 
-    def random_number(length = 5)
-      min = length == 1 ? 1 : 10**(length - 1)
-      max = 10**length
-      Random.rand(min...max).to_s
+    def random_number
+      self.number_factory ||= -> { Random.rand(10_000...99_999) }
+      number_factory.call
     end
   end
 end
