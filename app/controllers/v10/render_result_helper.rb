@@ -25,7 +25,7 @@ module V10
     def self.render_order_result(target, view, result)
       target.render view, locals: { api_result: result,
                                     order_lists: result.data[:order_lists],
-                                    next_id: result.data[:next_id]}
+                                    next_id: result.data[:next_id] }
     end
   end
 end

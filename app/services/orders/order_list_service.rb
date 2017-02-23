@@ -12,18 +12,10 @@ module Services
 
       def call
         orders = user.orders.where("order_number > #{next_id}").limit(page_size).order(created_at: :desc)
-        order_lists = orders.collect do |order|
-          unless order.snapshot.nil?
-            {
-                order_info: order,
-                race_info: order.snapshot,
-            }
-          end
-        end.compact
-        data = {
-            order_lists: order_lists
-        }
-        data.merge!(next_id: orders.first.order_number) unless order_lists.blank?
+        order_lists = orders.select { |order| order.snapshot.present? }
+                            .map { |order| { order_info: order, race_info: order.snapshot } }
+        data = { order_lists: order_lists }
+        data[:next_id] = orders.first.order_number unless order_lists.blank?
         ApiResult.success_with_data(data)
       end
     end
