@@ -35,3 +35,6 @@ NumericLiterals:
 
 Style/TrailingBlankLines:
   Enabled: false
+
+Style/BlockComments:
+  Enabled: false

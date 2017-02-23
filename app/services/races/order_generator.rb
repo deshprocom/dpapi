@@ -47,8 +47,10 @@ module Services
         end
 
         @ticket = Ticket.create(ticket_params)
-        PurchaseOrder.create(email_order_params)
-        ApiResult.success_result
+        order = PurchaseOrder.new(email_order_params)
+        return ApiResult.success_result if order.save
+
+        ApiResult.error_result(SYSTEM_ERROR)
       end
 
       def ticket_params
