@@ -73,6 +73,7 @@ module Services
       def init_order_params
         {
           user_id: user.id,
+          race_id: race.id,
           ticket_id: @ticket.id,
           ticket_type: params[:ticket_type],
           status: 'unpaid'
