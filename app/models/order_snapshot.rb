@@ -1,2 +1,3 @@
 class OrderSnapshot < ApplicationRecord
 end
+
