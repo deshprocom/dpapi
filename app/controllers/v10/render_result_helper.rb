@@ -21,5 +21,11 @@ module V10
     def self.render_card_image_result(target, view, user_extra)
       target.render view, locals: { api_result: ApiResult.success_result, user_extra: user_extra }
     end
+
+    def self.render_order_result(target, view, result)
+      target.render view, locals: { api_result: result,
+                                    order_lists: result.data[:order_lists],
+                                    next_id: result.data[:next_id] }
+    end
   end
 end
