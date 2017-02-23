@@ -8,7 +8,16 @@ module V10
         order_list_service = Services::Orders::OrderListService
         result = order_list_service.call(user_params[:page_size], user_params[:next_id], @current_user)
         template = 'v10/orders/index'
-        RenderResultHelper.render_order_result(self, template, result)
+        render template, locals: { api_result:  result,
+                                   order_lists: result.data[:order_lists],
+                                   next_id:     result.data[:next_id] }
+      end
+
+      def show
+        order_detail_service = Services::Orders::OrderDetailService
+        result = order_detail_service.call(params[:id], @current_user)
+        template = 'v10/orders/show'
+        RenderResultHelper.render_order_detail_result(self, template, result)
       end
 
       private
