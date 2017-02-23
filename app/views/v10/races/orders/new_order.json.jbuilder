@@ -23,4 +23,6 @@ json.data do
     shipping_address = @user.shipping_addresses.first
     json.partial! 'shipping_address', shipping_address: shipping_address if shipping_address
   end
+
+  json.ordered @race.ordered?(@user.id)
 end
