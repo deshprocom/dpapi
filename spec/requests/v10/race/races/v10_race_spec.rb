@@ -15,6 +15,7 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
   let(:race_desc) { FactoryGirl.create(:race_desc) }
   let(:followed_and_ordered_race) do
     race_desc = FactoryGirl.create(:race_desc)
+    FactoryGirl.create(:ticket_info, race_id: race_desc.race_id)
     FactoryGirl.create(:purchase_order, race: race_desc.race, user: user)
     FactoryGirl.create(:race_follow, race_id: race_desc.race_id, user_id: user.id)
     race_desc

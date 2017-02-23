@@ -48,14 +48,7 @@ module Services
 
         @ticket = Ticket.create(ticket_params)
         PurchaseOrder.create(email_order_params)
-        race.ticket_info.e_ticket_sold_increase
-        refresh_ticket_status
         ApiResult.success_result
-      end
-
-      def refresh_ticket_status
-        race.ticket_info.reload
-        race.update(ticket_status: 'sold_out') if race.ticket_info.sold_out?
       end
 
       def ticket_params
@@ -72,11 +65,13 @@ module Services
 
       def init_order_params
         {
-          user_id: user.id,
-          race_id: race.id,
-          ticket_id: @ticket.id,
-          ticket_type: params[:ticket_type],
-          status: 'unpaid'
+          user:           user,
+          race:           race,
+          ticket_id:      @ticket.id,
+          price:          race.ticket_price,
+          original_price: race.ticket_price,
+          ticket_type:    params[:ticket_type],
+          status:         'unpaid'
         }
       end
 

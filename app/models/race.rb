@@ -37,4 +37,22 @@ class Race < ApplicationRecord
   def ordered?(user_id)
     race_orders.exists?(user_id: user_id)
   end
+
+  def to_snapshot
+    {
+      race_id:      id,
+      name:         name,
+      logo:         logo,
+      prize:        prize,
+      location:     location,
+      ticket_price: ticket_price,
+      begin_date:   begin_date,
+      end_date:     end_date
+    }
+  end
+
+  def sold_a_ticket
+    ticket_info.e_ticket_sold_increase
+    update(ticket_status: 'sold_out') if reload_ticket_info.sold_out?
+  end
 end
