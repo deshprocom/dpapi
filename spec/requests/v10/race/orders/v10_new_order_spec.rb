@@ -11,11 +11,19 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
     }
   end
   let(:race_info) { FactoryGirl.create(:ticket_info, race: race) }
-  let(:race) { FactoryGirl.create(:race) }
+  let(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
+  let(:ticket_info) { FactoryGirl.create(:ticket_info, race: race) }
   let!(:user) { FactoryGirl.create(:user) }
+  let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:shipping_address) { FactoryGirl.create(:shipping_address, user: user) }
   let(:access_token) do
     AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
+  end
+  let(:e_ticket_params) do
+    {
+      ticket_type: 'e_ticket',
+      email: 'test@gmail.com',
+    }
   end
 
   context '当ticket_info不存在时' do
@@ -53,6 +61,8 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
         expect(ticket_info.key? 'entity_ticket_sold_number').to  be_truthy
 
         expect(json['data']['shipping_address']).to  be_falsey
+        expect(json['data']['ordered']).to eq(false)
+
       end
     end
 
@@ -69,6 +79,22 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
         expect(shipping_address.key? 'mobile').to         be_truthy
         expect(shipping_address.key? 'address_detail').to be_truthy
         expect(shipping_address.key? 'post_code').to      be_truthy
+      end
+    end
+
+    context '用户已经购票过了' do
+      it '应返回购票过的标记' do
+        ticket_info
+        result = Services::Races::OrderGenerator.call(race, user, e_ticket_params)
+        expect(result.code).to   eq(0)
+
+        get v10_race_new_order_url(race.id),
+            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
+
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+
+        expect(json['data']['ordered']).to eq(true)
       end
     end
   end
