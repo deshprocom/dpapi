@@ -87,9 +87,25 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(race.ticket_status).to eq('sold_out')
     end
 
+    it '取消票成功，可以继续购票' do
+      result = Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+      expect(result.code).to   eq(0)
 
-    it '成功购买实体票'
-    it '购买成功实体票， 实体票已售票数应加1'
+      order = user.orders.find_by_race_id(race.id)
+      result = Services::Orders::CancelOrderService.call(order, user)
+      expect(result.code).to   eq(0)
+
+      post v10_race_orders_url(race.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+    end
+
+    # it '成功购买实体票'
+    # it '购买成功实体票， 实体票已售票数应加1'
   end
 
   context '购票失败' do
@@ -167,6 +183,6 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       PurchaseOrder.number_factory = nil
     end
 
-    it '购买实体票，实体票已票完'
+    # it '购买实体票，实体票已票完'
   end
 end
