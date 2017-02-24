@@ -52,5 +52,4 @@ class Race < ApplicationRecord
       end_date:     end_date
     }
   end
-
 end

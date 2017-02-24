@@ -13,8 +13,8 @@ module Services
       def call
         return error_result(CANNOT_CANCEL) unless order.status == 'unpaid'
 
+        user.tickets.find_by(race_id: order.race_id).update(canceled: true)
         order.update(status: 'canceled')
-        user.tickets.find_by_race_id(order.race_id).update(canceled: true)
         order.race.return_a_e_ticket
         ApiResult.success_result
       end

@@ -15,7 +15,7 @@ module V10
       private
 
       def set_order
-        @order = @current_user.orders.find_by_order_number!(params[:order_id])
+        @order = @current_user.orders.find_by!(order_number: params[:order_id])
       end
     end
   end

@@ -20,7 +20,6 @@
 +----------------+--------------+------+-----+----------+----------------+
 =end
 class PurchaseOrder < ApplicationRecord
-
   include NumberGenerator
 
   belongs_to :user
@@ -39,4 +38,3 @@ class PurchaseOrder < ApplicationRecord
     create_snapshot(race.to_snapshot)
   end
 end
-

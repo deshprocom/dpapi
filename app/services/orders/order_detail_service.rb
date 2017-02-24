@@ -10,12 +10,12 @@ module Services
       end
 
       def call
-        order = PurchaseOrder.find_by_order_number(order_num)
+        order = PurchaseOrder.find_by(order_number: order_num)
         return ApiResult.error_result(NOT_FOUND) if order.nil?
         order_snapshot = order.snapshot
         data = {
-            order_info: order,
-            race_info:  order_snapshot
+          order_info: order,
+          race_info:  order_snapshot
         }
         ApiResult.success_with_data(data)
       end

@@ -53,7 +53,7 @@ module Constants
     end
 
     module Order
-       CANNOT_CANCEL = 1110000
+      CANNOT_CANCEL = 1110000
     end
 
     module Account
