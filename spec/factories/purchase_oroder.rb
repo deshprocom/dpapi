@@ -6,6 +6,7 @@ FactoryGirl.define do
     email 'test@gmail.com'
     address '深圳市福田区卓越大厦'
     consignee 'xiaoming'
-    mobile '13428725222'
+    price 8888
+    original_price 8888
   end
 end
