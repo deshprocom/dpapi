@@ -42,7 +42,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(ticket).to be_truthy
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
-      expect(ticket.status).to eq('unpaid')
+      expect(ticket.canceled).to be_falsey
     end
 
     it '成功购买电子票，应创建snapshot' do
