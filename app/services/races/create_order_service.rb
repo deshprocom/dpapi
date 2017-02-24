@@ -1,6 +1,6 @@
 module Services
   module Races
-    class OrderGenerator
+    class CreateOrderService
       include Serviceable
       include Constants::Error::Common
       include Constants::Error::Race
@@ -56,12 +56,9 @@ module Services
       def ticket_params
         {
           user_id:         user.id,
-          cert_type:       user.user_extra.cert_type,
-          cert_no:         user.user_extra.cert_no,
           ticket_infos_id: race.ticket_info.id,
           race_id:         race.id,
-          ticket_type:     params[:ticket_type],
-          status:          'unpaid'
+          ticket_type:     params[:ticket_type]
         }
       end
 

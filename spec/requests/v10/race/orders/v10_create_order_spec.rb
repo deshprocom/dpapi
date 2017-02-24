@@ -42,7 +42,21 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(ticket).to be_truthy
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
-      expect(ticket.status).to eq('unpaid')
+      expect(ticket.canceled).to be_falsey
+    end
+
+    it '成功购买电子票，应创建snapshot' do
+      race_id = race.id
+      post v10_race_orders_url(race_id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      order = user.orders.find_by(race_id: race_id)
+      expect(order.snapshot).to be_truthy
     end
 
     it '购买成功电子票， 电子票已售票数应加1' do
@@ -73,14 +87,30 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(race.ticket_status).to eq('sold_out')
     end
 
+    it '取消票成功，可以继续购票' do
+      result = Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+      expect(result.code).to   eq(0)
 
-    it '成功购买实体票'
-    it '购买成功实体票， 实体票已售票数应加1'
+      order = user.orders.find_by_race_id(race.id)
+      result = Services::Orders::CancelOrderService.call(order, user)
+      expect(result.code).to   eq(0)
+
+      post v10_race_orders_url(race.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+    end
+
+    # it '成功购买实体票'
+    # it '购买成功实体票， 实体票已售票数应加1'
   end
 
   context '购票失败' do
     it '限购一张，重复购票' do
-      result = Services::Races::OrderGenerator.call(race, user, e_ticket_params)
+      result = Services::Races::CreateOrderService.call(race, user, e_ticket_params)
       expect(result.code).to   eq(0)
 
       post v10_race_orders_url(race.id),
@@ -135,6 +165,24 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(json['code']).to   eq(1100004)
     end
 
-    it '购买实体票，实体票已票完'
+    it '当创建order_number错误时，应返回系统错误' do
+      PurchaseOrder.number_factory = -> { '88888' }
+      test_user = FactoryGirl.create(:user, user_uuid: 'uuid_test_12',
+                                     email: 'test@gmail.com', mobile: 23232,
+                                     user_name: 'test_user')
+      FactoryGirl.create(:user_extra, user: test_user)
+      result = Services::Races::CreateOrderService.call(race, test_user, e_ticket_params)
+      expect(result.code).to   eq(0)
+      post v10_race_orders_url(race.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(1100007)
+      PurchaseOrder.number_factory = nil
+    end
+
+    # it '购买实体票，实体票已票完'
   end
 end
