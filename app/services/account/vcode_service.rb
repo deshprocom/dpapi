@@ -41,6 +41,7 @@ module Services
 
       def send_email_vcodes(option_type, sms_template, account_id)
         return ApiResult.error_result(EMAIL_FORMAT_WRONG) unless UserValidator.email_valid?(account_id)
+        account_id = account_id.downcase
         vcode = VCode.generate_email_vcode(option_type, account_id)
         sms_content = format(sms_template, vcode)
         Rails.logger.info "send [#{sms_content}] to #{account_id} in queue"

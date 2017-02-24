@@ -23,6 +23,8 @@ module Services
           return ApiResult.success_result
         end
 
+        self.account = account.downcase
+
         # 检查验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode(type, account, vcode)
 
