@@ -18,7 +18,7 @@ module Services
         if email.blank? || password.blank?
           return ApiResult.error_result(MISSING_PARAMETER)
         end
-
+        self.email = email.downcase
         user = User.by_email(email)
         # 判断该用户是否存在
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
