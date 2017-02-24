@@ -18,13 +18,13 @@ module V10
 
         # 上传成功 返回数据
         template = 'v10/upload/image'
-        RenderResultHelper.render_card_image_result(self, template, @current_user.user_extra)
+        render template, locals: { api_result: ApiResult.success_result, user_extra: @current_user.user_extra }
       end
 
       private
 
       def upload_params
-        params.permit(:avatar)
+        params.permit(:image)
       end
 
       def get_upload_file(target)
