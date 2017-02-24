@@ -7,7 +7,6 @@
 | race_id         | int(11)      | YES  | MUL | NULL       |                |
 | ticket_infos_id | int(11)      | YES  | MUL | NULL       |                |
 | ticket_type     | varchar(30)  | YES  |     | e_ticket   |                |
-| status          | varchar(30)  | YES  |     | unpaid     |                |
 | memo            | varchar(255) | YES  |     | NULL       |                |
 | created_at      | datetime     | NO   |     | NULL       |                |
 | updated_at      | datetime     | NO   |     | NULL       |                |

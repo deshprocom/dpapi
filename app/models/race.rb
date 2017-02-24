@@ -14,6 +14,8 @@
 # | updated_at | datetime     | NO   |     | NULL    |                |
 # +------------+--------------+------+-----+---------+----------------+
 class Race < ApplicationRecord
+  include TicketNumberCounter
+
   has_one :race_desc
   has_one :ticket_info
   has_many :race_follows
@@ -51,8 +53,4 @@ class Race < ApplicationRecord
     }
   end
 
-  def sold_a_ticket
-    ticket_info.e_ticket_sold_increase
-    update(ticket_status: 'sold_out') if reload_ticket_info.sold_out?
-  end
 end

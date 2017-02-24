@@ -52,6 +52,10 @@ module Constants
       NO_ADDRESS = 1100041
     end
 
+    module Order
+       CANNOT_CANCEL = 1110000
+    end
+
     module Account
       NO_CERTIFICATION = 1100051
       ALREADY_CERTIFICATION = 1100052
@@ -106,12 +110,14 @@ module Constants
     Error::Race::TICKET_SOLD_OUT => '票已卖完',
     Error::Race::TICKET_END => '售票已结束',
     Error::Race::TICKET_UNSOLD => '售票还没开始',
+    Error::Race::AGAIN_BUY => '您已购买过该票，不允许再次购买',
+    Error::Race::E_TICKET_SOLD_OUT => '电子票已售完',
+
+    Error::Order::CANNOT_CANCEL => '当前状态不允许取消订单',
 
     Error::Account::NO_CERTIFICATION => '用户未实名',
     Error::Account::REAL_NAME_FORMAT_WRONG => '真实姓名格式错误',
     Error::Account::CERT_NO_FORMAT_WRONG => '身份证格式错误',
-    Error::Account::CERT_NO_ALREADY_EXIST => '该用户已实名',
-    Error::Race::AGAIN_BUY => '您已购买过该票，不允许再次购买',
-    Error::Race::E_TICKET_SOLD_OUT => '电子票已售完'
+    Error::Account::CERT_NO_ALREADY_EXIST => '该用户已实名'
   }.freeze
 end
