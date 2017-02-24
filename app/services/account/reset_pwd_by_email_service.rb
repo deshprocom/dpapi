@@ -21,6 +21,8 @@ module Services
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
+        self.email = email.downcase
+
         # 检查密码是否符合规则
         return ApiResult.error_result(PASSWORD_FORMAT_WRONG) unless UserValidator.pwd_valid?(password)
 
