@@ -85,7 +85,7 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
     context '用户已经购票过了' do
       it '应返回购票过的标记' do
         ticket_info
-        result = Services::Races::OrderGenerator.call(race, user, e_ticket_params)
+        result = Services::Races::CreateOrderService.call(race, user, e_ticket_params)
         expect(result.code).to   eq(0)
 
         get v10_race_new_order_url(race.id),

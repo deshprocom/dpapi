@@ -45,7 +45,9 @@ Rails.application.routes.draw do
 
     scope module: 'orders' do
       resources :users, only: [] do
-        resources :orders, only: [:index, :show, :update]
+        resources :orders, only: [:index, :show] do
+          resources :cancel, only: [:create]
+        end
       end
     end
 
