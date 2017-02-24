@@ -15,9 +15,13 @@ module V10
 
       def show
         order_detail_service = Services::Orders::OrderDetailService
-        result = order_detail_service.call(params[:id], @current_user)
+        result = order_detail_service.call(params[:id])
+
+        return render_api_error(result.code, result.msg) if result.failure?
         template = 'v10/orders/show'
-        RenderResultHelper.render_order_detail_result(self, template, result)
+        render template, locals: { api_result:         result,
+                                   order_info:         result.data[:order_info],
+                                   race_info:          result.data[:race_info] }
       end
 
       private
