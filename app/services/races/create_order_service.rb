@@ -1,6 +1,6 @@
 module Services
   module Races
-    class OrderGenerator
+    class CreateOrderService
       include Serviceable
       include Constants::Error::Common
       include Constants::Error::Race
