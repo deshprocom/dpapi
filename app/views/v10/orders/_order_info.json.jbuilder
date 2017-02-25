@@ -1,4 +1,4 @@
-json.order_number order_info.order_number
+json.order_id order_info.order_number
 json.ticket_type order_info.ticket_type.to_s
 json.email order_info.email.to_s
 json.address order_info.address.to_s
