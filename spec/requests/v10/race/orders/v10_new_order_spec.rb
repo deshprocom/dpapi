@@ -46,7 +46,7 @@ RSpec.describe '/v10/races/:race_id/new_order', :type => :request do
         json = JSON.parse(response.body)
 
         race = json['data']['race']
-        expect(race.key? 'id').to           be_truthy
+        expect(race.key? 'race_id').to           be_truthy
         expect(race.key? 'name').to         be_truthy
         expect(race.key? 'location').to     be_truthy
         expect(race.key? 'begin_date').to   be_truthy
