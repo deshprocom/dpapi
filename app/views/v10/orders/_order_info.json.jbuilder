@@ -7,5 +7,5 @@ json.mobile order_info.mobile.to_s
 json.price order_info.price.to_s
 json.original_price order_info.original_price.to_s
 json.status order_info.status.to_s
-json.created_at order_info.created_at.to_s
+json.created_at order_info.created_at
 
