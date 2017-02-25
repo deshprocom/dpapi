@@ -24,5 +24,5 @@ json.data do
     json.partial! 'shipping_address', shipping_address: shipping_address if shipping_address
   end
 
-  json.ordered @race.ordered?(@user.id)
+  json.ordered PurchaseOrder.purchased?(@user.id, @race.id)
 end
