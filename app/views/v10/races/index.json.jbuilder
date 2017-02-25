@@ -15,8 +15,8 @@ json.data do
       json.begin_date    item.begin_date
       json.end_date      item.end_date
       json.status        item.status
-      json.followed      item.followed?(user.try(:id))
-      json.ordered       item.ordered?(user.try(:id))
+      json.followed      RaceFollow.followed?(user.try(:id), item.id)
+      json.ordered       PurchaseOrder.purchased?(user.try(:id), item.id)
     end
   end
 end

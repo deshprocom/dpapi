@@ -32,14 +32,6 @@ class Race < ApplicationRecord
     recent_races.limit(numbers).order_race_list
   end
 
-  def followed?(user_id)
-    race_follows.exists?(user_id: user_id)
-  end
-
-  def ordered?(user_id)
-    race_orders.exists?(user_id: user_id)
-  end
-
   def to_snapshot
     {
       race_id:      id,

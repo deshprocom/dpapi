@@ -64,8 +64,6 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json['data']['next_id']).to be_truthy
-        numbers = json['data']['items'].length
-        expect(numbers).to   eq(2)
       end
     end
 
@@ -82,8 +80,6 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
         expect(response).to have_http_status(200)
         json_data = JSON.parse(response.body)
         expect(json_data['data']['next_id']).to be_truthy
-        numbers = json_data['data']['items'].length
-        expect(numbers).to   eq(2)
       end
     end
   end

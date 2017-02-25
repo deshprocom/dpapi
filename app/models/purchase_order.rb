@@ -37,4 +37,8 @@ class PurchaseOrder < ApplicationRecord
     race.sold_a_e_ticket
     create_snapshot(race.to_snapshot)
   end
+
+  def self.purchased?(user_id, race_id)
+    where(user_id: user_id).where(race_id: race_id).where.not(status: 'canceled').exists?
+  end
 end

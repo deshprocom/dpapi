@@ -10,4 +10,8 @@
 class RaceFollow < ApplicationRecord
   belongs_to :user
   belongs_to :race
+
+  def self.followed?(user_id, race_id)
+    where(user_id: user_id).where(race_id: race_id).exists?
+  end
 end
