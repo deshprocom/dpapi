@@ -1,6 +1,8 @@
 module Services
   module Account
+    # rubocop:disable Metrics/LineLength: 130
     class CertificationAddService
+      ID_REGEX = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/
       include Serviceable
       include Constants::Error::Common
       include Constants::Error::Account
@@ -26,7 +28,7 @@ module Services
         end
 
         # 身份证格式校验
-        unless user_params[:cert_no] =~ /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{4}$/
+        unless user_params[:cert_no] =~ ID_REGEX
           return ApiResult.error_result(CERT_NO_FORMAT_WRONG)
         end
 
