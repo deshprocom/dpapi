@@ -40,7 +40,7 @@ module AcFactory
     end
 
     def generate_user
-      user = User.find_by_email(email: params[:email]) if params[:email]
+      user = User.find_by(email: params[:email]) if params[:email]
       return user if user
 
       FactoryGirl.create(:user, permit_user_parms)
