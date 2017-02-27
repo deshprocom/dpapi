@@ -52,5 +52,14 @@ module AcFactory
       FactoryGirl.create(:ticket_info, race: race)
       race
     end
+
+    def generate_order
+      params[:ticket_status] = 'selling'
+      race = generate_race
+      user = User.by_email(params[:user])
+      FactoryGirl.create(:user_extra, user: user)
+      result = Services::Races::CreateOrderService.call(race, user, email: user.email, ticket_type: 'e_ticket')
+      result.data[:order]
+    end
   end
 end
