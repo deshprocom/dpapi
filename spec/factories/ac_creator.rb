@@ -6,6 +6,8 @@ class AcCreator
     ac_us023: 'generate_race',
     ac_us024: 'generate_race',
     ac_us029: 'generate_race',
+    ac_us051: 'generate_order',
+    ac_us054: 'generate_order',
   }
 
   def self.call(ac, params = {})

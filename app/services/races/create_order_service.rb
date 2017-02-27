@@ -48,7 +48,7 @@ module Services
 
         @ticket = Ticket.create(ticket_params)
         order = PurchaseOrder.new(email_order_params)
-        return ApiResult.success_result if order.save
+        return ApiResult.success_with_data(order: order) if order.save
 
         ApiResult.error_result(SYSTEM_ERROR)
       end
