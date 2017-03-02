@@ -33,7 +33,6 @@ class User < ApplicationRecord
 
   # 关联关系
   has_many :race_follows
-  has_many :race_orders
   has_one  :user_extra
   has_many :shipping_addresses, -> { order(default: :desc) }
   has_many :tickets
