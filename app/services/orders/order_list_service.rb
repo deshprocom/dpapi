@@ -14,7 +14,7 @@ module Services
       def call
         orders = user.orders.where("order_number > #{next_id}")
                      .limit(page_size)
-                     .order(created_at: :desc)
+                     .order(order_number: :desc)
         orders = orders.where(status: status) if %w(unpaid paid unshipped completed canceled).include?(status)
         order_lists = orders.select { |order| order.snapshot.present? }
                             .map { |order| { order_info: order, race_info: order.snapshot } }
