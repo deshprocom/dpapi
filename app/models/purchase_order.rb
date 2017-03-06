@@ -26,6 +26,7 @@ class PurchaseOrder < ApplicationRecord
   belongs_to :race
   belongs_to :ticket
   has_one :snapshot, class_name: OrderSnapshot
+  scope :formal_order, -> { where.not(status: 'canceled') }
 
   validates :order_number, presence: true
 
@@ -39,6 +40,10 @@ class PurchaseOrder < ApplicationRecord
   end
 
   def self.purchased?(user_id, race_id)
-    where(user_id: user_id).where(race_id: race_id).where.not(status: 'canceled').exists?
+    where(user_id: user_id).where(race_id: race_id).formal_order.exists?
+  end
+
+  def self.purchased_order(user_id, race_id)
+    where(user_id: user_id).where(race_id: race_id).formal_order.first
   end
 end
