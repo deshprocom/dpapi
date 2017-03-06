@@ -35,7 +35,7 @@ module Services
         # 格式都正确
         extra_info = user.user_extra
         if extra_info.blank?
-          user.create_user_extra!(user_params.merge(status: 'pending'))
+          user.create_user_extra!(user_params.merge(status: 'init'))
           data = {
             user_extra: user.user_extra
           }
@@ -46,7 +46,7 @@ module Services
           return ApiResult.error_result(CERT_NO_ALREADY_EXIST)
         end
 
-        user.user_extra.update!(user_params.merge(status: 'pending'))
+        user.user_extra.update!(user_params.merge(status: 'init'))
 
         data = {
           user_extra: user.user_extra
