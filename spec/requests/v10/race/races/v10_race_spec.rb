@@ -110,7 +110,7 @@ end
       race = json['data']
       expect(race['followed']).to  be_truthy
       expect(race['ordered']).to   be_truthy
-      expect(race['order_number']).to   be_truthy
+      expect(race['order_id']).to   be_truthy
     end
   end
 end
