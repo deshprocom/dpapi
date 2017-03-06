@@ -16,6 +16,8 @@ json.data do
   json.ticket_status race.ticket_status
   json.ticket_price  race.ticket_price
   json.description   race.race_desc.try(:description).to_s
-  json.followed      RaceFollow.followed?(user.try(:id), race.id)
-  json.ordered       PurchaseOrder.purchased?(user.try(:id), race.id)
+  json.followed      RaceFollow.followed?(user&.id, race.id)
+  order =  PurchaseOrder.purchased_order(user&.id, race.id)
+  json.ordered       order.present?
+  json.order_number  order&.order_number
 end
