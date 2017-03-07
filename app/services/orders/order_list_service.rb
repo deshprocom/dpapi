@@ -12,7 +12,7 @@ module Services
       end
 
       def call
-        cond = next_id.to_i <= 0 ? "1 = 1" : "order_number < #{next_id}"
+        cond = next_id.to_i <= 0 ? '1 = 1' : "order_number < #{next_id}"
         orders = user.orders.where(cond)
                      .limit(page_size)
                      .order(order_number: :desc)
