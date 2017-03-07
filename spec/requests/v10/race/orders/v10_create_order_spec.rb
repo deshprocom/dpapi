@@ -165,24 +165,6 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(json['code']).to   eq(1100004)
     end
 
-    it '当创建order_number错误时，应返回系统错误' do
-      PurchaseOrder.number_factory = -> { '88888' }
-      test_user = FactoryGirl.create(:user, user_uuid: 'uuid_test_12',
-                                     email: 'test@gmail.com', mobile: 23232,
-                                     user_name: 'test_user')
-      FactoryGirl.create(:user_extra, user: test_user)
-      result = Services::Races::CreateOrderService.call(race, test_user, e_ticket_params)
-      expect(result.code).to   eq(0)
-      post v10_race_orders_url(race.id),
-           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
-           params: e_ticket_params
-
-      expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
-      expect(json['code']).to   eq(1100007)
-      PurchaseOrder.number_factory = nil
-    end
-
     # it '购买实体票，实体票已票完'
   end
 end
