@@ -10,7 +10,7 @@ class CreateUserExtra < ActiveRecord::Migration[5.0]
       t.string :memo, comment: '备忘'
       t.string :image, limit: 255, default: '', comment: '身份证图片'
       t.string :image_md5, limit: 32, default: '', null: false, comment: '图片md5'
-      t.string :status, limit:20, default: 'pending', comment: '审核中-pending, 审核通过-passed, 审核失败-failed'
+      t.string :status, limit:20, default: 'init', comment: '初始化-init 审核中-pending, 审核通过-passed, 审核失败-failed'
       t.timestamps
     end
   end

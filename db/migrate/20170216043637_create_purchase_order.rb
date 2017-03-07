@@ -16,7 +16,7 @@ class CreatePurchaseOrder < ActiveRecord::Migration[5.0]
       t.integer :original_price, null: false, comment: '原始价格'
       t.string :status, limit: 30,
                default: 'unpaid',
-               comment: '订单状态 unpaid-未付款, paid-已付款, unshipped-待发货, completed-已完成, canceled-已取消'
+               comment: '订单状态 unpaid-未付款, paid-已付款, completed-已完成, canceled-已取消'
       t.timestamps
       t.index :order_number, unique: true
       t.index :status
