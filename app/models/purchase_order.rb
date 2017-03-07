@@ -20,8 +20,6 @@
 +----------------+--------------+------+-----+----------+----------------+
 =end
 class PurchaseOrder < ApplicationRecord
-  include NumberGenerator
-
   belongs_to :user
   belongs_to :race
   belongs_to :ticket
@@ -31,7 +29,7 @@ class PurchaseOrder < ApplicationRecord
   validates :order_number, presence: true
 
   after_initialize do
-    self.order_number ||= self.class.unique_number
+    self.order_number ||= Services::UniqueNumberGenerator.call(PurchaseOrder)
   end
 
   after_create do

@@ -1,6 +1,8 @@
 ##
 # 唯一单号生成器
-# key    model中被唯一的编号字段
+# model              需要产生的单号的model
+# key                model中被唯一的编号字段
+# increment_length   增加量的最小长度
 #
 module Services
   class UniqueNumberGenerator
@@ -33,28 +35,30 @@ module Services
         current_increment = restore_today_increment
       else
         current_increment = Rails.cache.increment(today_cache_key)
+        ActiveSupport::Cache::RedisStore
       end
       Rails.cache.expire(today_cache_key, 1.day)
       current_increment
     end
 
     def restore_today_increment
-      last_increment = last_record_number.last(increment_length).to_i
+      last_increment = last_record_number[DATE_FORMAT_LENGTH..-1].to_i
       Rails.cache.increment(today_cache_key, last_increment + 1)
     end
 
     def today_record_exist?
-      last_record_number && last_record_number.first(8) == today_prefix
+      last_record_number && last_record_number.first(DATE_FORMAT_LENGTH) == today_prefix
     end
 
     def last_record_number
-      @record_number ||= model.last.send(key)
+      @record_number ||= model.last&.send(key)
     end
 
     def today_cache_key
       "#{model}::#{key}::#{today_prefix}::increment"
     end
 
+    DATE_FORMAT_LENGTH = 8
     def today_prefix
       @today_prefix ||= Time.current.strftime('%Y%m%d')
     end
