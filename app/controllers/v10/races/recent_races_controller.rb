@@ -13,8 +13,8 @@ module V10
       def render_api_result(result)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        template = 'v10/races/index'
-        RenderResultHelper.render_race_result(self, template, result)
+        template = 'v10/races/recent'
+        RenderResultHelper.render_recent_race(self, template, result)
       end
 
       def race_params
