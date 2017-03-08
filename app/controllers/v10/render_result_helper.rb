@@ -14,7 +14,7 @@ module V10
       target.render view, locals: { api_result: result,
                                     race: result.data[:race],
                                     user: result.data[:user],
-                                    next_id: result.data[:next_id]}
+                                    next_id: result.data[:next_id] }
     end
 
     def self.render_certification_result(target, view, result)

@@ -33,7 +33,11 @@ module Services
         operator = operator_parse search_params[:operator]
         page_size = search_params[:page_size]
         lists = Race.where("begin_date #{operator} ?", search_params[:begin_date]).limit(page_size).order_race_list
-        next_id = lists.blank? ? '' : operator.eql?('>') ? lists.last.begin_date : lists.first.begin_date
+        next_id = if lists.blank?
+                    ''
+                  else
+                    operator.eql?('>') ? lists.last.begin_date : lists.first.begin_date
+                  end
         ApiResult.success_with_data(race: lists, user: User.by_uuid(user_uuid), next_id: next_id)
       end
 
