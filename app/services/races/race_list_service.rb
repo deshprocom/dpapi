@@ -32,12 +32,13 @@ module Services
         return ApiResult.error_result(MISSING_PARAMETER) if search_params[:begin_date].blank?
         operator = operator_parse search_params[:operator]
         page_size = search_params[:page_size]
-        lists = Race.where("begin_date #{operator} ?", search_params[:begin_date]).limit(page_size).order_race_list
-        next_id = if lists.blank?
-                    ''
-                  else
-                    operator.eql?('>') ? lists.last.begin_date : lists.first.begin_date
-                  end
+        lists = if operator.eql?('>')
+                  Race.where("begin_date #{operator} ?", search_params[:begin_date]).limit(page_size).order_race_list
+                else
+                  Race.where("begin_date #{operator} ?", search_params[:begin_date])
+                      .limit(page_size).order(begin_date: :desc).order(end_date: :desc).order(created_at: :desc)
+                end
+        next_id = lists.blank? ? '' : lists.last.begin_date
         ApiResult.success_with_data(race: lists, user: User.by_uuid(user_uuid), next_id: next_id)
       end
 
