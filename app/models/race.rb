@@ -46,4 +46,8 @@ class Race < ApplicationRecord
       end_date:     end_date
     }
   end
+
+  def logo
+    "#{ENV['PHOTO_DOMAIN']}/uploads/race/logo/#{id}/#{super}"
+  end
 end
