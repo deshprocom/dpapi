@@ -21,6 +21,8 @@ class Race < ApplicationRecord
   has_many :race_follows
   has_many :race_orders, class_name: PurchaseOrder
 
+  # 默认取已发布的赛事
+  default_scope { where(published: true) }
   # 近期赛事
   scope :recent_races, -> { where('end_date >= ?', Time.zone.now.end_of_day).where.not(status: [2, 3]) }
 
