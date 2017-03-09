@@ -19,5 +19,4 @@ json.data do
       json.ordered       PurchaseOrder.purchased?(user.try(:id), item.id)
     end
   end
-  json.next_id next_id.to_s
 end
