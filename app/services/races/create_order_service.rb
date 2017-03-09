@@ -46,11 +46,16 @@ module Services
           return ApiResult.error_result(E_TICKET_SOLD_OUT)
         end
 
+        id_status_to_pending
         @ticket = Ticket.create(ticket_params)
         order = PurchaseOrder.new(email_order_params)
         return ApiResult.success_with_data(order: order) if order.save
 
         ApiResult.error_result(SYSTEM_ERROR)
+      end
+
+      def id_status_to_pending
+        user.user_extra.update(status: 'pending') if user.user_extra.status == 'init'
       end
 
       def ticket_params
