@@ -45,6 +45,20 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(ticket.canceled).to be_falsey
     end
 
+    it '当用户实名状态为init，应改成 pending' do
+      user_extra.update(status: 'init')
+      post v10_race_orders_url(race.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      user_extra.reload
+      expect(user_extra.status).to eq('pending')
+    end
+
     it '成功购买电子票，应创建snapshot' do
       race_id = race.id
       post v10_race_orders_url(race_id),

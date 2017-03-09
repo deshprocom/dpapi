@@ -2,17 +2,17 @@
 # 唯一单号生成器
 # model              需要产生的单号的model
 # key                model中被唯一的编号字段
-# increment_length   增加量的最小长度
+# incr_min_length   增加量的最小长度
 #
 module Services
   class UniqueNumberGenerator
     include Serviceable
-    attr_accessor :model, :key, :increment_length
+    attr_accessor :model, :key, :incr_min_length
 
-    def initialize(model, key = :order_number, increment_length = 5)
+    def initialize(model, key = :order_number, incr_min_length = 5)
       self.model = model
       self.key = key
-      self.increment_length = increment_length
+      self.incr_min_length = incr_min_length
     end
 
     def call
@@ -20,7 +20,7 @@ module Services
     end
 
     def padded_today_increment
-      today_increment.to_s.rjust(increment_length, '0')
+      today_increment.to_s.rjust(incr_min_length, '0')
     end
 
     def today_increment
@@ -31,11 +31,10 @@ module Services
     end
 
     def set_today_increment
-      if today_record_exist?
+      if today_record_exist? # rubocop:disable Style/ConditionalAssignment
         current_increment = restore_today_increment
       else
         current_increment = Rails.cache.increment(today_cache_key)
-        ActiveSupport::Cache::RedisStore
       end
       Rails.cache.expire(today_cache_key, 1.day)
       current_increment
