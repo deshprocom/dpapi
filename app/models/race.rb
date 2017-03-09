@@ -48,6 +48,6 @@ class Race < ApplicationRecord
   end
 
   def logo
-    "#{ENV['PHOTO_DOMAIN']}/uploads/race/logo/#{id}/#{super}"
+    "#{ENV['PHOTO_DOMAIN']}/uploads/race/logo/#{id}/preview_#{super}"
   end
 end
