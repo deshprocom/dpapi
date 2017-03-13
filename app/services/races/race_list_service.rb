@@ -43,7 +43,7 @@ module Services
       end
 
       def operator_parse(operator)
-        operator.eql?('backend') ? '<' : '>'
+        operator.eql?('backward') ? '<' : '>'
       end
     end
   end
