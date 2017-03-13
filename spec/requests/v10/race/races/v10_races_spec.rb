@@ -32,7 +32,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
     it '应当返回空数组' do
       get v10_u_races_url(0),
           headers: http_headers,
-          params: { page_size: 20, operator: :down, begin_date: Time.now }
+          params: { page_size: 20, operator: :forward, begin_date: Time.now }
 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
@@ -50,7 +50,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       get v10_u_races_url(0),
           headers: http_headers,
           params: { page_size: 10,
-                    operator: :down,
+                    operator: :forward,
                     begin_date: Time.now.strftime('%Y-%m-%d') }
 
 
@@ -81,7 +81,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       get v10_u_races_url(0),
           headers: http_headers,
           params: { page_size: 10,
-                    operator: :down,
+                    operator: :forward,
                     begin_date: Time.now.strftime('%Y-%m-%d') }
 
       expect(response).to have_http_status(200)
@@ -109,7 +109,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       get v10_u_races_url(0),
           headers: http_headers,
           params: { page_size: 10,
-                    operator: :up,
+                    operator: :backward,
                     seq_id: seq_id }
 
       expect(response).to have_http_status(200)
@@ -117,7 +117,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       expect(json['code']).to eq(0)
       races = json['data']['items']
       expect(races.class).to      eq(Array)
-      expect(races.size).to       eq(10)
+      expect(races.size).to       eq(0)
       races.each do |race|
         expect(race['seq_id'] < seq_id).to be_truthy
       end
@@ -131,7 +131,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       get v10_u_races_url(0),
           headers: http_headers,
           params: { page_size: 10,
-                    operator: :down,
+                    operator: :forward,
                     seq_id: seq_id }
 
       expect(response).to have_http_status(200)
