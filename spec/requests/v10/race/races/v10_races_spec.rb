@@ -117,7 +117,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       expect(json['code']).to eq(0)
       races = json['data']['items']
       expect(races.class).to      eq(Array)
-      expect(races.size).to       eq(0)
+      expect(races.size).to       eq(10)
       races.each do |race|
         expect(race['seq_id'] < seq_id).to be_truthy
       end
