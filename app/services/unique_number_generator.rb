@@ -1,5 +1,5 @@
 ##
-# 唯一单号生成器
+# 唯一编号生成器
 # model              需要产生的单号的model
 # key                model中被唯一的编号字段
 # incr_min_length   增加量的最小长度
@@ -8,6 +8,7 @@ module Services
   class UniqueNumberGenerator
     include Serviceable
     attr_accessor :model, :key, :incr_min_length
+    DATE_FORMAT_LENGTH = 8
 
     def initialize(model, key = :order_number, incr_min_length = 5)
       self.model = model
@@ -57,7 +58,6 @@ module Services
       "#{model}::#{key}::#{today_prefix}::increment"
     end
 
-    DATE_FORMAT_LENGTH = 8
     def today_prefix
       @today_prefix ||= Time.current.strftime('%Y%m%d')
     end
