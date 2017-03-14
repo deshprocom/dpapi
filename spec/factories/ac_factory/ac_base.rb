@@ -34,6 +34,8 @@ module AcFactory
                     :ticket_status,
                     :ticket_price,
                     :name,
+                    :begin_date,
+                    :end_date,
                     :prize,
                     :location,
                     :logo).as_json
