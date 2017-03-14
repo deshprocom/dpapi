@@ -55,6 +55,7 @@ server '106.75.134.18',
        ssh_options: {
            user: 'deploy', # overrides user setting above
            keys: %w(~/.ssh/id_rsa),
+           port: 5022,
            forward_agent: false,
            auth_methods: %w(publickey password)
            # password: 'please use keys'
