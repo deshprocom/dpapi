@@ -48,6 +48,7 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'capistrano', '~> 3.6'
   gem 'capistrano-rails', '~> 1.2'
+  gem 'capistrano-rvm'
   gem 'capistrano3-puma'
   gem 'capistrano-resque', require: false
 end
