@@ -2,7 +2,7 @@ module V10
   module Races
     class RacesController < ApplicationController
       include Constants::Error::Common
-      OPERATOR_TYPE = %w(up down).freeze
+      OPERATOR_TYPE = %w(forward backward).freeze
       # 获取赛事列表
       def index
         search_params = search_permit_params.dup

@@ -20,9 +20,9 @@ module Services
         operator = operator_parse search_params[:operator]
         page_size = search_params[:page_size]
         lists = if operator.eql?('>')
-                  Race.where("seq_id #{operator} ?", search_params[:seq_id]).limit(page_size).order(seq_id: :asc)
+                  Race.where("seq_id #{operator} ?", search_params[:seq_id].to_i).limit(page_size).order(seq_id: :asc)
                 else
-                  Race.where("seq_id #{operator} ?", search_params[:seq_id]).limit(page_size).order(seq_id: :desc)
+                  Race.where("seq_id #{operator} ?", search_params[:seq_id].to_i).limit(page_size).order(seq_id: :desc)
                 end
         next_id = lists.blank? ? '' : lists.last.seq_id
         ApiResult.success_with_data(race: lists, user: User.by_uuid(user_uuid), next_id: next_id)
@@ -43,7 +43,7 @@ module Services
       end
 
       def operator_parse(operator)
-        operator.eql?('up') ? '<' : '>'
+        operator.eql?('backward') ? '<' : '>'
       end
     end
   end
