@@ -9,7 +9,8 @@ json.data do
       json.race_id       item.id
       json.name          item.name.to_s
       json.seq_id        item.seq_id
-      json.logo          item.logo.to_s
+      json.logo          item.preview_logo
+      json.big_logo      item.big_logo
       json.prize         item.prize
       json.location      item.location.to_s
       json.begin_date    item.begin_date

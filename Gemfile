@@ -30,10 +30,13 @@ gem 'jbuilder'
 gem 'redis', '~> 3.2'
 gem 'hiredis'
 gem 'redis-rails'
-gem 'second_level_cache', '~> 2.2.4'
+gem 'second_level_cache', '~> 2.3.0'
 gem 'request_store'
 
+# 文件处理组件
 gem 'carrierwave', '~> 1.0'
+gem 'mini_magick'
+
 gem 'dotenv-rails'
 
 gem 'jwt'
