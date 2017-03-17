@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :race do
     sequence(:name) { |n| "2017APT启航站第#{n}场" }
-    logo 'http://img.dzpk.com/allimg/170119/4466-1F119113228-lp.png'
+    logo File.open(Rails.root.join('spec/factories/foo.png'))
     sequence(:prize) { |n| "100_000_#{n}" }
     sequence(:location) { |n| "澳门_#{n}" }
     sequence(:seq_id) { |n| n }

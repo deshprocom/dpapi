@@ -67,11 +67,28 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
         expect(race['location'].class).to   eq(String)
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
-        expect(race['status'].class).to     eq(Fixnum)
+        expect(race['status'].class).to     eq(String)
         expect(race.key?('seq_id')).to      be_truthy
         expect( %w(true false) ).to    include(race['followed'].to_s)
         expect( %w(true false) ).to    include(race['ordered'].to_s)
       end
+    end
+  end
+
+  context '存在一条赛事' do
+    it '返回的logo路径应正确' do
+      race = FactoryGirl.create(:race)
+      get v10_u_races_url(0),
+          headers: http_headers,
+          params: { page_size: 10,
+                    operator: :forward,
+                    begin_date: Time.now.strftime('%Y-%m-%d') }
+
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races[0]['logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url(:preview))
+      expect(races[0]['big_logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url)
     end
   end
 
