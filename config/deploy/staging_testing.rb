@@ -63,7 +63,7 @@ server '106.75.136.9',
 
 role :resque_worker, %w{106.75.136.9}
 set :deploy_to, '/deploy/dpapi_testing'
-set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'production'))
 set :rails_env, 'development'
 set :bundle_without, %w{tools}.join(' ')
 
