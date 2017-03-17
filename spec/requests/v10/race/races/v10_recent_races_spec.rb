@@ -74,10 +74,24 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
         expect(race['location'].class).to   eq(String)
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
-        expect(race['status'].class).to     eq(Fixnum)
+        expect(race['status'].class).to     eq(String)
         expect( %w(true false) ).to    include(race['followed'].to_s)
         expect( %w(true false) ).to    include(race['ordered'].to_s)
       end
+    end
+  end
+
+  context '存在一条赛事' do
+    it '返回的logo路径应正确' do
+      race = FactoryGirl.create(:race)
+      get v10_u_recent_races_url(0),
+          headers: http_headers
+
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races[0]['logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url(:preview))
+      expect(races[0]['big_logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url)
     end
   end
 
@@ -131,8 +145,8 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       races = json['data']['items']
-      expect(races[0]['status']).to  eq(1)
-      expect(races[1]['status']).to  eq(0)
+      expect(races[0]['status']).to  eq('go_ahead')
+      expect(races[1]['status']).to  eq('unbegin')
       races.each do |race|
         expect([2,3]).not_to include(race['status'])
       end

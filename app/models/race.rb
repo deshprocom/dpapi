@@ -23,6 +23,8 @@ class Race < ApplicationRecord
   has_one :ticket_info
   has_many :race_follows
   has_many :race_orders, class_name: PurchaseOrder
+  mount_uploader :logo, PhotoUploader
+  enum status: [:unbegin, :go_ahead, :ended, :closed]
 
   # 默认取已发布的赛事
   default_scope { where(published: true) }
@@ -50,7 +52,11 @@ class Race < ApplicationRecord
     }
   end
 
-  def logo
-    "#{ENV['PHOTO_DOMAIN']}/uploads/race/logo/#{id}/preview_#{super}"
+  def preview_logo
+    ENV['PHOTO_DOMAIN'] + logo.url(:preview)
+  end
+
+  def big_logo
+    ENV['PHOTO_DOMAIN'] + logo.url
   end
 end

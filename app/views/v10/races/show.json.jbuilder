@@ -7,7 +7,8 @@ json.data do
   json.race_id       race.id
   json.name          race.name.to_s
   json.seq_id        race.seq_id
-  json.logo          race.logo.to_s
+  json.logo          race.preview_logo
+  json.big_logo      race.big_logo
   json.prize         race.prize
   json.location      race.location.to_s
   json.begin_date    race.begin_date

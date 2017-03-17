@@ -44,7 +44,8 @@ end
       expect(race['description']).to eq(race_desc.description)
       expect(race['name']).to        eq(race_desc.race.name)
       expect(race['seq_id']).to      eq(race_desc.race.seq_id)
-      expect(race['logo']).to        eq(race_desc.race.logo)
+      expect(race['logo']).to        eq(ENV['PHOTO_DOMAIN'] + race_desc.race.logo.url(:preview))
+      expect(race['big_logo']).to    eq(ENV['PHOTO_DOMAIN'] + race_desc.race.logo.url)
       expect(race['prize']).to       eq(race_desc.race.prize)
       expect(race['location']).to    eq(race_desc.race.location)
       expect(race['begin_date']).to  eq(race_desc.race.begin_date.to_s)
@@ -63,37 +64,37 @@ end
 
       json = JSON.parse(response.body)
       race = json['data']
-      expect(race['status']).to  eq(0)
+      expect(race['status']).to  eq('unbegin')
     end
 
     it '返回的赛事状态应为 进行中' do
-      race = AcFactory::AcBase.call('generate_race', status: 1)
+      race = AcFactory::AcBase.call('generate_race', status: 'go_ahead')
       get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
       race = json['data']
-      expect(race['status']).to  eq(1)
+      expect(race['status']).to  eq('go_ahead')
     end
 
     it '返回的赛事状态应为 已结束' do
-      race = AcFactory::AcBase.call('generate_race', status: 2)
+      race = AcFactory::AcBase.call('generate_race', status: 'ended')
       get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
       race = json['data']
-      expect(race['status']).to  eq(2)
+      expect(race['status']).to  eq('ended')
     end
 
     it '返回的赛事状态应为 已终止' do
-      race = AcFactory::AcBase.call('generate_race', status: 3)
+      race = AcFactory::AcBase.call('generate_race', status: 'closed')
       get v10_u_race_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
       race = json['data']
-      expect(race['status']).to  eq(3)
+      expect(race['status']).to  eq('closed')
     end
   end
 
