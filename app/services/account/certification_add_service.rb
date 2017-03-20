@@ -46,10 +46,14 @@ module Services
           return ApiResult.error_result(CERT_NO_ALREADY_EXIST)
         end
 
-        user.user_extra.update!(user_params.merge(status: 'init'))
+        if extra_info.status.eql?('failed')
+          extra_info.update!(user_params.merge(status: 'pending'))
+        else
+          extra_info.update!(user_params)
+        end
 
         data = {
-          user_extra: user.user_extra
+          user_extra: extra_info
         }
         ApiResult.success_with_data(data)
       end
