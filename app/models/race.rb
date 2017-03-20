@@ -43,7 +43,7 @@ class Race < ApplicationRecord
     {
       race_id:      id,
       name:         name,
-      logo:         logo,
+      logo:         preview_logo,
       prize:        prize,
       location:     location,
       ticket_price: ticket_price,
