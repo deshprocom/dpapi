@@ -90,8 +90,8 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       races = json['data']['items']
-      expect(races[0]['logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url(:preview))
-      expect(races[0]['big_logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url)
+      expect(races[0]['logo']).to eq(race.preview_logo)
+      expect(races[0]['big_logo']).to eq(race.big_logo)
     end
   end
 
