@@ -53,10 +53,10 @@ class Race < ApplicationRecord
   end
 
   def preview_logo
-    ENV['PHOTO_DOMAIN'] + logo.url(:preview)
+    ENV['CMS_PHOTO_PATH'] + logo.url(:preview)
   end
 
   def big_logo
-    ENV['PHOTO_DOMAIN'] + logo.url
+    ENV['CMS_PHOTO_PATH'] + logo.url
   end
 end

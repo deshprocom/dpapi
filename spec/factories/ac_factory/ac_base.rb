@@ -30,7 +30,9 @@ module AcFactory
     end
 
     def permit_race_parms
-      params[:status] = params[:status].to_i
+      if params[:status].to_s.match /\d/
+        params[:status] = params[:status].to_i
+      end
       params.permit(:status,
                     :ticket_status,
                     :ticket_price,
