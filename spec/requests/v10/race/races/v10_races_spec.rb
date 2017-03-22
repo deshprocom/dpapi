@@ -63,11 +63,13 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       races.each do |race|
         expect(race['name'].class).to       eq(String)
         expect(race['logo'].class).to       eq(String)
-        expect(race['prize'].class).to      eq(Fixnum)
+        expect(race['prize'].class).to      eq(String)
         expect(race['location'].class).to   eq(String)
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
         expect(race['status'].class).to     eq(String)
+        expect(race['ticket_sellable']).to eq(true)
+        expect(race['describable']).to     eq(true)
         expect(race.key?('seq_id')).to      be_truthy
         expect( %w(true false) ).to    include(race['followed'].to_s)
         expect( %w(true false) ).to    include(race['ordered'].to_s)
