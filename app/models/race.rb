@@ -25,6 +25,7 @@ class Race < ApplicationRecord
   has_many :race_orders, class_name: PurchaseOrder
   mount_uploader :logo, PhotoUploader
   enum status: [:unbegin, :go_ahead, :ended, :closed]
+  enum ticket_status: {unsold: 'unsold', selling: 'selling', end: 'end', sold_out: 'sold_out'}
 
   # 默认取已发布的赛事
   default_scope { where(published: true) }
