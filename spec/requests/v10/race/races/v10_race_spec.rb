@@ -51,6 +51,8 @@ end
       expect(race['begin_date']).to  eq(race_desc.race.begin_date.to_s)
       expect(race['end_date']).to    eq(race_desc.race.end_date.to_s)
       expect(race['status']).to      eq(race_desc.race.status)
+      expect(race['ticket_sellable']).to  eq(race_desc.race.ticket_sellable)
+      expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       expect( %w(true false) ).to    include(race['ordered'].to_s)
     end

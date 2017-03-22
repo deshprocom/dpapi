@@ -14,7 +14,6 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
   let(:race2) { FactoryGirl.create(:race, { ticket_status: 'unsold' }) }
   let(:race3) { FactoryGirl.create(:race, { ticket_status: 'end' }) }
   let(:race4) { FactoryGirl.create(:race, { ticket_status: 'selling' }) }
-  let(:race5) { FactoryGirl.create(:race, { ticket_status: 'others' }) }
 
   context '赛事不存在' do
     it '应当返回code 1100006' do
@@ -27,7 +26,7 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
   end
 
   context '赛事存在' do
-    context "票已售完" do
+    context '票已售完' do
       it '应当返回code 1100031' do
         get v10_race_ticket_status_url(race1.id),
             headers: http_headers
@@ -37,7 +36,7 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
       end
     end
 
-    context "售票还没开始" do
+    context '售票还没开始' do
       it '应当返回code 1100032' do
         get v10_race_ticket_status_url(race2.id),
             headers: http_headers
@@ -47,7 +46,7 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
       end
     end
 
-    context "售票结束" do
+    context '售票结束' do
       it '应当返回code 1100038' do
         get v10_race_ticket_status_url(race3.id),
             headers: http_headers
@@ -57,7 +56,7 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
       end
     end
 
-    context "正在售票" do
+    context '正在售票' do
       it '应当返回code 0' do
         get v10_race_ticket_status_url(race4.id),
             headers: http_headers
@@ -67,14 +66,5 @@ RSpec.describe '/v10/races/:race_id/ticket_status', :type => :request do
       end
     end
 
-    context "数据库错误" do
-      it '应当返回code 1100003' do
-        get v10_race_ticket_status_url(race5.id),
-            headers: http_headers
-        expect(response).to have_http_status(200)
-        json = JSON.parse(response.body)
-        expect(json['code']).to eq(1100003)
-      end
-    end
   end
 end
