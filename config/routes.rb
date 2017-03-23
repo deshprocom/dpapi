@@ -23,7 +23,7 @@ Rails.application.routes.draw do
       resources :u, only:[] do
         resources :races, only: [:index]
         get 'recent_races', to: 'recent_races#index', as: :recent_races
-        get 'races/:id/race_detail', to: 'races#show', as: :race_detail
+        get 'races/:id/detail', to: 'races#show', as: :race_detail
         get 'races/search_by_date', to:'search_by_date#index', as: :search_by_date
         get 'races/search_by_keyword', to:'search_by_keyword#index', as: :search_by_keyword
         get 'races/search_range_list', to:'search_range_list#index', as: :search_range_list
