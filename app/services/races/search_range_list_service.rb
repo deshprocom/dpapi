@@ -26,12 +26,12 @@ module Services
           item = races_map[begin_date]
 
           if item.nil?
-            races_map[begin_date] = item = { begin_date: begin_date, follow_number: 0, order_number: 0, race_count: 0 }
+            races_map[begin_date] = item = { begin_date: begin_date, follows: 0, orders: 0, counts: 0 }
           end
 
-          item[:race_count] += 1
-          item[:follow_number] = item[:follow_number] + 1 if RaceFollow.followed?(user.try(:id), race.id)
-          item[:order_number] = item[:order_number] + 1 if PurchaseOrder.purchased?(user.try(:id), race.id)
+          item[:counts] += 1
+          item[:follows] = item[:follows] + 1 if RaceFollow.followed?(user.try(:id), race.id)
+          item[:orders] = item[:orders] + 1 if PurchaseOrder.purchased?(user.try(:id), race.id)
           races_map
         end
 
