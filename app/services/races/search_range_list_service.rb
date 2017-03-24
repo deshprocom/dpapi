@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/MethodLength
 module Services
   module Races
     class SearchRangeListService
@@ -15,9 +16,9 @@ module Services
         end_date = search_params[:end_date]
         user = User.by_uuid(user_uuid)
         race_lists = Race.select('id, begin_date')
-                          .where('begin_date >= ?', begin_date )
-                          .where('end_date <= ?', end_date)
-                          .order(begin_date: :asc)
+                         .where('begin_date >= ?', begin_date)
+                         .where('end_date <= ?', end_date)
+                         .order(begin_date: :asc)
 
         list_result = {}
         race_lists.reduce(list_result) do |races_map, race|
@@ -25,7 +26,7 @@ module Services
           item = races_map[begin_date]
 
           if item.nil?
-            races_map[begin_date] = item = {begin_date: begin_date, follow_number: 0, order_number: 0, race_count: 0}
+            races_map[begin_date] = item = { begin_date: begin_date, follow_number: 0, order_number: 0, race_count: 0 }
           end
 
           item[:race_count] += 1
