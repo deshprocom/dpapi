@@ -12,7 +12,7 @@ RSpec.describe Services::UniqueNumberGenerator do
   let!(:user) { FactoryGirl.create(:user) }
   let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:generate_order) do
-    Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+    Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
   end
   context '当今天还未产生过编号时' do
     it '返回的编号应为今天日期 + 00001' do
