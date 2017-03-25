@@ -23,4 +23,13 @@ class TicketInfo < ApplicationRecord
   def sold_out?
     e_ticket_sold_number >= e_ticket_number && entity_ticket_sold_number >= entity_ticket_number
   end
+
+  def increment_with_lock!(attribute, by = 1)
+    self[attribute] += by
+    self.save!
+  end
+
+  def decrement_with_lock!(attribute, by = 1)
+    increment_with_lock!(attribute, -by)
+  end
 end
