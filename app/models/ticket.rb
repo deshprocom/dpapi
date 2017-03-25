@@ -20,10 +20,6 @@ class Ticket < ApplicationRecord
 
   scope :valid, -> { where(canceled: false) }
 
-  def self.again_buy?(user_id, race_id)
-    where(user_id: user_id).where(race_id: race_id).valid.present?
-  end
-
   def self.valid_race_ticket(race_id)
     where(race_id: race_id).valid
   end

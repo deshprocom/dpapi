@@ -25,7 +25,7 @@ module Services
     end
 
     def today_increment
-      if Rails.cache.data.exists(today_cache_key)
+      if Rails.cache.exist?(today_cache_key,raw: true)
         return Rails.cache.increment(today_cache_key)
       end
       set_today_increment

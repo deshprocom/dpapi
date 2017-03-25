@@ -24,7 +24,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     }
   end
   let(:create_order) do
-    Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+    Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
     user.orders.find_by_race_id(race.id)
   end
   let(:other_people_order) do
@@ -33,7 +33,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
                                     mobile: '13655667766',
                                     email: 'test2@deshpro.com')
     FactoryGirl.create(:user_extra, user: other_user, status: 'passed')
-    Services::Races::CreateOrderService.call(race, other_user, e_ticket_params)
+    Services::Orders::CreateOrderService.call(race, other_user, e_ticket_params)
     other_user.orders.find_by_race_id(race.id)
   end
 

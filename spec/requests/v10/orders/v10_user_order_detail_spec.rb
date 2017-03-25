@@ -24,7 +24,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   let!(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
   let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race) }
   let!(:create_orders) do
-    Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+    Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
   end
 
   context '获取用户某个订单详情' do

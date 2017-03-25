@@ -63,7 +63,7 @@ module AcFactory
       race = generate_race
       user = User.by_email(params[:user])
       FactoryGirl.create(:user_extra, user: user)
-      result = Services::Races::CreateOrderService.call(race, user, email: user.email, ticket_type: 'e_ticket')
+      result = Services::Orders::CreateOrderService.call(race, user, email: user.email, ticket_type: 'e_ticket')
       result.data[:order]
     end
   end

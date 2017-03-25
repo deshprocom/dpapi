@@ -33,7 +33,6 @@ class PurchaseOrder < ApplicationRecord
   end
 
   after_create do
-    race.sold_a_e_ticket
     create_snapshot(race.to_snapshot)
   end
 
