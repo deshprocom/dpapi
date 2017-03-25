@@ -23,13 +23,13 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
 
   context '当访问不存在赛事详情时' do
     it '应当返回不存在相应的数据' do
-    get v10_u_race_detail_url(0, 'nonexistent'),
-        headers: http_headers
-    expect(response).to have_http_status(200)
-    json = JSON.parse(response.body)
-    expect(json['code']).to eq(1100006)
+      get v10_u_race_detail_url(0, 'nonexistent'),
+          headers: http_headers
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(1100006)
+    end
   end
-end
 
   context '当访问赛事详情时' do
     it '应当返回相应的数据' do
