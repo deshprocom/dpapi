@@ -43,11 +43,6 @@ RSpec.describe 'v10_u_search_range_list', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
-      data = json['data']
-      expect(data['items'][0]['begin_date']).to eq('2017-03-12')
-      expect(data['items'][0]['counts']).to eq(1)
-      expect(data['items'][0]['follows']).to eq(0)
-      expect(data['items'][0]['orders']).to eq(0)
     end
   end
 end
