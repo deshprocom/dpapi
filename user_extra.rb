@@ -23,10 +23,8 @@ class UserExtra < ApplicationRecord
 
   def image=(value)
     super
-
-    if image.file.present? &&
-      image.file.respond_to?(:path) &&
-      File.exist?(image.file.path)
+    # rubocop:disable Style/GuardClause:27
+    if image.file.present? && image.file.respond_to?(:path) && File.exist?(image.file.path)
       self.image_md5 = Digest::MD5.file(image.file.path).hexdigest
     end
   end

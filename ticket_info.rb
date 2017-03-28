@@ -26,7 +26,7 @@ class TicketInfo < ApplicationRecord
 
   def increment_with_lock!(attribute, by = 1)
     self[attribute] += by
-    self.save!
+    save!
   end
 
   def decrement_with_lock!(attribute, by = 1)
