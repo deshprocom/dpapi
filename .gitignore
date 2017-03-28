@@ -54,3 +54,6 @@
 #simplecov
 /coverage
 /bfg.jar
+
+#models
+./app/models/admin_user.rb
