@@ -20,9 +20,43 @@
 
 # 用户信息表
 class User < ApplicationRecord
+  include UserFinders
+  include UserUniqueValidator
+  include UserNameGenerator
+  include UserCreator
+  mount_uploader :avatar, AvatarUploader
+
   # 增加二级查询缓存，缓存过期时间六小时
   second_level_cache(version: 1, expires_in: 6.hours)
 
-  has_one :user_extra
+  attr_accessor :avatar_path
+
+  # 关联关系
+  has_one  :user_extra
+  has_many :race_follows
+  has_many :tickets
   has_many :purchase_orders
+  has_many :orders, class_name: PurchaseOrder
+  has_many :shipping_addresses, -> { order(default: :desc) }
+
+  # 刷新访问时间
+  def touch_visit!
+    self.last_visit = Time.zone.now
+    save
+  end
+
+  # 上传图片给图片赋值的时候 创建图片路径
+  def avatar=(value)
+    super
+
+    if avatar.file.present? &&
+      avatar.file.respond_to?(:path) &&
+      File.exist?(avatar.file.path)
+      self.avatar_md5 = Digest::MD5.file(avatar.file.path).hexdigest
+    end
+  end
+
+  def avatar_path
+    DpapiConfig.domain_path.to_s + avatar.to_s unless avatar.blank?
+  end
 end

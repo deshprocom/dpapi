@@ -18,21 +18,20 @@ class UserExtra < ApplicationRecord
   belongs_to :user
   mount_uploader :image, CardImageUploader
 
+  enum status: { init: 'init', pending: 'pending', 'passed': 'passed', 'failed': 'failed' }
   attr_accessor :image_path
 
   def image=(value)
     super
 
     if image.file.present? &&
-       image.file.respond_to?(:path) &&
-       File.exist?(image.file.path)
+      image.file.respond_to?(:path) &&
+      File.exist?(image.file.path)
       self.image_md5 = Digest::MD5.file(image.file.path).hexdigest
     end
   end
 
   def image_path
-    DpapiConfig.domain_path.to_s + image.to_s
+    DpapiConfig.domain_path.to_s + image.to_s unless image.blank?
   end
-
-  enum status: { init: 'init', pending: 'pending', 'passed': 'passed', 'failed': 'failed' }
 end
