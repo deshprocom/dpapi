@@ -20,27 +20,35 @@ module Services
                          .where('begin_date >= ?', begin_date)
                          .where('begin_date <= ?', end_date)
                          .order(created_at: :asc)
-        race_begin_ids = race_begin.pluck(:id)
+        race_begin_ids = race_begin.pluck(:id).blank? ? [0] : race_begin.pluck(:id)
 
         # 传递过来的begin_date <= 数据库中的end_date <= 传递过来的end_date, 但是排除掉上面已经查出来的
         race_end = Race.select('id, begin_date, end_date')
-                          .where('end_date >= ?', begin_date)
-                          .where('end_date <= ?', end_date)
-                          .where('id not in (?)', race_begin_ids)
-                          .order(created_at: :asc)
+                       .where('end_date >= ?', begin_date)
+                       .where('end_date <= ?', end_date)
+                       .where('id not in (?)', race_begin_ids)
+                       .order(created_at: :asc)
+        race_end_ids = race_end.pluck(:id)
+        expect_ids = race_begin_ids + race_end_ids
+
+        race_include = Race.select('id, begin_date, end_date')
+                           .where('begin_date <= ?', begin_date)
+                           .where('end_date >= ?', end_date)
+                           .where('id not in (?)', expect_ids)
+                           .order(created_at: :asc)
 
         # 合并得到传递过来的区间存在的赛事列表
-        race_all = (race_begin + race_end).sort_by { |v| v[:begin_date] }
+        race_all = (race_begin + race_end + race_include).sort_by { |v| v[:begin_date] }
 
         # 向赛事列表里面添加赛事的关注情况
         race_lists = race_all.collect do |race|
           follows = RaceFollow.followed?(user.try(:id), race.id) ? 1 : 0
           orders = PurchaseOrder.purchased?(user.try(:id), race.id) ? 1 : 0
           {
-              begin_date: race.begin_date,
-              end_date: race.end_date,
-              follows: follows,
-              orders: orders
+            begin_date: race.begin_date,
+            end_date: race.end_date,
+            follows: follows,
+            orders: orders
           }
         end
 
