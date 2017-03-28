@@ -49,9 +49,7 @@ class User < ApplicationRecord
   def avatar=(value)
     super
 
-    if avatar.file.present? &&
-      avatar.file.respond_to?(:path) &&
-      File.exist?(avatar.file.path)
+    if avatar.file.present? && avatar.file.respond_to?(:path) && File.exist?(avatar.file.path)
       self.avatar_md5 = Digest::MD5.file(avatar.file.path).hexdigest
     end
   end
