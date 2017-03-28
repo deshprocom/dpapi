@@ -39,7 +39,7 @@ class Race < ApplicationRecord
   validates :name, :prize, :logo, presence: true
   enum status: [:unbegin, :go_ahead, :ended, :closed]
   enum ticket_status: {unsold: 'unsold', selling: 'selling', end: 'end', sold_out: 'sold_out'}
-  ransacker :status, formatter: proc { |v| statuses[v] }
+  ransacker :status, formatter: proc { |v| statuses[v] } if ENV['CURRENT_PROJECT'] == 'dpcms'
 
   after_initialize do
     self.begin_date ||= Date.current
