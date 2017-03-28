@@ -20,7 +20,7 @@ module Services
                          .where('begin_date >= ?', begin_date)
                          .where('begin_date <= ?', end_date)
                          .order(created_at: :asc)
-        race_begin_ids = race_begin.pluck(:id)
+        race_begin_ids = race_begin.pluck(:id).blank? ? [0] : race_begin.pluck(:id)
 
         # 传递过来的begin_date <= 数据库中的end_date <= 传递过来的end_date, 但是排除掉上面已经查出来的
         race_end = Race.select('id, begin_date, end_date')
