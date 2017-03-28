@@ -15,9 +15,9 @@
 # 已授权的app应用列表
 # 一个授权的app应用对应某一个平台用户
 class AffiliateApp < ApplicationRecord
-  belongs_to :affiliate
-
   second_level_cache version: 1, expires_in: 1.week
+
+  belongs_to :affiliate
 
   def self.by_app_key(app_key)
     fetch_by_uniq_keys(app_key: app_key)
