@@ -46,7 +46,7 @@ RSpec.describe 'v10_u_search_by_keyword', :type => :request do
       data = json['data']['items']
       next_id = json['data']['next_id']
       expect(data.size).to eq(2)
-      expect(next_id.to_i).to eq(race2.id)
+      expect(next_id.to_i).to eq(race2.seq_id)
     end
   end
 end

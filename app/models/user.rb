@@ -26,17 +26,18 @@ class User < ApplicationRecord
   include UserCreator
   mount_uploader :avatar, AvatarUploader
 
-  attr_accessor :avatar_path
-
   # 增加二级查询缓存，缓存过期时间六小时
   second_level_cache(version: 1, expires_in: 6.hours)
 
+  attr_accessor :avatar_path
+
   # 关联关系
-  has_many :race_follows
   has_one  :user_extra
-  has_many :shipping_addresses, -> { order(default: :desc) }
+  has_many :race_follows
   has_many :tickets
+  has_many :purchase_orders
   has_many :orders, class_name: PurchaseOrder
+  has_many :shipping_addresses, -> { order(default: :desc) }
 
   # 刷新访问时间
   def touch_visit!

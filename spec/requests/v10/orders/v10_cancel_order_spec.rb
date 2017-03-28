@@ -102,7 +102,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
     it '订单状态不为 unpaid,不能取消' do
       order = create_order
-      %w(canceled paid unshipped completed).each do |status|
+      %w(canceled paid completed).each do |status|
         order.update(status: status)
         post v10_user_order_cancel_index_url(user.user_uuid, order.order_number),
              headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)

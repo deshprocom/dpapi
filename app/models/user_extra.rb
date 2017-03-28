@@ -18,6 +18,7 @@ class UserExtra < ApplicationRecord
   belongs_to :user
   mount_uploader :image, CardImageUploader
 
+  enum status: { init: 'init', pending: 'pending', 'passed': 'passed', 'failed': 'failed' }
   attr_accessor :image_path
 
   def image=(value)
