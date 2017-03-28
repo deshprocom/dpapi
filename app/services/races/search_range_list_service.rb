@@ -32,7 +32,7 @@ module Services
         expect_ids = race_begin_ids + race_end_ids
 
         race_include = Race.select('id, begin_date, end_date')
-                           .where('begin_date >= ?', begin_date)
+                           .where('begin_date <= ?', begin_date)
                            .where('end_date >= ?', end_date)
                            .where('id not in (?)', expect_ids)
                            .order(created_at: :asc)
