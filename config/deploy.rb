@@ -35,3 +35,4 @@ set :default_env, { path: '/home/deploy/engine/ruby/bin:$PATH' }
 
 # Default value for keep_releases is 5
 set :keep_releases, 10
+

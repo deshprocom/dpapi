@@ -63,10 +63,10 @@ server '192.168.2.231',
 role :resque_worker, %w{192.168.2.231}
 set :workers, {send_email_sms: 1, send_mobile_sms: 1}
 
-set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev_test'))
 set :rails_env, 'development'
 set :bundle_without, %w{test tools}.join(' ')
-
+set :git_enable_submodules, 1
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_env, fetch(:rails_env, 'development')
