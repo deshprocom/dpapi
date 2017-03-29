@@ -1,2 +1,0 @@
-class RankingType < ApplicationRecord
-end
