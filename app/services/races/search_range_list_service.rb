@@ -58,6 +58,7 @@ module Services
           list_result[date] = { date: date, follows: 0, orders: 0, counts: 0 }
 
           race_lists.each do |item|
+            # rubocop:disable Style/Next:61
             if date >= item[:begin_date].to_s && date <= item[:end_date].to_s
               list_result[date][:counts] += 1
               list_result[date][:follows] += item[:follows]
