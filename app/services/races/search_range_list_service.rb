@@ -51,9 +51,7 @@ module Services
             orders: orders
           }
         end
-
         list_result = {}
-
         (begin_date..end_date).each do |date|
           list_result[date] = { date: date, follows: 0, orders: 0, counts: 0 }
 
@@ -66,7 +64,6 @@ module Services
             end
           end
         end
-
         ApiResult.success_with_data(race: list_result)
       end
     end
