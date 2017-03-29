@@ -13,6 +13,7 @@ module Services
         sold_out: TICKET_SOLD_OUT
       }.freeze
       attr_accessor :race, :user, :params
+      delegate :ticket_info, to: :race
       def initialize(race, user, params)
         self.race   = race
         self.user   = user
@@ -60,12 +61,10 @@ module Services
           yield
         rescue ActiveRecord::StaleObjectError
           optimistic_lock_retry_times -= 1
-          if optimistic_lock_retry_times >= 0
-            ticket_info.reload(lock: true)
-            retry
-          else
-            return ApiResult.error_result(SYSTEM_ERROR)
-          end
+          return ApiResult.error_result(SYSTEM_ERROR) if optimistic_lock_retry_times.negative?
+
+          ticket_info.reload(lock: true)
+          retry
         end
       end
 
@@ -106,10 +105,6 @@ module Services
 
       def email_order_params
         init_order_params.merge(email: params[:email])
-      end
-      
-      def ticket_info
-        race.ticket_info
       end
     end
   end
