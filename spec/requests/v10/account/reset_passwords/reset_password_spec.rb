@@ -12,6 +12,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
   end
 
   let!(:user) { FactoryGirl.create(:user) }
+  let(:v_code) {VCode.generate_mobile_vcode('reset_pwd', '18018001880')}
 
   context "传入不正确的重置类型" do
     it "should return code 1100021" do
@@ -73,7 +74,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       it "should return code 0" do
         post v10_account_reset_password_url,
              headers: http_headers,
-             params: { type: 'mobile', mobile: '18018001880', vcode: '1880', password: 'cc03e747a6afbbcbf8be7668acfebee5' }
+             params: { type: 'mobile', mobile: '18018001880', vcode: v_code, password: 'cc03e747a6afbbcbf8be7668acfebee5' }
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)

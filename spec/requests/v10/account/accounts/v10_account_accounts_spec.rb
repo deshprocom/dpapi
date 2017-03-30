@@ -10,6 +10,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
         HTTP_X_DP_APP_KEY: "467109f4b44be6398c17f6c058dfa7ee"
     }
   end
+  let(:v_code) {VCode.generate_mobile_vcode('register', '13713662222')}
 
   context "注册失败 传递不合法的注册类型" do
     it "应当返回 code: 1100002 (UNSUPPORTED_TYPE)" do
@@ -71,7 +72,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
     it "手机号格式正确 验证码正确 并且传了用户密码过来 密码不是md5" do
       post v10_register_url,
            headers: http_headers,
-           params: { type: "mobile", mobile: "13713662222", vcode: '2222', password: '123abc' }
+           params: { type: "mobile", mobile: "13713662222", vcode: v_code, password: '123abc' }
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(1100015)
@@ -82,7 +83,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
     it "应当返回code: 0" do
       post v10_register_url,
            headers: http_headers,
-           params: { type: "mobile", mobile: "13713662222", vcode: "2222" }
+           params: { type: "mobile", mobile: "13713662222", vcode: v_code }
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)
@@ -102,7 +103,7 @@ RSpec.describe "/v10/register (AccountsController)", :type => :request do
     it "应当返回code: 0" do
       post v10_register_url,
            headers: http_headers,
-           params: { type: "mobile", mobile: "13713662222", vcode: "2222", password: "cc03e747a6afbbcbf8be7668acfebee5" }
+           params: { type: "mobile", mobile: "13713662222", vcode: v_code, password: "cc03e747a6afbbcbf8be7668acfebee5" }
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)
