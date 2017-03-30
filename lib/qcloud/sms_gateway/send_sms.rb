@@ -1,7 +1,8 @@
+# rubocop:disable Metrics/MethodLength
 module Qcloud
   module SmsGateway
-    SINGLE_SMS_URI =  '/v5/tlssmssvr/sendsms'
-    MULTIPLE_SMS_URI = '/v5/tlssmssvr/sendmultisms2'
+    SINGLE_SMS_URI = '/v5/tlssmssvr/sendsms'.freeze
+    MULTIPLE_SMS_URI = '/v5/tlssmssvr/sendmultisms2'.freeze
 
     class SendSms
       attr_accessor :appid, :appkey, :uri
@@ -45,7 +46,7 @@ module Qcloud
       end
 
       def self.send(mobile, msg, type = 0, options = {})
-        self.new.send(mobile, msg, type, options)
+        new.send(mobile, msg, type, options)
       end
 
       private
@@ -73,11 +74,10 @@ module Qcloud
       end
 
       def write_log(mobile, content)
-        SmsLog.create!({ mobile: mobile,
-                         content: content,
-                         send_time: Time.now,
-                         status: 'sending'
-                       }).id
+        SmsLog.create!(mobile: mobile,
+                       content: content,
+                       send_time: Time.zone.now,
+                       status: 'sending').id
       end
 
       def update_log(log_id, params)
@@ -92,7 +92,7 @@ module Qcloud
           error_msg: error_msg,
           fee: fee,
           status: status,
-          arrival_time: Time.now
+          arrival_time: Time.zone.now
         }
         sms.update!(update_params) unless sms.nil?
       end

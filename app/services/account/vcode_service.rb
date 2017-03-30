@@ -35,6 +35,9 @@ module Services
         vcode = VCode.generate_mobile_vcode(option_type, account_id)
         sms_content = format(sms_template, vcode)
         Rails.logger.info "send [#{sms_content}] to #{account_id} in queue"
+        # 测试则不实际发出去
+        return ApiResult.success_result if Rails.env.to_s.eql?('test') || ENV['AC_TEST'].present?
+
         SendMobileSmsJob.set(queue: 'send_mobile_sms').perform_later(option_type, account_id, sms_content)
         ApiResult.success_result
       end
@@ -46,6 +49,9 @@ module Services
         sms_content = format(sms_template, vcode)
         Rails.logger.info "send [#{sms_content}] to #{account_id} in queue"
         sms_title = option_type.eql?('reset_pwd') ? RESET_PWD_TITLE : COMMON_SMS_TITLE
+        # 测试则不实际发出去
+        return ApiResult.success_result if Rails.env.to_s.eql?('test') || ENV['AC_TEST'].present?
+
         SendEmailSmsJob.set(queue: 'send_email_sms').perform_later(option_type, account_id, sms_content, sms_title)
         ApiResult.success_result
       end

@@ -12,7 +12,7 @@ module Qcloud
       end
 
       def self.post(uri, params = {})
-        self.new.post(uri, params)
+        new.post(uri, params)
       end
 
       def post(uri, params = {})
@@ -26,11 +26,11 @@ module Qcloud
       end
 
       def parse_body
-        JSON.parse self.response.body
+        JSON.parse response.body
       end
 
       def remote_path
-        "https://yun.tim.qq.com"
+        'https://yun.tim.qq.com'
       end
     end
   end

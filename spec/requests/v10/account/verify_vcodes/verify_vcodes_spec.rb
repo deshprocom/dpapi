@@ -13,6 +13,7 @@ RSpec.describe "/v10/account/VerifyVcodesController", :type => :request do
   let!(:user) { FactoryGirl.create(:user) }
 
   context "验证手机验证码是否正确" do
+    let!(:v_code) {VCode.generate_mobile_vcode('register', '18018001880')}
     context "验证码不正确" do
       it "should return code 1100018" do
         post v10_account_verify_vcode_url,
@@ -28,7 +29,7 @@ RSpec.describe "/v10/account/VerifyVcodesController", :type => :request do
       it "should return code 0" do
         post v10_account_verify_vcode_url,
              headers: http_headers,
-             params: {option_type: 'register', vcode_type: 'mobile', account: '18018001880', vcode: '1880'}
+             params: {option_type: 'register', vcode_type: 'mobile', account: '18018001880', vcode: v_code}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
