@@ -24,7 +24,6 @@ module Services
         # 检查用户输入的验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode('login', mobile, vcode)
 
-
         # 刷新上次访问时间
         user.touch_visit!
 
