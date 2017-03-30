@@ -28,7 +28,7 @@ module Services
 
         # TODO: 验证逻辑需要移到新的验证码校验类
         # 检查验证码是否正确
-        return ApiResult.error_result(VCODE_NOT_MATCH) unless vcode == mobile[-4, 4]
+        return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode('reset_pwd', mobile, vcode)
 
         # 查询用户
         user = User.by_mobile(mobile)
