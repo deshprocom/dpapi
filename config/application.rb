@@ -36,5 +36,15 @@ module Dpapi
 
     config.middleware.insert_before Rack::Head, DpAPI::ApiRequestCredential
     config.active_job.queue_adapter = :resque
+
+    # auto_load
+    config.autoload_paths += [
+        Rails.root.join('lib')
+    ]
+
+    # eager_load
+    config.eager_load_paths += [
+        Rails.root.join('lib/qcloud')
+    ]
   end
 end
