@@ -94,7 +94,7 @@ module Qcloud
           status: status,
           arrival_time: Time.zone.now
         }
-        sms.update!(update_params) unless sms.nil?
+        sms.update!(update_params)
       end
 
       def app_config
