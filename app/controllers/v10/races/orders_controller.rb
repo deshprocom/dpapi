@@ -14,7 +14,7 @@ module V10
       end
 
       def create
-        result = Services::Races::CreateOrderService.call(@race, @current_user, params)
+        result = Services::Orders::CreateOrderService.call(@race, @current_user, params)
         return render_api_error(result.code, result.msg) if result.failure?
 
         render_api_success

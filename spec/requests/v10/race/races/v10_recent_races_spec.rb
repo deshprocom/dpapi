@@ -70,11 +70,13 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
       races.each do |race|
         expect(race['name'].class).to       eq(String)
         expect(race['logo'].class).to       eq(String)
-        expect(race['prize'].class).to      eq(Fixnum)
+        expect(race['prize'].class).to      eq(String)
         expect(race['location'].class).to   eq(String)
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
         expect(race['status'].class).to     eq(String)
+        expect(race['ticket_sellable']).to  eq(true)
+        expect(race['describable']).to      eq(true)
         expect( %w(true false) ).to    include(race['followed'].to_s)
         expect( %w(true false) ).to    include(race['ordered'].to_s)
       end
@@ -90,8 +92,8 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       races = json['data']['items']
-      expect(races[0]['logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url(:preview))
-      expect(races[0]['big_logo']).to eq(ENV['PHOTO_DOMAIN'] + race.logo.url)
+      expect(races[0]['logo']).to eq(race.preview_logo)
+      expect(races[0]['big_logo']).to eq(race.big_logo)
     end
   end
 

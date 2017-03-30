@@ -102,7 +102,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     end
 
     it '取消票成功，可以继续购票' do
-      result = Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
       expect(result.code).to   eq(0)
 
       order = user.orders.find_by_race_id(race.id)
@@ -124,7 +124,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
   context '购票失败' do
     it '限购一张，重复购票' do
-      result = Services::Races::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
       expect(result.code).to   eq(0)
 
       post v10_race_orders_url(race.id),

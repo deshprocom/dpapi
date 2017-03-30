@@ -1,5 +1,5 @@
 module Services
-  module Races
+  module Orders
     class CreateOrderService
       include Serviceable
       include Constants::Error::Common
@@ -13,6 +13,7 @@ module Services
         sold_out: TICKET_SOLD_OUT
       }.freeze
       attr_accessor :race, :user, :params
+      delegate :ticket_info, to: :race
       def initialize(race, user, params)
         self.race   = race
         self.user   = user
@@ -30,7 +31,7 @@ module Services
 
         return ApiResult.error_result(NO_CERTIFICATION) unless user.user_extra
 
-        if Ticket.again_buy?(user.id, race.id)
+        if PurchaseOrder.purchased?(user.id, race.id)
           return ApiResult.error_result(AGAIN_BUY)
         end
 
@@ -42,9 +43,8 @@ module Services
           return ApiResult.error_result(PARAM_FORMAT_ERROR)
         end
 
-        if race.ticket_info.e_ticket_sold_out?
-          return ApiResult.error_result(E_TICKET_SOLD_OUT)
-        end
+        result = stale_ticket_info_retries { sold_a_e_ticket }
+        return result if result.failure?
 
         id_status_to_pending
         @ticket = Ticket.create(ticket_params)
@@ -54,6 +54,30 @@ module Services
         ApiResult.error_result(SYSTEM_ERROR)
       end
 
+      LOCK_RETRY_TIMES = 2
+      def stale_ticket_info_retries
+        optimistic_lock_retry_times = LOCK_RETRY_TIMES
+        begin
+          yield
+        rescue ActiveRecord::StaleObjectError
+          optimistic_lock_retry_times -= 1
+          return ApiResult.error_result(SYSTEM_ERROR) if optimistic_lock_retry_times.negative?
+
+          ticket_info.reload(lock: true)
+          retry
+        end
+      end
+
+      def sold_a_e_ticket
+        if ticket_info.e_ticket_sold_out?
+          return ApiResult.error_result(E_TICKET_SOLD_OUT)
+        end
+
+        ticket_info.increment_with_lock!(:e_ticket_sold_number)
+        race.update(ticket_status: 'sold_out') if ticket_info.sold_out?
+        ApiResult.success_result
+      end
+
       def id_status_to_pending
         user.user_extra.update(status: 'pending') if user.user_extra.status == 'init'
       end
@@ -61,7 +85,7 @@ module Services
       def ticket_params
         {
           user_id:         user.id,
-          ticket_infos_id: race.ticket_info.id,
+          ticket_infos_id: ticket_info.id,
           race_id:         race.id,
           ticket_type:     params[:ticket_type]
         }

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
+RSpec.describe 'v10_u_race_detail', :type => :request do
 
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
@@ -23,17 +23,17 @@ RSpec.describe '/v10/u/:u_id/races/:id', :type => :request do
 
   context '当访问不存在赛事详情时' do
     it '应当返回不存在相应的数据' do
-    get v10_u_race_url(0, 'nonexistent'),
-        headers: http_headers
-    expect(response).to have_http_status(200)
-    json = JSON.parse(response.body)
-    expect(json['code']).to eq(1100006)
+      get v10_u_race_detail_url(0, 'nonexistent'),
+          headers: http_headers
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(1100006)
+    end
   end
-end
 
   context '当访问赛事详情时' do
     it '应当返回相应的数据' do
-      get v10_u_race_url(0, race_desc.race_id),
+      get v10_u_race_detail_url(0, race_desc.race_id),
           headers: http_headers
 
       expect(response).to have_http_status(200)
@@ -44,13 +44,15 @@ end
       expect(race['description']).to eq(race_desc.description)
       expect(race['name']).to        eq(race_desc.race.name)
       expect(race['seq_id']).to      eq(race_desc.race.seq_id)
-      expect(race['logo']).to        eq(ENV['PHOTO_DOMAIN'] + race_desc.race.logo.url(:preview))
-      expect(race['big_logo']).to    eq(ENV['PHOTO_DOMAIN'] + race_desc.race.logo.url)
+      expect(race['logo']).to        eq(ENV['CMS_PHOTO_PATH'] + race_desc.race.logo.url(:preview))
+      expect(race['big_logo']).to    eq(ENV['CMS_PHOTO_PATH'] + race_desc.race.logo.url)
       expect(race['prize']).to       eq(race_desc.race.prize)
       expect(race['location']).to    eq(race_desc.race.location)
       expect(race['begin_date']).to  eq(race_desc.race.begin_date.to_s)
       expect(race['end_date']).to    eq(race_desc.race.end_date.to_s)
       expect(race['status']).to      eq(race_desc.race.status)
+      expect(race['ticket_sellable']).to  eq(race_desc.race.ticket_sellable)
+      expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       expect( %w(true false) ).to    include(race['ordered'].to_s)
     end
@@ -59,7 +61,7 @@ end
   context '当赛事状态为未开始或进行中或已结束或已关闭' do
     it '返回的赛事状态应为 未开始' do
       race = AcFactory::AcBase.call('generate_race', status: 0)
-      get v10_u_race_url(0, race.id),
+      get v10_u_race_detail_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -69,7 +71,7 @@ end
 
     it '返回的赛事状态应为 进行中' do
       race = AcFactory::AcBase.call('generate_race', status: 'go_ahead')
-      get v10_u_race_url(0, race.id),
+      get v10_u_race_detail_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -79,7 +81,7 @@ end
 
     it '返回的赛事状态应为 已结束' do
       race = AcFactory::AcBase.call('generate_race', status: 'ended')
-      get v10_u_race_url(0, race.id),
+      get v10_u_race_detail_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -89,7 +91,7 @@ end
 
     it '返回的赛事状态应为 已终止' do
       race = AcFactory::AcBase.call('generate_race', status: 'closed')
-      get v10_u_race_url(0, race.id),
+      get v10_u_race_detail_url(0, race.id),
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -101,7 +103,7 @@ end
   context '当用户已经购票和已关注时' do
     it '应返回已购票，已关注的状态' do
       race_desc = followed_and_ordered_race
-      get v10_u_race_url(user.user_uuid, race_desc.race_id),
+      get v10_u_race_detail_url(user.user_uuid, race_desc.race_id),
           headers: http_headers
 
       expect(response).to have_http_status(200)

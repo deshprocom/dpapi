@@ -26,7 +26,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     20.times { FactoryGirl.create(:race, ticket_status: 'selling') }
     Race.all.map do |race_item|
       FactoryGirl.create(:ticket_info, race: race_item)
-      Services::Races::CreateOrderService.call(race_item, user, e_ticket_params)
+      Services::Orders::CreateOrderService.call(race_item, user, e_ticket_params)
     end
   end
 
