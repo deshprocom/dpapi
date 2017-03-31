@@ -60,11 +60,11 @@ server '192.168.2.231',
          # password: 'please use keys'
        }
 
-set :deploy_to, '/home/deploy/deploy/dev_backend_ci'
+set :deploy_to, '/home/deploy/deploy/test_backend_ci'
 role :resque_worker, %w{192.168.2.231}
 set :workers, { send_email_sms: 1, send_mobile_sms: 1 }
 
-set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
 set :rails_env, 'development'
 set :bundle_without, %w{test tools}.join(' ')
 
