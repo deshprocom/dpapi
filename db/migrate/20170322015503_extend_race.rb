@@ -2,7 +2,7 @@ class ExtendRace < ActiveRecord::Migration[5.0]
   def change
     add_column :races, :ticket_sellable, :boolean,
                default: true,
-               comment: '是否可以售票'
+               comment: '是否有售票功能'
 
     add_column :races, :describable, :boolean,
                default: true,

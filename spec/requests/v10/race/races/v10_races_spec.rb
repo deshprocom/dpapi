@@ -68,6 +68,7 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
         expect(race['status'].class).to     eq(String)
+        expect(race['ticket_status'].class).to eq(String)
         expect(race['ticket_sellable']).to eq(true)
         expect(race['describable']).to     eq(true)
         expect(race.key?('seq_id')).to      be_truthy

@@ -25,6 +25,10 @@ module Services
           return ApiResult.error_result(UNSUPPORTED_TYPE)
         end
 
+        unless race.ticket_sellable
+          return ApiResult.error_result(TICKET_NO_SELL)
+        end
+
         unless race.ticket_status == 'selling'
           return ApiResult.error_result(TICKET_STATUS_ERRORS[race.ticket_status.to_sym])
         end
