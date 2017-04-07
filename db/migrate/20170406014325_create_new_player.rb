@@ -11,6 +11,7 @@ class CreateNewPlayer < ActiveRecord::Migration[5.0]
       t.integer :dpi_total_score
       t.integer :gpi_total_score
       t.string :memo, default: '', comment: '备忘'
+      t.timestamps
     end
   end
 end
