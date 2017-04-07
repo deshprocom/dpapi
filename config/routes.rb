@@ -32,6 +32,7 @@ Rails.application.routes.draw do
         get 'ticket_status', to: 'ticket_status#show', as: :ticket_status
         get 'new_order', to: 'orders#new_order', as: :new_order
         resource :orders, only: [:create]
+        resources :sub_races, only: [:index]
       end
     end
 
