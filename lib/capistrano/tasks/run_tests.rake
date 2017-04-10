@@ -3,12 +3,12 @@ namespace :deploy do
   task :run_rspec do
     set :rails_env, 'development'
     invoke :'deploy:migrating'
-    current_time = Time.now.strftime('%Y%m%d_%T')
+    current_time = Time.current.strftime('%Y%m%d_%T')
     rspec_file = "#{current_time}_rspec.html"
 
     on fetch(:migration_servers) do
       within release_path do
-        execute :rspec,"-f html -o ./public/files/#{rspec_file}"
+        execute :rspec, "-f html -o ./public/files/#{rspec_file}"
       end
     end
     project_url = fetch(:project_url)
