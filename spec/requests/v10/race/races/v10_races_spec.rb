@@ -163,4 +163,26 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       end
     end
   end
+
+  context '应只返回主赛事' do
+    it '当存在5条主赛事，5条子赛事' do
+      5.times { FactoryGirl.create(:race) }
+      main_race = Race.main.first
+      5.times { FactoryGirl.create(:race, parent: main_race) }
+
+      get v10_u_races_url(0),
+          headers: http_headers,
+          params: { page_size: 20, operator: :forward, begin_date: Time.now }
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to eq(5)
+      races.each do |race|
+        main_race = Race.find(race['race_id'])
+        expect(main_race.parent_id).to eq(0)
+      end
+    end
+  end
 end

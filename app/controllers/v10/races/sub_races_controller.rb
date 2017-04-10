@@ -1,10 +1,12 @@
 module V10
   module Races
     class SubRacesController < ApplicationController
-      before_action :set_race
+      before_action :set_race, only: [:index]
 
-      def index
-        render 'index'
+      def index; end
+
+      def show
+        @sub_race = Race.find(params[:id])
       end
 
       def set_race
