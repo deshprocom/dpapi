@@ -37,6 +37,7 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
         expect(race['location'].class).to   eq(String)
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
+        expect(race['days'].class).to   eq(Fixnum)
         expect(race.has_key?('roy')).to     be_truthy
       end
     end
@@ -60,8 +61,9 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
       expect(data['location']).to   eq(sub_race.location)
       expect(data['begin_date']).to eq(sub_race.begin_date.to_s)
       expect(data['end_date']).to   eq(sub_race.end_date.to_s)
-      expect(data['roy']).to     eq(sub_race.roy)
-      expect(data['schedule']).to     eq(sub_race.race_desc.schedule)
+      expect(data['days']).to       eq(sub_race.days)
+      expect(data['roy']).to        eq(sub_race.roy)
+      expect(data['schedule']).to   eq(sub_race.race_desc.schedule)
     end
   end
 end
