@@ -9,7 +9,7 @@ namespace :deploy do
     on fetch(:migration_servers) do
       within release_path do
         with rails_env: fetch(:rails_env) do
-          execute :rspec, "-f html -o ./public/files/#{rspec_file}"
+          execute :bundle, "exec rspec -f html -o ./public/files/#{rspec_file}"
         end
       end
     end
