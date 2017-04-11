@@ -38,3 +38,6 @@ Style/TrailingBlankLines:
 
 Style/BlockComments:
   Enabled: false
+
+Rails/TimeZone:
+  Enabled: false
