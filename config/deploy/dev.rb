@@ -65,7 +65,7 @@ set :workers, {send_email_sms: 1, send_mobile_sms: 1}
 
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'
-set :bundle_without, %w{test tools}.join(' ')
+set :bundle_without, %w{tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
