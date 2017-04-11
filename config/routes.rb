@@ -33,6 +33,7 @@ Rails.application.routes.draw do
         get 'new_order', to: 'orders#new_order', as: :new_order
         resource :orders, only: [:create]
         resources :sub_races, only: [:index, :show]
+        resources :race_ranks, only: [:index]
       end
     end
 
