@@ -13,6 +13,7 @@ json.data do
   json.begin_date      @sub_race.begin_date
   json.end_date        @sub_race.end_date
   json.days            @sub_race.days
+  json.participants    @sub_race.participants
   json.roy             @sub_race.roy
   json.schedule        @sub_race.race_desc.schedule
 end
