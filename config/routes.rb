@@ -61,6 +61,10 @@ Rails.application.routes.draw do
       resources :avatar, only:[:create]
       resources :card_image, only:[:create]
     end
+
+    scope module: 'players' do
+      resources :players, only: [:show]
+    end
   end
 
   unless Rails.env.production?
