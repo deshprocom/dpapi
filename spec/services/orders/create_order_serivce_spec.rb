@@ -37,10 +37,10 @@ RSpec.describe Services::UniqueNumberGenerator do
       ticket_info.e_ticket_sold_number = 10
       ticket_info.e_ticket_number = 10
       ticket_info.save
-      Services::Orders::CreateOrderService::LOCK_RETRY_TIMES = 0
+      Services::Orders::CreateOrderService.lock_retry_times = 0
       result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
       expect(result.code).to eq(1100007)
-      Services::Orders::CreateOrderService::LOCK_RETRY_TIMES = 2
+      Services::Orders::CreateOrderService.lock_retry_times = 2
     end
   end
 end

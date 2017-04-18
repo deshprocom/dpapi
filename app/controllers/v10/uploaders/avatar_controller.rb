@@ -27,7 +27,7 @@ module V10
 
       def get_upload_file(target)
         return target if target
-        UploadHelper.parse_file_format(env['rack.input'], env['CONTENT_TYPE'], @current_user.id)
+        UploadHelper.parse_file_format(ENV['rack.input'], ENV['CONTENT_TYPE'], @current_user.id)
       end
     end
   end

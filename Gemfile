@@ -29,7 +29,7 @@ gem 'jbuilder'
 #cache
 gem 'redis', '~> 3.2'
 gem 'hiredis'
-gem 'redis-rails'
+gem 'redis-rails', '~> 5.0', '>= 5.0.2'
 gem 'second_level_cache', '~> 2.3.0'
 gem 'request_store'
 
