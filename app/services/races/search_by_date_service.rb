@@ -14,7 +14,7 @@ module Services
         date = search_params[:date]
         next_id = search_params[:next_id].to_i
         page_size = search_params[:page_size].to_i.zero? ? 10 : search_params[:page_size].to_i
-        race_list = Race.where('begin_date <= ?', date)
+        race_list = Race.main.where('begin_date <= ?', date)
                         .where('end_date >= ?', date)
                         .where('seq_id > ?', next_id)
                         .limit(page_size).order_race_list
