@@ -11,31 +11,35 @@ module Services
         self.user_uuid = user_uuid
       end
 
+      def main_race
+        Race.main
+      end
+
       def call
         begin_date = search_params[:begin_date]
         end_date = search_params[:end_date]
         user = User.by_uuid(user_uuid)
         # 传递过来的begin_date <= 数据库中的begin_date <= 传递过来的end_date
-        race_begin = Race.select('id, begin_date, end_date')
-                         .where('begin_date >= ?', begin_date)
-                         .where('begin_date <= ?', end_date)
-                         .order(created_at: :asc)
+        race_begin = main_race.select('id, begin_date, end_date')
+                              .where('begin_date >= ?', begin_date)
+                              .where('begin_date <= ?', end_date)
+                              .order(created_at: :asc)
         race_begin_ids = race_begin.pluck(:id).blank? ? [0] : race_begin.pluck(:id)
 
         # 传递过来的begin_date <= 数据库中的end_date <= 传递过来的end_date, 但是排除掉上面已经查出来的
-        race_end = Race.select('id, begin_date, end_date')
-                       .where('end_date >= ?', begin_date)
-                       .where('end_date <= ?', end_date)
-                       .where('id not in (?)', race_begin_ids)
-                       .order(created_at: :asc)
+        race_end = main_race.select('id, begin_date, end_date')
+                            .where('end_date >= ?', begin_date)
+                            .where('end_date <= ?', end_date)
+                            .where('id not in (?)', race_begin_ids)
+                            .order(created_at: :asc)
         race_end_ids = race_end.pluck(:id)
         expect_ids = race_begin_ids + race_end_ids
 
-        race_include = Race.select('id, begin_date, end_date')
-                           .where('begin_date <= ?', begin_date)
-                           .where('end_date >= ?', end_date)
-                           .where('id not in (?)', expect_ids)
-                           .order(created_at: :asc)
+        race_include = main_race.select('id, begin_date, end_date')
+                                .where('begin_date <= ?', begin_date)
+                                .where('end_date >= ?', end_date)
+                                .where('id not in (?)', expect_ids)
+                                .order(created_at: :asc)
 
         # 合并得到传递过来的区间存在的赛事列表
         race_all = (race_begin + race_end + race_include).sort_by { |v| v[:begin_date] }
