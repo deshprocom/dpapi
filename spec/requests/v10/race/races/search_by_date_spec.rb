@@ -49,4 +49,26 @@ RSpec.describe 'v10_u_search_by_date', :type => :request do
       expect(next_id.to_i).to eq(race2.seq_id)
     end
   end
+
+  context '应只返回主赛事' do
+    it '当存在5条主赛事，5条子赛事' do
+      5.times { FactoryGirl.create(:race, begin_date: Time.now) }
+      main_race = Race.main.first
+      5.times { FactoryGirl.create(:race, parent: main_race, begin_date: Time.now) }
+
+      get v10_u_search_by_date_url(0),
+          headers: http_headers,
+          params: { date: Time.now.strftime('%Y-%m-%d') }
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to eq(5)
+      races.each do |race|
+        main_race = Race.find(race['race_id'])
+        expect(main_race.parent_id).to eq(0)
+      end
+    end
+  end
 end

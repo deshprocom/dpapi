@@ -49,4 +49,26 @@ RSpec.describe 'v10_u_search_by_keyword', :type => :request do
       expect(next_id.to_i).to eq(race2.seq_id)
     end
   end
+
+  context '应只返回主赛事' do
+    it '当存在5条子赛事' do
+      5.times { FactoryGirl.create(:race, name: '2017APT启航站') }
+      main_race = Race.main.first
+      5.times { FactoryGirl.create(:race, parent: main_race, name: '2017APT启航站') }
+
+      get v10_u_search_by_keyword_url(0),
+          headers: http_headers,
+          params: { keyword: '2017APT' }
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      races.each do |race|
+        main_race = Race.find(race['race_id'])
+        expect(main_race.parent_id).to eq(0)
+      end
+    end
+  end
+
 end
