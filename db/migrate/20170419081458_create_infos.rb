@@ -3,7 +3,7 @@ class CreateInfos < ActiveRecord::Migration[5.0]
     create_table :infos do |t|
       t.references :info_type
       t.string :title, comment: '资讯标题'
-      t.datetime :date, comment: '资讯时间'
+      t.date :date, comment: '资讯时间'
       t.string :source_type, default: 'source', comment: 'source 来源, author 作者'
       t.string :source, comment: '内容'
       t.string :image, comment: '图片'
