@@ -65,6 +65,11 @@ Rails.application.routes.draw do
     scope module: 'players' do
       resources :players, only: [:show]
     end
+
+    namespace :news do
+      resources :types, only: [:index, :show]
+      resources :search, only: [:index]
+    end
   end
 
   unless Rails.env.production?
