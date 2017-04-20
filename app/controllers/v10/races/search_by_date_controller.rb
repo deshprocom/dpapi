@@ -6,8 +6,7 @@ module V10
         date = search_params[:date]
         return render_api_error(MISSING_PARAMETER) if date.blank?
         api_result = Services::Races::SearchByDateService.call(params[:u_id], search_params)
-        template = 'v10/races/index'
-        render_api_result(api_result, template)
+        render_api_result(api_result)
       end
 
       private
@@ -16,10 +15,10 @@ module V10
         params.permit(:date, :next_id, :page_size)
       end
 
-      def render_api_result(result, template)
+      def render_api_result(result)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        RenderResultHelper.render_race_result(self, template, result)
+        RenderResultHelper.render_races_result(self, result)
       end
     end
   end
