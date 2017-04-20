@@ -65,6 +65,8 @@ Rails.application.routes.draw do
     scope module: 'players' do
       resources :players, only: [:show]
     end
+
+    resources :race_hosts, only:[:index]
   end
 
   unless Rails.env.production?
