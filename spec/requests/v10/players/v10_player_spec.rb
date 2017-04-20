@@ -29,7 +29,7 @@ RSpec.describe '/v10/players/:id', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)
-      expect(json["data"]["name"]).to eq('poker')
+      expect(json["data"]["name"]).to eq('poker_1')
       expect(json["data"]["avatar"]).to be_truthy
       expect(json["data"]["country"]).to eq('中国')
       expect(json["data"]["dpi_total_earning"]).to eq('200')
