@@ -68,6 +68,7 @@ Rails.application.routes.draw do
 
     namespace :news do
       resources :types, only: [:index, :show]
+      resources :search, only: [:create]
     end
   end
 

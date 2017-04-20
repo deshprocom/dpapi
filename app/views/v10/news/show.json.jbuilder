@@ -18,4 +18,5 @@ json.data do
       json.description list.description.to_s
     end
   end
+  json.next_id next_id.to_s
 end
