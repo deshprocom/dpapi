@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :player do
-    # name 'poker'
     sequence(:name) { |n| "poker_#{n}" }
     avatar File.open(Rails.root.join('spec/factories/foo.png'))
     gender 0

@@ -66,6 +66,11 @@ Rails.application.routes.draw do
       resources :players, only: [:show]
     end
 
+    namespace :news do
+      resources :types, only: [:index, :show]
+      resources :search, only: [:index]
+    end
+
     resources :race_hosts, only:[:index]
   end
 
