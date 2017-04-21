@@ -7,7 +7,7 @@ json.data do
   json.items do
     json.array! types do |type|
       json.id          type.id
-      json.type        type.name.to_s
+      json.name        type.name.to_s
     end
   end
 end

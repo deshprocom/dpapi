@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'v10_u_search_by_date', :type => :request do
+RSpec.describe 'v10_news_search_index', :type => :request do
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
     {
