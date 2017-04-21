@@ -10,7 +10,7 @@ module V10
                        .where('id > ?', next_id).limit(page_size)
 
         # 去掉类别为未发布的资讯
-        news = news_all.reject{ |item| item.info_type.blank? }
+        news = news_all.reject { |item| item.info_type.blank? }
 
         next_id = news.last.try(:id) || 0
         template = 'v10/news/search'
