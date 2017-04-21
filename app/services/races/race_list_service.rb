@@ -30,7 +30,7 @@ module Services
                   main_race.where("seq_id #{operator} ?", @seq_id.to_i).limit(page_size).order(seq_id: :desc)
                 end
         next_id = lists.blank? ? '' : lists.last.seq_id
-        ApiResult.success_with_data(race: lists, user: User.by_uuid(user_uuid), next_id: next_id)
+        ApiResult.success_with_data(races: lists, user: User.by_uuid(user_uuid), next_id: next_id)
       end
 
       def search_by_date
@@ -40,14 +40,14 @@ module Services
         return ApiResult.error_result(MISSING_PARAMETER) if begin_date.blank?
 
         lists = if operator.eql?('>')
-                  main_race.where("begin_date #{operator} ?", begin_date).limit(page_size).order_race_list
+                  main_race.where("begin_date #{operator} ?", begin_date).limit(page_size).date_asc
                 else
                   main_race.where("begin_date #{operator} ?", begin_date)
                            .limit(page_size)
                            .order(begin_date: :desc).order(end_date: :desc).order(created_at: :desc)
                 end
         next_id = lists.blank? ? '' : lists.last.begin_date
-        ApiResult.success_with_data(race: lists, user: User.by_uuid(user_uuid), next_id: next_id)
+        ApiResult.success_with_data(races: lists, user: User.by_uuid(user_uuid), next_id: next_id)
       end
 
       def operator_parse(operator)
