@@ -46,5 +46,7 @@ module Dpapi
     config.eager_load_paths += [
         Rails.root.join('lib/qcloud')
     ]
+
+    config.i18n.default_locale = 'zh-CN'
   end
 end
