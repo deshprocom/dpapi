@@ -27,8 +27,8 @@ RSpec.describe 'v10_news_type', :type => :request do
     end
   end
 
-  describe '存在资讯类别， 且第一个资讯类别未发布' do
-    it "should return array size 9" do
+  describe '存在资讯类别， 且第一，二个资讯类别未发布' do
+    it "should return array size 8" do
       init_types
       InfoType.first.update(published: false)
       InfoType.second.update(published: false)
