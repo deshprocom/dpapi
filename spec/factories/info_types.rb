@@ -1,5 +1,6 @@
 FactoryGirl.define do
   factory :info_type do
-    name '新闻'
+    sequence(:name) { |n| "新闻_#{n}" }
+    published  true
   end
 end
