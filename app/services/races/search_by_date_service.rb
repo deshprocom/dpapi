@@ -25,7 +25,7 @@ module Services
       end
 
       def resource
-        @host_id.zero? ? Race.main : @host.races
+        @host_id.zero? ? Race.main : host.races
       end
 
       def host

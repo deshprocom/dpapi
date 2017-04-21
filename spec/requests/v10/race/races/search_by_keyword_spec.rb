@@ -25,7 +25,7 @@ RSpec.describe 'v10_u_search_by_keyword', :type => :request do
     race
   }
 
-  context '如果没有传递date参数' do
+  context '如果没有传递参数' do
     it 'should return code: 1100001' do
       get v10_u_search_by_date_url(0),
           headers: http_headers
@@ -44,9 +44,21 @@ RSpec.describe 'v10_u_search_by_keyword', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       data = json['data']['items']
-      next_id = json['data']['next_id']
+      last_id = json['data']['last_id']
       expect(data.size).to eq(2)
-      expect(next_id.to_i).to eq(race2.seq_id)
+      expect(last_id.to_i).to eq(race2.seq_id)
+    end
+
+    it '传seq_id, 应返回的记录条数是1' do
+      seq_id = Race.seq_asc.first.seq_id
+      get v10_u_search_by_keyword_url(0),
+          headers: http_headers,
+          params: { keyword: '2017APT', seq_id: seq_id }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to eq(1)
     end
   end
 

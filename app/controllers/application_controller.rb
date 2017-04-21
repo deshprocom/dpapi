@@ -1,6 +1,17 @@
 class ApplicationController < ActionController::API
+  include Constants::Error::Common
+  include ValidParamsInspector
+
   rescue_from(ActiveRecord::RecordNotFound) do
-    render_api_error(Constants::Error::Common::NOT_FOUND)
+    render_api_error(NOT_FOUND)
+  end
+
+  rescue_from(ParamMissing) do |err|
+    render_api_error(ApiResult.new(MISSING_PARAMETER, err))
+  end
+
+  rescue_from(ParamValueNotAllowed) do |err|
+    render_api_error(ApiResult.new(PARAM_VALUE_NOT_ALLOWED, err))
   end
 
   protected
