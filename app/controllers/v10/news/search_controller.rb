@@ -6,8 +6,12 @@ module V10
         next_id = permit_params[:next_id].blank? ? '0' : permit_params[:next_id]
         keyword = permit_params[:keyword].blank? ? '' : permit_params[:keyword]
 
-        news = Info.where('title like ? or source like ?', "%#{keyword}%", "%#{keyword}%")
-                   .where('id > ?', next_id).limit(page_size)
+        news_all = Info.where('title like ? or source like ?', "%#{keyword}%", "%#{keyword}%")
+                       .where('id > ?', next_id).limit(page_size)
+
+        # 去掉类别为未发布的资讯
+        news = news_all.reject{ |item| item.info_type.blank? }
+
         next_id = news.last.try(:id) || 0
         template = 'v10/news/search'
         render template, locals: { api_result: ApiResult.success_result,
