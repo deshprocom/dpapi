@@ -7,11 +7,11 @@ class ApplicationController < ActionController::API
   end
 
   rescue_from(ParamMissing) do |err|
-    render_api_error(ApiResult.new(MISSING_PARAMETER, err))
+    render_api_error(MISSING_PARAMETER, err)
   end
 
   rescue_from(ParamValueNotAllowed) do |err|
-    render_api_error(ApiResult.new(PARAM_VALUE_NOT_ALLOWED, err))
+    render_api_error(PARAM_VALUE_NOT_ALLOWED, err)
   end
 
   protected

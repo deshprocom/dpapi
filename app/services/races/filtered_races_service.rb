@@ -60,35 +60,6 @@ module Services
                                     user:     User.by_uuid(@user_uuid))
       end
 
-      # def search_by_seq_id
-      #   operator = operator_parse search_params[:operator]
-      #   page_size = search_params[:page_size]
-      #   lists = if operator.eql?('>')
-      #             main_race.where("seq_id #{operator} ?", @seq_id).limit(page_size).order(seq_id: :asc)
-      #           else
-      #             main_race.where("seq_id #{operator} ?", @seq_id).limit(page_size).order(seq_id: :desc)
-      #           end
-      #   next_id = lists.blank? ? '' : lists.last.seq_id
-      #   ApiResult.success_with_data(races: lists, user: User.by_uuid(user_uuid), next_id: next_id)
-      # end
-      #
-      # def search_by_date
-      #   operator = operator_parse search_params[:operator]
-      #   page_size = search_params[:page_size]
-      #   begin_date = search_params[:begin_date]
-      #   return ApiResult.error_result(MISSING_PARAMETER) if begin_date.blank?
-      #
-      #   lists = if operator.eql?('>')
-      #             main_race.where("begin_date #{operator} ?", begin_date).limit(page_size).date_asc
-      #           else
-      #             main_race.where("begin_date #{operator} ?", begin_date)
-      #                      .limit(page_size)
-      #                      .order(begin_date: :desc).order(end_date: :desc).order(created_at: :desc)
-      #           end
-      #   next_id = lists.blank? ? '' : lists.last.begin_date
-      #   ApiResult.success_with_data(races: lists, user: User.by_uuid(user_uuid), next_id: next_id)
-      # end
-
       def resource
         @resource ||= @host_id.zero? ? Race.main : host.races
       end
