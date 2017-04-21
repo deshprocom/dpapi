@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe '/v10/players/:id', :type => :request do
-  let(:player) { FactoryGirl.create(:player) }
+  let(:player) { FactoryGirl.create(:player, name: 'poker_1') }
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
     {
