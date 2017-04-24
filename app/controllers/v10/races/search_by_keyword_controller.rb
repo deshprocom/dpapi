@@ -3,23 +3,22 @@ module V10
     class SearchByKeywordController < ApplicationController
       include Constants::Error::Common
       def index
-        keyword = search_params[:keyword]
-        return render_api_error(MISSING_PARAMETER) if keyword.blank?
-        api_result = Services::Races::SearchByKeywordService.call(params[:u_id], search_params)
-        template = 'v10/races/index'
-        render_api_result(api_result, template)
+        optional! :page_size, values: 0..100, default: 20
+        requires! :keyword
+        api_result = Services::Races::SearchByKeywordService.call(search_params)
+        render_api_result(api_result)
       end
 
       private
 
       def search_params
-        params.permit(:keyword, :next_id, :page_size)
+        params.permit(:keyword, :seq_id, :page_size, :u_id)
       end
 
-      def render_api_result(result, template)
+      def render_api_result(result)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        RenderResultHelper.render_race_result(self, template, result)
+        RenderResultHelper.render_races_result(self, result)
       end
     end
   end
