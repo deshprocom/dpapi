@@ -7,6 +7,7 @@ json.data do
   json.items do
     json.array! news do |list|
       json.id          list.id
+      json.type_id     list.info_type_id
       json.type        list.info_type.try(:name).to_s
       json.title       list.title.to_s
       json.date        list.date.to_s
