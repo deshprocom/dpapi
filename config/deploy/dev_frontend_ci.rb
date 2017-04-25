@@ -49,7 +49,7 @@
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-server '192.168.2.231',
+server '192.168.2.232',
   user: 'deploy',
   roles: %w{app db cache},
   ssh_options: {
@@ -60,9 +60,9 @@ server '192.168.2.231',
     # password: 'please use keys'
   }
 
-role :resque_worker, %w{192.168.2.231}
+role :resque_worker, %w{192.168.2.232}
 
-set :deploy_to, '/home/deploy/deploy/dpapi_testing'
+set :deploy_to, '/home/deploy/deploy/dpapi_frontend_ci'
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'
 set :bundle_without, %w{tools}.join(' ')
@@ -70,5 +70,5 @@ set :bundle_without, %w{tools}.join(' ')
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_env, fetch(:rails_env, 'development')
-set :puma_threads, [0, 16]
+set :puma_threads, [0, 3]
 set :puma_workers, 0
