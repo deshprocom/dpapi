@@ -13,7 +13,7 @@ json.data do
       json.date        list.date.to_s
       json.source_type list.source_type.to_s
       json.source      list.source.to_s
-      json.image       list.image.to_s
+      json.image       list.big_image.to_s
       json.image_thumb list.image_thumb.to_s
       json.top         list.top
       json.description list.description.to_s
