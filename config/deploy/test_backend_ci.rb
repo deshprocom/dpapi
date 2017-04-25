@@ -49,7 +49,7 @@
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-server '192.168.2.231',
+server '192.168.2.232',
        user: 'deploy',
        roles: %w{app db cache},
        ssh_options: {
@@ -61,7 +61,7 @@ server '192.168.2.231',
        }
 
 set :deploy_to, '/home/deploy/deploy/test_backend_ci'
-role :resque_worker, %w{192.168.2.231}
+role :resque_worker, %w{192.168.2.232}
 set :workers, { send_email_sms: 1, send_mobile_sms: 1 }
 
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
@@ -72,4 +72,5 @@ set :bundle_without, %w{test tools}.join(' ')
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_env, fetch(:rails_env, 'development')
 set :puma_threads, [0, 2]
+set :puma_bind, 'tcp://127.0.0.1:8812'
 set :puma_workers, 0
