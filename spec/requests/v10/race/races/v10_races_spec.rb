@@ -271,4 +271,23 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
       end
     end
   end
+
+  context '支持多个host过滤' do
+    it '存在三条赛事, 过滤2个主办方, 只过滤出2条' do
+      second_host = FactoryGirl.create(:race_host, name: 'second_host')
+
+      FactoryGirl.create(:race, begin_date: '2017-01-01', end_date: '2017-01-10', race_host: race_host)
+      FactoryGirl.create(:race, begin_date: '2017-01-02', end_date: '2017-01-04', race_host: second_host)
+      FactoryGirl.create(:race, begin_date: '2017-01-10', end_date: '2017-01-11')
+      get v10_u_races_url(0),
+          headers: http_headers,
+          params: { date: '2017-01-04', host_id: "#{race_host.id},#{second_host.id }" }
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to      eq(2)
+    end
+  end
 end

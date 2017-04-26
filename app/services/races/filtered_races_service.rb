@@ -6,7 +6,7 @@ module Services
 
       def initialize(search_params)
         @seq_id     = search_params[:seq_id].to_i
-        @host_id    = search_params[:host_id].to_i
+        @host_ids   = search_params[:host_id].to_s.split(',')
         @page_size  = search_params[:page_size]
         @date       = search_params[:date]
         @operator   = search_params[:operator]
@@ -61,11 +61,11 @@ module Services
       end
 
       def resource
-        @resource ||= @host_id.zero? ? Race.main : host.races
+        @resource ||= @host_ids.blank? ? Race.main : filtered_by_hosts
       end
 
-      def host
-        @host ||= RaceHost.find(@host_id)
+      def filtered_by_hosts
+        Race.main.where(race_host_id: @host_ids)
       end
     end
   end
