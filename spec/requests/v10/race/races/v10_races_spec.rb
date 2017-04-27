@@ -90,7 +90,72 @@ RSpec.describe '/v10/u/:u_id/races', :type => :request do
         second_begin_date = Time.parse(race['begin_date'])
         expect(second_begin_date >= first_begin_date).to be_truthy
       end
+    end
 
+    it '没有今后的赛事，且没有筛选条件时，应默认拿出之前的赛事' do
+      20.times do
+        begin_date = Random.rand(1..9).days.ago.strftime('%Y-%m-%d')
+        end_date = Random.rand(1..9).days.ago.strftime('%Y-%m-%d')
+        FactoryGirl.create(:race, begin_date: begin_date, end_date: end_date)
+      end
+
+      get v10_u_races_url(0), headers: http_headers
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to eq(20)
+      races.each_with_index do |race, index|
+        expect(Time.parse(race['begin_date']) < Time.now.beginning_of_day).to be_truthy
+        next if index.zero?
+
+        first_begin_date = Time.parse(races[index - 1]['begin_date'])
+        second_begin_date = Time.parse(race['begin_date'])
+        expect(second_begin_date >= first_begin_date).to be_truthy
+      end
+      first_id = json['data']['first_id']
+      last_id = json['data']['last_id']
+      expect(first_id).to eq(races.first['seq_id'])
+      expect(last_id).to eq(races.last['seq_id'])
+      expect(first_id < last_id).to be_truthy
+    end
+
+    it '没有今后的赛事，且有筛选条件时' do
+      10.times do
+        begin_date = Random.rand(1..9).days.ago.strftime('%Y-%m-%d')
+        end_date = Random.rand(1..9).days.ago.strftime('%Y-%m-%d')
+        FactoryGirl.create(:race, begin_date: begin_date, end_date: end_date)
+      end
+
+      host = race_host
+      10.times do
+        begin_date = Random.rand(1..9).days.ago.strftime('%Y-%m-%d')
+        end_date = Random.rand(1..9).days.ago.strftime('%Y-%m-%d')
+        FactoryGirl.create(:race, begin_date: begin_date, end_date: end_date, race_host: host)
+      end
+
+      get v10_u_races_url(0), headers: http_headers,
+          params: { host_id: host.id }
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to eq(10)
+      races.each_with_index do |race, index|
+        expect(Time.parse(race['begin_date']) < Time.now.beginning_of_day).to be_truthy
+        next if index.zero?
+
+        first_begin_date = Time.parse(races[index - 1]['begin_date'])
+        second_begin_date = Time.parse(race['begin_date'])
+        expect(second_begin_date >= first_begin_date).to be_truthy
+      end
+      first_id = json['data']['first_id']
+      last_id = json['data']['last_id']
+      expect(first_id).to eq(races.first['seq_id'])
+      expect(last_id).to eq(races.last['seq_id'])
+      expect(first_id < last_id).to be_truthy
     end
   end
 
