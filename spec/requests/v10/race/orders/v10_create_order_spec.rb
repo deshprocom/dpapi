@@ -158,6 +158,17 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(json['code']).to   eq(1100038)
     end
 
+    it '未开启售票功能' do
+      race.update(ticket_sellable: false)
+      post v10_race_orders_url(race.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(1100033)
+    end
+
     it '购买电子票，电子票已票完' do
       race_info.update(e_ticket_sold_number: 50)
       post v10_race_orders_url(race.id),

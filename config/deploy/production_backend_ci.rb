@@ -49,26 +49,28 @@
 #
 # The server-based syntax can be used to override options:
 # ------------------------------------
-server '192.168.2.231',
-  user: 'deploy',
-  roles: %w{app db cache},
-  ssh_options: {
-    user: 'deploy', # overrides user setting above
-    keys: %w(~/.ssh/id_rsa),
-    forward_agent: false,
-    auth_methods: %w(publickey password)
-    # password: 'please use keys'
-  }
+server '192.168.2.232',
+       user: 'deploy',
+       roles: %w{app db cache},
+       ssh_options: {
+         user: 'deploy', # overrides user setting above
+         keys: %w(~/.ssh/id_rsa),
+         forward_agent: false,
+         auth_methods: %w(publickey password)
+         # password: 'please use keys'
+       }
 
-role :resque_worker, %w{192.168.2.231}
+set :deploy_to, '/home/deploy/deploy/production_backend_ci'
+role :resque_worker, %w{192.168.2.232}
+set :workers, { send_email_sms: 1, send_mobile_sms: 1 }
 
-set :deploy_to, '/home/deploy/deploy/dpapi_testing'
-set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'production'))
 set :rails_env, 'development'
-set :bundle_without, %w{tools}.join(' ')
+set :bundle_without, %w{test tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_env, fetch(:rails_env, 'development')
-set :puma_threads, [0, 16]
+set :puma_threads, [0, 2]
+set :puma_bind, 'tcp://127.0.0.1:8813'
 set :puma_workers, 0

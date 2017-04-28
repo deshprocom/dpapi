@@ -37,6 +37,7 @@ module AcFactory
                     :ticket_status,
                     :ticket_price,
                     :name,
+                    :race_host,
                     :begin_date,
                     :end_date,
                     :prize,

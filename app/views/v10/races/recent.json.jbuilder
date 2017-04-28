@@ -16,6 +16,7 @@ json.data do
       json.begin_date      item.begin_date
       json.end_date        item.end_date
       json.status          item.status
+      json.ticket_status   item.ticket_status
       json.ticket_sellable item.ticket_sellable
       json.describable     item.describable
       json.followed      RaceFollow.followed?(user.try(:id), item.id)

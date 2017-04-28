@@ -12,8 +12,11 @@ module Services
         end: TICKET_END,
         sold_out: TICKET_SOLD_OUT
       }.freeze
+      cattr_accessor :lock_retry_times
+      self.lock_retry_times = 2
       attr_accessor :race, :user, :params
       delegate :ticket_info, to: :race
+
       def initialize(race, user, params)
         self.race   = race
         self.user   = user
@@ -23,6 +26,10 @@ module Services
       def call
         unless params[:ticket_type].in? TICKET_TYPES
           return ApiResult.error_result(UNSUPPORTED_TYPE)
+        end
+
+        unless race.ticket_sellable
+          return ApiResult.error_result(TICKET_NO_SELL)
         end
 
         unless race.ticket_status == 'selling'
@@ -54,9 +61,8 @@ module Services
         ApiResult.error_result(SYSTEM_ERROR)
       end
 
-      LOCK_RETRY_TIMES = 2
       def stale_ticket_info_retries
-        optimistic_lock_retry_times = LOCK_RETRY_TIMES
+        optimistic_lock_retry_times = self.class.lock_retry_times
         begin
           yield
         rescue ActiveRecord::StaleObjectError

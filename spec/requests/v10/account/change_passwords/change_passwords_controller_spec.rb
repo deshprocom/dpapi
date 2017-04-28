@@ -14,6 +14,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
   let(:access_token) do
     AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
   end
+  let(:v_code) {VCode.generate_mobile_vcode('change_pwd', '13713662278')}
 
   context "未登录情况下访问" do
     it "应当返回 code: 805" do
@@ -167,7 +168,7 @@ RSpec.describe "/v10/account/users/:user_id/change_password", :type => :request 
           type:        'vcode',
           new_pwd:     'cc03e747a6afbbcbf8be7668acfebee6',
           mobile:     '13713662278',
-          vcode:      '2278'
+          vcode:      v_code
         }
         post v10_account_user_change_password_url(user.user_uuid),
              headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
