@@ -1,4 +1,8 @@
 "zh-CN":
+  activerecord:
+      errors:
+        messages:
+          record_invalid: "Validation failed: %{errors}"
   errors:
     # 参数错误说明模块
     explain_missing_param:       "参数：%{param} 不存在或为空"

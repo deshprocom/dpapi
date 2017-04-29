@@ -1,12 +1,13 @@
 module Services
   module Account
+    MAX_SEQ_ID = 10**20
     class FilteredRacesService
       include Serviceable
       include Constants::Error::Common
 
       def initialize(search_params)
         @seq_id     = search_params[:seq_id].to_i
-        @host_id    = search_params[:host_id].to_i
+        @host_ids   = search_params[:host_id].to_s.split(',')
         @page_size  = search_params[:page_size]
         @date       = search_params[:date]
         @operator   = search_params[:operator]
@@ -26,6 +27,7 @@ module Services
       def from_now_races
         races = resource.where('begin_date >= ?', Time.now.strftime('%Y-%m-%d'))
                         .seq_asc.limit(@page_size)
+        races = backward_races(MAX_SEQ_ID) if races.blank?
         races_result(races)
       end
 
@@ -39,20 +41,20 @@ module Services
 
       def filtered_by_following
         races = if @operator == 'forward'
-                  forward_races
+                  forward_races(@seq_id)
                 else
-                  backward_races
+                  backward_races(@seq_id)
                 end
         races_result(races)
       end
 
-      def forward_races
-        resource.where('seq_id > ?', @seq_id).seq_asc.limit(@page_size)
+      def forward_races(seq_id)
+        resource.where('seq_id > ?', seq_id).seq_asc.limit(@page_size)
       end
 
-      def backward_races
+      def backward_races(seq_id)
         # 将搜索出的数据，变回正序
-        resource.where('seq_id < ?', @seq_id).seq_desc.limit(@page_size).reverse
+        resource.where('seq_id < ?', seq_id).seq_desc.limit(@page_size).reverse
       end
 
       def races_result(races)
@@ -61,11 +63,11 @@ module Services
       end
 
       def resource
-        @resource ||= @host_id.zero? ? Race.main : host.races
+        @resource ||= @host_ids.blank? ? Race.main : filtered_by_hosts
       end
 
-      def host
-        @host ||= RaceHost.find(@host_id)
+      def filtered_by_hosts
+        Race.main.where(race_host_id: @host_ids)
       end
     end
   end
