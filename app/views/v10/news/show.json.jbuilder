@@ -6,7 +6,7 @@ json.partial! 'common/api_result', api_result: api_result
 json.data do
   json.items do
     json.array! news do |list|
-      json.partial! 'v10/news/base', list: list
+      json.partial! 'v10/news/show_base', list: list
     end
   end
   unless top_new.nil?
