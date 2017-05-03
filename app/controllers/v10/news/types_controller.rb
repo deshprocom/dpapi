@@ -2,7 +2,7 @@ module V10
   module News
     class TypesController < ApplicationController
       def index
-        types = InfoType.all
+        types = InfoType.all.order(level: :asc)
 
         template = 'v10/news/index'
         render template, locals: { api_result: ApiResult.success_result,
