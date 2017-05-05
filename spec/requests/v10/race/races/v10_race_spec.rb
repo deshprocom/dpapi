@@ -44,8 +44,8 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['description']).to eq(race_desc.description)
       expect(race['name']).to        eq(race_desc.race.name)
       expect(race['seq_id']).to      eq(race_desc.race.seq_id)
-      expect(race['logo']).to        eq(ENV['CMS_PHOTO_PATH'] + race_desc.race.logo.url(:preview))
-      expect(race['big_logo']).to    eq(ENV['CMS_PHOTO_PATH'] + race_desc.race.logo.url)
+      expect(race['logo']).to        eq(race_desc.race.logo.url(:sm))
+      expect(race['big_logo']).to    eq(race_desc.race.logo.url)
       expect(race['prize']).to       eq(race_desc.race.prize)
       expect(race['location']).to    eq(race_desc.race.location)
       expect(race['begin_date']).to  eq(race_desc.race.begin_date.to_s)
@@ -55,6 +55,11 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       expect( %w(true false) ).to    include(race['ordered'].to_s)
+      logo = open(race['logo'])
+      expect(logo.status[0]).to eq('200')
+
+      logo = open(race['big_logo'])
+      expect(logo.status[0]).to eq('200')
     end
   end
 
