@@ -38,4 +38,8 @@ json.data do
       json.partial! 'v10/races/rank', rank: rank
     end
   end
+
+  json.blinds do
+    json.partial! 'v10/races/blinds', blinds: @race.race_blinds.level_asc
+  end
 end
