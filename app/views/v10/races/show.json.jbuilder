@@ -19,9 +19,22 @@ json.data do
   json.ticket_sellable @race.ticket_sellable
   json.describable     @race.describable
   json.description     @race.race_desc.try(:description).to_s
-  json.schedule        @race.race_desc.try(:schedule).to_s
   json.followed        RaceFollow.followed?(@user&.id, @race.id)
   order = PurchaseOrder.purchased_order(@user&.id, @race.id)
   json.ordered         order.present?
   json.order_id        order&.order_number
+
+  json.schedules do
+    schedules = @race.race_schedules.default_order
+    json.array! schedules do |schedule|
+      json.partial! 'v10/races/schedule', race_schedule: schedule
+    end
+  end
+
+  json.ranks do
+    ranks = @race.race_ranks
+    json.array! ranks do |rank|
+      json.partial! 'v10/races/rank', rank: rank
+    end
+  end
 end
