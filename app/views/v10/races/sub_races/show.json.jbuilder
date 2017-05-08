@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 # meta info
 json.partial! 'common/meta'
 # code & msg
@@ -27,5 +28,10 @@ json.data do
     json.array! ranks do |rank|
       json.partial! 'v10/races/rank', rank: rank
     end
+  end
+
+  json.blinds do
+    blinds = @sub_race.race_blinds.level_asc
+    json.partial! 'v10/races/blinds', blinds: blinds
   end
 end
