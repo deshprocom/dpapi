@@ -121,4 +121,28 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['order_id']).to   be_truthy
     end
   end
+
+  context '有赛事结构时' do
+    it '返回的赛事结构的顺序应准确' do
+      race = race_desc.race
+      FactoryGirl.create(:race_blind, race: race, level: 2)
+      FactoryGirl.create(:race_blind, race: race, level: 1)
+      FactoryGirl.create(:race_blind, race: race, level: 1, blind_type: 1, content: 'stopping')
+      get v10_u_race_detail_url(0, race_desc.race_id),
+          headers: http_headers
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+
+      blinds = json['data']['blinds']
+      expect(blinds.size).to eq(3)
+      expect(blinds[0]['blind_type']).to eq('blind_struct')
+      expect(blinds[0]['level']).to eq(1)
+      expect(blinds[1]['blind_type']).to eq('blind_content')
+      expect(blinds[1]['level']).to eq(1)
+      expect(blinds[2]['blind_type']).to eq('blind_struct')
+      expect(blinds[2]['level']).to eq(2)
+    end
+  end
 end

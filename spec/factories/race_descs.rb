@@ -1,6 +1,5 @@
 FactoryGirl.define do
   factory :race_desc do
-    schedule '![enter description here](http://img.dzpk.com/allimg/140604/4454-140604112S4638.jpg?width=561&height=571)'
     description '### **2017APT启航站**
 
 2017APT启航站将于2017年1月11日至1月19日在马尼拉云顶世界举行。主赛Day1A将于1月14日中午1点举行，买入费用为1650美元（约11440RMB）。

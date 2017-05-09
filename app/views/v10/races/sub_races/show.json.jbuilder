@@ -15,5 +15,17 @@ json.data do
   json.days            @sub_race.days
   json.participants    @sub_race.participants
   json.roy             @sub_race.roy
-  json.schedule        @sub_race.race_desc.schedule
+
+  json.schedules do
+    json.partial! 'v10/races/schedules', race_schedules: @sub_race.race_schedules.default_order
+  end
+
+  json.ranks do
+    json.partial! 'v10/races/ranks', ranks: @sub_race.race_ranks
+  end
+
+  json.blinds do
+    blinds = @sub_race.race_blinds.level_asc
+    json.partial! 'v10/races/blinds', blinds: blinds
+  end
 end

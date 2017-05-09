@@ -63,7 +63,31 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
       expect(data['end_date']).to   eq(sub_race.end_date.to_s)
       expect(data['days']).to       eq(sub_race.days)
       expect(data['roy']).to        eq(sub_race.roy)
-      expect(data['schedule']).to   eq(sub_race.race_desc.schedule)
+    end
+  end
+
+  context '有赛事结构时' do
+    it '返回的赛事结构的顺序应准确' do
+      main_race = init_sub_races
+      race = main_race.sub_races.first
+      FactoryGirl.create(:race_blind, race: race, level: 2)
+      FactoryGirl.create(:race_blind, race: race, level: 1)
+      FactoryGirl.create(:race_blind, race: race, level: 1, blind_type: 1, content: 'stopping')
+      get v10_race_sub_race_url(0, race.id),
+          headers: http_headers
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+
+      blinds = json['data']['blinds']
+      expect(blinds.size).to eq(3)
+      expect(blinds[0]['blind_type']).to eq('blind_struct')
+      expect(blinds[0]['level']).to eq(1)
+      expect(blinds[1]['blind_type']).to eq('blind_content')
+      expect(blinds[1]['level']).to eq(1)
+      expect(blinds[2]['blind_type']).to eq('blind_struct')
+      expect(blinds[2]['level']).to eq(2)
     end
   end
 end
