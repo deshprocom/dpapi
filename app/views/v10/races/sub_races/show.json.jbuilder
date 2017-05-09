@@ -1,4 +1,3 @@
-# rubocop:disable Metrics/BlockLength
 # meta info
 json.partial! 'common/meta'
 # code & msg
@@ -16,18 +15,13 @@ json.data do
   json.days            @sub_race.days
   json.participants    @sub_race.participants
   json.roy             @sub_race.roy
+
   json.schedules do
-    schedules = @sub_race.race_schedules.default_order
-    json.array! schedules do |schedule|
-      json.partial! 'v10/races/schedule', race_schedule: schedule
-    end
+    json.partial! 'v10/races/schedules', race_schedules: @sub_race.race_schedules.default_order
   end
 
   json.ranks do
-    ranks = @sub_race.race_ranks
-    json.array! ranks do |rank|
-      json.partial! 'v10/races/rank', rank: rank
-    end
+    json.partial! 'v10/races/ranks', ranks: @sub_race.race_ranks
   end
 
   json.blinds do
