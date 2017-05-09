@@ -26,17 +26,11 @@ json.data do
   json.order_id        order&.order_number
 
   json.schedules do
-    schedules = @race.race_schedules.default_order
-    json.array! schedules do |schedule|
-      json.partial! 'v10/races/schedule', race_schedule: schedule
-    end
+    json.partial! 'v10/races/schedules', race_schedules: @race.race_schedules.default_order
   end
 
   json.ranks do
-    ranks = @race.race_ranks
-    json.array! ranks do |rank|
-      json.partial! 'v10/races/rank', rank: rank
-    end
+    json.partial! 'v10/races/ranks', ranks: @race.race_ranks
   end
 
   json.blinds do

@@ -1,4 +1,5 @@
 json.array! blinds do |blind|
+  json.blind_id blind.id
   json.blind_type  blind.blind_type
   json.level       blind.level
   json.small_blind blind.small_blind
