@@ -1,7 +1,6 @@
 module V10
   module Races
     class OrdersController < ApplicationController
-      include Constants::Error::Common
       include UserAccessible
 
       before_action :set_race, :login_required
