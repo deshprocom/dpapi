@@ -2,7 +2,9 @@ module V10
   module Account
     # 发送验证码的接口
     class VCodesController < ApplicationController
-      OPTION_TYPES = %w(register login reset_pwd change_pwd).freeze
+      OPTION_TYPES = %w(register login reset_pwd change_pwd bind_account unbind_account
+                        change_old_account bind_new_account).freeze
+
       VCODE_TYPES = %w(mobile email).freeze
       include Constants::Error::Sign
 
