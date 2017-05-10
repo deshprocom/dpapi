@@ -2,7 +2,8 @@ module V10
   module Account
     # 校验验证码是否正确
     class VerifyVcodesController < ApplicationController
-      OPTION_TYPES = %w(register login reset_pwd change_pwd bind unbind).freeze
+      OPTION_TYPES = %w(register login reset_pwd change_pwd bind_account unbind_account
+                        change_old_account bind_new_account).freeze
       include Constants::Error::Sign
 
       def create
