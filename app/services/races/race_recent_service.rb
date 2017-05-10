@@ -1,5 +1,5 @@
 module Services
-  module Account
+  module Races
     class RaceRecentService
       include Serviceable
       include Constants::Error::Common

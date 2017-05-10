@@ -4,7 +4,7 @@ module V10
     class RecentRacesController < ApplicationController
       include Constants::Error::Common
       def index
-        api_result = Services::Account::RaceRecentService.call(params[:u_id], race_params[:number])
+        api_result = Services::Races::RaceRecentService.call(params[:u_id], race_params[:number])
         render_api_result api_result
       end
 
