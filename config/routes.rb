@@ -34,6 +34,7 @@ Rails.application.routes.draw do
         resources :sub_races, only: [:index, :show]
         resources :race_ranks, only: [:index]
       end
+      resources :race_tickets, only: [:index]
     end
 
     scope module: 'events' do
