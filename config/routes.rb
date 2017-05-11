@@ -16,6 +16,8 @@ Rails.application.routes.draw do
         resource :change_password, only: [:create]
         resources :address
         resources :certification, only: [:index, :create]
+        resources :change_account, only: [:create]
+        resources :bind_account, only: [:create]
       end
     end
 
