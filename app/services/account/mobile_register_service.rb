@@ -37,6 +37,8 @@ module Services
         # 生成用户令牌
         secret = CurrentRequestCredential.affiliate_app.try(:app_secret)
         access_token = AppAccessToken.jwt_create(secret, user.user_uuid)
+        # 记录一次账户修改
+        Common::DataStatCreator.create_account_change_stats(user, 'mobile')
         LoginResultHelper.call(user, access_token)
       end
     end

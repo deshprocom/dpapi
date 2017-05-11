@@ -45,6 +45,8 @@ module Services
         user.assign_attributes(mobile: mobile)
         user.updated_at = Time.zone.now
         user.touch_visit!
+        # 记录一次账户修改
+        Common::DataStatCreator.create_account_change_stats(user, 'mobile')
         ApiResult.success_with_data(user: user)
       end
 
@@ -58,6 +60,8 @@ module Services
         user.assign_attributes(email: email)
         user.updated_at = Time.zone.now
         user.touch_visit!
+        # 记录一次账户修改
+        Common::DataStatCreator.create_account_change_stats(user, 'email')
         ApiResult.success_with_data(user: user)
       end
     end
