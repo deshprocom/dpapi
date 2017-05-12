@@ -10,7 +10,7 @@ RSpec.describe Services::Account::VcodeServices do
           option_type: 'reset_pwd',
           vcode_type: 'email'
       }
-      api_result = vcode_service.call(params)
+      api_result = vcode_service.call(nil, params)
       expect(api_result.code).to eq(1100001)
     end
   end
@@ -23,7 +23,7 @@ RSpec.describe Services::Account::VcodeServices do
           vcode_type: 'mobile',
           mobile: '18018001880'
         }
-        api_result = vcode_service.call(params)
+        api_result = vcode_service.call(nil, params)
         expect(api_result.code).to eq(1100023)
       end
   end
@@ -36,7 +36,7 @@ RSpec.describe Services::Account::VcodeServices do
           vcode_type: 'email',
           email: 'ricky@deshpro.com'
       }
-      api_result = vcode_service.call(params)
+      api_result = vcode_service.call(nil, params)
       expect(api_result.code).to eq(1100023)
     end
   end
@@ -49,7 +49,7 @@ RSpec.describe Services::Account::VcodeServices do
           vcode_type: 'mobile',
           mobile: '13566778899'
       }
-      api_result = vcode_service.call(params)
+      api_result = vcode_service.call(nil, params)
       expect(api_result.code).to eq(1100016)
     end
   end
@@ -62,7 +62,7 @@ RSpec.describe Services::Account::VcodeServices do
           vcode_type: 'email',
           email: 'ricky@deshpr.com'
       }
-      api_result = vcode_service.call(params)
+      api_result = vcode_service.call(nil, params)
       expect(api_result.code).to eq(1100016)
     end
   end
@@ -76,7 +76,7 @@ RSpec.describe Services::Account::VcodeServices do
             vcode_type: 'mobile',
             mobile: '12255664455'
         }
-        api_result = vcode_service.call(params)
+        api_result = vcode_service.call(nil, params)
         expect(api_result.code).to eq(1100012)
       end
     end
@@ -89,7 +89,7 @@ RSpec.describe Services::Account::VcodeServices do
             vcode_type: 'mobile',
             mobile: '13255664455'
         }
-        api_result = vcode_service.call(params)
+        api_result = vcode_service.call(nil, params)
         expect(api_result.code).to eq(0)
       end
     end
@@ -104,7 +104,7 @@ RSpec.describe Services::Account::VcodeServices do
             vcode_type: 'email',
             email: 'ricky@qq'
         }
-        api_result = vcode_service.call(params)
+        api_result = vcode_service.call(nil, params)
         expect(api_result.code).to eq(1100011)
       end
     end
@@ -117,7 +117,7 @@ RSpec.describe Services::Account::VcodeServices do
             vcode_type: 'email',
             email: 'ricky@qq.com'
         }
-        api_result = vcode_service.call(params)
+        api_result = vcode_service.call(nil, params)
         expect(api_result.code).to eq(0)
       end
     end

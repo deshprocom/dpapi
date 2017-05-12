@@ -98,9 +98,9 @@ module Services
 
       def gain_account_id(option_type, vcode_type)
         if option_type.eql?('change_old_account')
-          user[vcode_type]
+          user[:"#{vcode_type}"]
         else
-          user_params[vcode_type]
+          user_params[:"#{vcode_type}"]
         end
       end
     end
