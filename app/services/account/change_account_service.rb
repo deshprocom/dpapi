@@ -14,10 +14,11 @@ module Services
       end
 
       def call
-        account = user_params[:account]
         type = user_params[:type]
+        old_account = user[type]
+        account = user_params[:account]
         # 判断旧验证码是否匹配
-        unless check_code('change_old_account', account, user_params[:old_code])
+        unless check_code('change_old_account', old_account, user_params[:old_code])
           return ApiResult.error_result(VCODE_NOT_MATCH)
         end
 
