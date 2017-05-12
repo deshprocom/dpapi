@@ -98,10 +98,9 @@ module Services
 
       def gain_account_id(option_type, vcode_type)
         if option_type.eql?('change_old_account')
-          vcode_type.eql?('mobile') ? user.mobile : user.email
+          user[vcode_type]
         else
-          # 默认取用户传递上来的id
-          user_params[:"#{vcode_type}"]
+          user_params[vcode_type]
         end
       end
     end
