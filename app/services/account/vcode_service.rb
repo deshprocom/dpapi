@@ -11,9 +11,10 @@ module Services
       include Constants::Error::Common
       include Constants::Error::Sign
 
-      attr_accessor :user_params
+      attr_accessor :user, :user_params
 
-      def initialize(user_params)
+      def initialize(user, user_params)
+        self.user = user
         self.user_params = user_params
       end
 
@@ -22,7 +23,7 @@ module Services
         option_type = user_params[:option_type]
 
         # 检查是否传了手机号或者邮箱
-        account_id = user_params[:"#{vcode_type}"]
+        account_id = gain_account_id(option_type, vcode_type)
         return ApiResult.error_result(MISSING_PARAMETER) if account_id.blank?
 
         sms_template = send_template(option_type)
@@ -93,6 +94,15 @@ module Services
 
       def check_user_exist(account_id)
         User.by_email(account_id).present? || User.by_mobile(account_id).present?
+      end
+
+      def gain_account_id(option_type, vcode_type)
+        if option_type.eql?('change_old_account')
+          vcode_type.eql?('mobile') ? user.mobile : user.email
+        else
+          # 默认取用户传递上来的id
+          user_params[:"#{vcode_type}"]
+        end
       end
     end
   end
