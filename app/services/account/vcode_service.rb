@@ -80,12 +80,12 @@ module Services
 
       def check_permission(option_type, account_id)
         # 注册和绑定的时候要求用户不存在
-        if option_type.in?(%w(register bind)) && check_user_exist(account_id)
+        if option_type.in?(%w(register bind, bind_new_account)) && check_user_exist(account_id)
           return ApiResult.error_result(USER_ALREADY_EXIST)
         end
 
         # 其它情况都要求用户已存在
-        unless option_type.in?(%w(register bind)) || check_user_exist(account_id)
+        unless option_type.in?(%w(register bind bind_new_account)) || check_user_exist(account_id)
           return ApiResult.error_result(USER_NOT_FOUND)
         end
 
