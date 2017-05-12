@@ -11,9 +11,10 @@ module Services
       include Constants::Error::Common
       include Constants::Error::Sign
 
-      attr_accessor :user_params
+      attr_accessor :user, :user_params
 
-      def initialize(user_params)
+      def initialize(user, user_params)
+        self.user = user
         self.user_params = user_params
       end
 
@@ -22,7 +23,7 @@ module Services
         option_type = user_params[:option_type]
 
         # 检查是否传了手机号或者邮箱
-        account_id = user_params[:"#{vcode_type}"]
+        account_id = gain_account_id(option_type, vcode_type)
         return ApiResult.error_result(MISSING_PARAMETER) if account_id.blank?
 
         sms_template = send_template(option_type)
@@ -79,12 +80,12 @@ module Services
 
       def check_permission(option_type, account_id)
         # 注册和绑定的时候要求用户不存在
-        if option_type.in?(%w(register bind)) && check_user_exist(account_id)
+        if option_type.in?(%w(register bind bind_new_account)) && check_user_exist(account_id)
           return ApiResult.error_result(USER_ALREADY_EXIST)
         end
 
         # 其它情况都要求用户已存在
-        unless option_type.in?(%w(register bind)) || check_user_exist(account_id)
+        unless option_type.in?(%w(register bind bind_new_account)) || check_user_exist(account_id)
           return ApiResult.error_result(USER_NOT_FOUND)
         end
 
@@ -93,6 +94,14 @@ module Services
 
       def check_user_exist(account_id)
         User.by_email(account_id).present? || User.by_mobile(account_id).present?
+      end
+
+      def gain_account_id(option_type, vcode_type)
+        if option_type.eql?('change_old_account')
+          user[:"#{vcode_type}"]
+        else
+          user_params[:"#{vcode_type}"]
+        end
       end
     end
   end
