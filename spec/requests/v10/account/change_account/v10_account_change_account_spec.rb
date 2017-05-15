@@ -105,7 +105,7 @@ RSpec.describe "/v10/account/change_account", :type => :request do
       expect(json["code"]).to eq(0)
       expect(json['data']['user_id']).to eq('uuid_123456789')
       expect(json['data']['nick_name']).to eq('Ricky')
-      expect(json['data']['user_name']).to eq('Ricky')
+      expect(json['data']['mobile']).to eq('13833337890')
     end
 
     it "应当返回code 0" do
@@ -117,7 +117,7 @@ RSpec.describe "/v10/account/change_account", :type => :request do
       expect(json["code"]).to eq(0)
       expect(json['data']['user_id']).to eq('uuid_123456789')
       expect(json['data']['nick_name']).to eq('Ricky')
-      expect(json['data']['user_name']).to eq('Ricky')
+      expect(json['data']['email']).to eq('rr@deshpro.com')
     end
   end
 end
