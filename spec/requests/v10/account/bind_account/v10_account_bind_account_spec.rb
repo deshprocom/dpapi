@@ -54,6 +54,35 @@ RSpec.describe "/v10/account/bind_account", :type => :request do
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
       end
+
+      it "it 应当返回code: 0" do
+        post v10_account_user_bind_account_index_url(user.user_uuid),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
+             params: { type: "email", account: "rick@deshpro.com", code: "345678" }
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json["code"]).to eq(0)
+      end
+    end
+
+    context "邮箱或手机号已绑定" do
+      it "it 应当返回code: 1100013" do
+        post v10_account_user_bind_account_index_url(user.user_uuid),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
+             params: { type: "mobile", account: "18018001880", code: "345678" }
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json["code"]).to eq(1100013)
+      end
+
+      it "it 应当返回code: 1100014" do
+        post v10_account_user_bind_account_index_url(user.user_uuid),
+             headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
+             params: { type: "email", account: "ricky@deshpro.com", code: "345678" }
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json["code"]).to eq(1100014)
+      end
     end
   end
 end

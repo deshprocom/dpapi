@@ -75,11 +75,43 @@ RSpec.describe "/v10/account/change_account", :type => :request do
     end
   end
 
+  context "手机已绑定或者邮箱已绑定" do
+    it "应当返回code 1100014" do
+      post v10_account_user_change_account_index_url(user.user_uuid),
+           headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
+           params: { type: "email", account: "ricky@deshpro.com", new_code: "123456", old_code: "123456" }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json["code"]).to eq(1100014)
+    end
+
+    it "应当返回code 1100014" do
+      post v10_account_user_change_account_index_url(user.user_uuid),
+           headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
+           params: { type: "mobile", account: "18018001880", new_code: "123456", old_code: "123456" }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json["code"]).to eq(1100013)
+    end
+  end
+
   context "正确传入参数" do
     it "应当返回code 0" do
       post v10_account_user_change_account_index_url(user.user_uuid),
            headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
            params: { type: "mobile", account: "13833337890", new_code: "123456", old_code: "123456" }
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json["code"]).to eq(0)
+      expect(json['data']['user_id']).to eq('uuid_123456789')
+      expect(json['data']['nick_name']).to eq('Ricky')
+      expect(json['data']['user_name']).to eq('Ricky')
+    end
+
+    it "应当返回code 0" do
+      post v10_account_user_change_account_index_url(user.user_uuid),
+           headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: access_token}),
+           params: { type: "email", account: "rr@deshpro.com", new_code: "123456", old_code: "123456" }
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json["code"]).to eq(0)
