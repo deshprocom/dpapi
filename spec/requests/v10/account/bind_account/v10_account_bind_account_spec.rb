@@ -53,6 +53,7 @@ RSpec.describe "/v10/account/bind_account", :type => :request do
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
+        expect(json["data"]["mobile"]).to eq("13714456677")
       end
 
       it "it 应当返回code: 0" do
@@ -62,6 +63,7 @@ RSpec.describe "/v10/account/bind_account", :type => :request do
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
+        expect(json["data"]["email"]).to eq("rick@deshpro.com")
       end
     end
 
