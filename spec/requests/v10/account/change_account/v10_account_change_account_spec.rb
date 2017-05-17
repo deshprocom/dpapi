@@ -120,4 +120,33 @@ RSpec.describe "/v10/account/change_account", :type => :request do
       expect(json['data']['email']).to eq('rr@deshpro.com')
     end
   end
+
+  context "修改完旧密码后，使用原来的手机号登录应该不存在" do
+    it "应该旧手机号找不到用户，并且可以作为绑定的手机号码了" do
+      # 模拟登录
+      post v10_login_url,
+           headers: http_headers,
+           params: {type:'mobile', mobile: '18018001880', password: "cc03e747a6afbbcbf8be7668acfebee5"}
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      login_user = json["data"]
+      login_access_token = json["data"]["access_token"]
+
+      # 请求更改手机号
+      post v10_account_user_change_account_index_url(login_user["user_id"]),
+           headers: http_headers.merge({HTTP_X_DP_ACCESS_TOKEN: login_access_token}),
+           params: { type: "mobile", account: "13833337890", new_code: "123456", old_code: "123456" }
+      expect(response).to have_http_status(200)
+      json_c = JSON.parse(response.body)
+      expect(json_c["code"]).to eq(0)
+
+      # 再次使用原来的手机 应该登录不了了
+      post v10_login_url,
+           headers: http_headers,
+           params: {type:'mobile', mobile: '18018001880', password: "cc03e747a6afbbcbf8be7668acfebee5"}
+      expect(response).to have_http_status(200)
+      json_login = JSON.parse(response.body)
+      expect(json_login["code"]).to eq(1100016)
+    end
+  end
 end
