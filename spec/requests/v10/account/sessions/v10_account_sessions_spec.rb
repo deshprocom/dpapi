@@ -96,6 +96,8 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         expect(json["data"]["reg_date"]).to be_truthy
         expect(json["data"]["last_visit"]).to be_truthy
         expect(json["data"]["signature"].nil?).to be_falsey
+        logo = open(json["data"]["avatar"])
+        expect(logo.status[0]).to eq('200')
       end
     end
 
@@ -161,6 +163,8 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
           expect(json["data"]["reg_date"]).to be_truthy
           expect(json["data"]["last_visit"]).to be_truthy
           expect(json["data"]["signature"].nil?).to be_falsey
+          logo = open(json["data"]["avatar"])
+          expect(logo.status[0]).to eq('200')
         end
       end
 
@@ -215,6 +219,8 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
             expect(json["data"]["reg_date"]).to be_truthy
             expect(json["data"]["last_visit"]).to be_truthy
             expect(json["data"]["signature"].nil?).to be_falsey
+            logo = open(json["data"]["avatar"])
+            expect(logo.status[0]).to eq('200')
           end
         end
       end
