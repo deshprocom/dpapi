@@ -5,6 +5,7 @@ FactoryGirl.define do
     date          Time.now.strftime('%Y-%m-%d')
     source_type   'author'
     source        'Timmy'
+    image File.open(Rails.root.join('spec/factories/foo.png'))
     top            false
     published      true
     description   '### **测试**'
