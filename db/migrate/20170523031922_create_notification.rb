@@ -6,6 +6,7 @@ class CreateNotification < ActiveRecord::Migration[5.0]
       t.string :title, null: false, comment: '标题'
       t.text :content, null: false, comment: '内容'
       t.references :source, polymorphic: true, comment: '产生消息的出处'
+      t.timestamps
     end
   end
 end
