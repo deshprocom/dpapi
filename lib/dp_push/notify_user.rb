@@ -12,6 +12,8 @@ module DpPush
 
     def call
       @push.push(push_payload)
+    rescue => e
+      Rails.logger.error "DpPush: #{e}"
     end
 
     def push_payload
