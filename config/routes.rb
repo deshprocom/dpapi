@@ -40,16 +40,8 @@ Rails.application.routes.draw do
       resources :race_tickets, only: [:index]
     end
 
-    scope module: 'events' do
-      resources :events, param: :node_id, only: [:index, :show]
-      post 'events/:node_id/apply', to: 'apply#create', as: :event_apply
-      post 'events/search', to: 'search#show', as: :event_search
-    end
-
-    scope module: 'users' do
-      resources :users, only:[:show] do
-        resources :events, only: [:index]
-      end
+    resources :users, only: :show do
+      resources :notifications, only: :index
     end
 
     scope module: 'orders' do
