@@ -43,6 +43,9 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
       expect(ticket.canceled).to be_falsey
+      notifications = user.notifications
+      expect(notifications.size).to eq(1)
+      expect(notifications.first.notify_type).to eq('order')
     end
 
     it '当用户实名状态为init，应改成 pending' do
@@ -59,7 +62,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(user_extra.status).to eq('pending')
     end
 
-    it '成功购买电子票，应创建snapshot' do
+    it '购买电子票应创建snapshot' do
       race_id = race.id
       post v10_race_orders_url(race_id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
@@ -73,7 +76,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       expect(order.snapshot).to be_truthy
     end
 
-    it '购买成功电子票， 电子票已售票数应加1' do
+    it '购买成功电子票电子票已售票数应加1' do
       old_sold_num = race_info.e_ticket_sold_number
       post v10_race_orders_url(race.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
