@@ -44,7 +44,8 @@ module Dpapi
 
     # eager_load
     config.eager_load_paths += [
-        Rails.root.join('lib/qcloud')
+        Rails.root.join('lib/qcloud'),
+        Rails.root.join('lib/dp_push')
     ]
 
     config.i18n.default_locale = 'zh-CN'
