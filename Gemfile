@@ -41,6 +41,7 @@ gem 'dotenv-rails'
 
 gem 'jwt'
 gem 'resque'
+gem 'jpush', '~> 4.0', '>= 4.0.6'
 
 gem 'faraday'
 
