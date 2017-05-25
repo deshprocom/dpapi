@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     end
 
     resources :users, only: :show do
-      resources :notifications, only: :index
+      resources :notifications, only: [:index, :destroy]
     end
 
     scope module: 'orders' do
@@ -62,6 +62,11 @@ Rails.application.routes.draw do
     end
 
     namespace :news do
+      resources :types, only: [:index, :show]
+      resources :search, only: [:index]
+    end
+
+    namespace :videos do
       resources :types, only: [:index, :show]
       resources :search, only: [:index]
     end
