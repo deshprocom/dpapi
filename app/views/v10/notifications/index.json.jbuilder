@@ -5,7 +5,7 @@ json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
 json.data do
   json.notifications do
-    json.array! @current_user.notifications.limit(30) do |notification|
+    json.array! @notifications do |notification|
       json.id            notification.id
       json.notify_type   notification.notify_type
       json.title         notification.title

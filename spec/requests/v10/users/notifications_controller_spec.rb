@@ -63,12 +63,28 @@ RSpec.describe '/v10/users/:user_id/notifications', :type => :request do
       expect(notifications.size).to eq(2)
       expect(notifications[0]['id'] > 0).to be_truthy
       expect(notifications[0]['notify_type']).to eq('certification')
-      expect(notifications[0]['color_type']).to eq('success')
+      expect(notifications[0]['color_type']).to eq('failure')
       expect(notifications[0]['title'].blank?).to be_falsey
       expect(notifications[0]['content'].blank?).to be_falsey
       expect(notifications[0]['created_at'] > 0).to be_truthy
 
-      expect(notifications[1]['color_type']).to eq('failure')
+      expect(notifications[1]['color_type']).to eq('success')
+    end
+  end
+
+  context '删除消息' do
+    it '删除成功' do
+      user_extra = FactoryGirl.create(:user_extra, user: user)
+      user_extra.passed!
+      notifications = user.notifications
+      expect(notifications.size).to eq(1)
+      delete v10_user_notification_url(user.user_uuid, notifications[0].id),
+          headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      expect(notifications.reload.size).to eq(0)
     end
   end
 end
