@@ -23,7 +23,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   end
 
   let!(:init_orders) do
-    20.times { FactoryGirl.create(:race, ticket_status: 'selling') }
+    10.times { FactoryGirl.create(:race, ticket_status: 'selling') }
     Race.all.map do |race_item|
       FactoryGirl.create(:ticket_info, race: race_item)
       Services::Orders::CreateOrderService.call(race_item, user, e_ticket_params)

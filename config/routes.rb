@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     end
 
     resources :users, only: :show do
-      resources :notifications, only: :index
+      resources :notifications, only: [:index, :destroy]
     end
 
     scope module: 'orders' do
