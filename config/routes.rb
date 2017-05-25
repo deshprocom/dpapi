@@ -66,6 +66,11 @@ Rails.application.routes.draw do
       resources :search, only: [:index]
     end
 
+    namespace :videos do
+      resources :types, only: [:index, :show]
+      resources :search, only: [:index]
+    end
+
     resources :race_hosts, only:[:index]
   end
 
