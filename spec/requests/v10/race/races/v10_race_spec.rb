@@ -55,10 +55,10 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       expect( %w(true false) ).to    include(race['ordered'].to_s)
-      logo = open(race['logo'])
+      logo = open(race['big_logo'])
       expect(logo.status[0]).to eq('200')
 
-      logo = open(race['big_logo'])
+      logo = open(race['logo'])
       expect(logo.status[0]).to eq('200')
     end
   end
