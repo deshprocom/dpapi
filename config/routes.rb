@@ -36,6 +36,7 @@ Rails.application.routes.draw do
         resource :orders, only: [:create]
         resources :sub_races, only: [:index, :show]
         resources :race_ranks, only: [:index]
+        resources :tickets, only: [:index, :show]
       end
       resources :race_tickets, only: [:index]
     end
