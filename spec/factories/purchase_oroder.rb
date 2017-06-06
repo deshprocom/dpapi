@@ -8,7 +8,7 @@ FactoryGirl.define do
     price 8888
     original_price 8888
     after(:build) do |order|
-      order.ticket = FactoryGirl.create(:ticket, race: order.race, user: order.user)
+      order.ticket = FactoryGirl.create(:ticket, race: order.race)
     end
   end
 end

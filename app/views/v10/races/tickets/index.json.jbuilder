@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/BlockLength
+
 # meta info
 json.partial! 'common/meta'
 # code & msg

@@ -14,39 +14,39 @@ module Services
       }.freeze
       cattr_accessor :lock_retry_times
       self.lock_retry_times = 2
-      attr_accessor :race, :user, :params
-      delegate :ticket_info, to: :race
+      delegate :ticket_info, to: :@ticket
 
-      def initialize(race, user, params)
-        self.race   = race
-        self.user   = user
-        self.params = params
+      def initialize(race, ticket, user, params)
+        @race   = race
+        @ticket = ticket
+        @user   = user
+        @params = params
       end
 
       def call
-        unless params[:ticket_type].in? TICKET_TYPES
+        unless @params[:ticket_type].in? TICKET_TYPES
           return ApiResult.error_result(UNSUPPORTED_TYPE)
         end
 
-        unless race.ticket_sellable
+        unless @race.ticket_sellable
           return ApiResult.error_result(TICKET_NO_SELL)
         end
 
-        unless race.ticket_status == 'selling'
-          return ApiResult.error_result(TICKET_STATUS_ERRORS[race.ticket_status.to_sym])
+        unless @ticket.status == 'selling'
+          return ApiResult.error_result(TICKET_STATUS_ERRORS[@ticket.status.to_sym])
         end
 
-        return ApiResult.error_result(NO_CERTIFICATION) unless user.user_extra
+        return ApiResult.error_result(NO_CERTIFICATION) unless @user.user_extra
 
-        if PurchaseOrder.purchased?(user.id, race.id)
+        if PurchaseOrder.purchased?(@user.id, @race.id)
           return ApiResult.error_result(AGAIN_BUY)
         end
 
-        send("ordering_#{params[:ticket_type]}")
+        send("ordering_#{@params[:ticket_type]}")
       end
 
       def ordering_e_ticket
-        unless UserValidator.email_valid?(params[:email])
+        unless UserValidator.email_valid?(@params[:email])
           return ApiResult.error_result(PARAM_FORMAT_ERROR)
         end
 
@@ -54,7 +54,6 @@ module Services
         return result if result.failure?
 
         id_status_to_pending
-        @ticket = Ticket.create(ticket_params)
         order = PurchaseOrder.new(email_order_params)
         return ApiResult.success_with_data(order: order) if order.save
 
@@ -80,37 +79,37 @@ module Services
         end
 
         ticket_info.increment_with_lock!(:e_ticket_sold_number)
-        race.update(ticket_status: 'sold_out') if ticket_info.sold_out?
+        @ticket.update(status: 'sold_out') if ticket_info.sold_out?
         ApiResult.success_result
       end
 
       def id_status_to_pending
-        user.user_extra.update(status: 'pending') if user.user_extra.status == 'init'
+        @user.user_extra.update(status: 'pending') if @user.user_extra.status == 'init'
       end
 
       def ticket_params
         {
-          user_id:         user.id,
+          user_id:         @user.id,
           ticket_infos_id: ticket_info.id,
-          race_id:         race.id,
-          ticket_type:     params[:ticket_type]
+          race_id:         @race.id,
+          ticket_type:     @params[:ticket_type]
         }
       end
 
       def init_order_params
         {
-          user:           user,
-          race:           race,
-          ticket_id:      @ticket.id,
-          price:          race.ticket_price,
-          original_price: race.ticket_price,
-          ticket_type:    params[:ticket_type],
+          user:           @user,
+          race:           @race,
+          ticket:         @ticket,
+          price:          @ticket.price,
+          original_price: @ticket.original_price,
+          ticket_type:    @params[:ticket_type],
           status:         'unpaid'
         }
       end
 
       def email_order_params
-        init_order_params.merge(email: params[:email])
+        init_order_params.merge(email: @params[:email])
       end
     end
   end

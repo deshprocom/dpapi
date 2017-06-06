@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/v10/races/:race_id/orders', :type => :request do
+RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request do
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
     {
@@ -10,8 +10,9 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
         HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
     }
   end
-  let!(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
-  let!(:race_info) { FactoryGirl.create(:ticket_info, race: race) }
+  let!(:race) { FactoryGirl.create(:race) }
+  let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
+  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race, ticket: ticket) }
   let!(:user) { FactoryGirl.create(:user) }
   let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:shipping_address) { FactoryGirl.create(:shipping_address, user: user) }
@@ -29,7 +30,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   context '购票成功' do
     it '成功购买电子票' do
       race_id = race.id
-      post v10_race_orders_url(race_id),
+      post v10_race_ticket_orders_url(race_id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -37,12 +38,10 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(0)
 
-      ticket = user.tickets.find_by(race_id: race_id)
       order = user.orders.find_by(ticket_id: ticket.id)
-      expect(ticket).to be_truthy
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
-      expect(ticket.canceled).to be_falsey
+      expect(order.ticket_type).to  eq('e_ticket')
       notifications = user.notifications
       expect(notifications.size).to eq(1)
       expect(notifications.first.notify_type).to eq('order')
@@ -50,7 +49,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
     it '当用户实名状态为init，应改成 pending' do
       user_extra.update(status: 'init')
-      post v10_race_orders_url(race.id),
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -64,7 +63,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
     it '购买电子票应创建snapshot' do
       race_id = race.id
-      post v10_race_orders_url(race_id),
+      post v10_race_ticket_orders_url(race_id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -77,8 +76,8 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     end
 
     it '购买成功电子票电子票已售票数应加1' do
-      old_sold_num = race_info.e_ticket_sold_number
-      post v10_race_orders_url(race.id),
+      old_sold_num = ticket_info.e_ticket_sold_number
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -86,13 +85,13 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(0)
 
-      race_info.reload
-      expect(race_info.e_ticket_sold_number - old_sold_num).to   eq(1)
+      ticket_info.reload
+      expect(ticket_info.e_ticket_sold_number - old_sold_num).to   eq(1)
     end
 
     it '当实体票与电子票都售完，应改变状态为 sold_out' do
-      race_info.update(e_ticket_sold_number: 49)
-      post v10_race_orders_url(race.id),
+      ticket_info.update(e_ticket_sold_number: 49)
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -100,19 +99,19 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(0)
 
-      race.reload
-      expect(race.ticket_status).to eq('sold_out')
+      ticket.reload
+      expect(ticket.status).to eq('sold_out')
     end
 
     it '取消票成功，可以继续购票' do
-      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to   eq(0)
 
       order = user.orders.find_by_race_id(race.id)
       result = Services::Orders::CancelOrderService.call(order, user)
       expect(result.code).to   eq(0)
 
-      post v10_race_orders_url(race.id),
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -127,10 +126,10 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
   context '购票失败' do
     it '限购一张，重复购票' do
-      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to   eq(0)
 
-      post v10_race_orders_url(race.id),
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -141,7 +140,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
     it '用户没有实名信息' do
       user.user_extra.destroy
-      post v10_race_orders_url(race.id),
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -151,8 +150,8 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     end
 
     it '售票状态不为selling' do
-      race.update(ticket_status: 'end')
-      post v10_race_orders_url(race.id),
+      ticket.update(status: 'end')
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -163,7 +162,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
 
     it '未开启售票功能' do
       race.update(ticket_sellable: false)
-      post v10_race_orders_url(race.id),
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -173,8 +172,8 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     end
 
     it '购买电子票，电子票已票完' do
-      race_info.update(e_ticket_sold_number: 50)
-      post v10_race_orders_url(race.id),
+      ticket_info.update(e_ticket_sold_number: 50)
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
 
@@ -184,7 +183,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     end
 
     it '购买电子票，email错误' do
-      post v10_race_orders_url(race.id),
+      post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params.merge(email: '1212')
 

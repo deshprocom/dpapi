@@ -21,10 +21,11 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
         email: 'test@gmail.com',
     }
   end
-  let!(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
-  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race) }
+  let!(:race) { FactoryGirl.create(:race) }
+  let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
+  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race, ticket: ticket) }
   let!(:create_orders) do
-    Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+    Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
   end
 
   context '获取用户某个订单详情' do
