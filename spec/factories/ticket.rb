@@ -1,6 +1,9 @@
 FactoryGirl.define do
   factory :ticket do
     association :race
-    association :user
+    title   '机票 + 赛事门票'
+    price   10000
+    original_price   10000
+    ticket_class   'race_extra'
   end
 end

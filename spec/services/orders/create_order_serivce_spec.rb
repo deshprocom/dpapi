@@ -7,8 +7,9 @@ RSpec.describe Services::UniqueNumberGenerator do
       email: 'test@gmail.com',
     }
   end
-  let!(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
-  let!(:race_info) { FactoryGirl.create(:ticket_info, race: race) }
+  let!(:race) { FactoryGirl.create(:race) }
+  let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
+  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race, ticket: ticket) }
   let!(:user) { FactoryGirl.create(:user) }
   let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:generate_order) do
@@ -19,7 +20,7 @@ RSpec.describe Services::UniqueNumberGenerator do
       ticket_info = TicketInfo.find race.ticket_info.id
       ticket_info.e_ticket_sold_number = 10
       ticket_info.save
-      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to eq(0)
     end
 
@@ -28,7 +29,7 @@ RSpec.describe Services::UniqueNumberGenerator do
       ticket_info.e_ticket_sold_number = 10
       ticket_info.e_ticket_number = 10
       ticket_info.save
-      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to eq(1100040)
     end
 
@@ -38,7 +39,7 @@ RSpec.describe Services::UniqueNumberGenerator do
       ticket_info.e_ticket_number = 10
       ticket_info.save
       Services::Orders::CreateOrderService.lock_retry_times = 0
-      result = Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to eq(1100007)
       Services::Orders::CreateOrderService.lock_retry_times = 2
     end

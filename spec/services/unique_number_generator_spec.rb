@@ -7,12 +7,13 @@ RSpec.describe Services::UniqueNumberGenerator do
       email: 'test@gmail.com',
     }
   end
-  let!(:race) { FactoryGirl.create(:race, ticket_status: 'selling') }
-  let!(:race_info) { FactoryGirl.create(:ticket_info, race: race) }
+  let!(:race) { FactoryGirl.create(:race) }
+  let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
+  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race, ticket: ticket) }
   let!(:user) { FactoryGirl.create(:user) }
   let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:generate_order) do
-    Services::Orders::CreateOrderService.call(race, user, e_ticket_params)
+    Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
   end
   context '当今天还未产生过编号时' do
     it '返回的编号应为今天日期 + 00001' do

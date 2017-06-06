@@ -19,8 +19,6 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
                                      status: 1)
     second_race = FactoryGirl.create(:race, begin_date: 2.days.ago.strftime('%Y-%m-%d'),)
     third_race = FactoryGirl.create(:race)
-    FactoryGirl.create(:ticket_info, race: third_race)
-    FactoryGirl.create(:ticket_info, race: second_race)
     FactoryGirl.create(:race_follow, race_id: first_race.id, user_id: user.id)
     FactoryGirl.create(:purchase_order, race: second_race, user: user)
     FactoryGirl.create(:purchase_order, race: third_race, user: user)
