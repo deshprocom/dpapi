@@ -1,3 +1,4 @@
+json.id                ticket.id
 json.title             ticket.title.to_s
 json.logo              ticket.logo.to_s
 json.price             ticket.price
