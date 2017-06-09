@@ -15,7 +15,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
   let(:race_desc) { FactoryGirl.create(:race_desc) }
   let(:followed_and_ordered_race) do
     race_desc = FactoryGirl.create(:race_desc)
-    FactoryGirl.create(:ticket_info, race_id: race_desc.race_id)
+    # FactoryGirl.create(:ticket_info, race_id: race_desc.race_id)
     FactoryGirl.create(:purchase_order, race: race_desc.race, user: user)
     FactoryGirl.create(:race_follow, race_id: race_desc.race_id, user_id: user.id)
     race_desc
@@ -55,10 +55,10 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       expect( %w(true false) ).to    include(race['ordered'].to_s)
-      logo = open(race['logo'])
+      logo = open(race['big_logo'])
       expect(logo.status[0]).to eq('200')
 
-      logo = open(race['big_logo'])
+      logo = open(race['logo'])
       expect(logo.status[0]).to eq('200')
     end
   end

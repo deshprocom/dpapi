@@ -33,7 +33,7 @@ RSpec.describe 'v10_race_tickets', :type => :request do
 
   context '返回正确的数组' do
     it '无数据返回空' do
-      get v10_race_tickets_url(0),
+      get v10_ticket_business_index_url,
           headers: http_headers
 
       json = JSON.parse(response.body)
@@ -44,7 +44,7 @@ RSpec.describe 'v10_race_tickets', :type => :request do
 
     it '有数据时，应返回相应的数据' do
       init_races
-      get v10_race_tickets_url(0),
+      get v10_ticket_business_index_url,
           headers: http_headers,
           params: { page_size: 10 }
 
@@ -80,7 +80,7 @@ RSpec.describe 'v10_race_tickets', :type => :request do
       init_races
       seq_id = Race.seq_asc[3].seq_id
 
-      get v10_race_tickets_url(0),
+      get v10_ticket_business_index_url,
           headers: http_headers,
           params: { seq_id: seq_id }
 
@@ -97,7 +97,7 @@ RSpec.describe 'v10_race_tickets', :type => :request do
     it '当传递keyword参数时，应返回相应的数据' do
       init_races
 
-      get v10_race_tickets_url(0),
+      get v10_ticket_business_index_url,
           headers: http_headers,
           params: { keyword: 'wpt' }
 

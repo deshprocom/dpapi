@@ -25,13 +25,15 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   let!(:init_orders) do
     10.times { FactoryGirl.create(:race, ticket_status: 'selling') }
     Race.all.map do |race_item|
-      FactoryGirl.create(:ticket_info, race: race_item)
-      Services::Orders::CreateOrderService.call(race_item, user, e_ticket_params)
+      ticket = FactoryGirl.create(:ticket, race: race_item, status: 'selling')
+      FactoryGirl.create(:ticket_info, ticket: ticket)
+      result = Services::Orders::CreateOrderService.call(race_item, ticket, user, e_ticket_params)
+      result
     end
   end
 
   context '获取订单列表' do
-    context "不传任何参数" do
+    context '不传任何参数' do
       it '应该最多返回10条数据' do
         get v10_user_orders_url(user.user_uuid),
              headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
@@ -43,7 +45,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       end
     end
 
-    context "传入参数page_size = 1" do
+    context '传入参数page_size = 1' do
       it '那么只返回一条数据' do
         get v10_user_orders_url(user.user_uuid),
             headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
@@ -56,7 +58,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       end
     end
 
-    context "status = unpaid, page_size =2" do
+    context 'status = unpaid, page_size =2' do
       it '那么只返回一条数据' do
         get v10_user_orders_url(user.user_uuid),
             headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
@@ -67,7 +69,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       end
     end
 
-    context "page_size = 2, status = unpaid, next_id = " do
+    context 'page_size = 2, status = unpaid, next_id = ' do
       it '那么只返回一条数据' do
         get v10_user_orders_url(user.user_uuid),
             headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),

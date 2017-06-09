@@ -3,17 +3,17 @@ module V10
     class OrdersController < ApplicationController
       include UserAccessible
 
-      before_action :set_race, :login_required
+      before_action :set_race, :set_ticket, :login_required
 
       def new_order
         @user = @current_user
-        return render_api_error(NOT_FOUND) unless @race.ticket_info
+        return render_api_error(NOT_FOUND) unless @race.ticket.ticket_info
 
         render 'new_order'
       end
 
       def create
-        result = Services::Orders::CreateOrderService.call(@race, @current_user, params)
+        result = Services::Orders::CreateOrderService.call(@race, @ticket, @current_user, params)
         return render_api_error(result.code, result.msg) if result.failure?
 
         render_api_success
@@ -23,6 +23,10 @@ module V10
 
       def set_race
         @race = Race.find(params[:race_id])
+      end
+
+      def set_ticket
+        @ticket = Ticket.find(params[:ticket_id])
       end
     end
   end
