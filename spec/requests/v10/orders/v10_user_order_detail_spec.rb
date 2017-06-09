@@ -23,7 +23,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   end
   let!(:race) { FactoryGirl.create(:race) }
   let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
-  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race, ticket: ticket) }
+  let!(:ticket_info) { FactoryGirl.create(:ticket_info, ticket: ticket) }
   let!(:create_orders) do
     Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
   end

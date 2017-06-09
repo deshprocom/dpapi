@@ -12,7 +12,7 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
   end
   let!(:race) { FactoryGirl.create(:race) }
   let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
-  let!(:ticket_info) { FactoryGirl.create(:ticket_info, race: race, ticket: ticket) }
+  let!(:ticket_info) { FactoryGirl.create(:ticket_info, ticket: ticket) }
   let!(:user) { FactoryGirl.create(:user) }
   let!(:user_extra) { FactoryGirl.create(:user_extra, user: user, status: 'passed') }
   let(:shipping_address) { FactoryGirl.create(:shipping_address, user: user) }
