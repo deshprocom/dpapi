@@ -11,9 +11,11 @@ json.data do
     json.begin_date   @race.begin_date
     json.end_date     @race.end_date
     json.logo         @race.logo.to_s
-    json.prize        @race.prize
-    json.ticket_price @race.ticket_price
   end
+
+  prices = @race.tickets.pluck(:price)
+  json.max_price prices.max
+  json.min_price prices.min
   json.single_tickets do
     json.array! @race.tickets.single_ticket do |ticket|
       json.partial! 'ticket', ticket: ticket
