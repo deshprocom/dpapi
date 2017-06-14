@@ -32,7 +32,7 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
         expect(race['race_id'].class).to    eq(Fixnum)
         expect(race['name'].class).to       eq(String)
         expect(race['prize'].class).to      eq(String)
-        expect(race['ticket_price'].class).to eq(Fixnum)
+        expect(race['ticket_price'].class).to eq(String)
         expect(race['blind'].class).to      eq(String)
         expect(race['location'].class).to   eq(String)
         expect(race['begin_date'].class).to eq(String)
