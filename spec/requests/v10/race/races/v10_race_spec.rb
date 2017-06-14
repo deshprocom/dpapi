@@ -15,7 +15,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
   let(:race_desc) { FactoryGirl.create(:race_desc) }
   let(:followed_and_ordered_race) do
     race_desc = FactoryGirl.create(:race_desc)
-    FactoryGirl.create(:ticket_info, race_id: race_desc.race_id)
+    # FactoryGirl.create(:ticket_info, race_id: race_desc.race_id)
     FactoryGirl.create(:purchase_order, race: race_desc.race, user: user)
     FactoryGirl.create(:race_follow, race_id: race_desc.race_id, user_id: user.id)
     race_desc
@@ -44,8 +44,8 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['description']).to eq(race_desc.description)
       expect(race['name']).to        eq(race_desc.race.name)
       expect(race['seq_id']).to      eq(race_desc.race.seq_id)
-      expect(race['logo']).to        eq(ENV['CMS_PHOTO_PATH'] + race_desc.race.logo.url(:preview))
-      expect(race['big_logo']).to    eq(ENV['CMS_PHOTO_PATH'] + race_desc.race.logo.url)
+      expect(race['logo']).to        eq(race_desc.race.logo.url(:sm))
+      expect(race['big_logo']).to    eq(race_desc.race.logo.url)
       expect(race['prize']).to       eq(race_desc.race.prize)
       expect(race['location']).to    eq(race_desc.race.location)
       expect(race['begin_date']).to  eq(race_desc.race.begin_date.to_s)
@@ -55,6 +55,11 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       expect( %w(true false) ).to    include(race['ordered'].to_s)
+      logo = open(race['big_logo'])
+      expect(logo.status[0]).to eq('200')
+
+      logo = open(race['logo'])
+      expect(logo.status[0]).to eq('200')
     end
   end
 
@@ -114,6 +119,30 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['followed']).to  be_truthy
       expect(race['ordered']).to   be_truthy
       expect(race['order_id']).to   be_truthy
+    end
+  end
+
+  context '有赛事结构时' do
+    it '返回的赛事结构的顺序应准确' do
+      race = race_desc.race
+      FactoryGirl.create(:race_blind, race: race, level: 2)
+      FactoryGirl.create(:race_blind, race: race, level: 1)
+      FactoryGirl.create(:race_blind, race: race, level: 1, blind_type: 1, content: 'stopping')
+      get v10_u_race_detail_url(0, race_desc.race_id),
+          headers: http_headers
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+
+      blinds = json['data']['blinds']
+      expect(blinds.size).to eq(3)
+      expect(blinds[0]['blind_type']).to eq('blind_struct')
+      expect(blinds[0]['level']).to eq(1)
+      expect(blinds[1]['blind_type']).to eq('blind_content')
+      expect(blinds[1]['level']).to eq(1)
+      expect(blinds[2]['blind_type']).to eq('blind_struct')
+      expect(blinds[2]['level']).to eq(2)
     end
   end
 end

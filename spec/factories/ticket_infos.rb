@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :ticket_info do
-    association       :race
+    association       :ticket
     total_number      100
     e_ticket_number   50
     entity_ticket_number   0

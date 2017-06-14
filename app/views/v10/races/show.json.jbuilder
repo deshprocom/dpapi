@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 # meta info
 json.partial! 'common/meta'
 # code & msg
@@ -19,9 +20,20 @@ json.data do
   json.ticket_sellable @race.ticket_sellable
   json.describable     @race.describable
   json.description     @race.race_desc.try(:description).to_s
-  json.schedule        @race.race_desc.try(:schedule).to_s
   json.followed        RaceFollow.followed?(@user&.id, @race.id)
   order = PurchaseOrder.purchased_order(@user&.id, @race.id)
   json.ordered         order.present?
   json.order_id        order&.order_number
+
+  json.schedules do
+    json.partial! 'v10/races/schedules', race_schedules: @race.race_schedules.default_order
+  end
+
+  json.ranks do
+    json.partial! 'v10/races/ranks', ranks: @race.race_ranks
+  end
+
+  json.blinds do
+    json.partial! 'v10/races/blinds', blinds: @race.race_blinds.level_asc
+  end
 end

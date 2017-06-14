@@ -17,8 +17,7 @@ module V10
     def self.render_races_result(target, result)
       target.render 'v10/races/index', locals: { api_result: result,
                                                  races: result.data[:races],
-                                                 user: result.data[:user],
-                                                 next_id: result.data[:next_id] }
+                                                 user: result.data[:user] }
     end
 
     def self.render_certification_result(target, view, result)

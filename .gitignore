@@ -54,3 +54,7 @@
 #simplecov
 /coverage
 /bfg.jar
+
+# erd
+**/erd.*
+**/*.pdf

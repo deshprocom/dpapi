@@ -14,8 +14,11 @@ Rails.application.routes.draw do
       resources :users, only: [] do
         resource :profile, only: [:show, :update]
         resource :change_password, only: [:create]
+        resource :change_permission, only: [:create]
         resources :address
         resources :certification, only: [:index, :create]
+        resources :change_account, only: [:create]
+        resources :bind_account, only: [:create]
       end
     end
 
@@ -29,23 +32,18 @@ Rails.application.routes.draw do
       end
       resources :races, only: [] do
         get 'ticket_status', to: 'ticket_status#show', as: :ticket_status
-        get 'new_order', to: 'orders#new_order', as: :new_order
-        resource :orders, only: [:create]
+        # get 'new_order', to: 'orders#new_order', as: :new_order   废弃
         resources :sub_races, only: [:index, :show]
         resources :race_ranks, only: [:index]
+        resources :tickets, only: [:index, :show] do
+          resource :orders, only: [:create]
+        end
       end
+      resources :race_tickets, only: [:index], as: :ticket_business
     end
 
-    scope module: 'events' do
-      resources :events, param: :node_id, only: [:index, :show]
-      post 'events/:node_id/apply', to: 'apply#create', as: :event_apply
-      post 'events/search', to: 'search#show', as: :event_search
-    end
-
-    scope module: 'users' do
-      resources :users, only:[:show] do
-        resources :events, only: [:index]
-      end
+    resources :users, only: :show do
+      resources :notifications, only: [:index, :destroy]
     end
 
     scope module: 'orders' do
@@ -66,6 +64,11 @@ Rails.application.routes.draw do
     end
 
     namespace :news do
+      resources :types, only: [:index, :show]
+      resources :search, only: [:index]
+    end
+
+    namespace :videos do
       resources :types, only: [:index, :show]
       resources :search, only: [:index]
     end

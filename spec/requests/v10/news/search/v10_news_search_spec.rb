@@ -72,6 +72,12 @@ RSpec.describe 'v10_news_search_index', :type => :request do
       expect(json['data']['items'][0]['source_type']).to be_truthy
       expect(json['data']['items'][0]['source']).to be_truthy
       expect(json['data']['next_id']).to be_truthy
+
+      image = open(json['data']['items'][0]['image'])
+      expect(image.status[0]).to eq('200')
+
+      image_thumb = open(json['data']['items'][0]['image_thumb'])
+      expect(image_thumb.status[0]).to eq('200')
     end
   end
 
@@ -90,6 +96,12 @@ RSpec.describe 'v10_news_search_index', :type => :request do
       expect(json['data']['items'][0]['source_type']).to be_truthy
       expect(json['data']['items'][0]['source']).to be_truthy
       expect(json['data']['next_id']).to be_truthy
+
+      image = open(json['data']['items'][0]['image'])
+      expect(image.status[0]).to eq('200')
+
+      image_thumb = open(json['data']['items'][0]['image_thumb'])
+      expect(image_thumb.status[0]).to eq('200')
     end
   end
 end

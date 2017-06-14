@@ -1,5 +1,5 @@
 module Services
-  module Account
+  module Races
     MAX_SEQ_ID = 10**20
     class FilteredRacesService
       include Serviceable
