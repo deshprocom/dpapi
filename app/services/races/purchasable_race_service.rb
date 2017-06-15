@@ -20,7 +20,7 @@ module Services
       end
 
       def purchasable_races
-        Race.main.where(ticket_status: [:selling, :sold_out])
+        Race.main.where(ticket_status: [:selling, :sold_out]).ticket_sellable
       end
 
       def with_keyword_races
