@@ -13,7 +13,7 @@ module V10
         page_size = permit_params[:page_size].blank? ? '10' : permit_params[:page_size]
         next_id = permit_params[:next_id].blank? ? '0' : permit_params[:next_id]
         type = InfoType.find(params[:id])
-        news = type.infos.where('id > ?', next_id).limit(page_size)
+        news = type.infos.where('id > ?', next_id).limit(page_size).order(created_at: :desc)
         top_new = type.infos.topped.first
         next_id = news.last.try(:id) || 0
 

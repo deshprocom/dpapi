@@ -15,16 +15,20 @@ module Services
                 else
                   with_keyword_races
                 end
-        races = races.where('seq_id > ?', @seq_id).limit(@page_size).seq_asc
+        races = races.where('races.seq_id > ?', @seq_id).limit(@page_size).seq_asc
         ApiResult.success_with_data(races: races)
       end
 
       def purchasable_races
-        Race.main.where(ticket_status: [:selling, :sold_out]).ticket_sellable
+        Race.left_joins(:sub_races)
+            .where(parent_id: 0)
+            .where('races.ticket_sellable = ? or sub_races_races.ticket_sellable = ?', 1, 1)
+            .distinct
+        # Race.main.ticket_sellable
       end
 
       def with_keyword_races
-        purchasable_races.where('name like ? or location like ?', "%#{@keyword}%", "%#{@keyword}%")
+        purchasable_races.where('races.name like ? or races.location like ?', "%#{@keyword}%", "%#{@keyword}%")
       end
     end
   end
