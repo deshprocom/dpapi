@@ -7,9 +7,9 @@ module AcFactory
 
     def ac_us013_04
       10.times do
-        FactoryGirl.create(:race, ticket_status: :selling)
+        FactoryGirl.create(:race)
       end
-      FactoryGirl.create(:race, id: 100, name: 'APT更多的赛事', ticket_status: :selling,begin_date: 1.year.since.to_date, end_date: 1.year.since.to_date)
+      FactoryGirl.create(:race, id: 100, name: 'APT更多的赛事', begin_date: 1.year.since.to_date, end_date: 1.year.since.to_date)
     end
 
     def ac_us013_05
