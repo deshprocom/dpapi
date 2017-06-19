@@ -38,9 +38,11 @@ module Services
 
         return ApiResult.error_result(NO_CERTIFICATION) unless @user.user_extra
 
-        if PurchaseOrder.purchased?(@user.id, @race.id)
-          return ApiResult.error_result(AGAIN_BUY)
-        end
+        ##
+        # 放开购买次数限制
+        # if PurchaseOrder.purchased?(@user.id, @race.id)
+        #   return ApiResult.error_result(AGAIN_BUY)
+        # end
 
         send("ordering_#{@params[:ticket_type]}")
       end

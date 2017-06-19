@@ -125,18 +125,20 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
   end
 
   context '购票失败' do
-    it '限购一张，重复购票' do
-      result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
-      expect(result.code).to   eq(0)
-
-      post v10_race_ticket_orders_url(race.id, ticket.id),
-           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
-           params: e_ticket_params
-
-      expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
-      expect(json['code']).to   eq(1100039)
-    end
+    ##
+    # 放开限购一张的限制
+    # it '限购一张，重复购票' do
+    #   result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
+    #   expect(result.code).to   eq(0)
+    #
+    #   post v10_race_ticket_orders_url(race.id, ticket.id),
+    #        headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+    #        params: e_ticket_params
+    #
+    #   expect(response).to have_http_status(200)
+    #   json = JSON.parse(response.body)
+    #   expect(json['code']).to   eq(1100039)
+    # end
 
     it '用户没有实名信息' do
       user.user_extra.destroy
