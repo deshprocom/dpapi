@@ -23,7 +23,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
   end
 
   let!(:init_orders) do
-    10.times { FactoryGirl.create(:race, ticket_status: 'selling') }
+    10.times { FactoryGirl.create(:race) }
     Race.all.map do |race_item|
       ticket = FactoryGirl.create(:ticket, race: race_item, status: 'selling')
       FactoryGirl.create(:ticket_info, ticket: ticket)

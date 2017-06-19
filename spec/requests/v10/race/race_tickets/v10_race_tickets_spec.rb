@@ -11,24 +11,25 @@ RSpec.describe 'v10_race_tickets', :type => :request do
     }
   end
   let!(:user) { FactoryGirl.create(:user) }
-  let!(:race1) do
+  let(:race1) do
     race = FactoryGirl.create(:race, { begin_date: Time.local(2017, 3, 9).strftime('%Y-%m-%d'),
                                        end_date: Time.local(2017, 3, 22).strftime('%Y-%m-%d') })
     race.update({ published: 1 })
     race
   end
 
-  let!(:race2) do
+  let(:race2) do
     race = FactoryGirl.create(:race, { begin_date: Time.local(2017, 3, 12).strftime('%Y-%m-%d'),
                                        end_date: Time.local(2017, 3, 18).strftime('%Y-%m-%d') })
     race.update({ published: 1 })
     race
+
   end
 
   let(:init_races) do
-    FactoryGirl.create(:race, ticket_status: :unsold, name: 'wpt第一场')
-    FactoryGirl.create(:race, ticket_status: :selling, name: 'wpt第二场')
-    10.times { FactoryGirl.create(:race, ticket_status: :selling) }
+    FactoryGirl.create(:race, name: 'wpt第一场')
+    FactoryGirl.create(:race, name: 'wpt第二场')
+    10.times { FactoryGirl.create(:race) }
   end
 
   context '返回正确的数组' do
@@ -68,7 +69,6 @@ RSpec.describe 'v10_race_tickets', :type => :request do
         expect(race['begin_date'].class).to eq(String)
         expect(race['end_date'].class).to   eq(String)
         expect(race['status'].class).to     eq(String)
-        expect(race['ticket_status']).to eq('selling')
         expect(race['ticket_sellable']).to eq(true)
         expect(race['describable']).to     eq(true)
         expect( %w(true false) ).to    include(race['followed'].to_s)
@@ -89,7 +89,6 @@ RSpec.describe 'v10_race_tickets', :type => :request do
       races = json['data']['items']
       expect(races.size > 0).to    be_truthy
       races.each do |race|
-        expect(race['ticket_status']).to eq('selling')
         expect(race['seq_id'] > seq_id).to be_truthy
       end
     end
@@ -104,9 +103,9 @@ RSpec.describe 'v10_race_tickets', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       races = json['data']['items']
-      expect(races.size).to eq(1)
+      expect(races.size).to eq(2)
       races.each do |race|
-        expect(race['ticket_status']).to eq('selling')
+        expect(race['ticket_sellable']).to eq(true)
       end
     end
   end
