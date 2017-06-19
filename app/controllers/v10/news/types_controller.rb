@@ -15,7 +15,7 @@ module V10
         type = InfoType.find(params[:id])
         news = type.infos.where('id > ?', next_id).limit(page_size).order(created_at: :desc)
         top_new = type.infos.topped.first
-        next_id = news.last.try(:id) || 0
+        next_id = news.first.try(:id) || 0
 
         template = 'v10/news/show'
         render template, locals: { api_result: ApiResult.success_result,
