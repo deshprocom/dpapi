@@ -17,7 +17,7 @@ json.data do
   json.max_price prices.max
   json.min_price prices.min
   json.tickets do
-    json.array! @race.tickets.client_visible do |ticket|
+    json.array! @race.tickets.tradable do |ticket|
       json.partial! 'ticket', ticket: ticket
     end
   end
