@@ -16,14 +16,8 @@ json.data do
   prices = @race.tickets.pluck(:price)
   json.max_price prices.max
   json.min_price prices.min
-  json.single_tickets do
-    json.array! @race.tickets.single_ticket do |ticket|
-      json.partial! 'ticket', ticket: ticket
-    end
-  end
-
-  json.package_tickets do
-    json.array! @race.tickets.package_ticket do |ticket|
+  json.tickets do
+    json.array! @race.tickets.client_visible do |ticket|
       json.partial! 'ticket', ticket: ticket
     end
   end
