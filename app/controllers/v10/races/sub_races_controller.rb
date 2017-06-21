@@ -3,7 +3,15 @@ module V10
     class SubRacesController < ApplicationController
       before_action :set_race, only: [:index]
 
-      def index; end
+      def index
+        if params[:type] == 'tradable'
+          @sub_races = @race.sub_races.joins(:tickets)
+                            .where(tickets: { status: %w(selling sold_out) })
+                            .distinct
+        else
+          @sub_races = @race.sub_races.date_asc
+        end
+      end
 
       def show
         @sub_race = Race.find(params[:id])

@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/v10/races/:race_id/orders', :type => :request do
+RSpec.describe '/v10/users/:user/orders', :type => :request do
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:http_headers) do
     {
