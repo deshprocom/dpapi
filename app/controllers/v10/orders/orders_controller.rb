@@ -6,8 +6,8 @@ module V10
 
       def index
         optional! :page_size, values: 0..100, default: 10
-        optional! :next_id, default: 10**15
         optional! :status, default: 'all'
+        params[:next_id] = 10**15 if params[:next_id].to_i.zero?
         @orders = @current_user.orders.where('order_number < ?', params[:next_id])
                                .limit(params[:page_size])
                                .order(order_number: :desc)
