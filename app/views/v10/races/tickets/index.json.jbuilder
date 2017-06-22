@@ -11,6 +11,7 @@ json.data do
     json.begin_date   @race.begin_date
     json.end_date     @race.end_date
     json.logo         @race.logo.to_s
+    json.ticket_sellable @race.ticket_sellable
   end
 
   prices = @race.tickets.pluck(:price)

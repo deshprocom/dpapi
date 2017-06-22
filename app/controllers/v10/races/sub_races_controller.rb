@@ -7,6 +7,7 @@ module V10
         if params[:type] == 'tradable'
           @sub_races = @race.sub_races.joins(:tickets)
                             .where(tickets: { status: %w(selling sold_out) })
+                            .ticket_sellable
                             .distinct
         else
           @sub_races = @race.sub_races.date_asc
