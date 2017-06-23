@@ -41,6 +41,49 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
         expect(race.has_key?('roy')).to     be_truthy
       end
     end
+
+    context '当传入type 为 tradable' do
+      it '应返回空列表' do
+        main_race = init_sub_races
+        get v10_race_sub_races_url(main_race.id), headers: http_headers,
+            params: {type: 'tradable'}
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json['code']).to eq(0)
+        races = json['data']['items']
+        expect(races.class).to      eq(Array)
+        expect(races.size).to       eq(0)
+      end
+
+      it '不返回ticket_sellable 为false的边赛' do
+        main_race = init_sub_races
+        sub_race = main_race.sub_races.first
+        sub_race.cancel_sell!
+        FactoryGirl.create(:ticket, race: sub_race, status: 'selling')
+        get v10_race_sub_races_url(main_race.id), headers: http_headers,
+            params: {type: 'tradable'}
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json['code']).to eq(0)
+        races = json['data']['items']
+        expect(races.class).to      eq(Array)
+        expect(races.size).to       eq(0)
+      end
+
+      it '存在可购票的子赛事' do
+        main_race = init_sub_races
+        FactoryGirl.create(:ticket, race: main_race.sub_races.first, status: 'selling')
+        FactoryGirl.create(:ticket, race: main_race.sub_races.second, status: 'unsold')
+        get v10_race_sub_races_url(main_race.id), headers: http_headers,
+            params: {type: 'tradable'}
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json['code']).to eq(0)
+        races = json['data']['items']
+        expect(races.class).to      eq(Array)
+        expect(races.size).to       eq(1)
+      end
+    end
   end
 
   context '访问指定的边赛' do

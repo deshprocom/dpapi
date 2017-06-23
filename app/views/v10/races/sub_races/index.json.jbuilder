@@ -5,7 +5,7 @@ json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
 json.data do
   json.items do
-    json.array! @race.sub_races.date_asc do |race|
+    json.array! @sub_races do |race|
       json.race_id         race.id
       json.name            race.name.to_s
       json.prize           race.prize
