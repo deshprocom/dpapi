@@ -20,11 +20,11 @@ module Services
       end
 
       def purchasable_races
-        Race.left_joins(:sub_races)
-            .where(parent_id: 0)
-            .where('races.ticket_sellable = ? or sub_races_races.ticket_sellable = ?', 1, 1)
-            .distinct
-        # Race.main.ticket_sellable
+        # Race.left_joins(:sub_races)
+        #     .where(parent_id: 0)
+        #     .where('races.ticket_sellable = ? or sub_races_races.ticket_sellable = ?', 1, 1)
+        #     .distinct
+        Race.main.ticket_sellable
       end
 
       def with_keyword_races
