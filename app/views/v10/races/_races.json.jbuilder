@@ -9,7 +9,9 @@ json.array! races do |race|
   json.begin_date      race.begin_date
   json.end_date        race.end_date
   json.status          race.status
+  json.participants    race.participants
   json.ticket_status   race.ticket_status
+  json.ticket_price    race.ticket_price
   json.ticket_sellable race.ticket_sellable
   json.describable     race.describable
   json.followed        RaceFollow.followed?(user.try(:id), race.id)

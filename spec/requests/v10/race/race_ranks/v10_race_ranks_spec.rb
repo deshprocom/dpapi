@@ -44,7 +44,7 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
         expect(rank['rank_id'].class).to   eq(Fixnum)
         expect(rank['ranking'].class).to     eq(Fixnum)
         expect(rank['score'].class).to     eq(Fixnum)
-        expect(rank['earning'].class).to   eq(Fixnum)
+        expect(rank['earning'].class).to   eq(String)
         player = rank['player']
         expect(player['player_id'].class).to eq(String)
         expect(player['name'].class).to        eq(String)
