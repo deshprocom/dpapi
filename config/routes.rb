@@ -15,7 +15,12 @@ Rails.application.routes.draw do
         resource :profile, only: [:show, :update]
         resource :change_password, only: [:create]
         resource :change_permission, only: [:create]
-        resources :address
+        resources :address, only: [:index, :create] do
+          scope module: 'address' do
+            resources :default, only: [:create]
+            resources :delete, only: [:create]
+          end
+        end
         resources :certification, only: [:index, :create]
         resources :change_account, only: [:create]
         resources :bind_account, only: [:create]
