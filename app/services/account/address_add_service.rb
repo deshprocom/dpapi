@@ -42,7 +42,7 @@ module Services
 
       def update_other_default_false(address_id, send_default)
         send_default.present? &&
-            user.shipping_addresses.where.not(id: address_id).update(default: false)
+          user.shipping_addresses.where.not(id: address_id).update(default: false)
       end
     end
   end
