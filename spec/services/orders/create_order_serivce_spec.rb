@@ -7,6 +7,14 @@ RSpec.describe Services::UniqueNumberGenerator do
       email: 'test@gmail.com',
     }
   end
+  let(:entity_ticket_params) do
+    {
+      ticket_type: 'entity_ticket',
+      mobile: '13428725222',
+      consignee: '收货人先生',
+      address: '收货地址'
+    }
+  end
   let!(:race) { FactoryGirl.create(:race) }
   let!(:ticket) { FactoryGirl.create(:ticket, race: race, status: 'selling') }
   let!(:ticket_info) { FactoryGirl.create(:ticket_info, ticket: ticket) }
@@ -31,6 +39,15 @@ RSpec.describe Services::UniqueNumberGenerator do
       ticket_info.save
       result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to eq(1100040)
+    end
+
+    it '应进行重试机制，并返回已实体票已售完' do
+      ticket_info = TicketInfo.find ticket.ticket_info.id
+      ticket_info.entity_ticket_sold_number = 10
+      ticket_info.entity_ticket_number = 10
+      ticket_info.save
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, entity_ticket_params)
+      expect(result.code).to eq(1100037)
     end
 
     it '达重试次数上限，应返回系统错误' do
