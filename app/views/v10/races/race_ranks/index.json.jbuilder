@@ -8,7 +8,7 @@ json.data do
     json.array! @race.race_ranks do |rank|
       json.rank_id         rank.id
       json.ranking         rank.ranking
-      json.earning         rank.earning
+      json.earning         number_with_delimiter rank.earning
       json.score           rank.score
       json.player do
         json.player_id  rank.player.player_id
