@@ -25,7 +25,14 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
         email: 'test@gmail.com',
     }
   end
-
+  let(:entity_ticket_params) do
+    {
+      ticket_type: 'entity_ticket',
+      mobile: '13428725222',
+      consignee: '收货人先生',
+      address: '收货地址'
+    }
+  end
 
   context '购票成功' do
     it '成功购买电子票' do
@@ -47,11 +54,44 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(notifications.first.notify_type).to eq('order')
     end
 
-    it '当用户实名状态为init，应改成 pending' do
+    it '成功购买实体票' do
+      race_id = race.id
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      order = user.orders.find_by(ticket_id: ticket.id)
+      expect(order).to be_truthy
+      expect(order.status).to  eq('unpaid')
+      expect(order.ticket_type).to  eq('entity_ticket')
+      notifications = user.notifications
+      expect(notifications.size).to eq(1)
+      expect(notifications.first.notify_type).to eq('order')
+    end
+
+    it '购买电子票:当用户实名状态为init，应改成 pending' do
       user_extra.update(status: 'init')
       post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      user_extra.reload
+      expect(user_extra.status).to eq('pending')
+    end
+
+    it '购买实体票:当用户实名状态为init，应改成 pending' do
+      user_extra.update(status: 'init')
+      post v10_race_ticket_orders_url(race.id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
@@ -75,6 +115,20 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(order.snapshot).to be_truthy
     end
 
+    it '购买实体票应创建snapshot' do
+      race_id = race.id
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      order = user.orders.find_by(race_id: race_id)
+      expect(order.snapshot).to be_truthy
+    end
+
     it '购买成功电子票电子票已售票数应加1' do
       old_sold_num = ticket_info.e_ticket_sold_number
       post v10_race_ticket_orders_url(race.id, ticket.id),
@@ -89,8 +143,22 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(ticket_info.e_ticket_sold_number - old_sold_num).to   eq(1)
     end
 
-    it '当实体票与电子票都售完，应改变状态为 sold_out' do
-      ticket_info.update(e_ticket_sold_number: 49)
+    it '购买成功实体票，已售票数应加1' do
+      old_sold_num = ticket_info.entity_ticket_sold_number
+      post v10_race_ticket_orders_url(race.id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      ticket_info.reload
+      expect(ticket_info.entity_ticket_sold_number - old_sold_num).to   eq(1)
+    end
+
+    it '当实体票与电子票都售完，应改变状态为 sold_out, 由电子票触发' do
+      ticket_info.update(e_ticket_sold_number: 49, entity_ticket_sold_number: 50)
       post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
            params: e_ticket_params
@@ -103,7 +171,21 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(ticket.status).to eq('sold_out')
     end
 
-    it '取消票成功，可以继续购票' do
+    it '当实体票与电子票都售完，应改变状态为 sold_out, 由实体票触发' do
+      ticket_info.update(entity_ticket_sold_number: 49, e_ticket_sold_number: 50)
+      post v10_race_ticket_orders_url(race.id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      ticket.reload
+      expect(ticket.status).to eq('sold_out')
+    end
+
+    it '取消票成功，可以继续购电子票' do
       result = Services::Orders::CreateOrderService.call(race, ticket, user, e_ticket_params)
       expect(result.code).to   eq(0)
 
@@ -120,8 +202,22 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(json['code']).to   eq(0)
     end
 
-    # it '成功购买实体票'
-    # it '购买成功实体票， 实体票已售票数应加1'
+    it '取消票成功，可以继续购实体票' do
+      result = Services::Orders::CreateOrderService.call(race, ticket, user, entity_ticket_params)
+      expect(result.code).to   eq(0)
+
+      order = user.orders.find_by_race_id(race.id)
+      result = Services::Orders::CancelOrderService.call(order, user)
+      expect(result.code).to   eq(0)
+
+      post v10_race_ticket_orders_url(race.id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+    end
   end
 
   context '购票失败' do
@@ -182,6 +278,17 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(1100040)
+    end
+
+    it '购买实体票，实体票已票完' do
+      ticket_info.update(entity_ticket_sold_number: 50)
+      post v10_race_ticket_orders_url(race.id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: entity_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(1100037)
     end
 
     it '购买电子票，email错误' do

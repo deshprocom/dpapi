@@ -56,7 +56,22 @@ module Services
         return result if result.failure?
 
         id_status_to_pending
-        order = PurchaseOrder.new(email_order_params)
+        order = PurchaseOrder.new(init_order_params)
+        return ApiResult.success_with_data(order: order) if order.save
+
+        ApiResult.error_result(SYSTEM_ERROR)
+      end
+
+      def ordering_entity_ticket
+        [:mobile, :address, :consignee].each do |keyword|
+          return ApiResult.error_result(MISSING_PARAMETER) if @params[keyword].blank?
+        end
+
+        result = stale_ticket_info_retries { sold_a_entity_ticket }
+        return result if result.failure?
+
+        id_status_to_pending
+        order = PurchaseOrder.new(init_order_params)
         return ApiResult.success_with_data(order: order) if order.save
 
         ApiResult.error_result(SYSTEM_ERROR)
@@ -85,17 +100,18 @@ module Services
         ApiResult.success_result
       end
 
-      def id_status_to_pending
-        @user.user_extra.update(status: 'pending') if @user.user_extra.status == 'init'
+      def sold_a_entity_ticket
+        if ticket_info.entity_ticket_sold_out?
+          return ApiResult.error_result(ENTITY_TICKET_SOLD_OUT)
+        end
+
+        ticket_info.increment_with_lock!(:entity_ticket_sold_number)
+        @ticket.update(status: 'sold_out') if ticket_info.sold_out?
+        ApiResult.success_result
       end
 
-      def ticket_params
-        {
-          user_id:         @user.id,
-          ticket_infos_id: ticket_info.id,
-          race_id:         @race.id,
-          ticket_type:     @params[:ticket_type]
-        }
+      def id_status_to_pending
+        @user.user_extra.update(status: 'pending') if @user.user_extra.status == 'init'
       end
 
       def init_order_params
@@ -106,12 +122,12 @@ module Services
           price:          @ticket.price,
           original_price: @ticket.original_price,
           ticket_type:    @params[:ticket_type],
+          email:          @params[:email],
+          mobile:         @params[:mobile],
+          consignee:      @params[:consignee],
+          address:        @params[:address],
           status:         'unpaid'
         }
-      end
-
-      def email_order_params
-        init_order_params.merge(email: @params[:email])
       end
     end
   end

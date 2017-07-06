@@ -14,7 +14,11 @@ module Services
         return error_result(CANNOT_CANCEL) unless order.status == 'unpaid'
 
         order.update(status: 'canceled')
-        order.ticket.return_a_e_ticket
+        if order.ticket_type == 'e_ticket'
+          order.ticket.return_a_e_ticket
+        else
+          order.ticket.return_a_entity_ticket
+        end
         ApiResult.success_result
       end
     end
