@@ -27,14 +27,22 @@ module Services
       private
 
       def create_address
-        user.shipping_addresses.create! user_params
+        address = user.shipping_addresses.create! user_params
+        update_other_default_false(address.id, address.default)
         ApiResult.success_result
       end
 
       def update_address
-        address = ShippingAddress.find(user_params.delete(:id))
+        address_id = user_params.delete(:id)
+        address = ShippingAddress.find(address_id)
         address.update! user_params
+        update_other_default_false(address_id, user_params[:default])
         ApiResult.success_result
+      end
+
+      def update_other_default_false(address_id, send_default)
+        send_default.present? &&
+            user.shipping_addresses.where.not(id: address_id).update(default: false)
       end
     end
   end
