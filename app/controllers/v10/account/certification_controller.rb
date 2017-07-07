@@ -1,6 +1,7 @@
 module V10
   module Account
     class CertificationController < ApplicationController
+      CERT_TYPES = %w(chinese_id passport_id).freeze
       include UserAccessible
       before_action :login_required, :user_self_required
 
@@ -14,7 +15,11 @@ module V10
 
       def create
         certification_add_service = Services::Account::CertificationAddService
-        api_result = certification_add_service.call(@current_user, user_params)
+        create_params = user_params.dup
+        unless check_type(create_params[:cert_type])
+          create_params[:cert_type] = 'chinese_id'
+        end
+        api_result = certification_add_service.call(@current_user, create_params)
         render_api_result api_result
       end
 
@@ -31,6 +36,10 @@ module V10
         return render_api_error(api_result.code, api_result.msg) if api_result.failure?
         template = 'v10/account/users/extra'
         RenderResultHelper.render_certification_result(self, template, api_result)
+      end
+
+      def check_type(cert_type)
+        CERT_TYPES.include?(cert_type)
       end
     end
   end
