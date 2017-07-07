@@ -1,3 +1,4 @@
+ranks.includes(:player)
 json.array! ranks do |rank|
   json.rank_id         rank.id
   json.ranking         rank.ranking
