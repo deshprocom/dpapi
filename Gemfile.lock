@@ -300,7 +300,6 @@ DEPENDENCIES
   mini_magick
   mysql2 (>= 0.3.18, < 0.5)
   oneapm_rpm (~> 1.4.0)
-  puma (~> 3.0)
   rack-attack
   rack-cors
   rails (~> 5.0.1)

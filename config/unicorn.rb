@@ -1,11 +1,11 @@
-worker_processes 4
+worker_processes 6
 
 app_root = File.expand_path('../..', __FILE__)
 working_directory app_root
 
 # Listen on fs socket for better performance
-listen '/tmp/unicorn-api.sock', :backlog => 64
-listen 4096, :tcp_nopush => false
+listen "#{app_root}/tmp/sockets/unicorn.sock", :backlog => 64
+listen 8061, :tcp_nopush => false
 
 # Nuke workers after 30 seconds instead of 60 seconds (the default)
 timeout 30
