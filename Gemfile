@@ -11,6 +11,9 @@ gem 'rails', '~> 5.0.1'
 gem 'mysql2', '>= 0.3.18', '< 0.5'
 # Use Puma as the app server
 gem 'puma', '~> 3.0'
+gem 'unicorn'
+gem 'unicorn-worker-killer'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
@@ -62,6 +65,7 @@ group :development, :test do
   gem 'capistrano-rails', '~> 1.2'
   gem 'capistrano-rvm'
   gem 'capistrano3-puma'
+  gem 'capistrano3-unicorn'
   gem 'capistrano-resque', require: false
 end
 

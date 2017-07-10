@@ -24,6 +24,7 @@ require 'capistrano/bundler'
 require 'capistrano/rails/migrations'
 require 'capistrano/puma'
 require 'capistrano/puma/workers'
+require 'capistrano3/unicorn'
 require 'capistrano-resque'
 require 'capistrano/rvm' if ENV['USE_RVM']
 
