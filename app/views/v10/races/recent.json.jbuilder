@@ -19,8 +19,8 @@ json.data do
       json.ticket_status   item.ticket_status
       json.ticket_sellable item.ticket_sellable
       json.describable     item.describable
-      json.followed      RaceFollow.followed?(user.try(:id), item.id)
-      json.ordered       PurchaseOrder.purchased?(user.try(:id), item.id)
+      json.followed      user ? RaceFollow.followed?(user.id, item.id) : false
+      json.ordered       user ? PurchaseOrder.purchased?(user.id, item.id) : false
     end
   end
 end
