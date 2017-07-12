@@ -5,7 +5,8 @@ json.partial! 'common/api_result', api_result: api_result
 # data
 json.data do
   json.items do
-    json.array! race do |item|
+    races = race.includes(:tickets)
+    json.array! races do |item|
       json.race_id         item.id
       json.name            item.name.to_s
       json.seq_id          item.seq_id
@@ -19,8 +20,8 @@ json.data do
       json.ticket_status   item.ticket_status
       json.ticket_sellable item.ticket_sellable
       json.describable     item.describable
-      json.followed      RaceFollow.followed?(user.try(:id), item.id)
-      json.ordered       PurchaseOrder.purchased?(user.try(:id), item.id)
+      json.followed      user ? RaceFollow.followed?(user.id, item.id) : false
+      json.ordered       user ? PurchaseOrder.purchased?(user.id, item.id) : false
     end
   end
 end

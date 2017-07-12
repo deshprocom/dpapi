@@ -45,8 +45,9 @@ gem 'jpush', '~> 4.0', '>= 4.0.6'
 
 gem 'faraday'
 
-# OneApm
-gem 'oneapm_rpm', '~> 1.4.0'
+# Apm
+# gem 'oneapm_rpm', '~> 1.4.0'
+gem 'newrelic_rpm'
 
 # rack-attack
 gem 'rack-attack'
