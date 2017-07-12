@@ -50,6 +50,6 @@ module Dpapi
 
     config.i18n.default_locale = 'zh-CN'
 
-    config.middleware.use Rack::Attack
+    # config.middleware.use Rack::Attack
   end
 end
