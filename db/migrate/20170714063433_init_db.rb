@@ -164,7 +164,6 @@ class InitDb < ActiveRecord::Migration[5.0]
       t.text     'description', limit: 65535
       t.datetime 'created_at',                null: false
       t.datetime 'updated_at',                null: false
-      t.text     'schedule',    limit: 65535,              comment: '赛事日程信息'
       t.index ['race_id'], name: 'index_race_descs_on_race_id', using: :btree
     end
 
@@ -224,7 +223,6 @@ class InitDb < ActiveRecord::Migration[5.0]
       t.integer  'race_host_id'
       t.index ['begin_date'], name: 'index_races_on_begin_date', using: :btree
       t.index ['parent_id'], name: 'index_races_on_parent_id', using: :btree
-      t.index ['parent_id'], name: 'parent_id_index', using: :btree
       t.index ['race_host_id'], name: 'index_races_on_race_host_id', using: :btree
       t.index ['seq_id'], name: 'index_races_on_seq_id', unique: true, using: :btree
     end
