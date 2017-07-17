@@ -13,6 +13,7 @@ require "action_cable/engine"
 require "rails/test_unit/railtie"
 
 require File.expand_path('../../lib/middlewares/api_request_credential', __FILE__)
+require File.expand_path('../../lib/middlewares/switch_table_lang', __FILE__)
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -35,6 +36,7 @@ module Dpapi
     config.time_zone = 'Beijing'
 
     config.middleware.insert_before Rack::Head, DpAPI::ApiRequestCredential
+    config.middleware.insert_after DpAPI::ApiRequestCredential, DpAPI::SwitchTableLang
     config.active_job.queue_adapter = :resque
 
     # auto_load
