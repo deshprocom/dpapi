@@ -10,13 +10,13 @@ class SynRaceEnData < ActiveRecord::Migration[5.0]
     end
 
     json_races = Race.all.map do |race|
-      race_hash = race.as_json
+      race_hash = race.attributes
 
       race_en = RaceEn.find_by(race_id: race.id)
       desc_en = RaceDescEn.new race.race_desc.as_json
       if race_en
         desc_en.description = race_en.description unless race_en.description.blank?
-        race_hash['logo'] = race.logo unless race_en.logo.blank?
+        race_hash['logo'] = race[:logo] unless race_en.logo.blank?
         race_hash['name'] = race.name unless race_en.name.blank?
         race_hash['prize'] = race.prize unless race_en.prize.blank?
         race_hash['location'] = race.location unless race_en.location.blank?
