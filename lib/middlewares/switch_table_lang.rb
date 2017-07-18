@@ -1,5 +1,5 @@
 module DpAPI
-  SUPPORT_HEADER_LANG = %w(cn en).freeze
+  SUPPORT_HEADER_LANG = %w(zh en).freeze
   SWITCH_MODEL_LIST = %w(Info InfoType Race Ticket Video VideoType).freeze
 
   class SwitchTableLang
@@ -8,7 +8,7 @@ module DpAPI
     end
 
     def call(env)
-      lang = (env['HTTP_X_DP_LANG'] || 'cn').strip
+      lang = (env['HTTP_X_DP_LANG'] || 'zh').strip
       return wrong_header_lang unless SUPPORT_HEADER_LANG.include?(lang)
       switch_lang lang
       @app.call(env)
@@ -17,10 +17,10 @@ module DpAPI
     private
 
     def switch_lang(lang)
-      lang.eql?('cn') ? switch_table_cn : switch_table_ln(lang)
+      lang.eql?('zh') ? switch_table_zh : switch_table_ln(lang)
     end
 
-    def switch_table_cn
+    def switch_table_zh
       origin_table
     end
 
