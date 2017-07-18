@@ -1,7 +1,5 @@
 class InitEnDb < ActiveRecord::Migration[5.0]
   def change
-    return
-
     create_table 'race_ens', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
       t.string   'name',            limit: 256,                              comment: '赛事的名称'
       t.bigint   'seq_id',                      default: 0,     null: false, comment: '为每一个赛事增加的id'
