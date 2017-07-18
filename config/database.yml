@@ -50,6 +50,7 @@ test:
 #
 production:
   <<: *default
+  pool: 10
   database: <%= ENV['DPAPI_DATABASE_PRO'] || 'deshpro_production' %>
   username: <%= ENV['DPAPI_DATABASE_USERNAME'] || 'dpapi' %>
   password: <%= ENV['DPAPI_DATABASE_PASSWORD'] %>
