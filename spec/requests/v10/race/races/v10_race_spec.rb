@@ -76,11 +76,12 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['name']).to eq('2017 poker event')
 
       get v10_u_race_url(0, race_en.id),
-          headers: http_headers.merge(HTTP_X_DP_LANG: 'cn')
+          headers: http_headers.merge(HTTP_X_DP_LANG: 'zh')
 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
+
     end
   end
 
