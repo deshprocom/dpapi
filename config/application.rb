@@ -35,6 +35,7 @@ module Dpapi
     # set time zone to Beijing
     config.time_zone = 'Beijing'
 
+    config.middleware.delete Rack::ETag
     config.middleware.insert_before Rack::Head, DpAPI::ApiRequestCredential
     config.middleware.insert_after DpAPI::ApiRequestCredential, DpAPI::SwitchTableLang
     config.active_job.queue_adapter = :resque
