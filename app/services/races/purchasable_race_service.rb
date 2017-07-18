@@ -28,7 +28,8 @@ module Services
       end
 
       def with_keyword_races
-        purchasable_races.where("#{Race.table_name}.name like ? or #{Race.table_name}.location like ?", "%#{@keyword}%", "%#{@keyword}%")
+        like_sql = "#{Race.table_name}.name like ? or #{Race.table_name}.location like ?"
+        purchasable_races.where(like_sql, "%#{@keyword}%", "%#{@keyword}%")
       end
     end
   end
