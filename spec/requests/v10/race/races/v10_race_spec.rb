@@ -81,9 +81,6 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
-
-      race = json['data']
-      expect(race['name']).to eq('2017APT启航站第2场')
     end
   end
 
