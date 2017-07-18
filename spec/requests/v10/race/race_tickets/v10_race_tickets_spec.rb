@@ -35,7 +35,23 @@ RSpec.describe 'v10_race_tickets', :type => :request do
   context '返回正确的数组' do
     it '无数据返回空' do
       get v10_ticket_business_index_url,
-          headers: http_headers
+          headers: http_headers.merge(HTTP_X_DP_LANG: 'en')
+
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+      races = json['data']['items']
+      expect(races.size).to eq(0)
+
+      get v10_ticket_business_index_url,
+          headers: http_headers.merge(HTTP_X_DP_LANG: 'zh')
+
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+    end
+
+    it '无数据返回空' do
+      get v10_ticket_business_index_url,
+          headers: http_headers.merge(HTTP_X_DP_LANG: 'zh')
 
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
