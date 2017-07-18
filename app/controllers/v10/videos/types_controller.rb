@@ -13,7 +13,7 @@ module V10
         page_size = permit_params[:page_size].blank? ? '10' : permit_params[:page_size]
         next_id = permit_params[:next_id].blank? ? '0' : permit_params[:next_id]
         type = VideoType.find(params[:id])
-        videos = type.videos.where('id > ?', next_id).limit(page_size)
+        videos = type.videos.where('id > ?', next_id).limit(page_size).order(created_at: :desc)
         top_new = type.videos.topped.first
         next_id = videos.last.try(:id) || 0
 
