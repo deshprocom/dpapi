@@ -20,7 +20,9 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
     FactoryGirl.create(:race_follow, race_id: race_desc.race_id, user_id: user.id)
     race_desc
   end
-
+  let(:race_en) do
+    RaceEn.create(race_desc.race.attributes.merge(name: '2017 poker event'))
+  end
   context '当访问不存在赛事详情时' do
     it '应当返回不存在相应的数据' do
       get v10_u_race_url(0, 'nonexistent'),
@@ -60,6 +62,18 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
 
       logo = open(race['logo'])
       expect(logo.status[0]).to eq('200')
+    end
+
+    it '应当返回相应英文数据' do
+      get v10_u_race_url(0, race_en.id),
+          headers: http_headers.merge(HTTP_X_DP_LANG: 'en')
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+
+      race = json['data']
+      expect(race['name']).to eq('2017 poker event')
     end
   end
 
