@@ -49,5 +49,48 @@ class InitEnDb < ActiveRecord::Migration[5.0]
       t.string   'status',         limit: 30,    default: 'unsold',              comment: '售票的状态 unsold-未售票, selling-售票中, end-售票结束, sold_out-票已售完'
       t.index ['race_id'], name: 'index_tickets_on_race_id', using: :btree
     end
+
+    create_table "info_ens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+      t.integer  "info_type_id",                                               comment: "外键对应info_type_en_id"
+      t.string   "title",                                                      comment: "资讯标题"
+      t.date     "date",                                                       comment: "资讯时间"
+      t.string   "source_type",                default: "source",              comment: "source 来源, author 作者"
+      t.string   "source",                                                     comment: "内容"
+      t.string   "image",                                                      comment: "图片"
+      t.boolean  "top",                        default: false,                 comment: "是否置顶"
+      t.boolean  "published",                  default: false,                 comment: "是否发布"
+      t.text     "description",  limit: 65535,                                 comment: "图文内容"
+      t.datetime "created_at",                                    null: false
+      t.datetime "updated_at",                                    null: false
+    end
+
+    create_table "info_type_ens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+      t.string   "name",                                    comment: "类别的名称"
+      t.boolean  "published",  default: false,              comment: "是否发布"
+      t.integer  "level",      default: 0,                  comment: "类别排序级别"
+      t.datetime "created_at",                 null: false
+      t.datetime "updated_at",                 null: false
+    end
+
+    create_table "video_ens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+      t.integer  "video_type_id",                                             comment: "外键对应video_type_en_id"
+      t.string   "name",                                                      comment: "视频名称"
+      t.string   "video_link",                                                comment: "视频链接"
+      t.string   "cover_link",                                                comment: "封面链接"
+      t.boolean  "top",                          default: false,              comment: "是否置顶"
+      t.boolean  "published",                    default: false,              comment: "是否发布"
+      t.text     "description",    limit: 65535,                              comment: "视频描述"
+      t.datetime "created_at",                                   null: false
+      t.datetime "updated_at",                                   null: false
+      t.string   "video_duration",                                            comment: "视频时长"
+    end
+
+    create_table "video_type_ens", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+      t.string   "name"
+      t.integer  "level",      default: 0,                  comment: "排序"
+      t.boolean  "published",  default: false,              comment: "是否发布"
+      t.datetime "created_at",                 null: false
+      t.datetime "updated_at",                 null: false
+    end
   end
 end
