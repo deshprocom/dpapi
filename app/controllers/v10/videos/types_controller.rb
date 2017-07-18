@@ -15,7 +15,7 @@ module V10
         type = VideoType.find(params[:id])
         videos = type.videos.where('id > ?', next_id).limit(page_size).order(created_at: :desc)
         top_new = type.videos.topped.first
-        next_id = videos.last.try(:id) || 0
+        next_id = videos.first.try(:id) || 0
 
         template = 'v10/videos/show'
         render template, locals: { api_result: ApiResult.success_result,
