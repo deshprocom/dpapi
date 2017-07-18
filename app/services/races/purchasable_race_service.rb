@@ -15,7 +15,7 @@ module Services
                 else
                   with_keyword_races
                 end
-        races = races.where('races.seq_id > ?', @seq_id).limit(@page_size).seq_asc
+        races = races.where("#{Race.table_name}.seq_id > ?", @seq_id).limit(@page_size).seq_asc
         ApiResult.success_with_data(races: races)
       end
 
@@ -28,7 +28,8 @@ module Services
       end
 
       def with_keyword_races
-        purchasable_races.where('races.name like ? or races.location like ?', "%#{@keyword}%", "%#{@keyword}%")
+        like_sql = "#{Race.table_name}.name like ? or #{Race.table_name}.location like ?"
+        purchasable_races.where(like_sql, "%#{@keyword}%", "%#{@keyword}%")
       end
     end
   end
