@@ -1,7 +1,5 @@
 class InitDb < ActiveRecord::Migration[5.0]
   def change
-    return
-
     create_table 'account_change_stats', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8' do |t|
       t.integer  'user_id'
       t.datetime 'change_time'
