@@ -16,7 +16,7 @@ json.data do
   json.participants    @sub_race.participants
   json.roy             @sub_race.roy
   json.begin_time      @sub_race.schedule_begin_time.to_s
-  json.schedules_markdown @sub_race.race_desc.schedules.to_s
+  json.schedules_markdown @sub_race.race_desc.schedules.to_s if @sub_race.race_desc
 
   json.schedules do
     json.partial! 'v10/races/schedules', race_schedules: @sub_race.race_schedules.default_order
