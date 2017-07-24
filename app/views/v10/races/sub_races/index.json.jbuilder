@@ -14,6 +14,7 @@ json.data do
       json.location        race.location.to_s
       json.begin_date      race.begin_date
       json.end_date        race.end_date
+      json.begin_time      race.schedule_begin_time.to_s
       json.days            race.days
       json.roy             race.roy
     end
