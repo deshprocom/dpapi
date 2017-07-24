@@ -20,6 +20,7 @@ json.data do
       json.ticket_status   item.ticket_status
       json.ticket_sellable item.ticket_sellable
       json.describable     item.describable
+      json.min_price number_with_delimiter item.tickets.pluck(:price).min
       json.followed      user ? RaceFollow.followed?(user.id, item.id) : false
       json.ordered       user ? PurchaseOrder.purchased?(user.id, item.id) : false
     end
