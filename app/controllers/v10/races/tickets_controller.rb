@@ -2,7 +2,7 @@ module V10
   module Races
     class TicketsController < ApplicationController
       include UserAccessible
-      before_action :login_required
+      # before_action :login_required
       before_action :set_race, only: [:index]
       before_action :set_tickets, only: [:show]
 
