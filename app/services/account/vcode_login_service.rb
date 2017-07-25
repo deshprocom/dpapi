@@ -5,6 +5,7 @@ module Services
 
       include Constants::Error::Common
       include Constants::Error::Sign
+      include Constants::Error::Http
 
       attr_accessor :mobile, :vcode
 
@@ -23,6 +24,9 @@ module Services
 
         # 检查用户输入的验证码是否正确
         return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode('login', mobile, vcode)
+
+        # 查询用户是否被被禁访问
+        return ApiResult.error_result(HTTP_USER_BAN) if user.is_banned?
 
         # 刷新上次访问时间
         user.touch_visit!
