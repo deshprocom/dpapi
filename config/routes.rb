@@ -47,6 +47,7 @@ Rails.application.routes.draw do
 
     resources :users, only: :show do
       resources :notifications, only: [:index, :destroy]
+      resources :login_count, only: [:create]
     end
 
     scope module: 'orders' do
