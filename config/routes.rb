@@ -63,7 +63,7 @@ Rails.application.routes.draw do
     end
 
     scope module: 'players' do
-      resources :players, only: [:show]
+      resources :players, only: [:show, :index]
     end
 
     namespace :news do
