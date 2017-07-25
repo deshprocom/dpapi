@@ -4,12 +4,12 @@ module V10
     class PlayersController < ApplicationController
       include Constants::Error::Common
 
+      def index
+        @players = Player.limit(20)
+      end
+
       def show
-        player = Player.find_by(player_id: params[:id])
-        return render_api_error(NOT_FOUND) if player.blank?
-        template = 'v10/players/player'
-        render template, locals: { api_result: ApiResult.success_result,
-                                   player: player }
+        @player = Player.find_by!(player_id: params[:id])
       end
     end
   end
