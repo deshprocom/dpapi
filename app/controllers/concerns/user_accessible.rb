@@ -7,6 +7,8 @@ module UserAccessible
     @current_user = User.by_uuid(user_uuid) unless user_uuid.nil?
     # 找不到该用户，未登录
     render_api_error(Constants::Error::Http::HTTP_LOGIN_REQUIRED) if @current_user.blank?
+    # 如果用户被搬掉了
+    render_api_error(Constants::Error::Account::ERROR_USER_BAN) if @current_user.role.eql?('banned')
   end
 
   # 判断需要操作的用户是否是自己
