@@ -24,8 +24,8 @@ module Services
         # 判断该用户是否存在
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
 
-        #判断用户是否被禁用
-        return ApiResult.error_result(HTTP_USER_BAN) if user.is_banned?
+        # 判断用户是否被禁用
+        return ApiResult.error_result(HTTP_USER_BAN) if user.banned?
 
         # 查询出了这个用户 对比密码
         salted_passwd = ::Digest::MD5.hexdigest(password + user.password_salt)
