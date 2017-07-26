@@ -6,7 +6,7 @@ module UserAccessible
     user_uuid = CurrentRequestCredential.current_user_id
     @current_user = User.by_uuid(user_uuid) unless user_uuid.nil?
     # 找不到该用户，未登录
-    render_api_error(Constants::Error::Http::HTTP_LOGIN_REQUIRED) if @current_user.blank?
+    return render_api_error(Constants::Error::Http::HTTP_LOGIN_REQUIRED) if @current_user.blank?
     # 如果用户被搬掉了
     render_api_error(Constants::Error::Http::HTTP_USER_BAN) if @current_user.is_banned?
   end
