@@ -12,4 +12,5 @@ json.data do
   json.dpi_total_earning @player.dpi_total_earning.to_s
   json.dpi_total_score   @player.dpi_total_score.to_s
   json.memo              @player.memo.to_s
+  json.followed          PlayerFollow.followed?(@user&.id, @player.id)
 end
