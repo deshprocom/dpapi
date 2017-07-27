@@ -37,8 +37,7 @@ RSpec.describe '/v10/players/:id', :type => :request do
       expect(json["data"]["dpi_total_score"]).to eq('404')
       expect(json["data"]["memo"]).to eq('测试')
 
-      avatar = open(json["data"]["avatar"])
-      expect(avatar.status[0]).to eq('200')
+      expect(get(json["data"]["avatar"])).to eq(200)
     end
   end
 end

@@ -27,8 +27,9 @@ RSpec.describe '/v10/races/race_id/sub_races', type: :request do
       ranks = json['data']['items']
       expect(ranks.size).to       eq(10)
       ranks.each_with_index do |rank, index|
-        p "test_rank #{rank['ranking']}"
-        expect(rank['ranking']).to   eq(index + 1)
+        next if index == 0
+
+        expect(ranks[index - 1]['ranking']).to   eq(rank['ranking'] - 1)
       end
     end
 
