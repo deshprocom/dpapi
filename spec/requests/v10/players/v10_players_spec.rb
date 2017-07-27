@@ -31,6 +31,18 @@ RSpec.describe '/v10/players', :type => :request do
       expect(json['data'].size).to eq(4)
     end
 
+    it '筛选2017的牌手' do
+      players
+      params = { region: 'domestic', year: 2017 }
+      get v10_players_url,
+          headers: http_headers,
+          params: params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['data'].size).to eq(0)
+    end
+
     it '返回空列表' do
       get v10_players_url,
           headers: http_headers
