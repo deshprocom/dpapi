@@ -15,4 +15,5 @@ json.data do
       json.dpi_total_score   player.dpi_total_score.to_s
     end
   end
+  json.next_id @followed_players.last&.id.to_s
 end

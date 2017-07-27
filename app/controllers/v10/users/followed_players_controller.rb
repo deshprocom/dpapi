@@ -6,9 +6,11 @@ module V10
 
       def index
         optional! :page_size, values: 0..100, default: 20
-        optional! :page_index, default: 0
-        offset = params[:page_size].to_i * params[:page_index].to_i
-        @followed_players = @current_user.followed_players.offset(offset).limit(params[:page_size])
+        params[:next_id] = 10**15 if params[:next_id].to_i.zero?
+
+        @followed_players = @current_user.followed_players
+                                         .where('id < ?', params[:next_id].to_i)
+                                         .limit(params[:page_size])
       end
     end
   end
