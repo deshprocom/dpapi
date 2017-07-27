@@ -3,6 +3,7 @@ json.partial! 'common/meta'
 # code & msg
 json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
+# rubocop:disable Metrics/BlockLength
 json.data do
   json.race_id         @race.id
   json.name            @race.name.to_s

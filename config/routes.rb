@@ -45,9 +45,12 @@ Rails.application.routes.draw do
       resources :race_tickets, only: [:index], as: :ticket_business
     end
 
-    resources :users, only: :show do
-      resources :notifications, only: [:index, :destroy]
-      resources :login_count, only: [:create]
+    scope module: 'users' do
+      resources :users, only: :show do
+        resources :notifications, only: [:index, :destroy]
+        resources :followed_players, only: [:index]
+        resources :login_count, only: [:create]
+      end
     end
 
     scope module: 'orders' do

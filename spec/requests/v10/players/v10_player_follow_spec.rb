@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/v10/players', :type => :request do
+RSpec.describe '/v10/players/:id/follow', :type => :request do
   let(:player) do
     FactoryGirl.create(:player, name: 'poker_1')
   end
