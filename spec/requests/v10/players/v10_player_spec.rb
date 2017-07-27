@@ -31,6 +31,7 @@ RSpec.describe '/v10/players/:id', :type => :request do
       expect(json["code"]).to eq(0)
       expect(json["data"]["name"]).to eq('poker_1')
       expect(json["data"]["avatar"]).to be_truthy
+      expect(json["data"]["ranking"]).to be_truthy
       expect(json["data"]["country"]).to eq('中国')
       expect(json["data"]["dpi_total_earning"]).to eq('200')
       expect(json["data"]["dpi_total_score"]).to eq('404')
