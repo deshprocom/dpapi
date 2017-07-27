@@ -17,6 +17,12 @@ module V10
         end
       end
 
+      def destroy
+        follow = PlayerFollow.find_by!(player_id: @player.id, user_id: @current_user.id)
+        follow.destroy
+        render_api_success
+      end
+
       def set_player
         @player = Player.find_by!(player_id: params[:player_id])
       end

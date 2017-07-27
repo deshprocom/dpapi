@@ -66,7 +66,7 @@ Rails.application.routes.draw do
     scope module: 'players' do
       resources :players, only: [:show, :index] do
         resources :ranks, only: [:index]
-        resources :follows, only: [:create]
+        resource :follow
       end
     end
 
