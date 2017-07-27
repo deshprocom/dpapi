@@ -14,7 +14,7 @@ module V10
         if PurchaseOrder.statuses.keys.include?(params[:status])
           @orders = @orders.where(status: params[:status])
         end
-        @orders.includes(:ticket, :snapshot)
+        @orders = @orders.includes(:ticket, :snapshot)
       end
 
       def show
