@@ -3,6 +3,8 @@ module V10
     # 牌手信息部分
     class PlayersController < ApplicationController
       include Constants::Error::Common
+      include UserAccessible
+
       ALLOWED_REGIONS = %w(global domestic).freeze
 
       def index
@@ -14,6 +16,7 @@ module V10
       end
 
       def show
+        @user = current_user
         @player = Player.find_by!(player_id: params[:id])
       end
     end
