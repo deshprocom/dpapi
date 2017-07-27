@@ -57,11 +57,10 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       expect(race['describable']).to      eq(race_desc.race.describable)
       expect( %w(true false) ).to    include(race['followed'].to_s)
       # expect( %w(true false) ).to    include(race['ordered'].to_s)
-      logo = open(race['big_logo'])
-      expect(logo.status[0]).to eq('200')
 
-      logo = open(race['logo'])
-      expect(logo.status[0]).to eq('200')
+      expect(get(race['big_logo'])).to eq(200)
+
+      expect(get(race['logo'])).to eq(200)
     end
 
     it '应当返回相应英文数据' do

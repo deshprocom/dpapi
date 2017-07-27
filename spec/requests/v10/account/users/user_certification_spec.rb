@@ -55,8 +55,7 @@ RSpec.describe "/v10/account/users/:user_id/certification", :type => :request do
         expect(json['data']['user_extra']['real_name']).to eq('王石')
         expect(json['data']['user_extra']['cert_no']).to eq('611002199301146811')
 
-        image = open(json['data']['user_extra']['image'])
-        expect(image.status[0]).to eq('200')
+        expect(get(json['data']['user_extra']['image'])).to eq(200)
       end
     end
   end

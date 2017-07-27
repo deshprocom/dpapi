@@ -57,8 +57,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       expect(json["data"]["reg_date"]).to be_truthy
       expect(json["data"]["last_visit"]).to be_truthy
       expect(json["data"]["signature"].nil?).to be_falsey
-      logo = open(json["data"]["avatar"])
-      expect(logo.status[0]).to eq('200')
+      expect(get(json["data"]["avatar"])).to eq(200)
     end
   end
 
@@ -86,8 +85,7 @@ RSpec.describe "/v10/uploaders/avatar (ProfilesController)", :type => :request d
       expect(json["data"]["last_visit"]).to be_truthy
       expect(json["data"]["birthday"]).to eq("2016-12-12")
       expect(json["data"]["signature"]).to eq("haha")
-      logo = open(json["data"]["avatar"])
-      expect(logo.status[0]).to eq('200')
+      expect(get(json["data"]["avatar"])).to eq(200)
     end
   end
 end
