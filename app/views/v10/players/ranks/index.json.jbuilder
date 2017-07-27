@@ -6,6 +6,8 @@ json.partial! 'common/api_result', api_result: ApiResult.success_result
 json.data do
   json.array! @ranks.includes(:race) do |rank|
     race = rank.race
+    next if race.nil?
+
     json.race do
       json.race_id           race.id
       json.name              race.name
