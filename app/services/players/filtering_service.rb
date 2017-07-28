@@ -13,7 +13,7 @@ module Services
       end
 
       def call
-        if @year.blank?
+        if @year.zero?
           players = Player.earn_order.offset(@offset).limit(@page_size)
         else
           # RaceRank.unscoped.joins(join_where).joins(:player).group(:player_id)
