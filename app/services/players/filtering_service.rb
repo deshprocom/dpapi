@@ -8,8 +8,8 @@ module Services
         @page_index = filter_params[:page_index].to_i
         @page_size = filter_params[:page_size].to_i
         @offset = @page_index * @page_size
-        @region = filter_params[:region]
-        @year = filter_params[:year]
+        @region = filter_params[:region].to_i
+        @year = filter_params[:year].to_i
       end
 
       def call
