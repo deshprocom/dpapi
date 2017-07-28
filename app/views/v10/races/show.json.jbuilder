@@ -3,6 +3,7 @@ json.partial! 'common/meta'
 # code & msg
 json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
+# rubocop:disable Metrics/BlockLength
 json.data do
   json.race_id         @race.id
   json.name            @race.name.to_s
@@ -11,6 +12,7 @@ json.data do
   json.big_logo        @race.big_logo
   json.prize           @race.prize
   json.location        @race.location.to_s
+  json.participants    @race.participants.to_s
   json.begin_date      @race.begin_date
   json.end_date        @race.end_date
   json.status          @race.status

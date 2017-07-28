@@ -9,7 +9,7 @@ module V10
       def create
         @current_user.avatar = get_upload_file(upload_params[:avatar])
         # 检查文件格式
-        if @current_user.avatar.blank? || @current_user.avatar.path.blank?
+        if @current_user.avatar.blank? || @current_user.avatar.path.blank? || @current_user.avatar_integrity_error.present?
           return render_api_error(FORMAT_WRONG)
         end
         # 保存图片

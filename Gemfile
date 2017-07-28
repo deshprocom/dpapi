@@ -32,6 +32,7 @@ gem 'hiredis'
 gem 'redis-rails', '~> 5.0', '>= 5.0.2'
 gem 'second_level_cache', '~> 2.3.0'
 gem 'request_store'
+gem 'leaderboard'
 
 # 文件处理组件
 gem 'carrierwave', '~> 1.0'
