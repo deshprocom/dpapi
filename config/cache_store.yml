@@ -10,5 +10,3 @@ test:
 production:
   - <%= ENV['CACHE_DATABASE_TYPE'] %>
   - <%= ENV['CACHE_DATABASE_PATH'] %>
-  - :pool_size: 5
-    :pool_timeout: 10

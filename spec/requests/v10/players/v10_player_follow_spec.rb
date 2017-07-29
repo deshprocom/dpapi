@@ -20,12 +20,14 @@ RSpec.describe '/v10/players/:id/follow', :type => :request do
 
   context '关注牌手' do
     it '关注成功' do
+      expect(player.follows_count).to eq(0)
       post v10_player_follow_url(player.player_id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
+      expect(player.reload.follows_count).to eq(1)
     end
 
     it '重复关注，只创建一个记录' do
@@ -45,6 +47,7 @@ RSpec.describe '/v10/players/:id/follow', :type => :request do
 
       follows = PlayerFollow.where(player_id: player.id, user_id: user.id)
       expect(follows.size).to eq(1)
+      expect(player.reload.follows_count).to eq(1)
     end
   end
 
@@ -65,6 +68,7 @@ RSpec.describe '/v10/players/:id/follow', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
+      expect(player.reload.follows_count).to eq(1)
 
       delete v10_player_follow_url(player.player_id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
@@ -72,6 +76,7 @@ RSpec.describe '/v10/players/:id/follow', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
+      expect(player.reload.follows_count).to eq(0)
     end
   end
 end
