@@ -7,6 +7,7 @@ module V10
       def create
         # 访问次数加1
         User.increment_counter(:login_count, @current_user.id)
+        @current_user.touch_visit!
         render_api_success
       end
     end
