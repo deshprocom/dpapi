@@ -33,7 +33,7 @@ RSpec.describe '/v10/players', :type => :request do
 
     it '筛选2017的牌手' do
       players
-      params = { region: 'domestic', year: 2017 }
+      params = { region: 'domestic', begin_year: 2017 }
       get v10_players_url,
           headers: http_headers,
           params: params

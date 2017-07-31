@@ -9,11 +9,12 @@ module Services
         @page_size = filter_params[:page_size].to_i
         @offset = @page_index * @page_size
         @region = filter_params[:region].to_i
-        @year = filter_params[:year].to_i
+        @begin_year = filter_params[:begin_year].to_i
+        @end_year = filter_params[:end_year].to_i.zero? ? @begin_year : filter_params[:end_year].to_i
       end
 
       def call
-        if @year.zero?
+        if @begin_year.zero?
           players = Player.earn_order.offset(@offset).limit(@page_size)
         else
           # RaceRank.unscoped.joins(join_where).joins(:player).group(:player_id)
@@ -30,11 +31,11 @@ AND races.begin_date <= '#{year_last_day}' AND races.id = race_ranks.race_id"
       end
 
       def year_first_day
-        "#{@year}-01-01"
+        "#{@begin_year}-01-01"
       end
 
       def year_last_day
-        "#{@year}-12-31"
+        "#{@end_year}-12-31"
       end
 
       def filtering_region(relation)
