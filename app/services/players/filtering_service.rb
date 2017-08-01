@@ -5,6 +5,7 @@ module Services
       include Constants::Error::Common
 
       def initialize(filter_params)
+        @keyword = filter_params[:keyword]
         @page_index = filter_params[:page_index].to_i
         @page_size = filter_params[:page_size].to_i
         @offset = @page_index * @page_size
@@ -14,9 +15,12 @@ module Services
       end
 
       def call
-        if @begin_year.zero?
+        if @keyword.present?
+          return Player.where('name like ?', "%#{@keyword}%").limit(20)
+        elsif @begin_year.zero?
           players = Player.earn_order.offset(@offset).limit(@page_size)
         else
+
           # RaceRank.unscoped.joins(join_where).joins(:player).group(:player_id)
           # .order('sum_earning desc').select(:player_id, 'SUM(earning) AS sum_earning')
           # .where('country like ?', '%中国')

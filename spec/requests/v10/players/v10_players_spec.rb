@@ -19,6 +19,18 @@ RSpec.describe '/v10/players', :type => :request do
   end
 
   context '获取牌手列表' do
+    it '筛选关键字为 poker_1' do
+      players
+      params = { keyword: 'poker_1' }
+      get v10_players_url,
+          headers: http_headers,
+          params: params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['data'].size).to eq(1)
+    end
+
     it '筛选国内的牌手' do
       players
       params = { region: 'domestic' }
