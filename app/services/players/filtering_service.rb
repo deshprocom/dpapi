@@ -5,6 +5,7 @@ module Services
       include Constants::Error::Common
 
       def initialize(filter_params)
+        @keyword = filter_params[:keyword]
         @page_index = filter_params[:page_index].to_i
         @page_size = filter_params[:page_size].to_i
         @offset = @page_index * @page_size
@@ -14,6 +15,8 @@ module Services
       end
 
       def call
+        return Player.where('name like ?', "%#{@keyword}%").limit(20) if @keyword.present?
+
         if @begin_year.zero?
           players = Player.earn_order.offset(@offset).limit(@page_size)
         else
