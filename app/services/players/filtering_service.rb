@@ -15,12 +15,11 @@ module Services
       end
 
       def call
-        if @keyword.present?
-          return Player.where('name like ?', "%#{@keyword}%").limit(20)
-        elsif @begin_year.zero?
+        return Player.where('name like ?', "%#{@keyword}%").limit(20) if @keyword.present?
+
+        if @begin_year.zero?
           players = Player.earn_order.offset(@offset).limit(@page_size)
         else
-
           # RaceRank.unscoped.joins(join_where).joins(:player).group(:player_id)
           # .order('sum_earning desc').select(:player_id, 'SUM(earning) AS sum_earning')
           # .where('country like ?', '%中国')
