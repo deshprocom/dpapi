@@ -42,7 +42,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
 
-      race = json['data']
+      race = json['data']['race']
       expect(race['description']).to eq(race_desc.description)
       expect(race['name']).to        eq(race_desc.race.name)
       expect(race['seq_id']).to      eq(race_desc.race.seq_id)
@@ -71,7 +71,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
 
-      race = json['data']
+      race = json['data']['race']
       expect(race['name']).to eq('2017 poker event')
 
       get v10_u_race_url(0, race_en.id),
@@ -91,7 +91,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
           headers: http_headers
 
       json = JSON.parse(response.body)
-      race = json['data']
+      race = json['data']['race']
       expect(race['status']).to  eq('unbegin')
     end
 
@@ -101,7 +101,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
           headers: http_headers
 
       json = JSON.parse(response.body)
-      race = json['data']
+      race = json['data']['race']
       expect(race['status']).to  eq('go_ahead')
     end
 
@@ -111,7 +111,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
           headers: http_headers
 
       json = JSON.parse(response.body)
-      race = json['data']
+      race = json['data']['race']
       expect(race['status']).to  eq('ended')
     end
 
@@ -121,7 +121,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
           headers: http_headers
 
       json = JSON.parse(response.body)
-      race = json['data']
+      race = json['data']['race']
       expect(race['status']).to  eq('closed')
     end
   end
@@ -136,7 +136,7 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
 
-      race = json['data']
+      race = json['data']['race']
       expect(race['followed']).to  be_truthy
       # expect(race['ordered']).to   be_truthy
       # expect(race['order_id']).to   be_truthy
