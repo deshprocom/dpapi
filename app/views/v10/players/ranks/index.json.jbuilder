@@ -8,6 +8,12 @@ json.data do
     race = rank.race
     next if race.nil?
 
+    json.rank do
+      json.ranking rank.ranking
+      json.earning rank.earning
+      json.score   rank.score
+    end
+
     json.race do
       json.race_id           race.id
       json.name              race.name
@@ -18,10 +24,11 @@ json.data do
       json.participants      race.participants.to_s
     end
 
-    json.rank do
-      json.ranking rank.ranking
-      json.earning rank.earning
-      json.score   rank.score
+    if race.parent
+      json.parent_race do
+        json.race_id  race.parent.id
+        json.name     race.parent.name
+      end
     end
   end
 end
