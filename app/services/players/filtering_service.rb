@@ -24,7 +24,7 @@ module Services
 AND races.begin_date <= '#{year_last_day}' AND races.id = race_ranks.race_id"
           players = Player.joins(join_where).joins(:race_ranks).group(:id)
                           .select('players.*', 'SUM(earning) AS dpi_total_earning')
-                          .earn_order
+                          .order('dpi_total_earning DESC')
                           .offset(@offset).limit(@page_size)
         end
         filtering_region players
