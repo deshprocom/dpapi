@@ -9,7 +9,7 @@ module Services
         @page_index = filter_params[:page_index].to_i
         @page_size = filter_params[:page_size].to_i
         @offset = @page_index * @page_size
-        @region = filter_params[:region].to_i
+        @region = filter_params[:region]
         @begin_year = filter_params[:begin_year].to_i
         @end_year = filter_params[:end_year].to_i.zero? ? @begin_year : filter_params[:end_year].to_i
       end
