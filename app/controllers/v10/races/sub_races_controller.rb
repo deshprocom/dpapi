@@ -6,7 +6,7 @@ module V10
       def index
         if params[:type] == 'tradable'
           @sub_races = @race.sub_races.joins(:tickets)
-                            .where(tickets: { status: %w(selling sold_out) })
+                            .where("#{Ticket.table_name}": { status: %w(selling sold_out) })
                             .ticket_sellable
                             .distinct
         else
