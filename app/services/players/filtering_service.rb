@@ -5,15 +5,18 @@ module Services
       include Constants::Error::Common
 
       def initialize(filter_params)
+        @keyword = filter_params[:keyword]
         @page_index = filter_params[:page_index].to_i
         @page_size = filter_params[:page_size].to_i
         @offset = @page_index * @page_size
-        @region = filter_params[:region].to_i
+        @region = filter_params[:region]
         @begin_year = filter_params[:begin_year].to_i
         @end_year = filter_params[:end_year].to_i.zero? ? @begin_year : filter_params[:end_year].to_i
       end
 
       def call
+        return Player.where('name like ?', "%#{@keyword}%").limit(20) if @keyword.present?
+
         if @begin_year.zero?
           players = Player.earn_order.offset(@offset).limit(@page_size)
         else
@@ -24,7 +27,7 @@ module Services
 AND races.begin_date <= '#{year_last_day}' AND races.id = race_ranks.race_id"
           players = Player.joins(join_where).joins(:race_ranks).group(:id)
                           .select('players.*', 'SUM(earning) AS dpi_total_earning')
-                          .earn_order
+                          .order('dpi_total_earning DESC')
                           .offset(@offset).limit(@page_size)
         end
         filtering_region players

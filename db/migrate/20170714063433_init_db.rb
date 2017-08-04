@@ -344,8 +344,5 @@ class InitDb < ActiveRecord::Migration[5.0]
     end
 
     add_foreign_key 'affiliate_apps', 'affiliates'
-    add_foreign_key 'race_descs', 'races'
-    add_foreign_key 'race_follows', 'races'
-    add_foreign_key 'race_follows', 'users'
   end
 end
