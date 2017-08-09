@@ -85,10 +85,6 @@ Rails.application.routes.draw do
       resources :search, only: [:index]
     end
 
-    namespace :ricky do
-      resources :test, only: [:create]
-    end
-
     namespace :pay do
       resources :test, only: [:index, :create]
     end
