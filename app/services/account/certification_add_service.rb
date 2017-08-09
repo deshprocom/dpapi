@@ -23,6 +23,8 @@ module Services
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
+        user_params[:real_name].strip!
+        user_params[:cert_no].strip!
         # 姓名检查
         return ApiResult.error_result(REAL_NAME_FORMAT_WRONG) unless check_real_name_format user_params[:real_name]
 
@@ -33,7 +35,7 @@ module Services
         # 格式都正确
         extra_info = user.user_extra
         if extra_info.blank?
-          user.create_user_extra!(user_params.merge(status: 'init'))
+          user.create_user_extra!(user_params.merge(status: 'passed'))
           data = {
             user_extra: user.user_extra
           }
@@ -45,7 +47,7 @@ module Services
         end
 
         if extra_info.status.eql?('failed')
-          extra_info.update!(user_params.merge(status: 'pending'))
+          extra_info.update!(user_params.merge(status: 'passed'))
         else
           extra_info.update!(user_params)
         end
