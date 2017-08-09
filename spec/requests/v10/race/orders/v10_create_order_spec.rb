@@ -44,7 +44,7 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(0)
-      expect(json['data']['pay_url'].blank?).to  be_falsey
+      expect(json['data'].key? 'pay_url').to be_truthy
     end
     it '成功购买电子票' do
       race_id = race.id
