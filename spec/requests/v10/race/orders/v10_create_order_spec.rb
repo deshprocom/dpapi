@@ -35,6 +35,17 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
   end
 
   context '购票成功' do
+    it '成功购票返回 pay_url' do
+      race_id = race.id
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+      expect(json['data']['pay_url'].blank?).to  be_falsey
+    end
     it '成功购买电子票' do
       race_id = race.id
       post v10_race_ticket_orders_url(race_id, ticket.id),
