@@ -16,7 +16,11 @@ module V10
         result = Services::Orders::CreateOrderService.call(@race, @ticket, @current_user, params)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        render_api_success
+        order = result.data[:order]
+        result = Services::Orders::PayOrderService.call(order.order_number)
+        return render_api_error(result.code, result.msg) if result.failure?
+
+        render 'v10/orders/orders/pay', locals: { order: result.data[:pay_result] }
       end
 
       private
