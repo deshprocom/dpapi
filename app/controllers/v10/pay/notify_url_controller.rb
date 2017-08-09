@@ -1,12 +1,9 @@
 module V10
   module Pay
     class NotifyUrlController < ApplicationController
-      def index
-        Rails.logger.info 'test'
-        Rails.logger.info permit_params[:Version]
-        Rails.logger.info permit_params[:MerchantId]
-
-        render plain: 'test'
+      def create
+        pay_bill_service = Services::Orders::PayBillService
+        pay_bill_service.call(permit_params)
       end
 
       private
