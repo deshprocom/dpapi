@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       resources :users, only: [] do
         resources :orders, only: [:index, :show] do
           resources :cancel, only: [:create]
+          resources :pay, only: [:create]
         end
       end
     end
@@ -82,6 +83,10 @@ Rails.application.routes.draw do
     namespace :videos do
       resources :types, only: [:index, :show]
       resources :search, only: [:index]
+    end
+
+    namespace :pay do
+      resources :test, only: [:index, :create]
     end
 
     resources :race_hosts, only:[:index]
