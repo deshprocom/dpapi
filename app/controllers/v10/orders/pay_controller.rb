@@ -17,7 +17,7 @@ module V10
         return render_api_error(api_result.code, api_result.msg) if api_result.failure?
 
         template = 'v10/orders/orders/pay'
-        render template, locals: { order: api_result.data[:pay_result] }
+        render template, locals: { api_result: ApiResult.success_result, order: api_result.data[:pay_result] }
       end
     end
   end

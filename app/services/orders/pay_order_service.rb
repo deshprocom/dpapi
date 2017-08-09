@@ -10,10 +10,15 @@ module Services
       end
 
       def call
-        order = PurchaseOrder.find_by(order_number: order_number)
-        return ApiResult.error_result(ORDER_NOT_EXIST) if order.blank?
+        order = PurchaseOrder.find_by!(order_number: order_number)
         return ApiResult.error_result(CANNOT_PAY) unless order.status == 'unpaid'
         pay_result = JSON.parse(YlPay::Service.generate_order_url(pay_params(order)))
+        unless pay_result['code'] == '0000'
+          # 支付失败
+          Rails.logger.info "PAY ERROR: #{pay_result['code']}, msg: #{pay_result['msg']}"
+          return ApiResult.error_result(PAY_ERROR)
+        end
+        # 支付成功
         ApiResult.success_with_data(pay_result: pay_result)
       end
 
