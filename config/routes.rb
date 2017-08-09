@@ -87,6 +87,7 @@ Rails.application.routes.draw do
 
     namespace :pay do
       resources :test, only: [:index, :create]
+      resources :notify_url, only: [:index]
     end
 
     resources :race_hosts, only:[:index]
