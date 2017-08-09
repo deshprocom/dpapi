@@ -9,7 +9,7 @@ module Services
       end
 
       def call
-        change_order_status(send_params[:MerchOrderId])
+        # change_order_status(send_params[:MerchOrderId])
         bill = Bill.new(create_params(send_params))
         bill.save!
       end
@@ -29,9 +29,7 @@ module Services
 
       def change_order_status(number)
         order = PurchaseOrder.find_by!(order_number: number)
-        if order.status.eql?('unpaid')
-          # order.update(status: 'paid')
-        end
+        order.update(status: 'paid') if order.status.eql?('unpaid')
       end
     end
   end
