@@ -1,6 +1,8 @@
 # meta info
 json.partial! 'common/meta'
 # code & msg
-json.code order['code'].eql?('0000') ? 0 : order['code']
-json.msg order['msg']
-json.data order['body'].to_s
+json.partial! 'common/api_result', api_result: api_result
+
+json.data do
+  json.pay_url order['body'].to_s
+end
