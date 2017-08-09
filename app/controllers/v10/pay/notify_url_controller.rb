@@ -2,7 +2,7 @@ module V10
   module Pay
     class NotifyUrlController < ApplicationController
       def create
-        bill = Bill.new(create_params(permit_params))
+hui        bill = Bill.new(create_params(permit_params))
         bill.save!
       end
 
