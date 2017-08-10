@@ -10,8 +10,7 @@ module Services
 
       def call
         change_order_status(send_params[:MerchOrderId])
-        bill = Bill.new(create_params(send_params))
-        bill.save!
+        create_bill(create_params(send_params))
       end
 
       private
@@ -30,6 +29,13 @@ module Services
       def change_order_status(number)
         order = PurchaseOrder.find_by!(order_number: number)
         order.paid! if order.unpaid?
+      end
+
+      def create_bill(params)
+        # 检查商户号是否存在，不存在的情况下才会写入
+        return true if Bill.find_by(trade_number: params[:trade_number])
+        bill = Bill.new(params)
+        bill.save!
       end
     end
   end
