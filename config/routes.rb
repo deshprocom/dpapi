@@ -57,6 +57,7 @@ Rails.application.routes.draw do
       resources :users, only: [] do
         resources :orders, only: [:index, :show] do
           resources :cancel, only: [:create]
+          resources :complete, only: [:create]
           resources :pay, only: [:create]
         end
       end
