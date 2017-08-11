@@ -36,7 +36,7 @@ RSpec.describe '/v10/users/:user_id/notifications', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       notifications = json['data']['notifications']
-      expect(notifications.size).to eq(2)
+      expect(notifications.size).to eq(1)
       notifications.each do |notification|
         expect(notification['id'] > 0).to be_truthy
         expect(notification['notify_type']).to eq('order')

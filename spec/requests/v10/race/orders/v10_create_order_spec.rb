@@ -61,9 +61,6 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
       expect(order.ticket_type).to  eq('e_ticket')
-      notifications = user.notifications
-      expect(notifications.size).to eq(1)
-      expect(notifications.first.notify_type).to eq('order')
     end
 
     it '成功购买实体票' do
@@ -80,9 +77,6 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
       expect(order.ticket_type).to  eq('entity_ticket')
-      notifications = user.notifications
-      expect(notifications.size).to eq(1)
-      expect(notifications.first.notify_type).to eq('order')
     end
 
     # it '购买电子票:当用户实名状态为init，应改成 pending' do
