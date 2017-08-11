@@ -1,5 +1,5 @@
 GEM
-  remote: https://rubygems.org/
+  remote: https://gems.ruby-china.org/
   specs:
     actioncable (5.0.1)
       actionpack (= 5.0.1)
@@ -308,7 +308,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
-  yl_pay (~> 1.0, >= 1.0.7)
+  yl_pay
 
 BUNDLED WITH
    1.14.6

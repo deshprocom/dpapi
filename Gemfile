@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 git_source(:github) do |repo_name|
   repo_name = '#{repo_name}/#{repo_name}' unless repo_name.include?('/')
@@ -55,8 +55,7 @@ gem 'newrelic_rpm'
 gem 'rack-attack'
 
 # 易联支付
-# gem 'yl_pay'
-gem 'yl_pay', '~> 1.0', '>= 1.0.7'
+gem 'yl_pay'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
