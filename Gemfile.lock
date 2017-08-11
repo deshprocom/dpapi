@@ -308,7 +308,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
-  yl_pay
+  yl_pay (~> 1.0, >= 1.0.7)
 
 BUNDLED WITH
    1.14.6
