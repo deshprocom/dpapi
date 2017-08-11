@@ -8,7 +8,7 @@ module V10
           client_ip: CurrentRequestCredential.client_ip,
           merch_order_id: order_id,
           trade_time: trade_time,
-          misc_data: "13922897656|0||张三|440121197511140912|62220040001154868428||PAYECO20151028543445||2|"
+          misc_data: '13922897656|0||张三|440121197511140912|62220040001154868428||PAYECO20151028543445||2|'
         }
         @result = JSON.parse(YlPay::Service.generate_order_url(params))
         template = 'v10/pay/test.json'

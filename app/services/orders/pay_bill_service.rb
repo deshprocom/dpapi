@@ -9,17 +9,14 @@ module Services
       end
 
       def call
-        send_params[:Sign].gsub!(' ', '+')
+        send_params[:Sign].tr!(' ', '+')
         trade_info = check_status(send_params['Status'])
         # 检查签名
         trade_info = { trade_status: 'E101', trade_msg: '验证签名失败' } unless check_sign(send_params)
         # 更改订单信息
         order = PurchaseOrder.find_by(order_number: send_params[:MerchOrderId])
-        if order.blank?
-          trade_info = { trade_status: 'E103', trade_msg: '订单号不存在' }
-        else
-          order.paid! if order.unpaid?
-        end
+        trade_info = { trade_status: 'E103', trade_msg: '订单号不存在' } if order.blank?
+        order.paid! if order.present? && order.unpaid?
         # 创建订单
         create_bill(create_params(send_params, trade_info))
         trade_info
@@ -33,8 +30,7 @@ module Services
           amount: resource[:Amount],
           pay_time: resource[:PayTime],
           trade_number: resource[:OrderId],
-          trade_code: resource[:Status]
-        }.merge!(trade_info)
+          trade_code: resource[:Status] }.merge!(trade_info)
       end
 
       def create_bill(params)
