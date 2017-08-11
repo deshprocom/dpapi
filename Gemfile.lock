@@ -1,5 +1,5 @@
 GEM
-  remote: https://gems.ruby-china.org/
+  remote: https://rubygems.org/
   specs:
     actioncable (5.0.1)
       actionpack (= 5.0.1)
@@ -265,7 +265,7 @@ GEM
     websocket-driver (0.6.4)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
-    yl_pay (1.0.5)
+    yl_pay (1.0.7)
 
 PLATFORMS
   ruby
@@ -308,7 +308,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
-  yl_pay
+  yl_pay (~> 1.0, >= 1.0.7)
 
 BUNDLED WITH
    1.14.6

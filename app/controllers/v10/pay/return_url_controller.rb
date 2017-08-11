@@ -1,10 +1,10 @@
 module V10
   module Pay
-    class NotifyUrlController < ApplicationController
+    class ReturnUrlController < ApplicationController
       def create
         pay_bill_service = Services::Orders::PayBillService
-        result = pay_bill_service.call(permit_params)
-        render json: result
+        pay_bill_service.call(permit_params)
+        redirect_to ENV['RETURN_H5_URL']
       end
 
       private
