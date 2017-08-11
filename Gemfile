@@ -56,7 +56,7 @@ gem 'rack-attack'
 
 # 易联支付
 # gem 'yl_pay'
-gem 'yl_pay'
+gem 'yl_pay', '~> 1.0', '>= 1.0.7'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -3,11 +3,12 @@ module V10
     class TestController < ApplicationController
       def index
         params = {
-          amount: 1.11,
+          amount: 12,
           order_desc: 'MBP希望杯',
           client_ip: CurrentRequestCredential.client_ip,
-          merch_order_id: '2017073100002',
-          trade_time: trade_time
+          merch_order_id: order_id,
+          trade_time: trade_time,
+          misc_data: "13922897656|0||张三|440121197511140912|62220040001154868428||PAYECO20151028543445||2|"
         }
         @result = JSON.parse(YlPay::Service.generate_order_url(params))
         template = 'v10/pay/test.json'
