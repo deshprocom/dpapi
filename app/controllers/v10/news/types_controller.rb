@@ -16,7 +16,7 @@ module V10
         # 开始分页
         news = type.infos.order(date: :desc).order(created_at: :desc).page(next_id).per(page_size)
         top_new = type.infos.topped.first
-        next_id = next_id + 1
+        next_id += 1
 
         template = 'v10/news/show'
         render template, locals: { api_result: ApiResult.success_result,
