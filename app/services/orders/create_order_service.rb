@@ -55,7 +55,6 @@ module Services
         result = stale_ticket_info_retries { sold_a_e_ticket }
         return result if result.failure?
 
-        id_status_to_pending
         order = PurchaseOrder.new(init_order_params)
         return ApiResult.success_with_data(order: order) if order.save
 
@@ -70,7 +69,6 @@ module Services
         result = stale_ticket_info_retries { sold_a_entity_ticket }
         return result if result.failure?
 
-        id_status_to_pending
         order = PurchaseOrder.new(init_order_params)
         return ApiResult.success_with_data(order: order) if order.save
 
@@ -108,10 +106,6 @@ module Services
         ticket_info.increment_with_lock!(:entity_ticket_sold_number)
         @ticket.update(status: 'sold_out') if ticket_info.sold_out?
         ApiResult.success_result
-      end
-
-      def id_status_to_pending
-        @user.user_extra.update(status: 'pending') if @user.user_extra.status == 'init'
       end
 
       def init_order_params

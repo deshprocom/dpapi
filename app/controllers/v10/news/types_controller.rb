@@ -11,11 +11,12 @@ module V10
 
       def show
         page_size = permit_params[:page_size].blank? ? '10' : permit_params[:page_size]
-        next_id = permit_params[:next_id].blank? ? '0' : permit_params[:next_id]
+        next_id = permit_params[:next_id].to_i <= 0 ? 1 : permit_params[:next_id].to_i
         type = InfoType.find(params[:id])
-        news = type.infos.where('id > ?', next_id).limit(page_size).order(date: :desc).order(created_at: :desc)
+        # 开始分页
+        news = type.infos.order(date: :desc).order(created_at: :desc).page(next_id).per(page_size)
         top_new = type.infos.topped.first
-        next_id = news.first.try(:id) || 0
+        next_id += 1
 
         template = 'v10/news/show'
         render template, locals: { api_result: ApiResult.success_result,

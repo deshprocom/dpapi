@@ -16,7 +16,7 @@ module V10
         result = Services::Orders::CreateOrderService.call(@race, @ticket, @current_user, params)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        render_api_success
+        @order = result.data[:order]
       end
 
       private

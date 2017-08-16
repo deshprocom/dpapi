@@ -133,7 +133,7 @@ class InitDb < ActiveRecord::Migration[5.0]
       t.string   'order_number',   limit: 30,                                   comment: '订单号'
       t.integer  'price',                                          null: false, comment: '价格'
       t.integer  'original_price',                                 null: false, comment: '原始价格'
-      t.string   'status',         limit: 30, default: 'unpaid',                comment: '订单状态 unpaid-未付款, paid-已付款, completed-已完成, canceled-已取消'
+      t.string   'status',         limit: 30, default: 'unpaid',                comment: '订单状态 unpaid-未付款, paid-已付款, delivered-已发货， completed-已完成, canceled-已取消'
       t.datetime 'created_at',                                     null: false
       t.datetime 'updated_at',                                     null: false
       t.index ['order_number'], name: 'index_purchase_orders_on_order_number', unique: true, using: :btree

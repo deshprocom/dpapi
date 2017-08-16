@@ -35,6 +35,18 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
   end
 
   context '购票成功' do
+    it '成功购票返回 order_number' do
+      race_id = race.id
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+      expect(json['data']['order_number'].blank?).to be_falsey
+    end
+
     it '成功购买电子票' do
       race_id = race.id
       post v10_race_ticket_orders_url(race_id, ticket.id),
@@ -49,9 +61,6 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
       expect(order.ticket_type).to  eq('e_ticket')
-      notifications = user.notifications
-      expect(notifications.size).to eq(1)
-      expect(notifications.first.notify_type).to eq('order')
     end
 
     it '成功购买实体票' do
@@ -68,38 +77,35 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(order).to be_truthy
       expect(order.status).to  eq('unpaid')
       expect(order.ticket_type).to  eq('entity_ticket')
-      notifications = user.notifications
-      expect(notifications.size).to eq(1)
-      expect(notifications.first.notify_type).to eq('order')
     end
 
-    it '购买电子票:当用户实名状态为init，应改成 pending' do
-      user_extra.update(status: 'init')
-      post v10_race_ticket_orders_url(race.id, ticket.id),
-           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
-           params: e_ticket_params
-
-      expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
-      expect(json['code']).to   eq(0)
-
-      user_extra.reload
-      expect(user_extra.status).to eq('pending')
-    end
-
-    it '购买实体票:当用户实名状态为init，应改成 pending' do
-      user_extra.update(status: 'init')
-      post v10_race_ticket_orders_url(race.id, ticket.id),
-           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
-           params: entity_ticket_params
-
-      expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
-      expect(json['code']).to   eq(0)
-
-      user_extra.reload
-      expect(user_extra.status).to eq('pending')
-    end
+    # it '购买电子票:当用户实名状态为init，应改成 pending' do
+    #   user_extra.update(status: 'init')
+    #   post v10_race_ticket_orders_url(race.id, ticket.id),
+    #        headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+    #        params: e_ticket_params
+    #
+    #   expect(response).to have_http_status(200)
+    #   json = JSON.parse(response.body)
+    #   expect(json['code']).to   eq(0)
+    #
+    #   user_extra.reload
+    #   expect(user_extra.status).to eq('pending')
+    # end
+    #
+    # it '购买实体票:当用户实名状态为init，应改成 pending' do
+    #   user_extra.update(status: 'init')
+    #   post v10_race_ticket_orders_url(race.id, ticket.id),
+    #        headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+    #        params: entity_ticket_params
+    #
+    #   expect(response).to have_http_status(200)
+    #   json = JSON.parse(response.body)
+    #   expect(json['code']).to   eq(0)
+    #
+    #   user_extra.reload
+    #   expect(user_extra.status).to eq('pending')
+    # end
 
     it '购买电子票应创建snapshot' do
       race_id = race.id
