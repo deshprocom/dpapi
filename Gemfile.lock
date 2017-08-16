@@ -102,6 +102,18 @@ GEM
     jpush (4.0.6)
     json (2.0.2)
     jwt (1.5.6)
+    kaminari (1.0.1)
+      activesupport (>= 4.1.0)
+      kaminari-actionview (= 1.0.1)
+      kaminari-activerecord (= 1.0.1)
+      kaminari-core (= 1.0.1)
+    kaminari-actionview (1.0.1)
+      actionview
+      kaminari-core (= 1.0.1)
+    kaminari-activerecord (1.0.1)
+      activerecord
+      kaminari-core (= 1.0.1)
+    kaminari-core (1.0.1)
     leaderboard (3.12.1)
       redis
     listen (3.0.8)
@@ -287,6 +299,7 @@ DEPENDENCIES
   jbuilder
   jpush (~> 4.0, >= 4.0.6)
   jwt
+  kaminari
   leaderboard
   listen (~> 3.0.5)
   mini_magick
