@@ -40,6 +40,7 @@ Rails.application.routes.draw do
         resources :race_ranks, only: [:index]
         resources :tickets, only: [:index, :show] do
           resource :orders, only: [:create]
+          resource :unpaid_order, only: [:show]
         end
       end
       resources :race_tickets, only: [:index], as: :ticket_business
