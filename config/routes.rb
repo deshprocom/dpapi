@@ -94,7 +94,8 @@ Rails.application.routes.draw do
     end
 
     resources :race_hosts, only:[:index]
-  end
+    resources :feedbacks, only: [:create]
+    end
 
   unless Rails.env.production?
     namespace :factory do

@@ -7,7 +7,7 @@ module ValidParamsInspector
   end
 
   def optional!(name, opts = {})
-    raise ParamMissing, name if opts[:require] && !params.key?(name)
+    raise ParamMissing, name if opts[:require] && params[name].blank?
 
     check_in_values!(name, opts)
     params[name] ||= opts[:default]
