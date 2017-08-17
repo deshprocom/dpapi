@@ -19,6 +19,8 @@ module UserAccessible
 
   def current_user
     user_uuid = CurrentRequestCredential.current_user_id
-    @current_user ||= User.by_uuid(user_uuid) unless user_uuid.nil?
+    return nil if user_uuid.nil?
+
+    @current_user ||= User.by_uuid(user_uuid)
   end
 end
