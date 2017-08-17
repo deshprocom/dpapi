@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'https://gems.ruby-china.org'
 
 git_source(:github) do |repo_name|
   repo_name = '#{repo_name}/#{repo_name}' unless repo_name.include?('/')
@@ -55,7 +55,7 @@ gem 'newrelic_rpm'
 gem 'rack-attack'
 
 # 易联支付
-gem 'yl_pay', '~> 1.1', '>= 1.1.3'
+gem 'yl_pay'
 
 # 分页
 gem 'kaminari'
