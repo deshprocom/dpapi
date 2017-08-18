@@ -5,10 +5,10 @@ json.partial! 'common/api_result', api_result: ApiResult.success_result
 
 json.data do
   json.appid order[:appid].to_s
-  json.mch_id order[:partnerid].to_s
-  json.nonce_str order[:package].to_s
-  json.sign order[:timestamp].to_s
-  json.prepay_id order[:prepayid].to_s
-  json.trade_type order[:nonce_str].to_s
-  json.trade_type order[:sign].to_s
+  json.partnerid order[:partnerid].to_s
+  json.package order[:package].to_s
+  json.timestamp order[:timestamp].to_s
+  json.prepayid order[:prepayid].to_s
+  json.nonce_str order[:nonce_str].to_s
+  json.sign order[:sign].to_s
 end

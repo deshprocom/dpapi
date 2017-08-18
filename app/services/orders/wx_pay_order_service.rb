@@ -10,7 +10,7 @@ module Services
       end
 
       def call
-        return ApiResult.success_with_data(pay_result: Hash.new) unless Rails.env.production?
+        return ApiResult.success_with_data(pay_result: {}) unless Rails.env.production?
 
         order = PurchaseOrder.find_by!(order_number: order_number)
         return ApiResult.error_result(CANNOT_PAY) unless order.status == 'unpaid'
