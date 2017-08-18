@@ -57,6 +57,9 @@ gem 'rack-attack'
 # 易联支付
 gem 'yl_pay'
 
+# 微信支付
+gem 'wx_pay'
+
 # 分页
 gem 'kaminari'
 
@@ -72,6 +75,7 @@ group :development, :test do
   gem 'capistrano-rvm'
   gem 'capistrano3-puma'
   gem 'capistrano-resque', require: false
+  gem 'awesome_print'
 end
 
 group :development do
