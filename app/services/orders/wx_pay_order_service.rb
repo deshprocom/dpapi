@@ -17,11 +17,11 @@ module Services
         result = WxPay::Service.invoke_unifiedorder(pay_params(order))
         unless result.success?
           # 支付失败
-          Rails.logger.info "WX_PAY ERROR: return_code:#{result['return_code']}, return_msg:#{result['return_msg']}"\
-          ", err_code: #{result['err_code']}, err_code_des: #{result['err_code_des']}"
+          Rails.logger.info "WX_PAY ERROR: return_code:#{result['return_code']}, return_msg:#{result['return_msg']}, "\
+          "err_code: #{result['err_code']}, err_code_des: #{result['err_code_des']}"
           return ApiResult.error_result(PAY_ERROR)
         end
-        # 生成签名
+        # 生成唤起支付需要的参数
         pay_result = generate_app_pay_req(result)
         ApiResult.success_with_data(pay_result: pay_result)
       end
