@@ -92,7 +92,7 @@ Rails.application.routes.draw do
       # resources :test, only: [:index, :create]
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
-      resources :wx_notify_url, only: [:create]
+      resources :wx_notify, only: [:create]
     end
 
     resources :race_hosts, only:[:index]
