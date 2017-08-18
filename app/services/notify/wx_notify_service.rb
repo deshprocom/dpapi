@@ -28,7 +28,6 @@ module Services
         api_result('SUCCESS', 'OK')
       end
 
-
       private
 
       def success?(result)
