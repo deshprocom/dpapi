@@ -1,15 +1,14 @@
 module V10
   module Races
-    class OrdersController < ApplicationController
+    class UnpaidOrdersController < ApplicationController
       include UserAccessible
 
       before_action :set_race, :set_ticket, :login_required
 
-      def create
-        result = Services::Orders::CreateOrderService.call(@race, @ticket, @current_user, params)
-        return render_api_error(result.code, result.msg) if result.failure?
-
-        @order = result.data[:order]
+      def show
+        @order = @current_user.orders.where(race_id: @race.id)
+                              .where(ticket_id: @ticket.id)
+                              .find_by(status: :unpaid)
       end
 
       private

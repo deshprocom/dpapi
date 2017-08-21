@@ -40,6 +40,7 @@ Rails.application.routes.draw do
         resources :race_ranks, only: [:index]
         resources :tickets, only: [:index, :show] do
           resource :orders, only: [:create]
+          resource :unpaid_order, only: [:show]
         end
       end
       resources :race_tickets, only: [:index], as: :ticket_business
@@ -59,6 +60,7 @@ Rails.application.routes.draw do
           resources :cancel, only: [:create]
           resources :complete, only: [:create]
           resources :pay, only: [:create]
+          resources :wx_pay, only: [:create]
         end
       end
     end
@@ -90,10 +92,12 @@ Rails.application.routes.draw do
       # resources :test, only: [:index, :create]
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
+      resources :wx_notify, only: [:create]
     end
 
     resources :race_hosts, only:[:index]
-  end
+    resources :feedbacks, only: [:create]
+    end
 
   unless Rails.env.production?
     namespace :factory do
