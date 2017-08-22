@@ -63,6 +63,9 @@ gem 'wx_pay'
 # 分页
 gem 'kaminari'
 
+# 微信登录
+gem 'weixin_authorize'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
