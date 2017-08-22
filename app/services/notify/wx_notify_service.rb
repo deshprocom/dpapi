@@ -49,7 +49,7 @@ module Services
 
       def check_order(result)
         order = order_info(result)
-        order.present? && order.price.eql?(result['total_fee'])
+        order.present? && order.price.eql?(result['cash_fee'].to_i)
       end
 
       def change_order_status(result)
