@@ -11,19 +11,19 @@ module Services
       def call
         # 判断请求是否成功
         unless success?(order_result)
-          Rails.logger.info "wx_pay status: FAIL, 请求不成功"
+          Rails.logger.info 'wx_pay status: FAIL, 请求不成功'
           return api_result('FAIL', '请求不成功')
         end
 
         # 返回的请求成功 验证签名
         unless sign_success?(order_result)
-          Rails.logger.info "wx_pay status: FAIL, 签名失败"
+          Rails.logger.info 'wx_pay status: FAIL, 签名失败'
           return api_result('FAIL', '签名失败')
         end
 
         # 检查订单是否存在，订单的金额是否和数据库一致
         unless check_order(order_result)
-          Rails.logger.info "wx_pay status: FAIL, 订单不存在或订单金额不匹配"
+          Rails.logger.info 'wx_pay status: FAIL, 订单不存在或订单金额不匹配'
           return api_result('FAIL', '订单不存在或订单金额不匹配')
         end
 
