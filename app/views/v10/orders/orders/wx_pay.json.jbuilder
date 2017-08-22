@@ -9,6 +9,6 @@ json.data do
   json.package order[:package].to_s
   json.timestamp order[:timestamp].to_s
   json.prepayid order[:prepayid].to_s
-  json.nonce_str order[:nonce_str].to_s
+  json.noncestr order[:noncestr].to_s
   json.sign order[:sign].to_s
 end

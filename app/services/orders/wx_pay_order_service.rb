@@ -40,11 +40,9 @@ module Services
       end
 
       def generate_app_pay_req(result)
-        prepayid = result['prepay_id']
-        nonce_str = result['nonce_str']
         params = {
-          prepayid: prepayid,
-          nonce_str: nonce_str
+          prepayid: result['prepay_id'],
+          noncestr: result['nonce_str']
         }
         WxPay::Service.generate_app_pay_req params
       end
