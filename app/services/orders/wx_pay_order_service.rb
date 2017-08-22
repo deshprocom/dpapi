@@ -32,7 +32,7 @@ module Services
         {
           body: order.ticket.try(:title),
           out_trade_no: order.order_number,
-          total_fee: order.price,
+          total_fee: order.price * 100,
           spbill_create_ip: CurrentRequestCredential.client_ip,
           notify_url: ENV['WX_NOTIFY_URL'],
           trade_type: 'APP'

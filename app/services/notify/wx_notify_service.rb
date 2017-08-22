@@ -19,7 +19,7 @@ module Services
         return api_result('FAIL', '订单不存在或订单金额不匹配') unless check_order(order_result)
 
         # 更改订单的状态为已支付
-        # TODO change_order_status(order_result)
+        change_order_status(order_result)
 
         # 记录交易日志
         # TODO create_bill
