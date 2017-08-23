@@ -35,7 +35,7 @@ module Services
 
       def create_bill(params)
         # 检查商户号是否存在，不存在的情况下才会写入
-        return true if Bill.find_by(trade_number: params[:trade_number])
+        return true if Bill.exists?(trade_number: params[:trade_number])
         bill = Bill.new(params)
         bill.save!
       end
