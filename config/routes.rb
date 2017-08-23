@@ -88,8 +88,12 @@ Rails.application.routes.draw do
       resources :search, only: [:index]
     end
 
+    namespace :weixin do
+      resources :auth, only: [:create]
+    end
+
     namespace :pay do
-      # resources :test, only: [:index, :create]
+      resources :test, only: [:index, :create]
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
