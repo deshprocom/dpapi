@@ -90,6 +90,7 @@ Rails.application.routes.draw do
 
     namespace :weixin do
       resources :auth, only: [:create]
+      resources :bind, only: [:create]
     end
 
     namespace :pay do
