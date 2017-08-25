@@ -6,7 +6,7 @@ module V10
       include UserAccessible
       before_action :login_need?
       OPTION_TYPES = %w(register login reset_pwd change_pwd bind_account unbind_account
-                        change_old_account bind_new_account bind_wx_account).freeze
+                        change_old_account bind_new_account).freeze
       VCODE_TYPES = %w(mobile email).freeze
       include Constants::Error::Sign
 
