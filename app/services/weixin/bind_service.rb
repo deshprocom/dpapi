@@ -52,7 +52,7 @@ module Services
 
         # 可以注册, 创建一个用户
         user = User.create_by_mobile(user_params[:account], password)
-        user.update(nick_name: wx_user[:nick_name])
+        user.update(nick_name: wx_user[:nick_name], wx_avatar: wx_user[:head_img])
 
         # 绑定用户
         bind_wx_user(user, wx_user)
