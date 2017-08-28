@@ -85,7 +85,7 @@ module Services
         end
 
         # 其它情况都要求用户已存在
-        unless option_type.in?(%w(register bind_account bind_new_account)) || check_user_exist(account_id)
+        unless option_type.in?(%w(register bind_account bind_new_account bind_wx_account)) || check_user_exist(account_id)
           return ApiResult.error_result(USER_NOT_FOUND)
         end
 
