@@ -65,6 +65,9 @@ module Services
         # 查看用户是否被封禁
         return ApiResult.error_result(HTTP_USER_BAN) if user.banned?
 
+        # 更新用户头像到用户表里面
+        user.update(wx_avatar: wx_user[:head_img])
+
         bind_wx_user(user, wx_user)
       end
 
