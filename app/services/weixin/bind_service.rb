@@ -17,7 +17,7 @@ module Services
       def call
         # 验证手机验证码是否正确
         account = user_params[:account]
-        unless check_code('bind_account', account, user_params[:code])
+        unless check_code('bind_wx_account', account, user_params[:code])
           return ApiResult.error_result(VCODE_NOT_MATCH)
         end
         access_token = user_params[:access_token]
