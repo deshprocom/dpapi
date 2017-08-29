@@ -32,7 +32,7 @@ module Services
         return ApiResult.error_result(ALREADY_BIND) if wx_user.user.present?
 
         # 查看该手机号是否注册过
-        user = User.by_mobile(account)
+        user = User.by_mobile(account).reload
 
         user.nil? ? create_user(user_params, wx_user) : bind_user(user, wx_user)
       end
@@ -52,7 +52,8 @@ module Services
 
         # 可以注册, 创建一个用户
         user = User.create_by_mobile(user_params[:account], password)
-        user.update(nick_name: wx_user[:nick_name])
+        gender = wx_user[:sex].to_i.eql?(1) ? 1 : 0
+        user.update(nick_name: wx_user[:nick_name], wx_avatar: wx_user[:head_img], gender: gender)
 
         # 绑定用户
         bind_wx_user(user, wx_user)
@@ -64,6 +65,9 @@ module Services
 
         # 查看用户是否被封禁
         return ApiResult.error_result(HTTP_USER_BAN) if user.banned?
+
+        # 更新用户头像到用户表里面
+        user.update(wx_avatar: wx_user[:head_img])
 
         bind_wx_user(user, wx_user)
       end
