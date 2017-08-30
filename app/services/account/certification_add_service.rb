@@ -46,7 +46,7 @@ module Services
           return ApiResult.error_result(CERT_NO_ALREADY_EXIST)
         end
 
-        if extra_info.status.eql?('failed')
+        if extra_info.status.eql?('failed') || extra_info.status.eql?('init')
           extra_info.update!(user_params.merge(status: 'passed'))
         else
           extra_info.update!(user_params)
