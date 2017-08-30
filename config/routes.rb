@@ -25,6 +25,7 @@ Rails.application.routes.draw do
         resources :change_account, only: [:create]
         resources :bind_account, only: [:create]
       end
+      get ':account/verify', to: 'verify#index', as: :verify
     end
 
     scope module: 'races' do
@@ -90,6 +91,7 @@ Rails.application.routes.draw do
 
     namespace :weixin do
       resources :auth, only: [:create]
+      resources :bind, only: [:create]
     end
 
     namespace :pay do
