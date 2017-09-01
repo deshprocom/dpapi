@@ -95,7 +95,7 @@ Rails.application.routes.draw do
     end
 
     namespace :pay do
-      resources :test, only: [:index, :create]
+      # resources :test, only: [:index, :create] # 废弃
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
@@ -103,6 +103,9 @@ Rails.application.routes.draw do
 
     resources :race_hosts, only:[:index]
     resources :feedbacks, only: [:create]
+    resources :activities, only: [:index, :show] do
+      get 'pushed', on: :collection
+    end
     end
 
   unless Rails.env.production?
