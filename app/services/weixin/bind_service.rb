@@ -32,7 +32,7 @@ module Services
         return ApiResult.error_result(ALREADY_BIND) if wx_user.user.present?
 
         # 查看该手机号是否注册过
-        user = User.by_mobile(account).reload
+        user = User.by_mobile(account)
 
         user.nil? ? create_user(user_params, wx_user) : bind_user(user, wx_user)
       end
