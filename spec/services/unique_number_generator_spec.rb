@@ -18,7 +18,7 @@ RSpec.describe Services::UniqueNumberGenerator do
   context '当今天还未产生过编号时' do
     it '返回的编号应为今天日期 + 00001' do
       number = Services::UniqueNumberGenerator.call(PurchaseOrder)
-      today_first_number = "#{Time.current.strftime('%Y%m%d')}00001"
+      today_first_number = "#{Time.current.strftime('%Y%m%d%H%M')}00001"
       expect(number).to eq(today_first_number)
     end
   end
@@ -26,11 +26,11 @@ RSpec.describe Services::UniqueNumberGenerator do
   context '当今天产生过编号时' do
     it '返回的编号应顺着上个编号 +1' do
       number = Services::UniqueNumberGenerator.call(PurchaseOrder)
-      today_first_number = "#{Time.current.strftime('%Y%m%d')}00001"
+      today_first_number = "#{Time.current.strftime('%Y%m%d%H%M')}00001"
       expect(number).to eq(today_first_number)
 
       number = Services::UniqueNumberGenerator.call(PurchaseOrder)
-      today_second_number = "#{Time.current.strftime('%Y%m%d')}00002"
+      today_second_number = "#{Time.current.strftime('%Y%m%d%H%M')}00002"
       expect(number).to eq(today_second_number)
     end
   end
@@ -42,7 +42,7 @@ RSpec.describe Services::UniqueNumberGenerator do
 
       Rails.cache.clear
       number = Services::UniqueNumberGenerator.call(PurchaseOrder)
-      today_second_number = "#{Time.current.strftime('%Y%m%d')}00002"
+      today_second_number = "#{Time.current.strftime('%Y%m%d%H%M')}00002"
       expect(number).to eq(today_second_number)
     end
   end
@@ -56,7 +56,7 @@ RSpec.describe Services::UniqueNumberGenerator do
 
       Rails.cache.clear
       number = Services::UniqueNumberGenerator.call(PurchaseOrder)
-      today_first_number = "#{Time.current.strftime('%Y%m%d')}00001"
+      today_first_number = "#{Time.current.strftime('%Y%m%d%H%M')}00001"
       expect(number).to eq(today_first_number)
     end
   end
