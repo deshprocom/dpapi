@@ -8,7 +8,7 @@ module Services
   class UniqueNumberGenerator
     include Serviceable
     attr_accessor :model, :key, :incr_min_length
-    DATE_FORMAT_LENGTH = 8
+    TIME_FORMAT_LENGTH = 12
 
     def initialize(model, key = :order_number, incr_min_length = 5)
       self.model = model
@@ -17,7 +17,7 @@ module Services
     end
 
     def call
-      "#{today_prefix}#{padded_today_increment}"
+      "#{current_time_prefix}#{padded_today_increment}"
     end
 
     def padded_today_increment
@@ -42,12 +42,12 @@ module Services
     end
 
     def restore_today_increment
-      last_increment = last_record_number[DATE_FORMAT_LENGTH..-1].to_i
+      last_increment = last_record_number[TIME_FORMAT_LENGTH..-1].to_i
       Rails.cache.increment(today_cache_key, last_increment + 1)
     end
 
     def today_record_exist?
-      last_record_number && last_record_number.first(DATE_FORMAT_LENGTH) == today_prefix
+      last_record_number && last_record_number.first(TIME_FORMAT_LENGTH) == current_time_prefix
     end
 
     def last_record_number
@@ -60,6 +60,10 @@ module Services
 
     def today_prefix
       @today_prefix ||= Time.current.strftime('%Y%m%d')
+    end
+
+    def current_time_prefix
+      @current_time_prefix ||= Time.current.strftime('%Y%m%d%H%M')
     end
   end
 end
