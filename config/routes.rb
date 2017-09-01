@@ -103,6 +103,9 @@ Rails.application.routes.draw do
 
     resources :race_hosts, only:[:index]
     resources :feedbacks, only: [:create]
+    resources :activities, only: [:index, :show] do
+      get 'pushed', on: :collection
+    end
     end
 
   unless Rails.env.production?
