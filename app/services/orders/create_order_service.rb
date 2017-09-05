@@ -7,7 +7,6 @@ module Services
       include Constants::Error::Account
       include Constants::Error::Order
 
-
       TICKET_TYPES = %w(e_ticket entity_ticket).freeze
       TICKET_STATUS_ERRORS = {
         unsold: TICKET_UNSOLD,
@@ -26,6 +25,7 @@ module Services
         @invite_code = params[:invite_code]&.upcase
       end
 
+      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         unless @params[:ticket_type].in? TICKET_TYPES
           return ApiResult.error_result(UNSUPPORTED_TYPE)
@@ -41,7 +41,7 @@ module Services
 
         return ApiResult.error_result(NO_CERTIFICATION) unless @user.user_extra
 
-        if @invite_code && !InviteCode.exists?(code: @invite_code)
+        if @invite_code.present? && !InviteCode.exists?(code: @invite_code)
           return ApiResult.error_result(INVITE_CODE_NOT_EXIST)
         end
 
