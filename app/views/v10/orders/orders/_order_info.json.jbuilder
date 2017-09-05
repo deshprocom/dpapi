@@ -10,6 +10,7 @@ json.price           order_info.price.to_s
 json.original_price  order_info.original_price.to_s
 json.status          order_info.status.to_s
 json.courier         order_info.courier.to_s
+json.invite_code     order_info.invite_code.to_s
 json.tracking_no     order_info.tracking_no.to_s
 json.created_at      order_info.created_at
 
