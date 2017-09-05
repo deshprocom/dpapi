@@ -224,6 +224,22 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(0)
     end
+
+    it '邀请码正确' do
+      race_id = race.id
+      invite_code = InviteCode.create(name: '上级人')
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params.merge(invite_code: invite_code.code)
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      order = user.orders.find_by(ticket_id: ticket.id)
+      expect(order).to be_truthy
+      expect(order.invite_code).to eq(invite_code.code)
+    end
   end
 
   context '购票失败' do
@@ -241,6 +257,17 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
     #   json = JSON.parse(response.body)
     #   expect(json['code']).to   eq(1100039)
     # end
+
+    it '邀请码不正确' do
+      race_id = race.id
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: e_ticket_params.merge(invite_code: '12ab')
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(1110003)
+    end
 
     it '用户没有实名信息' do
       user.user_extra.destroy
@@ -309,4 +336,5 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
 
     # it '购买实体票，实体票已票完'
   end
+
 end
