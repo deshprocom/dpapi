@@ -7,8 +7,8 @@ json.data do
   json.activity do
     json.id            @activity.id
     json.title         @activity.title
-    json.banner        @activity.banner
-    json.pushed_img    @activity.pushed_img
+    json.banner        @activity.banner_url
+    json.pushed_img    @activity.pushed_img_url
     json.description   @activity.description
     json.activity_time @activity.activity_time
   end
