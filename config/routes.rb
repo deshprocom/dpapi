@@ -63,6 +63,7 @@ Rails.application.routes.draw do
           resources :pay, only: [:create]
           resources :wx_pay, only: [:create]
         end
+        resources :verify_invite_code, only: [:create]
       end
     end
 
