@@ -46,7 +46,6 @@ module Services
 
       def check_order(result)
         order = order_info(result)
-        # order.present? && order.price.to_s.eql?(result['total_fee'].to_s) # 废弃
         order.present?
       end
 

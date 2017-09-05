@@ -92,10 +92,11 @@ Rails.application.routes.draw do
     namespace :weixin do
       resources :auth, only: [:create]
       resources :bind, only: [:create]
+      resources :js_sign, only: [:create]
     end
 
     namespace :pay do
-      resources :test, only: [:index, :create]
+      # resources :test, only: [:index, :create] # 废弃
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
