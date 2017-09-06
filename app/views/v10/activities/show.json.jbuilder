@@ -10,6 +10,6 @@ json.data do
     json.banner        @activity.banner_url
     json.pushed_img    @activity.pushed_img_url
     json.description   @activity.description
-    json.activity_time @activity.activity_time
+    json.activity_time @activity.activity_time.to_i
   end
 end
