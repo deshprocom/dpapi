@@ -13,5 +13,6 @@ json.data do
     json.pushed_img    @activity.pushed_img_url
     json.description   @activity.description
     json.activity_time @activity.activity_time.to_i
+    json.updated_time  @activity.updated_at.to_i
   end
 end
