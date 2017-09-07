@@ -8,6 +8,11 @@ module V10
         @notifications = @current_user.notifications.order(id: :desc).limit(30)
       end
 
+      def read
+        @current_user.notifications.find(params[:id]).update(read: true)
+        render_api_success
+      end
+
       def destroy
         @current_user.notifications.find(params[:id]).destroy
         render_api_success
