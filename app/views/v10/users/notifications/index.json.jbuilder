@@ -15,6 +15,7 @@ json.data do
 
       if notification.notify_type == 'order'
         json.order_number notification.extra_data[:order_number]
+        json.order_status notification.extra_data[:order_status]
         json.image        notification.extra_data[:image]
       end
     end
