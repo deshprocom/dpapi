@@ -8,6 +8,11 @@ module V10
         @notifications = @current_user.notifications.order(id: :desc).limit(30)
       end
 
+      def unread_remind
+        @unread_count = @current_user.notifications.where(read: false).count
+        @recent_notification = @current_user.notifications.order(id: :desc).first
+      end
+
       def read
         @current_user.notifications.find(params[:id]).update(read: true)
         render_api_success

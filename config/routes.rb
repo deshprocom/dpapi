@@ -50,7 +50,8 @@ Rails.application.routes.draw do
     scope module: 'users' do
       resources :users, only: :show do
         resources :notifications, only: [:index, :destroy] do
-          get 'read', on: :member
+          get 'unread_remind', on: :collection
+          post 'read', on: :member
         end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
@@ -105,6 +106,7 @@ Rails.application.routes.draw do
       resources :wx_notify, only: [:create]
     end
 
+    resources :app_versions, only:[:index]
     resources :race_hosts, only:[:index]
     resources :feedbacks, only: [:create]
     resources :activities, only: [:index, :show] do

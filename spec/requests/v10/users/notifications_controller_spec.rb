@@ -95,7 +95,7 @@ RSpec.describe '/v10/users/:user_id/notifications', :type => :request do
       user_extra.passed!
       notification = user.notifications[0]
       expect(notification.read).to eq(false)
-       get read_v10_user_notification_url(user.user_uuid, notification.id),
+      post read_v10_user_notification_url(user.user_uuid, notification.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
 
       expect(response).to have_http_status(200)
@@ -107,12 +107,29 @@ RSpec.describe '/v10/users/:user_id/notifications', :type => :request do
     it '已读失败，返回找不到指定记录' do
       user_extra = FactoryGirl.create(:user_extra, user: user)
       user_extra.passed!
-      get read_v10_user_notification_url(user.user_uuid, 333),
+      post read_v10_user_notification_url(user.user_uuid, 333),
           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(1100006)
+    end
+  end
+
+  context '未读消息提醒' do
+    it '返回相应的数据' do
+      user_extra = FactoryGirl.create(:user_extra, user: user)
+      user_extra.passed!
+      notification = user.notifications[0]
+      expect(notification.read).to eq(false)
+      get unread_remind_v10_user_notifications_url(user.user_uuid),
+          headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(0)
+
+      expect(json['data']['unread_count']).to eq(1)
     end
   end
 end
