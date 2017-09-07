@@ -4,6 +4,13 @@ json.partial! 'common/meta'
 json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
 json.data do
-  json.ios_version @ios_version&.version.to_s
-  json.android_version @android_version&.version.to_s
+  json.ios_platform do
+    json.version       @ios_platform&.version
+    json.force_upgrade @ios_platform&.force_upgrade
+  end
+
+  json.android_platform do
+    json.version       @android_platform&.version
+    json.force_upgrade @android_platform&.force_upgrade
+  end
 end

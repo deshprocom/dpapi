@@ -1,8 +1,8 @@
 module V10
   class AppVersionsController < ApplicationController
     def index
-      @ios_version = AppVersion.find_by(platform: :ios)
-      @android_version = AppVersion.find_by(platform: :android)
+      @ios_platform = AppVersion.find_by(platform: :ios)
+      @android_platform = AppVersion.find_by(platform: :android)
     end
   end
 end
