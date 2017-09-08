@@ -8,8 +8,10 @@ json.data do
     json.array! @activities do |activity|
       json.id            activity.id
       json.title         activity.title
+      json.tag           activity.tag
+      json.link          activity.link
       json.banner        activity.banner_url
-      json.activity_time activity.activity_time
+      json.activity_time activity.activity_time.to_i
     end
   end
 end
