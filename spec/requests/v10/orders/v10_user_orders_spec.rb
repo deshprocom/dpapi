@@ -84,5 +84,21 @@ RSpec.describe '/v10/users/:user/orders', :type => :request do
         expect(json_data['data']['next_id']).to be_truthy
       end
     end
+
+    context 'status = paid' do
+      it '返回paid与delivered的订单' do
+        user.orders.first.paid!
+        user.orders.last.delivered!
+        get v10_user_orders_url(user.user_uuid),
+            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+            params: { page_size: 2, status: 'paid' }
+        expect(response).to have_http_status(200)
+        json = JSON.parse(response.body)
+        expect(json['data']['next_id']).to be_truthy
+        orders = json['data']['items']
+        expect(orders[0]['order_info']['status']).to eq('delivered')
+        expect(orders[1]['order_info']['status']).to eq('paid')
+      end
+    end
   end
 end
