@@ -14,8 +14,13 @@ module Services
         # 拿到用户传递过来的code
         code = user_params[:code]
 
+        # 新增 获取用户传过来的refresh_token
+        # 如果用户传了refresh_token 那么就直接通过refresh_token去拿token
+        refresh_token = user_params[:refresh_token]
+        token_result = refresh_token.blank? ? access_token(code) : refresh_token(refresh_token)
+
         # 获取access_token和open_id
-        token_result = access_token(code)
+        # token_result = access_token(code) # 废弃
         return ApiResult.error_result(AUTH_ERROR) unless token_result.code.zero?
         token_result = token_result.result
 
@@ -33,6 +38,12 @@ module Services
       def access_token(code)
         token_result = wx_authorize.get_oauth_access_token(code)
         Rails.logger.info "wx_authorize_token_result: #{token_result.as_json}"
+        token_result
+      end
+
+      def refresh_token(token)
+        token_result = wx_authorize.refresh_oauth2_token(token)
+        Rails.logger.info "wx_authorize_refresh_token_result: #{token_result.as_json}"
         token_result
       end
 
