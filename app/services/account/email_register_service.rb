@@ -9,7 +9,7 @@ module Services
       attr_accessor :email, :password
 
       def initialize(email, password)
-        self.email = email
+        self.email = email.downcase
         self.password = password
       end
 
@@ -35,6 +35,8 @@ module Services
         # 生成用户令牌
         secret = CurrentRequestCredential.affiliate_app.try(:app_secret)
         access_token = AppAccessToken.jwt_create(secret, user.user_uuid)
+        # 记录一次账户修改
+        Common::DataStatCreator.create_account_change_stats(user, 'email')
         LoginResultHelper.call(user, access_token)
       end
     end

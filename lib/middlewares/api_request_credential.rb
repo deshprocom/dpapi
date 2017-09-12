@@ -3,14 +3,14 @@ module DpAPI
   # rubocop:disable Metrics/LineLength: 130
   class ApiRequestCredential
     attr_accessor :client_ip, :app_key, :access_token, :user_agent
-    SKIP_PATH_REGEX = %r{^/*factory/}
+    SKIP_PATH_REGEX = %r{^/*factory|pay/}
     def initialize(app)
       @app = app
     end
 
     def call(env)
       # 解析请求头信息 并初始化到线程中
-      self.client_ip     = env['HTTP_X_DP_CLIENT_IP']
+      self.client_ip     = env['HTTP_X_DP_CLIENT_IP'].eql?('localhost') ? '127.0.0.1' : env['HTTP_X_DP_CLIENT_IP']
       self.app_key       = env['HTTP_X_DP_APP_KEY']
       self.access_token  = env['HTTP_X_DP_ACCESS_TOKEN']
       self.user_agent    = env['HTTP_USER_AGENT']

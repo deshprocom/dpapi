@@ -1,0 +1,31 @@
+module Services
+  module Races
+    class SearchByKeywordService
+      include Serviceable
+      include Constants::Error::Common
+
+      def initialize(search_params)
+        @seq_id     = search_params[:seq_id].to_i
+        @user_uuid  = search_params[:u_id]
+        @page_size  = search_params[:page_size]
+        @keyword    = search_params[:keyword]
+      end
+
+      def call
+        races = with_keyword_races(main_race)
+                .where('seq_id > ?', @seq_id)
+                .limit(@page_size)
+                .date_asc
+        ApiResult.success_with_data(races: races, user: User.by_uuid(@user_uuid))
+      end
+
+      def with_keyword_races(races)
+        races.where('name like ? or location like ?', "%#{@keyword}%", "%#{@keyword}%")
+      end
+
+      def main_race
+        Race.main
+      end
+    end
+  end
+end

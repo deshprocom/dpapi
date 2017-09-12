@@ -5,6 +5,7 @@ module Services
 
       include Constants::Error::Common
       include Constants::Error::Sign
+      include Constants::Error::Http
 
       attr_accessor :mobile, :password
 
@@ -20,6 +21,9 @@ module Services
         user = User.by_mobile(mobile)
         # 判断该用户是否存在
         return ApiResult.error_result(USER_NOT_FOUND) if user.nil?
+
+        # 判断用户是否被禁用
+        return ApiResult.error_result(HTTP_USER_BAN) if user.banned?
 
         salted_passwd = ::Digest::MD5.hexdigest(password + user.password_salt)
         unless salted_passwd.eql?(user.password)

@@ -4,7 +4,7 @@ module V10
     class RecentRacesController < ApplicationController
       include Constants::Error::Common
       def index
-        api_result = Services::Account::RaceRecentService.call(params[:u_id], race_params[:number])
+        api_result = Services::Races::RaceRecentService.call(params[:u_id], race_params[:number])
         render_api_result api_result
       end
 
@@ -13,8 +13,8 @@ module V10
       def render_api_result(result)
         return render_api_error(result.code, result.msg) if result.failure?
 
-        template = 'v10/account/races/index'
-        RenderResultHelper.render_race_result(self, template, result)
+        template = 'v10/races/recent'
+        RenderResultHelper.render_recent_race(self, template, result)
       end
 
       def race_params

@@ -50,22 +50,27 @@
 # The server-based syntax can be used to override options:
 # ------------------------------------
 server '192.168.2.231',
-  user: 'deploy',
-  roles: %w{app db cache},
-  ssh_options: {
-    user: 'deploy', # overrides user setting above
-    keys: %w(~/.ssh/id_rsa),
-    forward_agent: false,
-    auth_methods: %w(publickey password)
-    # password: 'please use keys'
-  }
+       user: 'deploy',
+       roles: %w{app db cache},
+       ssh_options: {
+         user: 'deploy', # overrides user setting above
+         keys: %w(~/.ssh/id_rsa),
+         forward_agent: false,
+         auth_methods: %w(publickey password)
+         # password: 'please use keys'
+       }
+
+role :resque_worker, %w{192.168.2.231}
+set :workers, {send_email_sms: 1, send_mobile_sms: 1}
 
 set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'dev'))
 set :rails_env, 'development'
-set :bundle_without, %w{test tools}.join(' ')
+set :bundle_without, %w{tools}.join(' ')
 
 # puma
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_env, fetch(:rails_env, 'development')
 set :puma_threads, [0, 16]
 set :puma_workers, 0
+
+set :project_url, 'http://192.168.2.231:8800'

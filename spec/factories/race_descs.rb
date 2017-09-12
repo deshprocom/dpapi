@@ -11,7 +11,7 @@ FactoryGirl.define do
 以多组筹码晋级第2轮的选手只能留用较多一组的筹码
 
 #### 以下为赛程表：
-![enter description here](http://www.pokerking-club.com/uploads/ueditor/php/upload/image/20160311/1457682998161754.jpg)
+![enter description here](http://img.dzpk.com/allimg/140604/4454-140604112S4638.jpg?width=561&height=571)
 
  加 标的赛事均为双日赛，八强决战桌将在次日下午1点开始
 如果双日赛八强在首日晚十点前产生，比赛将转为单日赛
@@ -25,14 +25,7 @@ FactoryGirl.define do
 豪客赛将在第10轮开始前截止
 资格赛及重购或加购赛将于首轮休息后截止
 赛程或将更新，恕不另行通知.
-参赛者需年满21岁
-适用APT赛事规则
-
-| 时间        | 比赛  |  买入  |
-| --------    | :-----:  | :----:  |
-| 1月12号 2:00 p.m. | flight1 | 500,000 |
-| 1月13号 2:00 p.m. | flight2 | 500,000 |
-| 1月14号 2:00 p.m. | flight3 | 500,000 |'
+参赛者需年满21岁'
     association :race
   end
 end

@@ -21,6 +21,8 @@ module Services
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 
+        self.email = email.downcase
+
         # 检查密码是否符合规则
         return ApiResult.error_result(PASSWORD_FORMAT_WRONG) unless UserValidator.pwd_valid?(password)
 
@@ -36,6 +38,9 @@ module Services
         new_password = ::Digest::MD5.hexdigest("#{password}#{salt}")
 
         user.update(password: new_password, password_salt: salt)
+
+        # 验证完就清除掉验证码
+        VCode.remove_vcode('reset_pwd', email)
         ApiResult.success_result
       end
     end

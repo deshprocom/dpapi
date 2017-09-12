@@ -5,7 +5,6 @@ git_source(:github) do |repo_name|
   'https://github.com/#{repo_name}.git'
 end
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.0.1'
 # Use mysql as the database for Active Record
@@ -23,22 +22,49 @@ gem 'puma', '~> 3.0'
 # gem 'capistrano-rails', group: :development
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
-# gem 'rack-cors'
+gem 'rack-cors'
 
 gem 'jbuilder'
 
 #cache
 gem 'redis', '~> 3.2'
 gem 'hiredis'
-gem 'redis-rails'
-gem 'second_level_cache', '~> 2.2.4'
+gem 'redis-rails', '~> 5.0', '>= 5.0.2'
+gem 'second_level_cache', '~> 2.3.0'
 gem 'request_store'
+gem 'leaderboard'
+# gem 'connection_pool', '~> 2.2', '>= 2.2.1'
 
+# 文件处理组件
 gem 'carrierwave', '~> 1.0'
+gem 'mini_magick'
+gem 'carrierwave-ucloud', '~> 0.0.2'
 gem 'dotenv-rails'
 
 gem 'jwt'
 gem 'resque'
+gem 'jpush', '~> 4.0', '>= 4.0.6'
+
+gem 'faraday'
+
+# Apm
+# gem 'oneapm_rpm', '~> 1.4.0'
+gem 'newrelic_rpm'
+
+# rack-attack
+gem 'rack-attack'
+
+# 易联支付
+gem 'yl_pay'
+
+# 微信支付
+gem 'wx_pay'
+
+# 分页
+gem 'kaminari'
+
+# 微信登录
+gem 'weixin_authorize'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -49,10 +75,14 @@ group :development, :test do
   gem 'rubocop', require: false
   gem 'capistrano', '~> 3.6'
   gem 'capistrano-rails', '~> 1.2'
+  gem 'capistrano-rvm'
   gem 'capistrano3-puma'
+  gem 'capistrano-resque', require: false
+  gem 'awesome_print'
 end
 
 group :development do
+  gem 'rails-erd'
   gem 'listen', '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

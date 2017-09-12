@@ -6,4 +6,8 @@ module Serviceable
       new(*args).call
     end
   end
+
+  def error_result(error_code)
+    ApiResult.error_result(error_code)
+  end
 end

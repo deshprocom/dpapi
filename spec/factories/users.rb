@@ -3,6 +3,7 @@ FactoryGirl.define do
     user_uuid 'uuid_123456789'
     user_name 'Ricky'
     nick_name 'Ricky'
+    avatar File.open(Rails.root.join('spec/factories/foo.png'))
     gender 2
     password_salt 'abcdef'
     password ::Digest::MD5.hexdigest('cc03e747a6afbbcbf8be7668acfebee5abcdef') #test123

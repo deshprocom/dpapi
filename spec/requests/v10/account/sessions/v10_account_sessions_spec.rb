@@ -21,6 +21,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
   end
 
   let!(:user) { FactoryGirl.create(:user) }
+  let(:v_code) {VCode.generate_mobile_vcode('login', '18018001880')}
 
   context "无效登录 传递不合法的登录类型" do
     it "应当返回 code: 1100002 (UNSUPPORTED_TYPE)" do
@@ -82,7 +83,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
       it "应当返回 code: 0" do
         post v10_login_url,
              headers: http_headers,
-             params: {type:'vcode', mobile: '18018001880', vcode: "1880"}
+             params: {type:'vcode', mobile: '18018001880', vcode: v_code}
         expect(response).to have_http_status(200)
         json = JSON.parse(response.body)
         expect(json["code"]).to eq(0)
@@ -95,6 +96,8 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
         expect(json["data"]["reg_date"]).to be_truthy
         expect(json["data"]["last_visit"]).to be_truthy
         expect(json["data"]["signature"].nil?).to be_falsey
+
+        expect(get(json["data"]["avatar"])).to eq(200)
       end
     end
 
@@ -160,6 +163,8 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
           expect(json["data"]["reg_date"]).to be_truthy
           expect(json["data"]["last_visit"]).to be_truthy
           expect(json["data"]["signature"].nil?).to be_falsey
+
+          expect(get(json["data"]["avatar"])).to eq(200)
         end
       end
 
@@ -214,6 +219,7 @@ RSpec.describe "/v10/login (SessionsController)", :type => :request do
             expect(json["data"]["reg_date"]).to be_truthy
             expect(json["data"]["last_visit"]).to be_truthy
             expect(json["data"]["signature"].nil?).to be_falsey
+            expect(get(json["data"]["avatar"])).to eq(200)
           end
         end
       end

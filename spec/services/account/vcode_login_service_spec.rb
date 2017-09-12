@@ -36,9 +36,10 @@ RSpec.describe Services::Account::VcodeLoginService do
   end
 
   context "通过手机号和验证码正常登录" do
+    let(:v_code) {VCode.generate_mobile_vcode('login', '18018001880')}
     it "should return code 0" do
       vcode_service = Services::Account::VcodeLoginService
-      api_result = vcode_service.call('18018001880', '1880')
+      api_result = vcode_service.call('18018001880', v_code)
       expect(api_result.code).to eq(0)
     end
   end

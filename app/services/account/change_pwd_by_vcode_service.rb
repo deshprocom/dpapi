@@ -27,7 +27,7 @@ module Services
         end
 
         # 判断验证码是否一致
-        return ApiResult.error_result(VCODE_NOT_MATCH) if vcode != mobile[-4, 4]
+        return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode('change_pwd', mobile, vcode)
 
         # 生成新的密码 设置新的盐值
         new_salt = SecureRandom.hex(6).slice(0, 6)

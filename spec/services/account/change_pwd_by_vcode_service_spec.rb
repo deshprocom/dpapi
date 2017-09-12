@@ -28,9 +28,10 @@ RSpec.describe Services::Account::ChangePwdByVcodeService do
   end
 
   context "密码更新成功" do
+    let(:v_code) {VCode.generate_mobile_vcode('change_pwd', '13713662278')}
     it "should return code 0" do
       vcode_service = Services::Account::ChangePwdByVcodeService
-      api_result = vcode_service.call('cc03e747a6afbbcbf8be7668acfebee7', '13713662278', '2278', user)
+      api_result = vcode_service.call('cc03e747a6afbbcbf8be7668acfebee7', '13713662278', v_code, user)
       expect(api_result.code).to eq(0)
     end
   end

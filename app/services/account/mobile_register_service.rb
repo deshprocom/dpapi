@@ -18,9 +18,8 @@ module Services
         # 检查手机格式是否正确
         return ApiResult.error_result(MOBILE_FORMAT_WRONG) unless UserValidator.mobile_valid?(mobile)
 
-        # TODO: 验证逻辑需要移到新的验证码校验类
         # 检查验证码是否正确
-        return ApiResult.error_result(VCODE_NOT_MATCH) unless vcode == mobile[-4, 4]
+        return ApiResult.error_result(VCODE_NOT_MATCH) unless VCode.check_vcode('register', mobile, vcode)
 
         # 检查手机号是否存在
         if UserValidator.mobile_exists?(mobile)
@@ -38,6 +37,8 @@ module Services
         # 生成用户令牌
         secret = CurrentRequestCredential.affiliate_app.try(:app_secret)
         access_token = AppAccessToken.jwt_create(secret, user.user_uuid)
+        # 记录一次账户修改
+        Common::DataStatCreator.create_account_change_stats(user, 'mobile')
         LoginResultHelper.call(user, access_token)
       end
     end

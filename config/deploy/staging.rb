@@ -61,8 +61,11 @@ server '106.75.136.9',
            # password: 'please use keys'
        }
 
+role :resque_worker, %w{106.75.136.9}
+set :workers, {send_email_sms: 1, send_mobile_sms: 1}
+
 set :deploy_to, '/deploy/dpapi'
-set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'test'))
+set :branch, ENV.fetch('REVISION', ENV.fetch('BRANCH', 'production'))
 set :rails_env, 'production'
 set :bundle_without, %w{tools}.join(' ')
 
