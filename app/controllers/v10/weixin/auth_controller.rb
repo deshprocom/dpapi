@@ -19,7 +19,7 @@ module V10
       end
 
       def user_params
-        params.permit(:code)
+        params.permit(:code, :refresh_token)
       end
 
       def render_api_result(result)
