@@ -19,6 +19,6 @@ json.data do
     json.partial! 'ticket', ticket: @ticket
   end
 
-  shipping_address = @current_user.shipping_addresses.first
+  shipping_address = @current_user && @current_user.shipping_addresses.first
   json.partial! 'shipping_address', shipping_address: shipping_address if shipping_address
 end
