@@ -19,11 +19,6 @@ json.data do
     json.partial! 'ticket', ticket: @ticket
   end
 
-  json.shipping_address do
-    shipping_address = @current_user.shipping_addresses.first
-    json.partial! 'shipping_address', shipping_address: shipping_address if shipping_address
-  end
-
-  json.recent_email @current_user.orders.last&.email
-  # json.ordered PurchaseOrder.purchased?(@current_user.id, @ticket.id)
+  shipping_address = @current_user.shipping_addresses.first
+  json.partial! 'shipping_address', shipping_address: shipping_address if shipping_address
 end

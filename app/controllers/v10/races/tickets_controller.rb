@@ -12,8 +12,6 @@ module V10
       # 购票页面所需数据
       def show
         return render_api_error(NOT_FOUND) unless @ticket.ticket_info
-
-        render 'new_order'
       end
 
       private
