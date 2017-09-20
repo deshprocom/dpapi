@@ -38,7 +38,8 @@ gem 'leaderboard'
 # 文件处理组件
 gem 'carrierwave', '~> 1.0'
 gem 'mini_magick'
-gem 'carrierwave-ucloud', '~> 0.0.2'
+# gem 'carrierwave-ucloud', '~> 0.0.2'
+gem 'carrierwave-upyun'
 gem 'dotenv-rails'
 
 gem 'jwt'
