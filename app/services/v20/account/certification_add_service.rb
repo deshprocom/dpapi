@@ -48,7 +48,11 @@ module Services
           return update_extra(user_params, user) if user_params[:extra_id].present?
 
           # 一个用户提交过一个实名审核，则只能修改，不能创建，护照同理 [未来如果做可以多实名，去掉这行就可以了]
-          return ApiResult.error_result(SINGLE_CERTIFICATION) if single_certification?(user, user_params)
+          # return ApiResult.error_result(SINGLE_CERTIFICATION) if single_certification?(user, user_params)
+
+          # 检查该用户是否提交过身份证实名
+          return ApiResult.error_result(CERT_NO_TWICE) if cert_no_exist?(user, user_params)
+
           new_user_extra(user_params, user)
         end
 
@@ -114,6 +118,10 @@ module Services
         def single_certification?(user, user_params)
           cert_type = user_params[:cert_type]
           user.user_extras.where(cert_type: cert_type).exists?
+        end
+
+        def cert_no_exist?(user, user_params)
+          user.user_extras.where(cert_no: user_params[:cert_no]).exists?
         end
       end
     end
