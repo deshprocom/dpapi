@@ -24,22 +24,12 @@ Rails.application.routes.draw do
         resources :certification, only: [:index, :create]
         namespace :certification do
           resources :delete, only: [:create]
+          resources :default, only: [:create]
         end
         resources :change_account, only: [:create]
         resources :bind_account, only: [:create]
       end
       get ':account/verify', to: 'verify#index', as: :verify
-    end
-
-    namespace :v20 do
-      namespace :account do
-        resources :users, only: [] do
-          resources :certification, only: [:index, :create]
-          namespace :certification do
-            resources :delete, only: [:create]
-          end
-        end
-      end
     end
 
     scope module: 'races' do
