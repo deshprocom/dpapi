@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/ClassLength
 module Services
   module Orders
     class CreateOrderService
@@ -26,7 +27,6 @@ module Services
         @user_extra = @user.user_extras.find(params[:cert_id])
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         unless @params[:ticket_type].in? TICKET_TYPES
           return ApiResult.error_result(UNSUPPORTED_TYPE)
@@ -43,7 +43,6 @@ module Services
         if @invite_code.present? && !InviteCode.exists?(code: @invite_code)
           return ApiResult.error_result(INVITE_CODE_NOT_EXIST)
         end
-
         ##
         # 放开购买次数限制
         # if PurchaseOrder.purchased?(@user.id, @race.id)
