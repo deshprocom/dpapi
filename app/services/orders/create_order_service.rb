@@ -23,6 +23,7 @@ module Services
         @user   = user
         @params = params
         @invite_code = params[:invite_code]&.upcase
+        @user_extra = @user.user_extras.find(params[:cert_id])
       end
 
       # rubocop:disable Metrics/CyclomaticComplexity
@@ -38,8 +39,6 @@ module Services
         unless @ticket.status == 'selling'
           return ApiResult.error_result(TICKET_STATUS_ERRORS[@ticket.status.to_sym])
         end
-
-        return ApiResult.error_result(NO_CERTIFICATION) unless @user.user_extra
 
         if @invite_code.present? && !InviteCode.exists?(code: @invite_code)
           return ApiResult.error_result(INVITE_CODE_NOT_EXIST)
@@ -120,6 +119,7 @@ module Services
           user:           @user,
           race:           @race,
           ticket:         @ticket,
+          user_extra:     @user_extra,
           price:          @ticket.price,
           original_price: @ticket.original_price,
           ticket_type:    @params[:ticket_type],

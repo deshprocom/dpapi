@@ -23,6 +23,7 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
     {
         ticket_type: 'e_ticket',
         email: 'test@gmail.com',
+        cert_id: user_extra.id
     }
   end
   let(:entity_ticket_params) do
@@ -30,7 +31,8 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       ticket_type: 'entity_ticket',
       mobile: '13428725222',
       consignee: '收货人先生',
-      address: '收货地址'
+      address: '收货地址',
+      cert_id: user_extra.id
     }
   end
 
@@ -269,7 +271,7 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(json['code']).to   eq(1110003)
     end
 
-    it '用户没有实名信息' do
+    it '用户传的实名信息id不存在时' do
       user.user_extra.destroy
       post v10_race_ticket_orders_url(race.id, ticket.id),
            headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
@@ -277,7 +279,7 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
 
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
-      expect(json['code']).to   eq(1100051)
+      expect(json['code']).to   eq(1100006)
     end
 
     it '售票状态不为selling' do
@@ -333,8 +335,6 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       json = JSON.parse(response.body)
       expect(json['code']).to   eq(1100004)
     end
-
-    # it '购买实体票，实体票已票完'
   end
 
 end

@@ -19,6 +19,7 @@ RSpec.describe '/v10/users/:user/orders', :type => :request do
     {
         ticket_type: 'e_ticket',
         email: 'test@gmail.com',
+        cert_id: user_extra.id
     }
   end
 
