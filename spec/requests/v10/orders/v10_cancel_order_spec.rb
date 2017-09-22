@@ -22,6 +22,7 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
     {
         ticket_type: 'e_ticket',
         email: 'test@gmail.com',
+        cert_id: user_extra.id,
     }
   end
   let(:entity_ticket_params) do
@@ -29,7 +30,8 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
       ticket_type: 'entity_ticket',
       mobile: '13428725222',
       consignee: '收货人先生',
-      address: '收货地址'
+      address: '收货地址',
+      cert_id: user_extra.id
     }
   end
   let(:create_order) do
@@ -45,8 +47,9 @@ RSpec.describe '/v10/races/:race_id/orders', :type => :request do
                                     user_name: 'Geek',
                                     mobile: '13655667766',
                                     email: 'test2@deshpro.com')
-    FactoryGirl.create(:user_extra, user: other_user, status: 'passed')
-    Services::Orders::CreateOrderService.call(race, ticket, other_user, e_ticket_params)
+    user_extra = FactoryGirl.create(:user_extra, user: other_user, status: 'passed')
+    params = e_ticket_params.merge(cert_id: user_extra.id)
+    Services::Orders::CreateOrderService.call(race, ticket, other_user, params)
     other_user.orders.find_by_race_id(race.id)
   end
 

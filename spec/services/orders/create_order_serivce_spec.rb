@@ -5,6 +5,7 @@ RSpec.describe Services::UniqueNumberGenerator do
     {
       ticket_type: 'e_ticket',
       email: 'test@gmail.com',
+      cert_id: user_extra.id
     }
   end
   let(:entity_ticket_params) do
@@ -12,7 +13,8 @@ RSpec.describe Services::UniqueNumberGenerator do
       ticket_type: 'entity_ticket',
       mobile: '13428725222',
       consignee: '收货人先生',
-      address: '收货地址'
+      address: '收货地址',
+      cert_id: user_extra.id
     }
   end
   let!(:race) { FactoryGirl.create(:race) }
