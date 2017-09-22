@@ -4,8 +4,8 @@ module V10
       def index
         params = {
           amount: 12,
-          order_desc: 'MBP希望杯',
-          client_ip: CurrentRequestCredential.client_ip,
+          order_desc: '测试测试',
+          client_ip: '192.168.2.10',
           merch_order_id: order_id,
           trade_time: trade_time,
           misc_data: '13922897656|0||张三|440121197511140912|62220040001154868428||PAYECO20151028543445||2|'
@@ -18,7 +18,7 @@ module V10
       private
 
       def order_id
-        '1220170808' + rand(100..999).to_s
+        '1220170808' + rand(1000..9999).to_s
       end
 
       def trade_time
