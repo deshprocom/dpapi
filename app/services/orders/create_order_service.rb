@@ -23,7 +23,7 @@ module Services
         @ticket = ticket
         @user   = user
         @params = params
-        @invite_code = params[:invite_code].strip&.upcase
+        @invite_code = params[:invite_code]&.strip&.upcase
         @user_extra = @user.user_extras.find(params[:cert_id])
       end
 
