@@ -17,7 +17,7 @@ module Services
         # 更改订单信息
         order = PurchaseOrder.find_by(order_number: send_params[:MerchOrderId])
         trade_info = { trade_status: 'E103', trade_msg: '订单号不存在' } if order.blank?
-        # 订单确定支付成功 并且 订单未付款 并且订单的状态是未支付才会去更新
+        # 订单确定支付成功 并且 订单存在 并且订单的状态是未支付才会去更新
         order.paid! if send_params['Status'].eql?('02') && order.present? && order.unpaid?
         # 创建订单
         create_bill(create_params(send_params, trade_info))
