@@ -90,6 +90,7 @@ Rails.application.routes.draw do
       resources :types, only: [:index, :show]
       resources :search, only: [:index]
       resources :infos, only: [:show]
+      resources :videos, only: [:show]
     end
 
     namespace :videos do
