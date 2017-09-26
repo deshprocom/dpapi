@@ -24,8 +24,8 @@ module V10
       end
 
       def v20_index
-        chinese_ids = @current_user.user_extras.where(cert_type: 'chinese_id')
-        passport_ids = @current_user.user_extras.where(cert_type: 'passport_id')
+        chinese_ids = @current_user.user_extras.where(cert_type: 'chinese_id').where(is_delete: 0)
+        passport_ids = @current_user.user_extras.where(cert_type: 'passport_id').where(is_delete: 0)
         template = 'v20/account/user_extras/index'
         render template, locals: { api_result: ApiResult.success_result,
                                    chinese_ids: chinese_ids, passport_ids: passport_ids }
