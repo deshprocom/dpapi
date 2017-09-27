@@ -26,8 +26,9 @@ module Services
         @invite_code = params[:invite_code]&.strip&.upcase
         if params[:cert_id].blank?
           @user_extra = UserExtra.find_by!(user_id: @user.id)
+        else
+          @user_extra = @user.user_extras.find(params[:cert_id])
         end
-        @user_extra = @user.user_extras.find(params[:cert_id])
       end
 
       def call
