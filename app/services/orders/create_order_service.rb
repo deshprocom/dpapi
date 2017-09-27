@@ -56,7 +56,7 @@ module Services
       end
 
       def ordering_e_ticket
-        unless UserValidator.email_valid?(@params[:email])
+        unless UserValidator.email_valid?(@params[:email].strip)
           return ApiResult.error_result(PARAM_FORMAT_ERROR)
         end
 

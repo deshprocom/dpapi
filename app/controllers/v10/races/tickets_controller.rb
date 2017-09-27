@@ -8,12 +8,11 @@ module V10
 
       # 选票页面所需数据
       def index
-        @tickets = @race.tickets.tradable
-      end
-
-      def preferential
-        @tickets = @race.tickets.tradable
-        render 'index'
+        if @current_user&.tester?
+          @tickets = @race.tickets.tradable
+        else
+          @tickets = @race.tickets.tradable.everyone
+        end
       end
 
       # 购票页面所需数据

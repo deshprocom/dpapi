@@ -45,7 +45,6 @@ Rails.application.routes.draw do
         resources :sub_races, only: [:index, :show]
         resources :race_ranks, only: [:index]
         resources :tickets, only: [:index, :show] do
-          get 'preferential', on: :collection
           resource :orders, only: [:create]
           resource :unpaid_order, only: [:show]
         end
