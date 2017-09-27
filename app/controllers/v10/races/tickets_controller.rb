@@ -9,10 +9,9 @@ module V10
       # 选票页面所需数据
       def index
         if @current_user&.tester?
-          @tickets = @race.tickets.tradable
-        else
-          @tickets = @race.tickets.tradable.everyone
+          return @tickets = @race.tickets.tradable
         end
+        @tickets = @race.tickets.tradable.everyone
       end
 
       # 购票页面所需数据
