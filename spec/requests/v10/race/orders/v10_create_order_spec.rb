@@ -81,6 +81,24 @@ RSpec.describe '/v10/races/:race_id/ticket/:ticket_id/orders', :type => :request
       expect(order.ticket_type).to  eq('entity_ticket')
     end
 
+    it '兼容老版本：成功购买实体票' do
+      race_id = race.id
+      params = entity_ticket_params.dup
+      params[:cert_id] = nil
+      post v10_race_ticket_orders_url(race_id, ticket.id),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to   eq(0)
+
+      order = user.orders.find_by(ticket_id: ticket.id)
+      expect(order).to be_truthy
+      expect(order.status).to  eq('unpaid')
+      expect(order.ticket_type).to  eq('entity_ticket')
+    end
+
     # it '购买电子票:当用户实名状态为init，应改成 pending' do
     #   user_extra.update(status: 'init')
     #   post v10_race_ticket_orders_url(race.id, ticket.id),
