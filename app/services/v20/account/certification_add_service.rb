@@ -40,9 +40,9 @@ module Services
           return ApiResult.error_result(CERT_NO_FORMAT_WRONG) unless check_card_format(user_params[:cert_type],
                                                                                        user_params[:cert_no])
           # 查询证件是否已经被认证过了 认证过了的不能再次认证
-          if UserExtra.where(cert_no: user_params[:cert_no]).where(status: 'passed').exists?
-            return ApiResult.error_result(CERT_NO_ALREADY_EXIST)
-          end
+          # if UserExtra.where(cert_no: user_params[:cert_no]).where(status: 'passed').exists?
+          #   return ApiResult.error_result(CERT_NO_ALREADY_EXIST)
+          # end
 
           # 判断是创建数据 还是修改数据
           return update_extra(user_params, user) if user_params[:extra_id].present?
@@ -121,7 +121,7 @@ module Services
         end
 
         def cert_no_exist?(user, user_params)
-          user.user_extras.where(cert_no: user_params[:cert_no]).exists?
+          user.user_extras.where(cert_no: user_params[:cert_no]).where(is_delete: 0).exists?
         end
       end
     end
