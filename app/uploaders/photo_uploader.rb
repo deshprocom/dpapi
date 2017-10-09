@@ -1,5 +1,4 @@
 class PhotoUploader < BaseUploader
-
   process resize_to_limit: [1080, nil]
 
   def filename
