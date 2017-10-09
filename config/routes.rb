@@ -112,6 +112,10 @@ Rails.application.routes.draw do
       resources :wx_notify, only: [:create]
     end
 
+    scope module: :homepage do
+      resources :banners
+    end
+
     resources :app_versions, only:[:index]
     resources :race_hosts, only:[:index]
     resources :feedbacks, only: [:create]
