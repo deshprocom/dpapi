@@ -3,7 +3,7 @@ module V10
     class TicketsController < ApplicationController
       include UserAccessible
       before_action :current_user
-      before_action :set_race, only: [:index, :preferential]
+      before_action :set_race, only: [:index]
       before_action :set_tickets, only: [:show]
 
       # 选票页面所需数据
