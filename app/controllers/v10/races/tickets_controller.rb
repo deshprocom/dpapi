@@ -3,17 +3,14 @@ module V10
     class TicketsController < ApplicationController
       include UserAccessible
       before_action :current_user
-      before_action :set_race, only: [:index, :preferential]
+      before_action :set_race, only: [:index]
       before_action :set_tickets, only: [:show]
 
       # 选票页面所需数据
       def index
-        @tickets = @race.tickets.tradable
-      end
+        return @tickets = @race.tickets.tradable if @current_user&.tester?
 
-      def preferential
-        @tickets = @race.tickets.tradable
-        render 'index'
+        @tickets = @race.tickets.tradable.everyone
       end
 
       # 购票页面所需数据

@@ -45,7 +45,6 @@ Rails.application.routes.draw do
         resources :sub_races, only: [:index, :show]
         resources :race_ranks, only: [:index]
         resources :tickets, only: [:index, :show] do
-          get 'preferential', on: :collection
           resource :orders, only: [:create]
           resource :unpaid_order, only: [:show]
         end
@@ -111,6 +110,11 @@ Rails.application.routes.draw do
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
+    end
+
+    scope module: :homepage do
+      resources :banners, only: [:index]
+      resources :headlines, only: [:index]
     end
 
     resources :app_versions, only:[:index]
