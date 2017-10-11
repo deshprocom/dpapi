@@ -115,6 +115,7 @@ Rails.application.routes.draw do
     scope module: :homepage do
       resources :banners, only: [:index]
       resources :headlines, only: [:index]
+      resources :hot_infos, only: [:index]
     end
 
     resources :app_versions, only:[:index]
