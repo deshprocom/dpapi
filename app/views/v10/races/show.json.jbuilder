@@ -42,6 +42,6 @@ json.data do
   end
 
   json.blinds do
-    json.partial! 'v10/races/blinds', blinds: @race.race_blinds.level_asc
+    json.partial! 'v10/races/blinds', blinds: @race.race_blinds.position_asc
   end
 end
