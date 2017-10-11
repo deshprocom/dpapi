@@ -27,7 +27,7 @@ json.data do
   end
 
   json.blinds do
-    blinds = @sub_race.race_blinds.level_asc
+    blinds = @sub_race.race_blinds.position_asc
     json.partial! 'v10/races/blinds', blinds: blinds
   end
 end
