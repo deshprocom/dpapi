@@ -95,7 +95,11 @@ Rails.application.routes.draw do
     end
 
     namespace :videos do
-      resources :types, only: [:index, :show]
+      resources :types, only: [:index, :show] do
+        resources :main_lists, only: [:index] do
+          resources :sub_videos, only: [:index]
+        end
+      end
       resources :search, only: [:index]
     end
 
