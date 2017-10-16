@@ -9,10 +9,5 @@ json.data do
       json.partial! 'v10/videos/new_base', video: video
     end
   end
-  unless top_video.nil?
-    json.topped do
-      json.partial! 'v10/videos/new_base', video: top_video
-    end
-  end
   json.next_id next_id.to_s
 end

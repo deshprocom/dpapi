@@ -96,11 +96,13 @@ Rails.application.routes.draw do
 
     namespace :videos do
       resources :types, only: [:index, :show] do
-        resources :main_lists, only: [:index] do
-          resources :sub_videos, only: [:index]
-        end
+        resources :main_lists, only: [:index]
+      end
+      resources :group, only: [] do
+        resources :sub_videos, only: [:index]
       end
       resources :search, only: [:index]
+      resources :search_main_videos, only: [:index]
     end
 
     namespace :weixin do
