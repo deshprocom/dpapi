@@ -11,3 +11,4 @@ json.video_duration video.video_duration.to_s
 json.top            false
 json.is_main        video.is_main
 json.description    video.description.to_s
+json.created_at     video.created_at.to_i
