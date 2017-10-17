@@ -1,6 +1,6 @@
 module DpAPI
   SUPPORT_HEADER_LANG = %w(zh en).freeze
-  SWITCH_MODEL_LIST = %w(Info InfoType Race RaceDesc Ticket Video VideoType).freeze
+  SWITCH_MODEL_LIST = %w(Info InfoType Race RaceDesc Ticket Video VideoType VideoGroup).freeze
 
   class SwitchTableLang
     def initialize(app)
