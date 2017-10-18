@@ -8,7 +8,7 @@ json.data do
     json.array! @headlines do |headline|
       json.source_type  headline.source_type.downcase
       json.source_id    headline.source_id
-      json.title        headline.title
+      json.title        headline.source_title
     end
   end
 end
