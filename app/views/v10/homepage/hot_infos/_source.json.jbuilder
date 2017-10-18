@@ -1,5 +1,6 @@
 if source.class.name == 'Info'
   json.info do
+    json.id          source.id
     json.title       source.title.to_s
     json.date        source.date
     json.image_thumb source.image_thumb.to_s
