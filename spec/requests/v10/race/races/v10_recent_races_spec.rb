@@ -54,7 +54,7 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
   end
 
   context '给定存在10条即将到来的赛事，当获取赛事时' do
-    it '应当返回最近的5条赛事' do
+    it '应当返回最近的10条赛事' do
       init_recent_races
       get v10_u_recent_races_url(0),
            headers: http_headers
@@ -64,7 +64,7 @@ RSpec.describe '/v10/u/:u_id/recent_races', :type => :request do
       expect(json['code']).to eq(0)
       races = json['data']['items']
       expect(races.class).to      eq(Array)
-      expect(races.size).to       eq(5)
+      expect(races.size).to       eq(10)
       races.each do |race|
         expect(race['name'].class).to       eq(String)
         expect(race['logo'].class).to       eq(String)
