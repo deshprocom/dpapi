@@ -26,12 +26,14 @@ RSpec.describe 'v10_u_search_by_keyword', :type => :request do
   }
 
   context '如果没有传递参数' do
-    it 'should return code: 1100001' do
+    it '返回默认数据' do
       get v10_u_search_by_keyword_url(0),
           headers: http_headers
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
-      expect(json['code']).to eq(1100001)
+      expect(json['code']).to eq(0)
+      data = json['data']['items']
+      expect(data.size).to eq(2)
     end
   end
 

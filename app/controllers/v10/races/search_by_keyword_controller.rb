@@ -4,7 +4,6 @@ module V10
       include Constants::Error::Common
       def index
         optional! :page_size, values: 0..100, default: 20
-        requires! :keyword
         api_result = Services::Races::SearchByKeywordService.call(search_params)
         render_api_result(api_result)
       end
