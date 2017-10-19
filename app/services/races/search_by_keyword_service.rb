@@ -5,7 +5,6 @@ module Services
       include Constants::Error::Common
 
       def initialize(search_params)
-        @seq_id     = search_params[:seq_id].to_i
         @user_uuid  = search_params[:u_id]
         @page_size  = search_params[:page_size]
         @keyword    = search_params[:keyword]
@@ -13,9 +12,8 @@ module Services
 
       def call
         races = with_keyword_races(main_race)
-                .where('seq_id > ?', @seq_id)
                 .limit(@page_size)
-                .date_asc
+                .begin_date_desc
         ApiResult.success_with_data(races: races, user: User.by_uuid(@user_uuid))
       end
 

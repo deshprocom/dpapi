@@ -3,7 +3,7 @@ module V10
     class SearchByKeywordController < ApplicationController
       include Constants::Error::Common
       def index
-        optional! :page_size, values: 0..100, default: 20
+        optional! :page_size, values: 0..100, default: 30
         api_result = Services::Races::SearchByKeywordService.call(search_params)
         render_api_result(api_result)
       end
