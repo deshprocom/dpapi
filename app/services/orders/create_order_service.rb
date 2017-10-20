@@ -24,6 +24,7 @@ module Services
         @user   = user
         @params = params
         @invite_code = params[:invite_code]&.strip&.upcase
+        # 兼容老版本不传cert_it的情况，
         if params[:cert_id].blank?
           return @user_extra = UserExtra.find_by!(user_id: @user.id)
         end
@@ -43,9 +44,6 @@ module Services
           return ApiResult.error_result(TICKET_STATUS_ERRORS[@ticket.status.to_sym])
         end
 
-        if @invite_code.present? && !InviteCode.exists?(code: @invite_code)
-          return ApiResult.error_result(INVITE_CODE_NOT_EXIST)
-        end
         ##
         # 放开购买次数限制
         # if PurchaseOrder.purchased?(@user.id, @race.id)
@@ -116,13 +114,25 @@ module Services
         ApiResult.success_result
       end
 
+      def discount_price
+        code_info = InviteCode.find_by(code: @invite_code)
+        # return @ticket.price if code_info.nil? || code_info.no_discount? || code_info.coupon_number.zero?
+        if code_info&.rebate?
+          return @ticket.price * (code_info.coupon_number / 100.to_f)
+        end
+
+        return (@ticket.price - code_info.coupon_number) if code_info&.reduce?
+
+        @ticket.price
+      end
+
       def init_order_params
         {
           user:           @user,
           race:           @race,
           ticket:         @ticket,
           user_extra:     @user_extra,
-          price:          @ticket.price,
+          price:          discount_price,
           original_price: @ticket.original_price,
           ticket_type:    @params[:ticket_type],
           email:          @params[:email],
