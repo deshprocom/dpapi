@@ -46,22 +46,11 @@ RSpec.describe 'v10_u_search_by_keyword', :type => :request do
       json = JSON.parse(response.body)
       expect(json['code']).to eq(0)
       data = json['data']['items']
-      last_id = json['data']['last_id']
+      first_id = json['data']['first_id']
       expect(data.size).to eq(2)
-      expect(last_id.to_i).to eq(race2.seq_id)
+      expect(first_id.to_i).to eq(race2.seq_id)
     end
 
-    it '传seq_id, 应返回的记录条数是1' do
-      seq_id = Race.seq_asc.first.seq_id
-      get v10_u_search_by_keyword_url(0),
-          headers: http_headers,
-          params: { keyword: '2017APT', seq_id: seq_id }
-      expect(response).to have_http_status(200)
-      json = JSON.parse(response.body)
-      expect(json['code']).to eq(0)
-      races = json['data']['items']
-      expect(races.size).to eq(1)
-    end
   end
 
   context '应只返回主赛事' do
