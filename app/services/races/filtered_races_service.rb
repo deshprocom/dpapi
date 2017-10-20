@@ -25,7 +25,7 @@ module Services
       end
 
       def from_now_races
-        races = resource.where('begin_date >= ?', Time.now.strftime('%Y-%m-%d'))
+        races = resource.where('end_date >= ?', Time.now.strftime('%Y-%m-%d'))
                         .seq_asc.limit(@page_size)
         races = backward_races(MAX_SEQ_ID) if races.count.zero?
         races_result(races)
