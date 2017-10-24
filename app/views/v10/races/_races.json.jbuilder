@@ -16,5 +16,5 @@ json.array! races do |race|
   json.describable     race.describable
   json.followed        RaceFollow.followed?(user.try(:id), race.id)
   json.ordered         PurchaseOrder.purchased?(user.try(:id), race.id)
-  json.min_price number_with_delimiter(race.tickets.pluck(:price).min).to_s
+  json.min_price number_with_delimiter(race.tickets.tradable.everyone.pluck(:price).min).to_s
 end
