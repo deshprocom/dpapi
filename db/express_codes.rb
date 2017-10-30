@@ -2240,7 +2240,7 @@ express_code = [
 ]
 
 unless ExpressCode.where(name: 'ZY_ZCSD').exists?
-  t.collect do |item|
-    ExpressCode.create(id: item.id, name: item.name, express_code: item.express_code, region: item.region)
+  express_code.collect do |item|
+    ExpressCode.create(id: item[:id], name: item[:name], express_code: item[:express_code], region: item[:region])
   end
 end
