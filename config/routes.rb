@@ -130,6 +130,12 @@ Rails.application.routes.draw do
     resources :activities, only: [:index, :show] do
       get 'pushed', on: :collection
     end
+
+    scope module: :shop do
+      resources :categories, only: [:index] do
+        get 'children', on: :member
+      end
+    end
   end
 
   unless Rails.env.production?
