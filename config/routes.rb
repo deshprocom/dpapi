@@ -134,7 +134,10 @@ Rails.application.routes.draw do
     scope module: :shop do
       resources :categories, only: [:index] do
         get 'children', on: :member
+        get 'products', on: :member
       end
+
+      resources :products
     end
   end
 
