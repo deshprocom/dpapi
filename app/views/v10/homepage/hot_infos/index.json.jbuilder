@@ -7,7 +7,7 @@ json.data do
   json.hot_infos do
     json.array! @hot_infos do |hot_info|
       next if hot_info.source.nil?
-	
+
       json.source_type hot_info.source_type.downcase
       json.partial!    'source', source: hot_info.source
     end
