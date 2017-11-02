@@ -12,6 +12,7 @@ json.data do
     json.logo            @race.preview_logo
     json.big_logo        @race.big_logo
     json.prize           @race.prize
+    json.blind           @race.blind
     json.location        @race.location.to_s
     json.participants    @race.participants.to_s
     json.begin_date      @race.begin_date
