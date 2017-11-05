@@ -18,11 +18,11 @@ class CreateProductVariants < ActiveRecord::Migration[5.0]
       t.references :product
       t.string     :sku,                default: '', null: false, comment: 'sku'
       t.string     :sku_option_values,  default: '', null: false, comment: '该sku(单品)所有选项值的json数据'
-      t.decimal    :price,              precision: 8, scale: 2, null: false, comment: '实付金额'
-      t.decimal    :original_price,     precision: 8, scale: 2
+      t.decimal    :price,              precision: 8, scale: 2, default: 0, comment: '实付金额'
+      t.decimal    :original_price,     precision: 8, scale: 2, default: 0
       t.decimal    :weight,             precision: 8, scale: 3, comment: '商品重量，计量单位为kg'
       t.decimal    :volume,             precision: 8, scale: 2, comment: '商品体积，计量单位为m3'
-      t.integer    :stock,              comment: '库存'
+      t.integer    :stock,              default: 0, comment: '库存'
       t.string     :origin_point,       comment: '发货地点'
       t.boolean    :is_master,          default: false, comment: 'true 为商品的默认variant的属性'
       t.datetime   :deleted_at
