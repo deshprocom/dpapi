@@ -1,4 +1,4 @@
-express_code = [
+EXPRESS_CODE = [
     {
         "id": 1,
         "name": "AJ",
@@ -2238,9 +2238,3 @@ express_code = [
         "region": "transfer"
     }
 ]
-
-unless ExpressCode.where(name: 'ZY_ZCSD').exists?
-  express_code.collect do |item|
-    ExpressCode.create(id: item[:id], name: item[:name], express_code: item[:express_code], region: item[:region])
-  end
-end
