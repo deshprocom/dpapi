@@ -17,5 +17,7 @@ else
     json.cover_link     source.cover_link.to_s
     json.video_duration source.video_duration.to_s
     json.description    source.description.to_s
+    json.group_id       source.video_group_id
+    json.group_name     source.video_group.try(:name).to_s
   end
 end
