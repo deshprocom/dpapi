@@ -5,6 +5,10 @@ module V10
         @products = Product.page(params[:page]).per(params[:page_size])
         @products = @products.where('title like ?', "%#{params[:keyword]}%") if params[:keyword].present?
       end
+
+      def show
+        @product = Product.find(params[:id])
+      end
     end
   end
 end
