@@ -1,0 +1,10 @@
+json.id                variant.id
+json.sku               variant.sku
+json.sku_option_values variant.sku_option_values_hash
+json.price             variant.price
+json.original_price    variant.original_price
+json.weight            variant.weight
+json.volume            variant.volume
+json.stock             variant.stock
+json.origin_point      variant.origin_point
+json.image             'https://img11.360buyimg.com/n1/s450x450_jfs/t2518/52/10378951/105842/413f9b3d/5631d2b6N8fa76f15.jpg'
