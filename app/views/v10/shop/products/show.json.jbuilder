@@ -25,5 +25,13 @@ json.data do
     json.option_types do
       json.partial! 'option_types', product: @product
     end
+
+    json.images do
+      json.array! @product.images do |image|
+        json.id      image.id
+        json.preview image.preview
+        json.large   image.large
+      end
+    end
   end
 end
