@@ -3,8 +3,8 @@ module V10
     class TicketsController < ApplicationController
       include UserAccessible
       before_action :current_user
-      before_action :set_race, only: [:index]
-      before_action :set_tickets, only: [:show]
+      before_action :set_race, only: [:index, :show]
+      before_action :set_ticket, only: [:show]
 
       # 选票页面所需数据
       def index
@@ -24,8 +24,8 @@ module V10
         @race = Race.find(params[:race_id])
       end
 
-      def set_tickets
-        @ticket = Ticket.find(params[:id])
+      def set_ticket
+        @ticket = @race.tickets.find(params[:id])
       end
     end
   end
