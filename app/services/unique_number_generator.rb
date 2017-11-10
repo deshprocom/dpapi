@@ -4,12 +4,14 @@
 # key                model中被唯一的编号字段
 # incr_min_length   增加量的最小长度
 #
+# return 只返回数字字符
 module Services
   class UniqueNumberGenerator
     include Serviceable
     attr_accessor :model, :key, :incr_min_length
-    TIME_FORMAT_LENGTH = 12
-
+    MODE_PREFIX_MAP = {
+      PurchaseOrder: '1'
+    }
     def initialize(model, key = :order_number, incr_min_length = 5)
       self.model = model
       self.key = key
@@ -17,7 +19,11 @@ module Services
     end
 
     def call
-      "#{current_time_prefix}#{padded_today_increment}"
+      "#{number_prefix}#{padded_today_increment}"
+    end
+
+    def number_prefix
+      "#{MODE_PREFIX_MAP.fetch(model.name.to_sym)}#{current_time_prefix}"
     end
 
     def padded_today_increment
@@ -42,12 +48,14 @@ module Services
     end
 
     def restore_today_increment
-      last_increment = last_record_number[TIME_FORMAT_LENGTH..-1].to_i
+      last_increment = last_record_number[number_prefix.size..-1].to_i
       Rails.cache.increment(today_cache_key, last_increment + 1)
     end
 
     def today_record_exist?
-      last_record_number && last_record_number.first(TIME_FORMAT_LENGTH) == current_time_prefix
+      today_prefix_len = number_prefix.size - 4
+      last_record_number &&
+        last_record_number.first(today_prefix_len) == number_prefix.first(today_prefix_len)
     end
 
     def last_record_number
@@ -55,15 +63,15 @@ module Services
     end
 
     def today_cache_key
-      "#{model}::#{key}::#{today_prefix}::increment"
+      "#{model}::#{key}::#{today_str}::increment"
     end
 
-    def today_prefix
-      @today_prefix ||= Time.current.strftime('%Y%m%d')
+    def today_str
+      @today_str ||= Time.current.strftime('%Y%m%d')
     end
 
     def current_time_prefix
-      @current_time_prefix ||= Time.current.strftime('%Y%m%d%H%M')
+      @current_time_prefix ||= Time.current.strftime('%y%m%d%H%M')
     end
   end
 end
