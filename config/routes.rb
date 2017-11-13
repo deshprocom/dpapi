@@ -138,6 +138,7 @@ Rails.application.routes.draw do
       end
 
       resources :products
+      resources :recommended_products, only:[:index]
     end
   end
 
