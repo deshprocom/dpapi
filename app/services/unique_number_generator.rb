@@ -11,7 +11,7 @@ module Services
     attr_accessor :model, :key, :incr_min_length
     MODE_PREFIX_MAP = {
       PurchaseOrder: '1'
-    }
+    }.freeze
     def initialize(model, key = :order_number, incr_min_length = 5)
       self.model = model
       self.key = key
