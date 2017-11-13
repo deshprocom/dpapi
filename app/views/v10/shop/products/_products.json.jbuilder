@@ -4,5 +4,5 @@ json.array! products do |product|
   json.title          product.title
   json.icon           product.preview_icon
   json.price          product.master.price
-  json.all_stock      88
+  json.all_stock      product.master.stock
 end
