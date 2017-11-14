@@ -10,7 +10,8 @@ module Services
     include Serviceable
     attr_accessor :model, :key, :incr_min_length
     MODE_PREFIX_MAP = {
-      PurchaseOrder: '1'
+      PurchaseOrder: '1',
+      ProductOrder: '2'
     }.freeze
     def initialize(model, key = :order_number, incr_min_length = 5)
       self.model = model
