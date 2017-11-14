@@ -18,9 +18,12 @@ class CreateProductOrders < ActiveRecord::Migration[5.0]
     create_table   :product_order_items do |t|
       t.references :product_order
       t.references :variant
-      t.decimal    :price, null: false, precision: 8, scale: 2, comment: '商品价格'
+      t.decimal    :original_price, null: false, precision: 8, scale: 2, comment: '原始价格'
+      t.decimal    :price, null: false, precision: 8, scale: 2, comment: '实际价格'
       t.integer    :number, null: false, comment: '购买数量'
+      t.string     :sku_value, default: '', comment: '商品属性组合'
       t.string     :shipping_status, default: 'unshipped', comment: '发货状态'
+      t.timestamps
     end
 
     create_table :product_shipments do |t|
@@ -28,11 +31,13 @@ class CreateProductOrders < ActiveRecord::Migration[5.0]
       t.references :express_code
       t.string :shipping_company, comment: '快递公司'
       t.string :shipping_number, comment: '快递单号'
+      t.timestamps
     end
 
     create_table :product_shipment_with_order_items do |t|
       t.references :product_shipment
       t.references :product_order_item
+      t.timestamps
     end
 
     create_table :product_shipping_addresses do |t|
@@ -44,6 +49,9 @@ class CreateProductOrders < ActiveRecord::Migration[5.0]
       t.string :address
       t.string :mobile
       t.string :zip
+      t.string :change_reason, comment: '后台修改地址的原因'
+      t.string :memo, comment: '修改备注'
+      t.timestamps
     end
 
     create_table :product_wx_bills do |t|
