@@ -13,6 +13,9 @@ json.data do
       json.address ads.address.to_s
       json.address_detail ads.address_detail.to_s
       json.default ads.default
+      json.province ads.province
+      json.city ads.city
+      json.area ads.area
     end
   end
 end
