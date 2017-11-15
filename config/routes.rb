@@ -116,6 +116,7 @@ Rails.application.routes.draw do
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
+      resources :wx_shop_order_notify, only: [:create]
     end
 
     scope module: :homepage do
@@ -139,6 +140,14 @@ Rails.application.routes.draw do
 
       resources :products
       resources :recommended_products, only:[:index]
+    end
+
+    scope module: 'shop_orders' do
+      resources :users, only: [] do
+        resources :shop_orders do
+          resources :wx_pay, only: [:create]
+        end
+      end
     end
   end
 
