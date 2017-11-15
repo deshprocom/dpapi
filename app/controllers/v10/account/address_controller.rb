@@ -23,7 +23,10 @@ module V10
                       :address,
                       :address_detail,
                       :post_code,
-                      :default)
+                      :default,
+                      :province,
+                      :city,
+                      :area)
       end
 
       def render_api_result(api_result)
