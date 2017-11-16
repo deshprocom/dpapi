@@ -1,6 +1,7 @@
 json.id                variant.id
 json.sku               variant.sku
-json.sku_option_values variant.sku_option_values_hash
+json.sku_option_values variant.sku_option_values
+json.text_sku_values   variant.text_sku_values
 json.price             variant.price
 json.original_price    variant.original_price
 json.weight            variant.weight
