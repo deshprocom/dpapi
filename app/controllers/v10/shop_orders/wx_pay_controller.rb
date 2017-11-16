@@ -2,7 +2,7 @@ module V10
   module ShopOrders
     class WxPayController < ApplicationController
       include UserAccessible
-      before_action :login_required, :user_self_required, :set_order
+      before_action :login_required, :set_order
 
       def create
         pay_order_service = Services::ShopOrders::WxPayService

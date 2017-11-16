@@ -15,7 +15,7 @@ module Services
         result = WxPay::Service.invoke_unifiedorder(pay_params)
         unless result.success?
           # 微信统一下单失败
-          Rails.logger.info("WX_PAY ERROR number=#{@order.order_number}: #{result.to_s}")
+          Rails.logger.info("WX_PAY ERROR number=#{@order.order_number}: #{result}")
           return ApiResult.error_result(PAY_ERROR)
         end
         # 生成唤起支付需要的参数

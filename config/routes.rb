@@ -143,10 +143,9 @@ Rails.application.routes.draw do
     end
 
     scope module: 'shop_orders' do
-      resources :users, only: [] do
-        resources :shop_orders do
-          resources :wx_pay, only: [:create]
-        end
+      resources :product_orders do
+        post 'new', on: :collection
+        resources :wx_pay, only: [:create]
       end
     end
   end
