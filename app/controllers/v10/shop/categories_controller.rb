@@ -11,7 +11,7 @@ module V10
 
       def products
         category = Category.find(params[:id])
-        @products = Product.in_category(category).page(params[:page]).per(params[:page_size])
+        @products = Product.published.in_category(category).page(params[:page]).per(params[:page_size])
         render 'v10/shop/products/index'
       end
     end
