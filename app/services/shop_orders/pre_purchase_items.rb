@@ -34,7 +34,7 @@ module Services
 
       def total_product_price
         @total_product_price ||= @order_items.inject(0) do |n, item|
-          item.variant.price + n
+          (item.variant.price * item.number) + n
         end
       end
 

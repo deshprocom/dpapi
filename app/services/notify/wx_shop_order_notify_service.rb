@@ -50,11 +50,11 @@ module Services
       end
 
       def result_accord_with_order?
-        @product_order.total_price == @order_result['total_fee']
+        (@product_order.total_price * 100).to_i == @order_result['total_fee']
       end
 
       def order_to_paid
-        @product_order.paid! if @product_order.unpaid?
+        @product_order.update(status: 'paid', pay_status: 'paid') if @product_order.unpaid?
       end
 
       def api_result(code, msg)
@@ -71,7 +71,7 @@ module Services
           is_subscribe: @order_result['is_subscribe'],
           mch_id: @order_result['mch_id'],
           open_id: @order_result['openid'],
-          out_trade_no: @order_result['out_trade_no'],
+          product_order: @product_order,
           result_code: @order_result['result_code'],
           return_code: @order_result['return_code'],
           time_end: @order_result['time_end'],

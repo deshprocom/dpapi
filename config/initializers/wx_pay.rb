@@ -7,4 +7,7 @@ WxPay.mch_id = ENV['MCH_ID']
 WxPay.appsecret = ENV['APP_SECRET']
 
 # optional - configurations for RestClient timeout, etc.
-WxPay.extra_rest_client_options = { timeout: 2, open_timeout: 3 }
+WxPay.extra_rest_client_options = { timeout: 30, open_timeout: 30 }
+
+# 测试环境时，调用微信的沙盒环境
+WxPay.sandbox_mode = true if Rails.env.test?
