@@ -13,7 +13,7 @@ module V10
       private
 
       def set_order
-        @order = @current_user.product_orders.find_by!(order_number: params[:order_id])
+        @order = @current_user.product_orders.find_by!(order_number: params[:product_order_id])
       end
 
       def render_api_result(api_result)
