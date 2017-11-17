@@ -1,4 +1,5 @@
 json.id                variant.id
+json.product_id        variant.product_id
 json.sku               variant.sku
 json.sku_option_values variant.sku_option_values
 json.text_sku_values   variant.text_sku_values
