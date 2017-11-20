@@ -7,6 +7,8 @@ json.data do
   json.items do
     json.array! @pre_purchase_items.order_items do |item|
       json.number  item.number
+      json.title   item.variant.product.title
+      json.seven_days_return true
       json.variant do
         json.partial! 'v10/shop/products/variant', variant: item.variant
       end
