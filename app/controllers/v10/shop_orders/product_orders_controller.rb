@@ -5,6 +5,17 @@ module V10
       include Constants::Error::Order
       before_action :login_required
 
+      def index
+        page_size = params[:page_size].blank? ? '10' : params[:page_size]
+        next_id = params[:next_id].to_i <= 0 ? 1 : params[:next_id].to_i
+        orders = @current_user.product_orders.order(created_at: :desc).page(next_id).per(page_size)
+        next_id += 1
+        template = 'v10/shop_order/product_orders/index'
+        render template, locals: { api_result: ApiResult.success_result,
+                                   orders: orders,
+                                   next_id: next_id }
+      end
+
       def new
         shipping_info = params[:shipping_info] || {}
         province = shipping_info[:address] && shipping_info[:address][:province]
