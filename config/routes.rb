@@ -145,6 +145,7 @@ Rails.application.routes.draw do
     scope module: 'shop_orders' do
       resources :product_orders do
         post 'new', on: :collection
+        get  'wx_paid_result', on: :member
         resources :wx_pay, only: [:create]
       end
     end

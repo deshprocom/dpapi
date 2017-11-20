@@ -2,23 +2,35 @@ module Services
   module ShopOrders
     class PrePurchaseItems
       attr_reader :order_items
+      attr_reader :invalid_order_items
       def initialize(variants, province = nil)
         @province = province
-        @order_items = variants.to_a.map do |variant|
-          ProductOrderItem.new(variant: Variant.find(variant[:id]),
-                               number: variant[:number].to_i)
+        @order_items = []
+        @invalid_order_items = []
+
+        variants.to_a.each do |variant|
+          discern_items(variant)
         end
+      end
+
+      def discern_items(variant)
+        obj = Variant.find_by(id: variant[:id])
+        return @invalid_order_items << variant[:id] if obj.nil?
+
+        return @invalid_order_items << obj.id unless obj.product.published?
+
+        return @invalid_order_items << obj.id if variant[:number] > obj.stock
+
+        @order_items <<  ProductOrderItem.new(variant: obj, number: variant[:number].to_i)
       end
 
       def purchasable_check
         return '无效的商品参数' if order_items.blank?
 
         order_items.each do |item|
-          return "该商品已下架：#{item.variant.product.title}" unless item.variant.product.published?
-
           return '购买数量不能小于等于0' if item.number <= 0
-
-          return "商品:#{item.variant.product.title}库存不足：" if item.number > item.variant.stock
+          # next @invalid_order_items << item.variant.id unless item.variant.product.published?
+          # next @invalid_order_items << item.variant.id if item.number > item.variant.stock
         end
 
         'ok'

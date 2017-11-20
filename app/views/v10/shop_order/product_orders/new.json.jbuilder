@@ -15,6 +15,7 @@ json.data do
     end
   end
 
+  json.invalid_items       @pre_purchase_items.invalid_order_items
   json.shipping_price      @pre_purchase_items.shipping_price
   json.total_product_price @pre_purchase_items.total_product_price
   json.total_price         @pre_purchase_items.total_price
