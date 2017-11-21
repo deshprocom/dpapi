@@ -37,6 +37,11 @@ module V10
 
         render 'v10/shop_order/product_orders/create', locals: { order: result.data[:order] }
       end
+
+      def show
+        @order = @current_user.product_orders.find_by!(order_number: params[:id])
+        render 'v10/shop_order/product_orders/show'
+      end
     end
   end
 end
