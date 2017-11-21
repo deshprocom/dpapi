@@ -9,7 +9,12 @@ module V10
       def index
         page_size = params[:page_size].blank? ? '10' : params[:page_size]
         next_id = params[:next_id].to_i <= 0 ? 1 : params[:next_id].to_i
-        orders = @current_user.product_orders.order(created_at: :desc).page(next_id).per(page_size)
+        orders = @current_user.product_orders.order(created_at: :desc)
+        if ProductOrder.statuses.keys.include?(params[:status])
+          status = params[:status] == 'paid' ? %w(paid delivered) : params[:status]
+          orders = orders.where(status: status)
+        end
+        orders = orders.page(next_id).per(page_size)
         next_id += 1
         template = 'v10/shop_order/product_orders/index'
         render template, locals: { api_result: ApiResult.success_result,
