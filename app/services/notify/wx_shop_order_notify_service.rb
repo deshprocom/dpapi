@@ -2,6 +2,7 @@ module Services
   module Notify
     class WxShopNotifyNotifyService
       include Serviceable
+      include Constants::Error::Order
 
       def initialize(order_result)
         Rails.logger.info "wx notify: #{order_result}"
@@ -13,22 +14,22 @@ module Services
         # 验证签名是否正确
         unless sign_correct?
           Rails.logger.info "WX_PAY FAIL, 验证签名错误: #{@order_result}"
-          return api_result('FAIL', '验证签名失败')
+          return error_result('验证签名失败')
         end
 
-        return api_result('SUCCESS', 'OK') if repeated_notify?
+        return ApiResult.success_result if repeated_notify?
 
         # 记录的微信账单
         ProductWxBill.create(bill_params)
 
         # 判断请求是否成功
-        return api_result('FAIL', '微信交易失败') unless transaction_success?
+        return error_result('微信交易失败') unless transaction_success?
 
         # 检查订单是否存在，订单的金额是否和数据库一致
-        return api_result('FAIL', '订单金额不匹配') unless result_accord_with_order?
+        return error_result('订单金额不匹配') unless result_accord_with_order?
 
         order_to_paid
-        api_result('SUCCESS', 'OK')
+        ApiResult.success_result
       end
 
       private
@@ -38,7 +39,7 @@ module Services
       end
 
       def wx_bill_exists?
-        ProductWxBill.exists?(transaction_id: @order_result[:transaction_id])
+        ProductWxBill.exists?(transaction_id: @order_result['transaction_id'])
       end
 
       def transaction_success?
@@ -50,18 +51,15 @@ module Services
       end
 
       def result_accord_with_order?
-        (@product_order.total_price * 100).to_i == @order_result['total_fee']
+        (@product_order.total_price * 100).to_i == @order_result['total_fee'].to_i
       end
 
       def order_to_paid
         @product_order.update(status: 'paid', pay_status: 'paid') if @product_order.unpaid?
       end
 
-      def api_result(code, msg)
-        {
-          return_code: code,
-          return_msg: msg
-        }
+      def error_result(msg)
+        ApiResult.error_result(INVALID_ORDER, msg)
       end
 
       def bill_params
