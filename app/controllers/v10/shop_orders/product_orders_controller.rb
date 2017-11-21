@@ -4,7 +4,7 @@ module V10
       include UserAccessible
       include Constants::Error::Order
       before_action :login_required
-      before_action :set_order, only: [:wx_paid_result]
+      before_action :set_order, only: [:wx_paid_result, :show]
 
       def index
         page_size = params[:page_size].blank? ? '10' : params[:page_size]
@@ -37,6 +37,10 @@ module V10
         return render_api_error(result.code, result.msg) if result.failure?
 
         render 'v10/shop_order/product_orders/create', locals: { order: result.data[:order] }
+      end
+
+      def show
+        render 'v10/shop_order/product_orders/show'
       end
 
       def wx_paid_result
