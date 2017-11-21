@@ -11,8 +11,7 @@ module V10
         @order.cancel_order('用户取消订单')
         # 返回库存
         @order.product_order_items.each do |item|
-          item.variant[:stock] += item.number
-          item.variant.save
+          item.variant.stock_increase(item.number)
         end
         render_api_success
       end
