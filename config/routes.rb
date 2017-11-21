@@ -147,6 +147,7 @@ Rails.application.routes.draw do
         post 'new', on: :collection
         get  'wx_paid_result', on: :member
         resources :wx_pay, only: [:create]
+        resources :cancel, only: [:create]
       end
     end
   end
