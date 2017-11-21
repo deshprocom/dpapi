@@ -9,22 +9,16 @@ json.data do
       json.partial! 'v10/shop_order/product_orders/order_info', order: order
       json.order_items do
         json.array! order.product_order_items do |item|
-          json.title          item.variant&.product&.title
-          json.original_price item.original_price
-          json.price          item.price
-          json.number         item.number
-          json.sku_value      item.sku_value
-          json.refunded       item.refunded
-          json.image          item.variant&.image&.preview
+          json.partial! 'v10/shop_order/product_orders/order_item', item: item
         end
       end
       json.address do
-        json.name        order.product_shipping_address&.name.to_s
-        json.mobile      order.product_shipping_address&.mobile.to_s
-        json.province    order.product_shipping_address&.province.to_s
-        json.city        order.product_shipping_address&.city.to_s
-        json.area        order.product_shipping_address&.area.to_s
-        json.address     order.product_shipping_address&.address.to_s
+        json.partial! 'v10/shop_order/product_orders/address', order: order
+      end
+      if order.delivered
+        json.shipments do
+          json.partial! 'v10/shop_order/product_orders/shipment', order: order
+        end
       end
     end
   end
