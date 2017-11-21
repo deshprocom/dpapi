@@ -60,7 +60,6 @@ module V10
       def set_order
         @order = @current_user.product_orders.find_by!(order_number: params[:id])
       end
-
     end
   end
 end
