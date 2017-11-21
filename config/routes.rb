@@ -146,6 +146,7 @@ Rails.application.routes.draw do
       resources :product_orders do
         post 'new', on: :collection
         resources :wx_pay, only: [:create]
+        resources :cancel, only: [:create]
       end
     end
   end
