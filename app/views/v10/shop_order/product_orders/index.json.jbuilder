@@ -12,9 +12,9 @@ json.data do
           json.partial! 'v10/shop_order/product_orders/order_item', item: item
         end
       end
-      if @order.delivered
+      if order.delivered
         json.shipments do
-          json.partial! 'v10/shop_order/product_orders/shipment', order: @order
+          json.partial! 'v10/shop_order/product_orders/shipment', order: order
         end
       end
     end
