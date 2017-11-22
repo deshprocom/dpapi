@@ -148,6 +148,7 @@ Rails.application.routes.draw do
         get  'wx_paid_result', on: :member
         resources :wx_pay, only: [:create]
         resources :cancel, only: [:create]
+        resources :confirm, only: [:create]
       end
     end
   end
