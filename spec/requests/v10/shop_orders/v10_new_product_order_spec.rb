@@ -114,7 +114,7 @@ RSpec.describe '/v10/product_orders/new', :type => :request do
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['data']['items'].size).to eq(2)
-      product_price = Product.find(2).master.price + (Product.find(1).master.price * 2)
+      product_price = Product.last.master.price + (Product.first.master.price * 2)
       expect(product_price.to_i).to eq(json['data']['total_product_price'].to_i)
     end
 
