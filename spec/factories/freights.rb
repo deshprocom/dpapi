@@ -4,5 +4,6 @@ FactoryGirl.define do
     first_price  22
     add_price  2
     add_cond 2
+    freight_type 'number'
   end
 end
