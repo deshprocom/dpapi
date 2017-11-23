@@ -19,7 +19,7 @@ module Services
 
         return @invalid_order_items << obj.id unless obj.product.published?
 
-        return @invalid_order_items << obj.id if variant[:number] > obj.stock
+        return @invalid_order_items << obj.id if variant[:number].to_i > obj.stock
 
         @order_items <<  ProductOrderItem.new(variant: obj, number: variant[:number].to_i)
       end
@@ -59,7 +59,7 @@ module Services
         return 0 if freight_free?
 
         @shipping_price ||= @order_items.map do |item|
-          item.variant.product.freight_fee(@province)
+          item.variant.product.freight_fee(@province, item.number)
         end.max
       end
 
