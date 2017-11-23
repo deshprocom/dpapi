@@ -65,7 +65,8 @@ module Services
                                     shipping_price: @pre_purchase_items.shipping_price,
                                     total_product_price: @pre_purchase_items.total_product_price,
                                     total_price: @pre_purchase_items.total_price,
-                                    freight_free: @pre_purchase_items.freight_free?)
+                                    freight_free: @pre_purchase_items.freight_free?,
+                                    memo: @params[:memo])
       end
 
       def shipping_info_invalid?

@@ -144,7 +144,7 @@ Rails.application.routes.draw do
 
     scope module: 'shop_orders' do
       resources :product_orders do
-        post 'new', on: :collection
+        post 'new', on: :collection, as: :new
         get  'wx_paid_result', on: :member
         resources :wx_pay, only: [:create]
         resources :cancel, only: [:create]
