@@ -154,5 +154,33 @@ RSpec.describe '/v10/product_orders/new', :type => :request do
       json = JSON.parse(response.body)
       expect(json['data']['items'].size).to eq(1)
     end
+
+    it '商品不包邮时' do
+      create_product.update(freight_free: false)
+      post new_v10_product_orders_url,
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: order_params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['data']['shipping_price'].to_i > 0).to be_truthy
+      total_price = json['data']['total_product_price'].to_i + json['data']['shipping_price'].to_i
+      expect(total_price).to eq(json['data']['total_price'].to_i)
+    end
+
+    it '购买多个商品, 商品不包邮时' do
+      params = two_variants_params
+      Product.all.update(freight_free: false)
+      post new_v10_product_orders_url,
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: params
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['data']['items'].size).to eq(2)
+      product_price = Product.last.master.price + (Product.first.master.price * 2)
+      expect(product_price.to_i).to eq(json['data']['total_product_price'].to_i)
+      expect(json['data']['shipping_price'].to_i > 0).to be_truthy
+    end
   end
 end
