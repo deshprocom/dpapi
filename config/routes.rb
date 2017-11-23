@@ -151,6 +151,10 @@ Rails.application.routes.draw do
         resources :confirm, only: [:create]
       end
     end
+
+    namespace :shipments do
+      resources :search, only: [:index]
+    end
   end
 
   unless Rails.env.production?
