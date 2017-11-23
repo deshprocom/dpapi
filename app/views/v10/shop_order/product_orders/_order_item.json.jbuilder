@@ -1,4 +1,5 @@
 json.id             item.id
+json.product_id     item.variant&.product&.id
 json.title          item.variant&.product&.title
 json.original_price item.original_price
 json.price          item.price
