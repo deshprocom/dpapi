@@ -8,6 +8,7 @@ module V10
 
       def show
         @product = Product.published.find(params[:id])
+        @product.increase_all_page_view
       end
     end
   end
