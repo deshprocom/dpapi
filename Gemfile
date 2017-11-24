@@ -45,6 +45,7 @@ gem 'dotenv-rails'
 gem 'jwt'
 gem 'resque'
 gem 'jpush', '~> 4.0', '>= 4.0.6'
+gem 'awesome_nested_set' # 无限分类
 
 gem 'faraday'
 
@@ -67,6 +68,9 @@ gem 'kaminari'
 # 微信登录
 gem 'weixin_authorize'
 
+# 物流查询接口
+gem 'kuaidiniao'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
@@ -83,7 +87,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'rails-erd'
   gem 'listen', '~> 3.0.5'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'

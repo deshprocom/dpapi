@@ -116,6 +116,7 @@ Rails.application.routes.draw do
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
+      resources :wx_shop_order_notify, only: [:create]
     end
 
     scope module: :homepage do
@@ -129,6 +130,30 @@ Rails.application.routes.draw do
     resources :feedbacks, only: [:create]
     resources :activities, only: [:index, :show] do
       get 'pushed', on: :collection
+    end
+
+    scope module: :shop do
+      resources :categories, only: [:index] do
+        get 'children', on: :member
+        get 'products', on: :member
+      end
+
+      resources :products
+      resources :recommended_products, only:[:index]
+    end
+
+    scope module: 'shop_orders' do
+      resources :product_orders do
+        post 'new', on: :collection, as: :new
+        get  'wx_paid_result', on: :member
+        resources :wx_pay, only: [:create]
+        resources :cancel, only: [:create]
+        resources :confirm, only: [:create]
+      end
+    end
+
+    namespace :shipments do
+      resources :search, only: [:index]
     end
   end
 
