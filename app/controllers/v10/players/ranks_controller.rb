@@ -6,7 +6,7 @@ module V10
 
       def index
         player = Player.find_by!(player_id: params[:player_id])
-        @ranks = player.race_ranks.order(id: :desc).limit(50)
+        @ranks = player.race_ranks.limit(50)
       end
     end
   end
