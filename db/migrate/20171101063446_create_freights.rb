@@ -6,6 +6,8 @@ class CreateFreights < ActiveRecord::Migration[5.0]
       t.decimal :first_price, precision: 5, scale: 2
       t.integer :add_cond
       t.decimal :add_price, precision: 5, scale: 2
+      t.boolean :default, default: false, comment: '是否默认'
+      t.string  :freight_type, default: '', comment: '类型'
       t.timestamps
     end
   end
