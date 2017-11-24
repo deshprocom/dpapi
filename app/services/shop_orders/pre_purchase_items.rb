@@ -66,17 +66,14 @@ module Services
       def save_to_order(order)
         @order_items.each do |item|
           save_order_item(item, order)
-          stock_decrease(item)
+          item.variant.decrease_stock(item.number)
+          item.variant.product.increase_sales_volume(item.number)
         end
       end
 
       def save_order_item(item, order)
         item.product_order = order
         item.save
-      end
-
-      def stock_decrease(item)
-        item.variant.stock_decrease(item.number)
       end
     end
   end
