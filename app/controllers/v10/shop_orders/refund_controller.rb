@@ -6,8 +6,7 @@ module V10
         refund_type = ProductRefundType.find(params[:product_refund_type_id])
         result = Services::ShopOrders::CreateRefundService.call(user_params, order_item, refund_type)
         return render_api_error(result.code, result.msg) if result.failure?
-        render plain:result.inspect
-        # render 'v10/shop_order/product_orders/create', locals: { order: result.data[:order] }
+        render 'v10/shop_order/refund/create', locals: { refund_record: result.data[:refund_record] }
       end
 
       private
