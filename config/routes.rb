@@ -153,6 +153,8 @@ Rails.application.routes.draw do
           resources :refund, only: [:create]
         end
       end
+
+      resources :refund_types, only: [:index]
     end
 
     namespace :shipments do
