@@ -149,6 +149,9 @@ Rails.application.routes.draw do
         resources :wx_pay, only: [:create]
         resources :cancel, only: [:create]
         resources :confirm, only: [:create]
+        resources :items, only: [:show] do
+          resources :refund, only: [:create]
+        end
       end
     end
 
