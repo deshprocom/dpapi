@@ -1,6 +1,9 @@
 module V10
   module ShopOrders
     class RefundController < ApplicationController
+      include UserAccessible
+      before_action :login_required
+
       def create
         order_item = ProductOrderItem.find(params[:item_id])
         refund_type = ProductRefundType.find(params[:product_refund_type_id])
