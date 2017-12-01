@@ -33,13 +33,13 @@ module Services
         @params[:refund_images].each do |item|
           temp_image = TmpImage.find_by(id: item[:id])
           next if temp_image.blank?
-          ProductRefundImage.create(product_refund: refund_record, image: temp_image.image, memo: item[:content])
+          ProductRefundImage.create(product_refund: refund_record, remote_image_url: temp_image.image_path, memo: item[:content])
           remove_tmp_image(temp_image)
         end
       end
 
       def refund_price_valid?
-        @params[:refund_price] <= @order_item.original_price
+        @params[:refund_price].is_a?(Numeric) && @params[:refund_price] <= @order_item.original_price && @params[:refund_price] > 0
       end
 
       def remove_tmp_image(image)
