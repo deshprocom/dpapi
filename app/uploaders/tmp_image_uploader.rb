@@ -1,6 +1,6 @@
 class TmpImageUploader < BaseUploader
   def store_dir
-    "uploads/tmp"
+    'uploads/tmp'
   end
 
   def filename

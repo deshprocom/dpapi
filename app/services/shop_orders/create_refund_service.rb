@@ -39,7 +39,8 @@ module Services
       end
 
       def refund_price_valid?
-        @params[:refund_price].is_a?(Numeric) && @params[:refund_price] <= @order_item.original_price && @params[:refund_price] > 0
+        @params[:refund_price].is_a?(Numeric) &&
+          @params[:refund_price] <= @order_item.original_price && @params[:refund_price].positive?
       end
 
       def remove_tmp_image(image)
