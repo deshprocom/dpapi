@@ -132,7 +132,6 @@ RSpec.describe '/pay/wx_shop_order_notify', :type => :request do
       order = create_order.reload
       expect(order.status).to eq('unpaid')
       expect(order.pay_status).to eq('unpaid')
-      expect(order.product_wx_bills.size).to eq(1)
     end
   end
 
