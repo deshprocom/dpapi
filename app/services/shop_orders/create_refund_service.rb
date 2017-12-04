@@ -12,13 +12,13 @@ module Services
       end
 
       def call
-        return ApiResult.error_result(REFUND_ALREADY_EXIST) if refund_exists?
+        return ApiResult.error_result(REFUND_ALREADY_EXIST) if could_refund?
         return ApiResult.error_result(CANNOT_REFUND) unless seven_days_return?
         return ApiResult.error_result(INVALID_REFUND_PRICE) unless refund_price_valid?
         refund_record = create_refund
         create_detail(refund_record)
         create_refund_images(refund_record)
-        @order_items.each(&:refunded!)
+        @order_items.each(&:open_refund)
         ApiResult.success_with_data(refund_record: refund_record)
       end
 
@@ -51,9 +51,9 @@ module Services
         !@order_items.pluck(:seven_days_return).include?(false)
       end
 
-      def refund_exists?
-        # 如果有一个商品已经退款中，那么不可退款
-        @order_items.pluck(:refunded).include?(true)
+      def could_refund?
+        # 如果有一个商品不可退款，就不可以退
+        @order_items.collect(&:could_refund?).include?(false)
       end
 
       def refund_price_valid?
