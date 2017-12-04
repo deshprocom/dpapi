@@ -13,7 +13,7 @@ module Services
 
       def call
         return ApiResult.error_result(REFUND_ALREADY_EXIST) if refund_exists?
-        return ApiResult.error_result(CANNOT_REFUND) unless is_seven_days_return?
+        return ApiResult.error_result(CANNOT_REFUND) unless seven_days_return?
         return ApiResult.error_result(INVALID_REFUND_PRICE) unless refund_price_valid?
         refund_record = create_refund
         create_detail(refund_record)
@@ -46,7 +46,7 @@ module Services
         end
       end
 
-      def is_seven_days_return?
+      def seven_days_return?
         # 只要有一个不是7天退换货，就返回false
         !@order_items.pluck(:seven_days_return).include?(false)
       end
