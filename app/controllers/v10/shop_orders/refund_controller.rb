@@ -5,9 +5,10 @@ module V10
       before_action :login_required
 
       def create
-        order_item = ProductOrderItem.find(params[:item_id])
+        order = ProductOrder.find(params[:product_order_id])
+        order_items = ProductOrderItem.find(params[:order_item_ids])
         refund_type = ProductRefundType.find(params[:product_refund_type_id])
-        result = Services::ShopOrders::CreateRefundService.call(user_params, order_item, refund_type)
+        result = Services::ShopOrders::CreateRefundService.call(user_params, order_items, refund_type, order)
         return render_api_error(result.code, result.msg) if result.failure?
         render 'v10/shop_order/refund/create', locals: { refund_record: result.data[:refund_record] }
       end
@@ -18,6 +19,7 @@ module V10
         params.permit(:product_refund_type_id,
                       :refund_price,
                       :memo,
+                      order_item_ids: [],
                       refund_images: [:id, :content])
       end
     end
