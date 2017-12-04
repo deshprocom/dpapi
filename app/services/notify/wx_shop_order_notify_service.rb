@@ -19,9 +19,6 @@ module Services
 
         return ApiResult.success_result if repeated_notify?
 
-        # 记录的微信账单
-        ProductWxBill.create(bill_params)
-
         # 判断请求是否成功
         return error_result('微信交易失败') unless transaction_success?
 
@@ -29,6 +26,8 @@ module Services
         return error_result('订单金额不匹配') unless result_accord_with_order?
 
         order_to_paid
+        # 记录的微信账单
+        ProductWxBill.create(bill_params)
         ApiResult.success_result
       end
 
