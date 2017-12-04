@@ -5,7 +5,7 @@ module V10
       before_action :login_required
 
       def create
-        order = ProductOrder.find(params[:product_order_id])
+        order = ProductOrder.find_by!(order_number: params[:product_order_id])
         order_items = ProductOrderItem.find(params[:order_item_ids])
         refund_type = ProductRefundType.find(params[:product_refund_type_id])
         result = Services::ShopOrders::CreateRefundService.call(user_params, order_items, refund_type, order)

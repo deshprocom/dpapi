@@ -5,5 +5,6 @@ json.original_price item.original_price
 json.price          item.price
 json.number         item.number
 json.sku_value      item.sku_value
-json.refunded       item.refunded
-json.image          item.variant&.image&.preview
+json.refund_status     item.refund_status
+json.seven_days_return item.seven_days_return
+json.image             item.variant&.image&.preview
