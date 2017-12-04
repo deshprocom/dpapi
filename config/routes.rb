@@ -151,12 +151,12 @@ Rails.application.routes.draw do
         resources :cancel, only: [:create]
         resources :confirm, only: [:create]
         resources :refund, only: [:create]
-        # resources :items, only: [:show] do
-        #   resources :refund, only: [:create]
-        # end
       end
 
       resources :refund_types, only: [:index]
+      resources :refund, only: [:show] do
+        resources :refund_record, only: [:index]
+      end
     end
 
     namespace :shipments do
