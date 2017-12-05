@@ -12,7 +12,8 @@ module Services
       end
 
       def call
-        return ApiResult.error_result(REFUND_ALREADY_EXIST) if could_refund?
+        return ApiResult.error_result(OVER_REFUND_TIME) unless @order.could_refund?
+        return ApiResult.error_result(REFUND_ALREADY_EXIST) unless could_refund?
         return ApiResult.error_result(CANNOT_REFUND) unless seven_days_return?
         return ApiResult.error_result(INVALID_REFUND_PRICE) unless refund_price_valid?
         refund_record = create_refund
@@ -53,7 +54,7 @@ module Services
 
       def could_refund?
         # 如果有一个商品不可退款，就不可以退
-        @order_items.collect(&:could_refund?).include?(false)
+        !@order_items.collect(&:could_refund?).include?(false)
       end
 
       def refund_price_valid?

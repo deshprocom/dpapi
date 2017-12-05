@@ -50,6 +50,7 @@ RSpec.describe '/v10/product_orders/:product_order_id/refund', :type => :request
   end
 
   def error_refund_params(order)
+    order.delivered!
     order_item = order.product_order_items.first
     {
         "refund_images": [
@@ -68,6 +69,7 @@ RSpec.describe '/v10/product_orders/:product_order_id/refund', :type => :request
   end
 
   def error_refund_params2(order)
+    order.delivered!
     order_item = order.product_order_items.first
     order_item.update(seven_days_return: true)
     {
@@ -86,7 +88,27 @@ RSpec.describe '/v10/product_orders/:product_order_id/refund', :type => :request
     }
   end
 
+  def error_refund_params3(order, seven_days_return = true)
+    order_item = order.product_order_items.first
+    order_item.update(seven_days_return: seven_days_return)
+    {
+        "refund_images": [
+            {
+                "id": tmp_image.id,
+                "content": "测试"
+            }
+        ],
+        "order_item_ids": [
+            order_item.id
+        ],
+        "memo": "测试退款",
+        "product_refund_type_id": refund_type.id,
+        "refund_price": max_price(order_item)
+    }
+  end
+
   def refund_params(order, seven_days_return = true)
+    order.delivered!
     order_item = order.product_order_items.first
     order_item.update(seven_days_return: seven_days_return)
     {
@@ -139,6 +161,17 @@ RSpec.describe '/v10/product_orders/:product_order_id/refund', :type => :request
       expect(response).to have_http_status(200)
       json = JSON.parse(response.body)
       expect(json['code']).to eq(1110006)
+    end
+
+    it '当传入的商品是未付款状态' do
+      order = create_order.data[:order]
+      post v10_product_order_refund_index_url(order.order_number),
+           headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
+           params: error_refund_params3(order, false)
+
+      expect(response).to have_http_status(200)
+      json = JSON.parse(response.body)
+      expect(json['code']).to eq(1110009)
     end
 
     it '当传入的商品价格超过商品实际价格' do
