@@ -62,8 +62,7 @@ module Services
           total_item_price += item.price * item.number
         end
         max_price = total_item_price + @order.shipping_price
-        @params[:refund_price].is_a?(Numeric) && @params[:refund_price].positive? &&
-          @params[:refund_price] <= max_price
+        @params[:refund_price].to_f.positive? && @params[:refund_price].to_f <= max_price
       end
 
       def remove_tmp_image(image)
