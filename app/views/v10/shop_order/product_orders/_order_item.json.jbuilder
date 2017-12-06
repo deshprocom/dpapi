@@ -11,5 +11,5 @@ json.image             item.variant&.image&.preview
 unless item.refund_status.eql?('none')
   last_refund = item.product_refund_details.last.product_refund
   json.refund_number last_refund.refund_number
-  json.refund_number last_refund.product_refund_type.name
+  json.refund_type last_refund.product_refund_type.name
 end
