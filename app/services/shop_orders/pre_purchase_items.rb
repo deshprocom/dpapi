@@ -21,7 +21,7 @@ module Services
 
         return @invalid_order_items << obj.id if variant[:number].to_i > obj.stock
 
-        @order_items <<  ProductOrderItem.new(variant: obj, number: variant[:number].to_i)
+        @order_items << ProductOrderItem.new(variant: obj, number: variant[:number].to_i)
       end
 
       def purchasable_check
