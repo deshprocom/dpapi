@@ -25,7 +25,9 @@ module Services
       end
 
       def purchasable_check
-        return '无效的商品参数' if order_items.blank?
+        return '商品数量不足或已过期' if order_items.blank? && invalid_order_items.present?
+
+        return '商品参数有误' if order_items.blank?
 
         order_items.each do |item|
           return '购买数量不能小于等于0' if item.number <= 0
