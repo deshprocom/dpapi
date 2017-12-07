@@ -44,6 +44,7 @@ module V10
       end
 
       def destroy
+        return render_api_error(CANNOT_DELETE) unless @order.could_delete?
         @order.deleted!
         render_api_success
       end
