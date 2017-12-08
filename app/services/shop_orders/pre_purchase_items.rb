@@ -21,11 +21,13 @@ module Services
 
         return @invalid_order_items << obj.id if variant[:number].to_i > obj.stock
 
-        @order_items <<  ProductOrderItem.new(variant: obj, number: variant[:number].to_i)
+        @order_items << ProductOrderItem.new(variant: obj, number: variant[:number].to_i)
       end
 
       def purchasable_check
-        return '无效的商品参数' if order_items.blank?
+        return '商品数量不足或已过期' if order_items.blank? && invalid_order_items.present?
+
+        return '商品参数有误' if order_items.blank?
 
         order_items.each do |item|
           return '购买数量不能小于等于0' if item.number <= 0
@@ -73,6 +75,7 @@ module Services
 
       def save_order_item(item, order)
         item.product_order = order
+        item.seven_days_return = item.variant.product.seven_days_return
         item.save
       end
     end

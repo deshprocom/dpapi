@@ -78,6 +78,7 @@ Rails.application.routes.draw do
     namespace :uploaders do
       resources :avatar, only:[:create]
       resources :card_image, only:[:create]
+      resources :tmp_image, only: [:create]
     end
 
     scope module: 'players' do
@@ -149,6 +150,12 @@ Rails.application.routes.draw do
         resources :wx_pay, only: [:create]
         resources :cancel, only: [:create]
         resources :confirm, only: [:create]
+        resources :refund, only: [:create]
+      end
+
+      resources :refund_types, only: [:index]
+      resources :refund, only: [:show] do
+        resources :refund_record, only: [:index]
       end
     end
 

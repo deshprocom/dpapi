@@ -59,3 +59,8 @@ if Area.count.zero?
     Area.create(id: item[:id], name: item[:name], area_id: item[:area_id], city_id: item[:city_id])
   end
 end
+
+if ProductRefundType.count.zero?
+  ProductRefundType.create(name: '退货退款')
+  ProductRefundType.create(name: '换货')
+end
