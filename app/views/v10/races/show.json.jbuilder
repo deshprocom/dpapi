@@ -34,15 +34,18 @@ json.data do
     end
   end
 
-  json.schedules do
-    json.partial! 'v10/races/schedules', race_schedules: @race.race_schedules.default_order
-  end
-
   json.ranks do
     json.partial! 'v10/races/ranks', ranks: @race.race_ranks
+  end
+
+  json.schedules do
+    json.partial! 'v10/races/schedules', race_schedules: @race.race_schedules.default_order
   end
 
   json.blinds do
     json.partial! 'v10/races/blinds', blinds: @race.race_blinds.position_asc
   end
+
+  json.schedule_memo @race.race_extra&.schedule_memo
+  json.blind_memo @race.race_extra&.blind_memo
 end
