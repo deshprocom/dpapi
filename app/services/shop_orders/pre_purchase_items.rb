@@ -68,8 +68,12 @@ module Services
       def save_to_order(order)
         @order_items.each do |item|
           save_order_item(item, order)
-          item.variant.decrease_stock(item.number)
           item.variant.product.increase_sales_volume(item.number)
+          item.variant.decrease_stock(item.number)
+
+          next if item.variant.is_master?
+
+          item.variant.product.master.decrease_stock(item.number)
         end
       end
 
