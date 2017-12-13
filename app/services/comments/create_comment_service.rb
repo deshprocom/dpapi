@@ -13,7 +13,7 @@ module Services
       def call
         return ApiResult.error_result(UNSUPPORTED_TYPE) unless topic_type_permit?
         return ApiResult.error_result(BODY_ERROR) unless comment_body_permit?
-        comment = @user.comments.create(topic: get_topic, body: @params[:body])
+        comment = @user.comments.create(topic: set_topic, body: @params[:body])
         ApiResult.success_with_data(comment: comment)
       end
 
@@ -27,15 +27,15 @@ module Services
         @params[:body].to_s.strip.length.positive?
       end
 
-      def get_topic
-        send("get_#{@params[:topic_type]}")
+      def set_topic
+        send("set_#{@params[:topic_type]}")
       end
 
-      def get_info
+      def set_info
         Info.find(@params[:topic_id])
       end
 
-      def get_video
+      def set_video
         Video.find(@params[:topic_id])
       end
     end
