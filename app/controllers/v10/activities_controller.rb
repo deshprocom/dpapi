@@ -10,7 +10,7 @@ module V10
 
     def pushed
       @activity = Activity.where('start_push <= :current AND end_push >= :current', current: Time.now)
-                    .find_by!(pushed: true)
+                          .find_by!(pushed: true)
       render 'show'
     end
   end
