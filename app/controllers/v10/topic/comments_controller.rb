@@ -6,6 +6,8 @@ module V10
       before_action :set_comment, only: [:destroy]
 
       def create
+        result = Services::UserAuthCheck.call(@current_user)
+        return render_api_error(result.code, result.msg) if result.failure?
         result = Services::Comments::CreateCommentService.call(user_params, @current_user)
         return render_api_error(result.code, result.msg) if result.failure?
         render 'index', locals: { comment: result.data[:comment] }

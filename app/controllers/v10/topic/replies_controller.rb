@@ -14,7 +14,10 @@ module V10
       end
 
       def create
-        return render_api_error(BODY_ERROR) unless params[:body].to_s.strip.length.positive?
+        result = Services::UserAuthCheck.call(@current_user)
+        return render_api_error(result.code, result.msg) if result.failure?
+        return render_api_error(BODY_BLANK) unless params[:body].to_s.strip.length.positive?
+        return render_api_error(ILLEGAL_KEYWORDS) if Services::FilterHelp.illegal?(params[:body])
         @reply = @comment.replies.create!(user: @current_user, body: params[:body])
         render :create
       end
