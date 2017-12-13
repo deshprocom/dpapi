@@ -162,6 +162,12 @@ Rails.application.routes.draw do
     namespace :shipments do
       resources :search, only: [:index]
     end
+
+    namespace :topic do
+      resources :comments do
+        resources :replies
+      end
+    end
   end
 
   unless Rails.env.production?
