@@ -12,7 +12,8 @@ module Services
 
       def call
         return ApiResult.error_result(UNSUPPORTED_TYPE) unless topic_type_permit?
-        return ApiResult.error_result(BODY_ERROR) unless comment_body_permit?
+        return ApiResult.error_result(BODY_BLANK) unless @params[:body].to_s.strip.length.positive?
+        return ApiResult.error_result(ILLEGAL_KEYWORDS) if Services::FilterHelp.illegal?(@params[:body])
         comment = @user.comments.create(topic: set_topic, body: @params[:body])
         ApiResult.success_with_data(comment: comment)
       end
@@ -21,10 +22,6 @@ module Services
 
       def topic_type_permit?
         %w(info video).include?(@params[:topic_type])
-      end
-
-      def comment_body_permit?
-        @params[:body].to_s.strip.length.positive?
       end
 
       def set_topic
