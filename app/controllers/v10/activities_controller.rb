@@ -9,7 +9,8 @@ module V10
     end
 
     def pushed
-      @activity = Activity.find_by!(pushed: true)
+      @activity = Activity.where('start_push <= :current AND end_push >= :current', current: Time.now)
+                    .find_by!(pushed: true)
       render 'show'
     end
   end
