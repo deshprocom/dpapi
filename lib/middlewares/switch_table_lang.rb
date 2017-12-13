@@ -1,6 +1,6 @@
 module DpAPI
   SUPPORT_HEADER_LANG = %w(zh en).freeze
-  SWITCH_MODEL_LIST = %w(Info InfoType Race RaceDesc RaceBlind RaceSchedule
+  SWITCH_MODEL_LIST = %w(Info InfoType Race RaceDesc RaceBlind RaceSchedule Activity
                          Ticket Video VideoType VideoGroup RaceTag RaceExtra).freeze
 
   class SwitchTableLang
