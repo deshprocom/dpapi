@@ -12,6 +12,7 @@ json.data do
       json.link          activity.link
       json.banner        activity.banner_url
       json.activity_time activity.activity_time.to_i
+      json.push_type     activity.push_type
     end
   end
 end

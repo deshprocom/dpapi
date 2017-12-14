@@ -162,6 +162,18 @@ Rails.application.routes.draw do
     namespace :shipments do
       resources :search, only: [:index]
     end
+
+    namespace :topic do
+      resources :comments, only: [:create, :destroy] do
+        resources :replies, only: [:index, :create, :destroy]
+      end
+      resources :infos, only: [] do
+        get  'comments', on: :member
+      end
+      resources :videos, only: [] do
+        get  'comments', on: :member
+      end
+    end
   end
 
   unless Rails.env.production?

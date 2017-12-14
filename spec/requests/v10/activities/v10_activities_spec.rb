@@ -5,7 +5,7 @@ RSpec.describe '/v10/activities', type: :request do
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
   let(:create_activities) do
     FactoryGirl.create(:activity)
-    FactoryGirl.create(:activity, title: 'pushed_activity', pushed: true)
+    FactoryGirl.create(:activity, title: 'pushed_activity', pushed: true, start_push: Time.now, end_push: 1.days.since)
     FactoryGirl.create(:activity)
   end
 
@@ -17,8 +17,6 @@ RSpec.describe '/v10/activities', type: :request do
         HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
     }
   end
-
-
 
   context '获取活动列表' do
     it '数据不存在，列表为空' do

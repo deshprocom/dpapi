@@ -14,5 +14,6 @@ json.data do
     json.description   @activity.description
     json.activity_time @activity.activity_time.to_i
     json.updated_time  @activity.updated_at.to_i
+    json.push_type     @activity.push_type
   end
 end
