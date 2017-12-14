@@ -169,9 +169,13 @@ Rails.application.routes.draw do
       end
       resources :infos, only: [] do
         get  'comments', on: :member
+        post  'likes', on: :member
+        post  'dislikes', on: :member
       end
       resources :videos, only: [] do
         get  'comments', on: :member
+        post 'likes', on: :member
+        post 'dislikes', on: :member
       end
     end
   end
