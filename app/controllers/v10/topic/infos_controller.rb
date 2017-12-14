@@ -13,15 +13,14 @@ module V10
 
       def likes
         return render_api_error(USER_BLOCKED) if @current_user.blocked?
-        @current_user.topic_likes.create(topic: @info)
-        @info.increase_likes
-        render_api_success
-      end
-
-      def dislikes
-        return render_api_error(USER_BLOCKED) if @current_user.blocked?
-        @current_user.topic_likes.where(topic: @info).destroy
-        @info.decrease_likes
+        topic = @current_user.topic_likes.find_by(topic: @info)
+        if topic.blank?
+          @current_user.topic_likes.create(topic: @info)
+          @info.increase_likes
+        else
+          topic.destroy!
+          @info.decrease_likes
+        end
         render_api_success
       end
 
