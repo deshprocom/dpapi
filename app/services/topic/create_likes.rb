@@ -6,7 +6,7 @@ module Services
 
       def initialize(resource, user)
         @resource = resource
-        @user  = user
+        @user = user
       end
 
       def call
