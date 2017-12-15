@@ -4,5 +4,5 @@ json.partial! 'common/meta'
 json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
 json.data do
-  json.partial! 'v10/news/base', list: @info
+  json.total_likes topic.total_likes
 end

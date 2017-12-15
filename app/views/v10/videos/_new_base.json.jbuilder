@@ -14,3 +14,5 @@ json.top            false
 json.is_main        video.is_main
 json.description    video.description.to_s
 json.created_at     video.created_at.to_i
+json.total_views    video.total_views
+json.total_likes    video.total_likes
