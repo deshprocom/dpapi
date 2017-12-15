@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       resource :verify_vcode, only: [:create]
       resource :test_user, only: [:show]
       resources :users, only: [] do
+        resource :dynamics, only: [:show]
+        resource :receives, only: [:show]
         resource :profile, only: [:show, :update]
         resource :change_password, only: [:create]
         resource :change_permission, only: [:create]
@@ -60,6 +62,7 @@ Rails.application.routes.draw do
         end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
+        resources :dynamics, only: [:index]
       end
     end
 
