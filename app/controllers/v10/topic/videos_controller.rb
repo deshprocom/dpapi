@@ -3,8 +3,7 @@ module V10
     class VideosController < ApplicationController
       before_action :set_video
       include UserAccessible
-      before_action :login_required, only: [:likes, :dislikes]
-      include Constants::Error::Account
+      before_action :login_required, only: [:likes]
 
       def comments
         @comments = @video.comments.page(params[:page]).per(params[:page_size])
@@ -12,17 +11,9 @@ module V10
       end
 
       def likes
-        return render_api_error(USER_BLOCKED) if @current_user.blocked?
-        # 查看该话题用户是否点过赞
-        topic = @current_user.topic_likes.find_by(topic: @video)
-        if topic.blank?
-          @current_user.topic_likes.create(topic: @video)
-          @video.increase_likes
-        else
-          topic.destroy!
-          @video.decrease_likes
-        end
-        render_api_success
+        result = Services::Topic::CreateLikes.call(@video, @current_user)
+        return render_api_error(result.code, result.msg) if result.failure?
+        render 'v10/topic/likes', locals: { topic: @video }
       end
 
       private

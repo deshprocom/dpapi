@@ -3,8 +3,7 @@ module V10
     class InfosController < ApplicationController
       before_action :set_info
       include UserAccessible
-      before_action :login_required, only: [:likes, :dislikes]
-      include Constants::Error::Account
+      before_action :login_required, only: [:likes]
 
       def comments
         @comments = @info.comments.page(params[:page]).per(params[:page_size])
@@ -12,16 +11,9 @@ module V10
       end
 
       def likes
-        return render_api_error(USER_BLOCKED) if @current_user.blocked?
-        topic = @current_user.topic_likes.find_by(topic: @info)
-        if topic.blank?
-          @current_user.topic_likes.create(topic: @info)
-          @info.increase_likes
-        else
-          topic.destroy!
-          @info.decrease_likes
-        end
-        render_api_success
+        result = Services::Topic::CreateLikes.call(@info, @current_user)
+        return render_api_error(result.code, result.msg) if result.failure?
+        render 'v10/topic/likes', locals: { topic: @info }
       end
 
       private
