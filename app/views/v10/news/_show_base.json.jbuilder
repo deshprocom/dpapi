@@ -11,3 +11,5 @@ json.image       list.big_image.to_s
 json.image_thumb list.image_thumb.to_s
 json.top         false
 json.description list.description.to_s
+json.total_views list.total_views
+json.total_likes list.total_likes
