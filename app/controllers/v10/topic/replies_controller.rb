@@ -2,7 +2,6 @@ module V10
   module Topic
     class RepliesController < ApplicationController
       include UserAccessible
-      include Constants::Error::Comment
       before_action :login_required, only: [:create, :destroy]
       before_action :set_comment, only: [:create, :destroy]
       before_action :set_reply, only: [:destroy]
