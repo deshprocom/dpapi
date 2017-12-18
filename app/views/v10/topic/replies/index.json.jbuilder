@@ -9,7 +9,7 @@ json.data do
       json.id reply.id
       json.body reply.body
       json.created_at reply.created_at.to_i
-      json.partial! 'v10/topic/user_info', resource: reply
+      json.partial! 'v10/topic/user_info', user: reply.user
       json.typological 'reply'
     end
   end
