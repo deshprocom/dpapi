@@ -1,4 +1,3 @@
 json.my_name item.user.nick_name
-json.reply_body item.body
-json.from_name item.typeable.user.nick_name
-json.from_reply_body item.typeable.body
+json.my_reply_body item.body
+json.partial! 'v10/topic/replies/parent', reply: item

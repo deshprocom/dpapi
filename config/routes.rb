@@ -168,7 +168,9 @@ Rails.application.routes.draw do
 
     namespace :topic do
       resources :comments, only: [:create, :destroy] do
-        resources :replies, only: [:index, :create, :destroy]
+        resources :replies, only: [:index, :create, :destroy] do
+          resources :replies, only: [:create]
+        end
       end
       resources :infos, only: [] do
         get  'comments', on: :member
