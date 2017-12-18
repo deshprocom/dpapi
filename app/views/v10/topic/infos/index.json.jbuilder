@@ -10,7 +10,7 @@ json.data do
       json.body comment.body
       json.recommended comment.recommended
       json.created_at comment.created_at.to_i
-      json.partial! 'v10/topic/user_info', resource: comment
+      json.partial! 'v10/topic/user_info', user: comment.user
       json.typological 'comment'
     end
   end

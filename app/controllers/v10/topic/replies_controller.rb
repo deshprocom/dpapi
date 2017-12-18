@@ -16,10 +16,9 @@ module V10
       def create
         result = Services::UserAuthCheck.call(@current_user)
         return render_api_error(result.code, result.msg) if result.failure?
-        return render_api_error(BODY_BLANK) unless params[:body].to_s.strip.length.positive?
-        return render_api_error(ILLEGAL_KEYWORDS) if Services::FilterHelp.illegal?(params[:body])
-        @reply = @comment.replies.create!(user: @current_user, body: params[:body], topic: @comment.topic)
-        render :create
+        result = Services::Replies::CreateReplyService.call(user_params, @current_user, @comment)
+        return render_api_error(result.code, result.msg) if result.failure?
+        render 'create', locals: { reply: result.data[:reply] }
       end
 
       def destroy
@@ -35,6 +34,10 @@ module V10
 
       def set_reply
         @reply = @comment.replies.find_by!(id: params[:id])
+      end
+
+      def user_params
+        params.permit(:body)
       end
     end
   end
