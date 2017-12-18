@@ -10,7 +10,7 @@ if reply.reply
   json.parent_reply do
     json.parent_reply_id reply.reply.id
     json.parent_reply_body reply.reply.body
-    json.parent_reply_user_id reply.reply.user.nick_name
+    json.parent_reply_user_id reply.reply.user.user_uuid
     json.parent_reply_user reply.reply.user.nick_name
     json.parent_reply_user_avatar reply.reply.user.avatar_path.to_s
     json.parent_reply_user_official reply.reply.user.official?
