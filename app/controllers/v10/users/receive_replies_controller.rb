@@ -6,10 +6,10 @@ module V10
 
       def index
         @dynamics = @current_user.dynamics
-                        .received_message
-                        .order(created_at: :desc)
-                        .page(params[:page])
-                        .per(params[:page_size])
+                                 .received_message
+                                 .order(created_at: :desc)
+                                 .page(params[:page])
+                                 .per(params[:page_size])
       end
     end
   end
