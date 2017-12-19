@@ -12,6 +12,7 @@ json.data do
       json.created_at comment.created_at.to_i
       json.partial! 'v10/topic/user_info', user: comment.user
       json.typological 'comment'
+      json.total_count comment.replies.count
     end
   end
 end
