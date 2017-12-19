@@ -63,6 +63,7 @@ Rails.application.routes.draw do
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
         resources :dynamics, only: [:index]
+        resources :receive_replies, only: [:index]
       end
     end
 
