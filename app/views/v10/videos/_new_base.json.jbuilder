@@ -16,3 +16,5 @@ json.description    video.description.to_s
 json.created_at     video.created_at.to_i
 json.total_views    video.total_views
 json.total_likes    video.total_likes
+json.total_comments video.comments.count
+json.current_user_like  video.topic_likes.find_by(user: @current_user).present?
