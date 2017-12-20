@@ -9,6 +9,8 @@ if source.class.name == 'Info'
     json.source      source.source.to_s
     json.total_views source.total_views
     json.total_likes source.total_likes
+    json.total_comments source.comments.count
+    json.current_user_like source.topic_likes.find_by(user: @current_user).present?
   end
 else
   json.video do
@@ -23,5 +25,7 @@ else
     json.group_name     source.video_group.try(:name).to_s
     json.total_views    source.total_views
     json.total_likes    source.total_likes
+    json.total_comments source.comments.count
+    json.current_user_like source.topic_likes.find_by(user: @current_user).present?
   end
 end
