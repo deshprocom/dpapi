@@ -289,6 +289,8 @@ GEM
       unf_ext
     unf_ext (0.0.7.4)
     unicode-display_width (1.1.2)
+    unscoped_associations (0.7.1)
+      activerecord (>= 3.2.0, < 5.1.0)
     vegas (0.1.11)
       rack (>= 1.0.0)
     websocket-driver (0.6.4)
@@ -351,9 +353,10 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   tzinfo-data
+  unscoped_associations
   weixin_authorize
   wx_pay
   yl_pay
 
 BUNDLED WITH
-   1.14.6
+   1.16.0

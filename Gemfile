@@ -70,6 +70,7 @@ gem 'weixin_authorize'
 
 # 物流查询接口
 gem 'kuaidiniao'
+gem 'unscoped_associations'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

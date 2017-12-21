@@ -16,7 +16,7 @@ json.data do
           json.created_at item.typological.created_at.to_i
         end
       else
-        next if item.typological&.replies.blank?
+        next if item.typological.replies.blank?
         json.reply_list do
           json.array! item.typological.replies do |list|
             json.mine do
