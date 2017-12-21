@@ -13,19 +13,23 @@ json.data do
           json.typological_type typological_type
           json.id item.typological.id
           json.my_comment item.typological.body
+          json.created_at item.typological.created_at.to_i
         end
       else
-        next if item.typological.replies.blank?
+        next if item.typological&.replies.blank?
         json.reply_lists do
           json.array! item.typological.replies do |list|
             json.mine do
               json.typological_type typological_type
               json.id item.typological.id
               json.comment item.typological.body
+              json.created_at item.typological.created_at.to_i
+              json.partial! 'v10/topic/user_info', user: item.typological.user
             end
             json.other do
               json.id list.id
               json.comment list.body
+              json.created_at list.created_at.to_i
               json.partial! 'v10/topic/user_info', user: list.user
             end
           end
