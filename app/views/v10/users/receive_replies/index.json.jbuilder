@@ -17,7 +17,7 @@ json.data do
         end
       else
         next if item.typological&.replies.blank?
-        json.reply_lists do
+        json.reply_list do
           json.array! item.typological.replies do |list|
             json.mine do
               json.typological_type typological_type
