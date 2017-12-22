@@ -3,7 +3,7 @@ module V10
     class RepliesController < ApplicationController
       include UserAccessible
       before_action :login_required, only: [:create, :destroy]
-      before_action :set_comment, only: [:create, :destroy]
+      before_action :set_comment, only: [:destroy]
       before_action :set_reply, only: [:destroy]
 
       def index
@@ -15,6 +15,7 @@ module V10
       def create
         result = Services::UserAuthCheck.call(@current_user)
         return render_api_error(result.code, result.msg) if result.failure?
+        @comment = Comment.find(params[:comment_id])
         result = params[:reply_id].present? ? parent_reply : parent_comment
         return render_api_error(result.code, result.msg) if result.failure?
         render 'create', locals: { reply: result.data[:reply] }
