@@ -2,26 +2,29 @@ module V10
   module Topic
     class RepliesController < ApplicationController
       include UserAccessible
+      include Constants::Error::Comment
+
       before_action :login_required, only: [:create, :destroy]
-      before_action :set_comment, only: [:destroy]
+      before_action :set_comment
       before_action :set_reply, only: [:destroy]
 
       def index
-        comment = Comment.find(params[:comment_id])
-        @replies = comment.replies
+        @replies = @comment.replies
         render :index
       end
 
       def create
         result = Services::UserAuthCheck.call(@current_user)
         return render_api_error(result.code, result.msg) if result.failure?
-        @comment = Comment.find(params[:comment_id])
         result = params[:reply_id].present? ? parent_reply : parent_comment
         return render_api_error(result.code, result.msg) if result.failure?
         render 'create', locals: { reply: result.data[:reply] }
       end
 
       def destroy
+        unless @current_user.user_uuid.eql?(@reply.user.user_uuid)
+          return render_api_error(CANNOT_DELETE)
+        end
         @reply.destroy
         render_api_success
       end
@@ -29,7 +32,7 @@ module V10
       private
 
       def set_comment
-        @comment = @current_user.comments.find_by!(id: params[:comment_id])
+        @comment = Comment.find(params[:comment_id])
       end
 
       def set_reply
