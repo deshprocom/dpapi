@@ -7,23 +7,24 @@ json.partial! 'common/api_result', api_result: ApiResult.success_result
 json.data do
   json.items do
     json.array! @dynamics do |item|
+      typological = item.unscoped_typological
+
       typological_type = item.typological_type.downcase
       if item.deleted_type?
         json.type 'delete'
         json.typological_type typological_type
-        json.id item.typological.id
-        json.my_comment item.typological.body
-        json.created_at item.typological.created_at.to_i
+        json.id typological.id
+        json.my_comment typological.body
+        json.created_at typological.created_at.to_i
       else
-        next if item.typological.replies.blank?
-        item.typological.replies.each do |list|
+        next if typological&.replies.blank?
+        typological.replies.each do |list|
           json.type 'reply'
           json.mine do
-            json.typological_type typological_type
-            json.id item.typological.id
-            json.comment item.typological.body
-            json.created_at item.typological.created_at.to_i
-            json.partial! 'v10/topic/user_info', user: item.typological.user
+            json.id typological.id
+            json.comment typological.body
+            json.created_at typological.created_at.to_i
+            json.partial! 'v10/topic/user_info', user: typological.user
           end
           json.other do
             json.id list.id
