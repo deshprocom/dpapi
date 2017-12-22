@@ -13,6 +13,7 @@ json.data do
     json.price          @product.master.price
     json.description    @product.description
     json.freight_fee    @product.freight_fee
+    json.freight_free   @product.freight_free
     json.seven_days_return @product.seven_days_return
 
     json.master do
