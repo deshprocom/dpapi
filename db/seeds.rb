@@ -64,3 +64,9 @@ if ProductRefundType.count.zero?
   ProductRefundType.create(name: '退货退款')
   ProductRefundType.create(name: '换货')
 end
+
+# 创建扑克官方账号
+if User.find_by(email: ENV['POKER_ACCOUNT']).blank?
+  user = User.create_by_email(ENV['POKER_ACCOUNT'], ENV['POKER_PWD'])
+  user.update(nick_name: '扑客', role: 'official')
+end
