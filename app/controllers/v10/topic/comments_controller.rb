@@ -2,6 +2,7 @@ module V10
   module Topic
     class CommentsController < ApplicationController
       include UserAccessible
+      include Constants::Error::Comment
       before_action :login_required
       before_action :set_comment, only: [:destroy]
 
@@ -14,6 +15,9 @@ module V10
       end
 
       def destroy
+        unless @current_user.user_uuid.eql?(@comment.user.user_uuid)
+          return render_api_error(CANNOT_DELETE)
+        end
         @comment.destroy
         render_api_success
       end
@@ -27,7 +31,7 @@ module V10
       end
 
       def set_comment
-        @comment = @current_user.comments.find_by!(id: params[:id])
+        @comment = Comment.find(params[:id])
       end
     end
   end
