@@ -13,6 +13,8 @@ Rails.application.routes.draw do
       resource :verify_vcode, only: [:create]
       resource :test_user, only: [:show]
       resources :users, only: [] do
+        resource :dynamics, only: [:show]
+        resource :receives, only: [:show]
         resource :profile, only: [:show, :update]
         resource :change_password, only: [:create]
         resource :change_permission, only: [:create]
@@ -60,6 +62,8 @@ Rails.application.routes.draw do
         end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
+        resources :dynamics, only: [:index]
+        resources :receive_replies, only: [:index]
       end
     end
 
@@ -165,13 +169,17 @@ Rails.application.routes.draw do
 
     namespace :topic do
       resources :comments, only: [:create, :destroy] do
-        resources :replies, only: [:index, :create, :destroy]
+        resources :replies, only: [:index, :create, :destroy] do
+          resources :replies, only: [:create]
+        end
       end
       resources :infos, only: [] do
         get  'comments', on: :member
+        post  'likes', on: :member
       end
       resources :videos, only: [] do
         get  'comments', on: :member
+        post 'likes', on: :member
       end
     end
   end

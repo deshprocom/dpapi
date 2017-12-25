@@ -11,3 +11,7 @@ json.image       list.big_image.to_s
 json.image_thumb list.image_thumb.to_s
 json.top         list.top
 json.description list.description.to_s
+json.total_views list.total_views
+json.total_likes list.total_likes
+json.total_comments list.comments.count
+json.current_user_like list.topic_likes.find_by(user: @current_user).present?
