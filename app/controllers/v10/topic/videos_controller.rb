@@ -6,7 +6,7 @@ module V10
       before_action :login_required, only: [:likes]
 
       def comments
-        @comments = @video.comments.page(params[:page]).per(params[:page_size])
+        @comments = @video.comments.order_show.page(params[:page]).per(params[:page_size])
         render :index
       end
 
