@@ -2,7 +2,6 @@ module V10
   module Users
     class DynamicsController < ApplicationController
       before_action :current_user
-      
       def index
         return render_api_error(Constants::Error::Http::HTTP_LOGIN_REQUIRED) if @current_user.blank?
         @dynamics = @current_user.dynamics
