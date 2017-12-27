@@ -5,11 +5,9 @@ module V10
       before_action :login_required, :user_self_required
 
       def index
-        @dynamics = @current_user.dynamics
-                                 .received_message
-                                 .order(created_at: :desc)
-                                 .page(params[:page])
-                                 .per(params[:page_size])
+        @dynamics = Reply.user_replies(@current_user)
+                         .page(params[:page])
+                         .per(params[:page_size])
       end
     end
   end
