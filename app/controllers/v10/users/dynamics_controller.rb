@@ -5,6 +5,7 @@ module V10
       def index
         return render_api_error(Constants::Error::Http::HTTP_LOGIN_REQUIRED) if @current_user.blank?
         @dynamics = @current_user.dynamics
+                                 .normal_dynamics
                                  .order(created_at: :desc)
                                  .page(params[:page])
                                  .per(params[:page_size])
