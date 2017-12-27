@@ -2,7 +2,8 @@ module V10
   module Homepage
     class HotInfosController < ApplicationController
       def index
-        @hot_infos = HotInfo.default_order.page(params[:page]).per(params[:page_size])
+        per = params[:page_size] ? params[:page_size] : 50
+        @hot_infos = HotInfo.default_order.page(params[:page]).per(per)
       end
     end
   end
