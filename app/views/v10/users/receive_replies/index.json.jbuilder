@@ -26,5 +26,4 @@ json.data do
       end
     end
   end
-  json.unread Reply.unread_count(@current_user)
 end

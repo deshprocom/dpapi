@@ -64,6 +64,7 @@ Rails.application.routes.draw do
         resources :login_count, only: [:create]
         resources :dynamics, only: [:index]
         resources :receive_replies, only: [:index]
+        resources :reply_unread_count, only: [:index]
       end
     end
 
