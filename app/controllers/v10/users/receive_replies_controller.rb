@@ -8,7 +8,7 @@ module V10
         @dynamics = Reply.user_replies(@current_user)
                          .page(params[:page])
                          .per(params[:page_size])
-        @dynamics.all.each(&:read!)
+        Reply.all.read!(@current_user)
       end
     end
   end
