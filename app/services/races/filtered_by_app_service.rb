@@ -1,7 +1,7 @@
 module Services
   module Races
-    MAX_SEQ_ID = 10**20
-    class FilteredRacesService
+    class FilteredByAppService
+      MAX_SEQ_ID = 10**20
       include Serviceable
       include Constants::Error::Common
 

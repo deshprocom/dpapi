@@ -4,7 +4,11 @@ module V10
       # 获取赛事列表
       def index
         optional! :page_size, values: 0..100, default: 20
-        api_result = Services::Races::FilteredRacesService.call(filter_params)
+        api_result = if params[:filter_type] == 'web'
+                       Services::Races::FilteredByWebService.call(filter_params)
+                     else
+                       Services::Races::FilteredByAppService.call(filter_params)
+                     end
         render_api_result(api_result)
       end
 
