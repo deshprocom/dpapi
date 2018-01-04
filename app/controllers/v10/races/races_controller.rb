@@ -27,6 +27,7 @@ module V10
                       :host_id,
                       :operator,
                       :u_id,
+                      :category,
                       :date)
       end
 
