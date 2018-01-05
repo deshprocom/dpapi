@@ -26,6 +26,17 @@ unless AffiliateApp.exists?(app_key: '467109f4b44be6398c17f6c058dfa7ee')
   apps.save
 end
 
+unless AffiliateApp.exists?(app_key: 'd4328ba02f33fdec44da3123b21facea')
+  apps = AffiliateApp.new
+  apps.affiliate = desh
+  apps.app_id = 'dpweb'
+  apps.app_name = '德尚网站(www.deshpro.com)'
+  apps.app_key = 'd4328ba02f33fdec44da3123b21facea'
+  apps.app_secret = '65bf536f908fc82f083bc7ffeca36936'
+  apps.status = 0
+  apps.save
+end
+
 if ExpressCode.unscoped.count.zero?
   require './db/express_codes'
   EXPRESS_CODE_JSON_LISTS.collect do |item|
