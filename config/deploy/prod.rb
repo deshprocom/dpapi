@@ -20,6 +20,6 @@ set :bundle_without, %w{tools}.join(' ')
 set :puma_conf, "#{shared_path}/puma.rb"
 set :puma_env, fetch(:rails_env, 'production')
 set :puma_threads, [0, 16]
-set :puma_workers, 4
+set :puma_workers, 2
 
 set :project_url, 'https://api.deshpro.com'
