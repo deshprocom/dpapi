@@ -185,7 +185,10 @@ Rails.application.routes.draw do
     end
 
     scope module: :cf do
-      resources :crowdfundings, only: [:index, :show]
+      resources :crowdfundings, only: [:index, :show] do
+        resources :players, only: [:index, :show]
+      end
+      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy]
     end
   end
 

@@ -20,6 +20,7 @@ class CreateCrowdfundings < ActiveRecord::Migration[5.0]
     end
 
     create_table :crowdfunding_counters do |t|
+      t.references :crowdfunding
       t.integer :page_views, default: 0, comment: '浏览量'
       t.timestamps
     end
@@ -52,11 +53,17 @@ class CreateCrowdfundings < ActiveRecord::Migration[5.0]
       t.bigint :position, default: 0
     end
 
-    create_table :crowdfunding_player_fans do |t|
+    create_table :crowdfunding_orders do |t|
       t.references :crowdfunding_player
       t.references :user
+      t.references :crowdfunding
+      t.string :order_number, comment: '订单号'
       t.integer :order_stock_number, default: 0, comment: '认购该牌手的份数'
+      t.integer :order_stock_money, default: 0, comment: '认购该牌手的单份价格'
       t.boolean :paid, default: false, comment: '是否付款'
+      t.datetime :pay_time, comment: '付款的时间'
+      t.integer :total_money, default: 0, comment: '支付的总价格'
+      t.boolean :deleted, default: false, comment: '是否删除'
       t.timestamps
     end
 
