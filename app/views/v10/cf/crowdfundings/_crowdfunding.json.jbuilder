@@ -1,5 +1,5 @@
 json.id crowdfunding.id
-json.master_image crowdfunding.master_image
+json.master_image crowdfunding.master_image.url.to_s
 json.cf_cond crowdfunding.cf_cond
 json.expire_date crowdfunding.expire_date
 json.publish_date crowdfunding.publish_date
