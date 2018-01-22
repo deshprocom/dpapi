@@ -183,6 +183,13 @@ Rails.application.routes.draw do
         post 'likes', on: :member
       end
     end
+
+    scope module: :cf do
+      resources :crowdfundings, only: [:index, :show] do
+        resources :players, only: [:index, :show]
+      end
+      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy]
+    end
   end
 
   unless Rails.env.production?
