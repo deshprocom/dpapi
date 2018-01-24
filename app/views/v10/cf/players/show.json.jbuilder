@@ -25,9 +25,9 @@ json.data do
   json.description @player.player.description
   json.race_rank do
     # 战绩
-    json.array! @player.player.race_ranks.includes(:race) do |rank|
+    json.array! @player.player.crowdfunding_ranks.includes(:race) do |rank|
       race = rank.race
-      json.partial! 'race_ranks', rank: rank, race: race
+      json.partial! 'cf_ranks', rank: rank, race: race
       next if race.nil?
     end
   end
