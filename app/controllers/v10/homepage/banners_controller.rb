@@ -2,7 +2,7 @@ module V10
   module Homepage
     class BannersController < ApplicationController
       def index
-        @banners = Banner.published.default_order
+        @banners = Banner.homepage_published.default_order
       end
     end
   end
