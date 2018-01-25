@@ -11,7 +11,7 @@ module Services
       end
 
       def call
-        # 1 查看该用户是否有购买过该用户
+        # 1 查看该用户是否有购买过
         # 2 购买的分数是否超出限购的份数
         return ApiResult.error_result(LIMIT_PAY) if limit?
         order = CrowdfundingOrder.create(user: @user,
@@ -24,6 +24,8 @@ module Services
       end
 
       def limit?
+        # 如果限购份数为0，表示不限购
+        return false if @cf_player.limit_buy.zero?
         (@number + past_buy_number) > @cf_player.limit_buy
       end
 
