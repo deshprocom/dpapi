@@ -9,5 +9,7 @@ json.sell_stock cf_player.sell_stock
 json.stock_number cf_player.stock_number
 json.stock_unit_price cf_player.stock_unit_price
 json.cf_money cf_player.cf_money
+json.limit_buy cf_player.limit_buy
 json.lairage_rate cf_player.player.lairage_rate.to_s + '%'
 json.final_rate cf_player.player.final_rate.to_s + '%'
+json.ranking cf_player&.crowdfunding_rank&.ranking
