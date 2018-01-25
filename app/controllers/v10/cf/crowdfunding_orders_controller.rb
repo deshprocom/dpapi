@@ -8,7 +8,7 @@ module V10
       def index
         orders = @current_user.crowdfunding_orders
         if CrowdfundingOrder.record_statuses.keys.include?(params[:status])
-          orders = orders.where(status: params[:status])
+          orders = orders.where(record_status: params[:status])
         end
         @orders = orders.page(params[:page]).per(params[:page_size])
         render :index
