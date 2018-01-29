@@ -9,3 +9,4 @@ json.avatar       user.avatar_path.to_s
 json.reg_date     user.reg_date.to_i
 json.last_visit   user.last_visit.to_i
 json.signature    user.signature.to_s
+json.total_poker_coins user&.counter&.total_poker_coins
