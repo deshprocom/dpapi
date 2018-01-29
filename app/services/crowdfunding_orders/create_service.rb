@@ -14,8 +14,8 @@ module Services
         # 1 查看该用户是否有购买过
         # 2 购买的分数是否超出限购的份数
         # 3 判断是否超过截止日期
-        return ApiResult.error_result(LIMIT_PAY) if limit?
         return ApiResult.error_result(OUTDATE) if Time.zone.today >= @cf_player.crowdfunding.expire_date
+        return ApiResult.error_result(LIMIT_PAY) if limit?
         order = CrowdfundingOrder.create(user: @user,
                                          crowdfunding_player: @cf_player,
                                          crowdfunding: @cf_player.crowdfunding,
