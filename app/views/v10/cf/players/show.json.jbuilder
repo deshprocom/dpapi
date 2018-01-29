@@ -20,6 +20,9 @@ json.data do
         json.avatar item.avatar_path.to_s
       end
     end
+    # 订购总分数，订购总金额
+    json.order_stock_numer @player.counter.order_stock_number
+    json.order_stock_money @player.counter.order_stock_money
   end
   # 简介
   json.description @player.player.description
