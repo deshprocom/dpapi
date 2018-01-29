@@ -189,7 +189,9 @@ Rails.application.routes.draw do
       resources :crowdfundings, only: [:index, :show] do
         resources :players, only: [:index, :show]
       end
-      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy]
+      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy] do
+        resources :wx_pay, only: [:create]
+      end
       resources :crowdfunding_banners, only: [:index]
     end
   end
