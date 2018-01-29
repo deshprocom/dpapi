@@ -6,7 +6,7 @@ module V10
       include Constants::Error::Common
 
       def index
-        orders = @current_user.crowdfunding_orders
+        orders = @current_user.crowdfunding_orders.paid_status
         if CrowdfundingOrder.record_statuses.keys.include?(params[:status])
           orders = orders.where(record_status: params[:status])
         end
