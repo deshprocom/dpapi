@@ -1,13 +1,13 @@
 module Services
   module Notify
-    class WxShopNotifyNotifyService
+    class WxCfNotifyNotifyService
       include Serviceable
       include Constants::Error::Order
 
       def initialize(order_result)
         Rails.logger.info "wx notify: #{order_result}"
         @order_result  = order_result
-        @product_order = ProductOrder.find_by!(order_number: order_result['out_trade_no'])
+        @cf_order = CrowdfundingOrder.find_by!(order_number: order_result['out_trade_no'])
       end
 
       def call
@@ -27,17 +27,17 @@ module Services
 
         order_to_paid
         # 记录的微信账单
-        ProductWxBill.create(bill_params)
+        WxBill.create(bill_params)
         ApiResult.success_result
       end
 
       private
       def repeated_notify?
-        wx_bill_exists? && @product_order.paid?
+        wx_bill_exists? && @cf_order.paid?
       end
 
       def wx_bill_exists?
-        ProductWxBill.exists?(transaction_id: @order_result['transaction_id'])
+        WxBill.exists?(transaction_id: @order_result['transaction_id'])
       end
 
       def transaction_success?
@@ -49,11 +49,11 @@ module Services
       end
 
       def result_accord_with_order?
-        (@product_order.total_price * 100).to_i == @order_result['total_fee'].to_i
+        (@cf_order.total_money * 100).to_i == @order_result['total_fee'].to_i
       end
 
       def order_to_paid
-        @product_order.update(status: 'paid', pay_status: 'paid') if @product_order.unpaid?
+        @cf_order.paid!
       end
 
       def error_result(msg)
@@ -61,19 +61,22 @@ module Services
       end
 
       def bill_params
-        { bank_type: @order_result['bank_type'],
-          cash_fee: @order_result['cash_fee'],
-          fee_type: @order_result['fee_type'],
-          is_subscribe: @order_result['is_subscribe'],
-          mch_id: @order_result['mch_id'],
-          open_id: @order_result['openid'],
-          product_order: @product_order,
-          result_code: @order_result['result_code'],
-          return_code: @order_result['return_code'],
-          time_end: @order_result['time_end'],
-          total_fee: @order_result['total_fee'],
-          trade_type: @order_result['trade_type'],
-          transaction_id: @order_result['transaction_id'] }
+        { appid: result['appid'],
+          bank_type: result['bank_type'],
+          cash_fee: result['cash_fee'],
+          fee_type: result['fee_type'],
+          is_subscribe: result['is_subscribe'],
+          mch_id: result['mch_id'],
+          open_id: result['openid'],
+          out_trade_no: result['out_trade_no'],
+          result_code: result['result_code'],
+          return_code: result['return_code'],
+          time_end: result['time_end'],
+          total_fee: result['total_fee'],
+          trade_type: result['trade_type'],
+          transaction_id: result['transaction_id'],
+          bill_type: 'crowdfunding'
+        }
       end
     end
   end
