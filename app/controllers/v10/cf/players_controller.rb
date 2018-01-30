@@ -11,6 +11,11 @@ module V10
         @player = @crowdfunding.crowdfunding_players.published.find(params[:id])
       end
 
+      def reports
+        @player = @crowdfunding.crowdfunding_players.published.find(params[:id])
+        @reports = @player.crowdfunding_reports.page(params[:page]).per(params[:page_size])
+      end
+
       private
 
       def set_crowdfunding
