@@ -16,7 +16,7 @@ module V10
       def current_user
         # user_uuid = CurrentRequestCredential.current_user_id
         # return nil if user_uuid.nil?
-        @current_user = User.by_uuid(user_uuid)
+        @current_user = User.by_uuid(params[:user_id])
       end
     end
   end
