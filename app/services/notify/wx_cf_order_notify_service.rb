@@ -28,6 +28,7 @@ module Services
         order_to_paid
         # 记录的微信账单
         WxBill.create(bill_params)
+        @cf_order.crowdfunding_player.counter.quick_increment!(@cf_order)
         ApiResult.success_result
       end
 
