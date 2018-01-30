@@ -44,7 +44,7 @@ module Services
       end
 
       def notify_url
-        "#{ENV['HOST_URL']}pay/wx_cf_order_notify"
+        "#{ENV['HOST_URL']}/v10/pay/wx_cf_order_notify"
       end
     end
   end
