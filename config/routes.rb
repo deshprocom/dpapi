@@ -192,7 +192,9 @@ Rails.application.routes.draw do
         end
         resources :reports, only: [:index]
       end
-      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy]
+      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy] do
+        resources :wx_pay, only: [:create]
+      end
       resources :crowdfunding_banners, only: [:index]
     end
   end
