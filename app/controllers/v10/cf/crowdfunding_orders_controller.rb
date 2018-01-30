@@ -23,8 +23,7 @@ module V10
         render :create, locals: { order: result.data[:order] }
       end
 
-      def show
-      end
+      def show; end
 
       def destroy
         @order.deleted!

@@ -6,7 +6,7 @@ module Services
 
       def initialize(order_result)
         Rails.logger.info "wx notify: #{order_result}"
-        @order_result  = order_result
+        @order_result = order_result
         @cf_order = CrowdfundingOrder.find_by!(order_number: order_result['out_trade_no'])
       end
 
@@ -33,6 +33,7 @@ module Services
       end
 
       private
+
       def repeated_notify?
         wx_bill_exists? && @cf_order.paid?
       end
@@ -76,8 +77,7 @@ module Services
           total_fee: result['total_fee'],
           trade_type: result['trade_type'],
           transaction_id: result['transaction_id'],
-          bill_type: 'crowdfunding'
-        }
+          bill_type: 'crowdfunding' }
       end
     end
   end

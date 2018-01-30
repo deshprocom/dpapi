@@ -32,6 +32,7 @@ module Services
       end
 
       private
+
       def repeated_notify?
         wx_bill_exists? && @product_order.paid?
       end
