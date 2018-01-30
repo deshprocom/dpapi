@@ -15,4 +15,4 @@ json.final_rate cf_player.player.final_rate.to_s + '%'
 json.ranking cf_player&.crowdfunding_rank&.ranking
 # 订购总份数，订购总金额
 json.order_stock_number cf_player.counter.order_stock_number
-json.order_stock_money cf_player.counter.order_stock_money
+json.total_money cf_player.counter.total_money
