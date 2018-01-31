@@ -63,20 +63,20 @@ module Services
       end
 
       def bill_params
-        { appid: result['appid'],
-          bank_type: result['bank_type'],
-          cash_fee: result['cash_fee'],
-          fee_type: result['fee_type'],
-          is_subscribe: result['is_subscribe'],
-          mch_id: result['mch_id'],
-          open_id: result['openid'],
-          out_trade_no: result['out_trade_no'],
-          result_code: result['result_code'],
-          return_code: result['return_code'],
-          time_end: result['time_end'],
-          total_fee: result['total_fee'],
-          trade_type: result['trade_type'],
-          transaction_id: result['transaction_id'],
+        { appid: @order_result['appid'],
+          bank_type: @order_result['bank_type'],
+          cash_fee: @order_result['cash_fee'],
+          fee_type: @order_result['fee_type'],
+          is_subscribe: @order_result['is_subscribe'],
+          mch_id: @order_result['mch_id'],
+          open_id: @order_result['openid'],
+          out_trade_no: @order_result['out_trade_no'],
+          result_code: @order_result['result_code'],
+          return_code: @order_result['return_code'],
+          time_end: @order_result['time_end'],
+          total_fee: @order_result['total_fee'],
+          trade_type: @order_result['trade_type'],
+          transaction_id: @order_result['transaction_id'],
           bill_type: 'crowdfunding' }
       end
     end
