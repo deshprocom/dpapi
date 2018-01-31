@@ -3,6 +3,7 @@ module V10
     class CrowdfundingOrdersController < ApplicationController
       include UserAccessible
       include Constants::Error::Common
+      include Constants::Error::Order
       before_action :login_required
       before_action :set_order, only: [:wx_paid_result, :show, :destroy]
 
