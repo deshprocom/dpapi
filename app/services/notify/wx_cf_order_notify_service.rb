@@ -35,7 +35,7 @@ module Services
       private
 
       def repeated_notify?
-        wx_bill_exists? && @cf_order.paid?
+        @cf_order.paid?
       end
 
       def wx_bill_exists?

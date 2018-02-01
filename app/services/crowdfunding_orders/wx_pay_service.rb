@@ -26,7 +26,7 @@ module Services
 
       def pay_params
         {
-          body: "订单：#{@order.order_number}",
+          body: "众筹订单：#{@order.order_number}",
           out_trade_no: @order.order_number,
           total_fee: (@order.total_money * 100).to_i,
           spbill_create_ip: CurrentRequestCredential.client_ip,
