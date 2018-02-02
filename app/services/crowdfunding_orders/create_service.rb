@@ -4,8 +4,9 @@ module Services
       include Serviceable
       include Constants::Error::Order
 
-      def initialize(user, cf_player, number)
+      def initialize(user, user_extra, cf_player, number)
         @user = user
+        @user_extra = user_extra
         @cf_player = cf_player
         @number = number
       end
@@ -17,6 +18,7 @@ module Services
         return ApiResult.error_result(OUTDATE) if Time.zone.today >= @cf_player.crowdfunding.expire_date
         return ApiResult.error_result(LIMIT_PAY) if limit?
         order = CrowdfundingOrder.create(user: @user,
+                                         user_extra: @user_extra,
                                          crowdfunding_player: @cf_player,
                                          crowdfunding: @cf_player.crowdfunding,
                                          order_stock_number: @number,
