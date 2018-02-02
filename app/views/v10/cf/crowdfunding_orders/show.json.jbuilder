@@ -19,4 +19,10 @@ json.data do
   json.crowdfunding do
     json.partial! 'v10/cf/crowdfundings/crowdfunding', crowdfunding: @order.crowdfunding
   end
+
+  if @order.user_extra.present?
+    json.user_extra do
+      json.partial! 'v10/account/users/user_extra_item', user_extra: @order.user_extra
+    end
+  end
 end
