@@ -124,6 +124,7 @@ Rails.application.routes.draw do
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
       resources :wx_shop_order_notify, only: [:create]
+      resources :wx_cf_order_notify, only: [:create]
     end
 
     scope module: :homepage do
@@ -187,9 +188,13 @@ Rails.application.routes.draw do
 
     scope module: :cf do
       resources :crowdfundings, only: [:index, :show] do
-        resources :players, only: [:index, :show]
+        resources :players, only: [:index, :show] do
+          get  'reports', on: :member
+        end
+        resources :reports, only: [:index]
       end
       resources :crowdfunding_orders, only: [:index, :show, :create, :destroy] do
+        get  'wx_paid_result', on: :member
         resources :wx_pay, only: [:create]
       end
       resources :crowdfunding_banners, only: [:index]
