@@ -19,7 +19,8 @@ module V10
       def create
         return render_api_error(MISSING_PARAMETER) if params[:number].to_i <= 0
         cf_player = CrowdfundingPlayer.published.find(params[:cf_player_id])
-        result = Services::CrowdfundingOrders::CreateService.call(@current_user, cf_player, params[:number])
+        user_extra = @current_user.user_extras.find(params[:user_extra_id])
+        result = Services::CrowdfundingOrders::CreateService.call(@current_user, user_extra, cf_player, params[:number])
         return render_api_error(result.code, result.msg) if result.failure?
         render :create, locals: { order: result.data[:order] }
       end
