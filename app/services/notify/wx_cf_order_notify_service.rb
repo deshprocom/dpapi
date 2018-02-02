@@ -35,7 +35,7 @@ module Services
       private
 
       def repeated_notify?
-        wx_bill_exists? && @cf_order.paid?
+        @cf_order.paid?
       end
 
       def wx_bill_exists?
@@ -55,7 +55,7 @@ module Services
       end
 
       def order_to_paid
-        @cf_order.paid!
+        @cf_order.update(paid: true, pay_time: Time.now)
       end
 
       def error_result(msg)
