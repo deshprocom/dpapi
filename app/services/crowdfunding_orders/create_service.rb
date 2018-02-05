@@ -34,10 +34,7 @@ module Services
       end
 
       def past_buy_number
-        CrowdfundingOrder.where(paid: true)
-                         .where(crowdfunding_player: @cf_player)
-                         .where(user: @user)
-                         .sum(&:order_stock_number)
+        CrowdfundingOrder.past_buy_number(@cf_player, @user)
       end
     end
   end
