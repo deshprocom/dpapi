@@ -190,6 +190,7 @@ Rails.application.routes.draw do
       resources :crowdfundings, only: [:index, :show] do
         resources :players, only: [:index, :show] do
           get  'reports', on: :member
+          get 'user_order_count', on: :member
         end
         resources :reports, only: [:index]
       end
