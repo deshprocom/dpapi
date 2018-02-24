@@ -200,7 +200,10 @@ Rails.application.routes.draw do
       end
       resources :crowdfunding_banners, only: [:index]
     end
+
+    resources :releases, only: [:index]
   end
+
 
   unless Rails.env.production?
     namespace :factory do
