@@ -1,4 +1,6 @@
 # rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/MethodLength
 module Services
   module Orders
     class CreateOrderService
@@ -62,8 +64,24 @@ module Services
         return result if result.failure?
 
         order = PurchaseOrder.new(init_order_params)
-        return ApiResult.success_with_data(order: order) if order.save
 
+        # 4 判断是否需要用到扑客币抵扣
+        if @params[:deduction].eql?('true')
+          deduction_numbers = order.max_deduction_poker_coins.to_i
+          unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
+            return ApiResult.error_result(DEDUCTION_ERROR)
+          end
+          order.deduction = true
+          order.deduction_numbers = deduction_numbers
+        end
+
+        # 将用户的扑客币冻结 扣除掉
+        if order.deduction
+          PokerCoin.deduction(order, '赛票订单抵扣扑客币', order.deduction_numbers)
+          order.deduction_success
+        end
+
+        return ApiResult.success_with_data(order: order) if order.save
         ApiResult.error_result(SYSTEM_ERROR)
       end
 
@@ -76,8 +94,24 @@ module Services
         return result if result.failure?
 
         order = PurchaseOrder.new(init_order_params)
-        return ApiResult.success_with_data(order: order) if order.save
 
+        # 4 判断是否需要用到扑客币抵扣
+        if @params[:deduction].eql?('true')
+          deduction_numbers = order.max_deduction_poker_coins.to_i
+          unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
+            return ApiResult.error_result(DEDUCTION_ERROR)
+          end
+          order.deduction = true
+          order.deduction_numbers = deduction_numbers
+        end
+
+        # 将用户的扑客币冻结 扣除掉
+        if order.deduction
+          PokerCoin.deduction(order, '赛票订单抵扣扑客币', order.deduction_numbers)
+          order.deduction_success
+        end
+
+        return ApiResult.success_with_data(order: order) if order.save
         ApiResult.error_result(SYSTEM_ERROR)
       end
 
