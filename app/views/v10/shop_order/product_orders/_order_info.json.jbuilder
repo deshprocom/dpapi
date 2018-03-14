@@ -11,3 +11,6 @@ if order.status.eql?('canceled')
   json.cancelled_at           order.cancelled_at.to_i
   json.cancel_reason          order.cancel_reason.to_s
 end
+json.deduction              order.deduction
+json.deduction_numbers      order.deduction_numbers
+json.deduction_result       order.deduction_result
