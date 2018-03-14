@@ -64,27 +64,7 @@ module Services
         return result if result.failure?
 
         order = PurchaseOrder.new(init_order_params)
-
-        # 4 判断是否需要用到扑客币抵扣
-        if @params[:deduction] || @params[:deduction].eql?('true')
-          deduction_numbers = order.max_deduction_poker_coins.to_i
-          unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
-            return ApiResult.error_result(DEDUCTION_ERROR)
-          end
-          order.deduction = true
-          order.deduction_numbers = deduction_numbers
-          order.deduction_price = deduction_numbers.to_f / 100
-          order.final_price = order.price - order.deduction_price
-        end
-
-        if order.save
-          # 将用户的扑客币冻结 扣除掉
-          PokerCoin.deduction(order, '赛票订单抵扣扑客币', order.deduction_numbers)
-          order.deduction_success
-          return ApiResult.success_with_data(order: order)
-        end
-
-        ApiResult.error_result(SYSTEM_ERROR)
+        confirm_order order
       end
 
       def ordering_entity_ticket
@@ -96,7 +76,10 @@ module Services
         return result if result.failure?
 
         order = PurchaseOrder.new(init_order_params)
+        confirm_order order
+      end
 
+      def confirm_order(order)
         # 4 判断是否需要用到扑客币抵扣
         if @params[:deduction] || @params[:deduction].eql?('true')
           deduction_numbers = order.max_deduction_poker_coins.to_i
@@ -105,6 +88,8 @@ module Services
           end
           order.deduction = true
           order.deduction_numbers = deduction_numbers
+          order.deduction_price = deduction_numbers.to_f / 100
+          order.final_price = order.price - order.deduction_price
         end
 
         if order.save
