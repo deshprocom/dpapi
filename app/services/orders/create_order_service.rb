@@ -67,14 +67,14 @@ module Services
 
         # 4 判断是否需要用到扑客币抵扣
         if @params[:deduction] || @params[:deduction].eql?('true')
-          deduction_numbers, deduction_price = order.max_deduction_poker_coins
+          deduction_numbers = order.max_deduction_poker_coins.to_i
           unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
             return ApiResult.error_result(DEDUCTION_ERROR)
           end
           order.deduction = true
           order.deduction_numbers = deduction_numbers
-          order.deduction_price = deduction_price
-          order.final_price = order.price - deduction_price
+          order.deduction_price = deduction_numbers.to_f / 100
+          order.final_price = order.price - order.deduction_price
         end
 
         if order.save
