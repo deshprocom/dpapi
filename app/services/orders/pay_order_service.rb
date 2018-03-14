@@ -28,7 +28,7 @@ module Services
 
       def pay_params(order)
         {
-          amount: order.price,
+          amount: order.final_price,
           order_desc: order.ticket.try(:title),
           client_ip: CurrentRequestCredential.client_ip,
           merch_order_id: order.order_number,
