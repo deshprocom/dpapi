@@ -7,5 +7,6 @@ json.total_money order.total_money
 json.created_at order.created_at.to_i
 json.record_status order.record_status
 json.poker_coins order.poker_coins
-json.deduction order_info.deduction
-json.deduction_numbers order_info.deduction_numbers
+json.deduction order.deduction
+json.deduction_numbers order.deduction_numbers
+json.deduction_result order.deduction_result
