@@ -1,4 +1,5 @@
 # rubocop:disable Metrics/MethodLength
+# rubocop:disable Metrics/CyclomaticComplexity
 module Services
   module ShopOrders
     class CreateOrderService
@@ -46,7 +47,7 @@ module Services
         # 判断是否需要使用扑客币抵扣 ricky-2018-03-13
         deduction_poker_coins = 0
         deduction = false
-        if @params[:deduction].eql?('true')
+        if @params[:deduction] || @params[:deduction].eql?('true')
           deduction_poker_coins = deduction_numbers(@pre_purchase_items.total_product_price).to_i
           unless @params[:deduction_numbers].to_i.eql?(deduction_poker_coins)
             return ApiResult.error_result(DEDUCTION_ERROR)
