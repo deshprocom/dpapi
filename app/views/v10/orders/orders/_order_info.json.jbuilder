@@ -13,4 +13,7 @@ json.courier         order_info.courier.to_s
 json.invite_code     order_info.invite_code.to_s
 json.tracking_no     order_info.tracking_no.to_s
 json.created_at      order_info.created_at
+json.deduction       order_info.deduction
+json.deduction_numbers order_info.deduction_numbers
+json.deduction_result order_info.deduction_result
 
