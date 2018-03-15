@@ -20,13 +20,15 @@ module Services
         return ApiResult.error_result(OUTDATE) if Time.zone.today >= @cf_player.crowdfunding.expire_date
         return ApiResult.error_result(LIMIT_PAY) if limit?
 
+        total_money = @number * @cf_player.stock_unit_price
         order = CrowdfundingOrder.new(user: @user,
                                       user_extra: @user_extra,
                                       crowdfunding_player: @cf_player,
                                       crowdfunding: @cf_player.crowdfunding,
                                       order_stock_number: @number,
                                       order_stock_money: @cf_player.stock_unit_price,
-                                      total_money: @number * @cf_player.stock_unit_price)
+                                      total_money: total_money,
+                                      final_price: total_money)
         # 4 判断是否需要用到扑客币抵扣
         if @params[:deduction] || @params[:deduction].eql?('true')
           deduction_numbers = order.max_deduction_poker_coins.to_i
@@ -35,6 +37,8 @@ module Services
           end
           order.deduction = true
           order.deduction_numbers = deduction_numbers
+          order.deduction_price = deduction_numbers.to_f / 100
+          order.final_price = order.total_money - order.deduction_price
         end
 
         order.save!

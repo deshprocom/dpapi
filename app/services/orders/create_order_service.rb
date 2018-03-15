@@ -1,5 +1,4 @@
 # rubocop:disable Metrics/ClassLength
-# rubocop:disable Metrics/CyclomaticComplexity
 # rubocop:disable Metrics/MethodLength
 module Services
   module Orders
