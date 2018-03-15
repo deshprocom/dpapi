@@ -58,7 +58,7 @@ module Services
       end
 
       def result_accord_with_order?
-        (@cf_order.total_money * 100).to_i == @order_result['total_fee'].to_i
+        (@cf_order.final_price * 100).to_i == @order_result['total_fee'].to_i
       end
 
       def order_to_paid
