@@ -28,7 +28,7 @@ module Services
         {
           body: "众筹订单：#{@order.order_number}",
           out_trade_no: @order.order_number,
-          total_fee: (@order.total_money * 100).to_i,
+          total_fee: (@order.final_price * 100).to_i,
           spbill_create_ip: CurrentRequestCredential.client_ip,
           notify_url: notify_url,
           trade_type: 'APP'
