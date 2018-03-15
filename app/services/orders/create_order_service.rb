@@ -80,7 +80,9 @@ module Services
 
       def confirm_order(order)
         # 4 判断是否需要用到扑客币抵扣
-        if @params[:deduction] || @params[:deduction].eql?('true')
+        deduction_flag = @params[:deduction] || @params[:deduction].eql?('true')
+
+        if deduction_flag
           deduction_numbers = order.max_deduction_poker_coins.to_i
           unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
             return ApiResult.error_result(DEDUCTION_ERROR)
@@ -91,14 +93,15 @@ module Services
           order.final_price = order.price - order.deduction_price
         end
 
-        if order.save
+        ApiResult.error_result(SYSTEM_ERROR) unless order.save
+
+        if deduction_flag
           # 将用户的扑客币冻结 扣除掉
           PokerCoin.deduction(order, '赛票订单抵扣扑客币', order.deduction_numbers)
           order.deduction_success
-          return ApiResult.success_with_data(order: order)
         end
 
-        ApiResult.error_result(SYSTEM_ERROR)
+        ApiResult.success_with_data(order: order)
       end
 
       def stale_ticket_info_retries
