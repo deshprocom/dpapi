@@ -3,6 +3,7 @@ json.status                 order.status
 json.shipping_price         order.shipping_price
 json.total_product_price    order.total_product_price
 json.total_price            order.total_price
+json.final_price            order.final_price
 json.created_at             order.created_at.to_i
 json.delivered              order.delivered
 json.pay_status             order.pay_status
@@ -14,3 +15,4 @@ end
 json.deduction              order.deduction
 json.deduction_numbers      order.deduction_numbers
 json.deduction_result       order.deduction_result
+json.deduction_price        order.deduction_price
