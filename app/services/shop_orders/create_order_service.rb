@@ -1,5 +1,4 @@
 # rubocop:disable Metrics/MethodLength
-# rubocop:disable Metrics/CyclomaticComplexity
 module Services
   module ShopOrders
     class CreateOrderService
@@ -44,21 +43,21 @@ module Services
           return ApiResult.error_result(INVALID_ORDER, @pre_purchase_items.check_result)
         end
 
+        order = create_product_order
+
         # 判断是否需要使用扑客币抵扣 ricky-2018-03-13
-        deduction_poker_coins = 0
-        deduction = false
         if @params[:deduction] || @params[:deduction].eql?('true')
-          deduction_poker_coins = deduction_numbers(@pre_purchase_items.total_product_price).to_i
+          deduction_poker_coins = deduction_numbers(order.total_product_price).to_i
           unless @params[:deduction_numbers].to_i.eql?(deduction_poker_coins)
             return ApiResult.error_result(DEDUCTION_ERROR)
           end
-          deduction = true
-        end
+          deduction_price = deduction_poker_coins.to_f / 100
+          order.update(deduction: true,
+                       deduction_numbers: deduction_poker_coins,
+                       deduction_price: deduction_price,
+                       final_price: order.final_price - deduction_price)
 
-        order = create_product_order(deduction_poker_coins, deduction)
-
-        # 将用户的扑客币冻结 扣除掉
-        if order.deduction
+          # 将用户的扑客币冻结 扣除掉
           PokerCoin.deduction(order, '商品订单抵扣扑客币', order.deduction_numbers)
           order.deduction_success
         end
@@ -79,15 +78,14 @@ module Services
                                       address: address[:detail])
       end
 
-      def create_product_order(deduction_numbers, deduction)
+      def create_product_order
         @user.product_orders.create(status: 'unpaid',
                                     pay_status: 'unpaid',
                                     shipping_price: @pre_purchase_items.shipping_price,
                                     total_product_price: @pre_purchase_items.total_product_price,
                                     total_price: @pre_purchase_items.total_price,
                                     freight_free: @pre_purchase_items.freight_free?,
-                                    deduction_numbers: deduction_numbers,
-                                    deduction: deduction,
+                                    final_price: @pre_purchase_items.total_price,
                                     memo: @params[:memo])
       end
 
