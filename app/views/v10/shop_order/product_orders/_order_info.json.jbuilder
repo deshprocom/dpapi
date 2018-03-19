@@ -16,3 +16,5 @@ json.deduction              order.deduction
 json.deduction_numbers      order.deduction_numbers
 json.deduction_result       order.deduction_result
 json.deduction_price        order.deduction_price
+json.refund_price           order.refund_price
+json.refund_poker_coins     order.refund_poker_coins

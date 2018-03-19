@@ -7,6 +7,7 @@ json.data do
   json.refund_number refund.refund_number
   json.refund_type  refund&.product_refund_type&.name
   json.refund_price refund.refund_price
+  json.refund_poker_coins refund.refund_poker_coins
   json.memo refund.memo.to_s
   json.admin_memo refund.admin_memo.to_s
   json.status refund.status
