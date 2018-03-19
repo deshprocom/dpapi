@@ -40,7 +40,7 @@ module Services
       def refund_cash_numbers
         return 0 unless @order.could_refund_cash?
         if @params[:refund_price].to_f <= @order.could_refund_cash_numbers
-          @params[:refund_price]
+          @params[:refund_price].to_f
         else
           @order.could_refund_cash_numbers
         end
