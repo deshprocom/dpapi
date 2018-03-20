@@ -75,3 +75,4 @@ if ProductRefundType.count.zero?
   ProductRefundType.create(name: '退货退款')
   ProductRefundType.create(name: '换货')
 end
+

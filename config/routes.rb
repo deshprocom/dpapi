@@ -66,7 +66,9 @@ Rails.application.routes.draw do
         resources :receive_replies, only: [:index]
         resources :reply_unread_count, only: [:index]
       end
-      resources :poker_coins, only: :index
+      resources :poker_coins, only: :index do
+        get 'numbers', on: :collection
+      end
     end
 
     scope module: 'orders' do

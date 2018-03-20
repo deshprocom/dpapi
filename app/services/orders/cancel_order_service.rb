@@ -19,6 +19,13 @@ module Services
         else
           order.ticket.return_a_entity_ticket
         end
+
+        # # 将扑客币的数量添加上去
+        if order.deduction && order.deduction_result.eql?('success')
+          PokerCoin.deduction(order, '赛事订单返还扑客币', order.deduction_numbers, '+')
+          order.deduction_success
+        end
+
         ApiResult.success_result
       end
     end

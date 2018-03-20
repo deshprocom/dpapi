@@ -29,6 +29,13 @@ module Services
         # 记录的微信账单
         WxBill.create(bill_params)
         @cf_order.crowdfunding_player.counter.quick_increment!(@cf_order)
+
+        # ricky-2018-03-13添加扑客币抵扣相关逻辑
+        if @cf_order.deduction
+          PokerCoin.deduction(@cf_order, '众筹抵扣扑客币', @cf_order.deduction_numbers)
+          @cf_order.deduction_success
+        end
+
         ApiResult.success_result
       end
 
@@ -51,7 +58,7 @@ module Services
       end
 
       def result_accord_with_order?
-        (@cf_order.total_money * 100).to_i == @order_result['total_fee'].to_i
+        (@cf_order.final_price * 100).to_i == @order_result['total_fee'].to_i
       end
 
       def order_to_paid
