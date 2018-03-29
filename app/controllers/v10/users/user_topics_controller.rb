@@ -6,6 +6,10 @@ module V10
       include UserAccessible
       before_action :login_required, :user_self_required
 
+      def index
+        @topics = @current_user.user_topics.undeleted.sorted.page(params[:page]).per(params[:page_size])
+      end
+
       def create
         return render_api_error(MISSING_PARAMETER) if params_blank?
         return render_api_error(UNSUPPORTED_TYPE) unless body_type_valid?
@@ -15,6 +19,11 @@ module V10
         return render_api_error(api_result.code, api_result.msg) if api_result.failure?
 
         render 'create', locals: { user_topic: api_result.data[:user_topic] }
+      end
+
+      def destroy
+        @topic = @current_user.user_topics.find(params[:id]).destroy
+        render_api_success
       end
 
       private

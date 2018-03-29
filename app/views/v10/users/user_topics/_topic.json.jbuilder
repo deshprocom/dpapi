@@ -1,4 +1,7 @@
-json.user_id          topic.user.user_uuid
+json.user do
+  json.partial! 'v10/users/user_info', user: topic.user
+end
+json.id               topic.id
 json.title            topic.title
 json.body             topic.body
 json.body_type        topic.body_type
@@ -22,3 +25,5 @@ if topic&.topic_images.present?
     end
   end
 end
+
+json.partial! 'v10/users/user_topics/counter', topic: topic

@@ -25,7 +25,7 @@ module Services
       end
 
       def create_short
-        return ApiResult.error_result(IMAGE_COUNT_OVER) if @params[:images].count > 9
+        return ApiResult.error_result(IMAGE_COUNT_OVER) if @params[:images].present? && @params[:images].count > 9
 
         user_topic = UserTopic.new(init_topic_params)
         return ApiResult.error_result(SYSTEM_ERROR) unless user_topic.save
@@ -36,7 +36,7 @@ module Services
       end
 
       def upload_images(images, topic)
-        return if images.count.zero?
+        return if images.blank? || images.count.zero?
         images.each do |v|
           temp_image = TmpImage.find_by(id: v)
           next if temp_image.blank?
