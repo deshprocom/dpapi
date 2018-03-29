@@ -72,6 +72,7 @@ Rails.application.routes.draw do
       end
       resources :topics, only: :index do
         get 'recommends', on: :collection
+        get 'details', on: :member
       end
     end
 
@@ -187,6 +188,11 @@ Rails.application.routes.draw do
         post  'likes', on: :member
       end
       resources :videos, only: [] do
+        get  'comments', on: :member
+        post 'likes', on: :member
+      end
+
+      resources :user_topics, only: [] do
         get  'comments', on: :member
         post 'likes', on: :member
       end

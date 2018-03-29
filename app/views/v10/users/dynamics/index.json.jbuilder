@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/BlockLength
 # meta info
 json.partial! 'common/meta'
 # code & msg
@@ -13,10 +14,18 @@ json.data do
       json.created_at item.created_at.to_i
       json.topic_type typological.topic_type.downcase
       json.topic do
-        json.topic_id typological.topic_id
-        json.topic_image topic.big_image
-        json.topic_title topic.title
-        json.topic_description topic.description
+        if typological.topic_type.casecmp('usertopic').zero?
+          json.topic_id typological.topic_id
+          json.topic_title topic.title
+          json.topic_body_type topic.body_type
+          json.topic_body topic.body
+          json.topic_recommended topic.recommended
+        else
+          json.topic_id typological.topic_id
+          json.topic_image topic.big_image
+          json.topic_title topic.title
+          json.topic_description topic.description
+        end
       end
       json.typological_type item.typological_type.downcase
       json.typological do
