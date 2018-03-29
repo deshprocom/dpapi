@@ -76,3 +76,7 @@ if ProductRefundType.count.zero?
   ProductRefundType.create(name: '换货')
 end
 
+if ReportTemplate.count.zero?
+  %w(垃圾广告 淫秽色情 涉嫌欺诈 网络安全 抄袭我的内容).each { |str| ReportTemplate.create(name: str) }
+end
+
