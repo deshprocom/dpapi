@@ -1,10 +1,8 @@
 module RequestHelper
   extend ActiveSupport::Concern
   included do
-    def header_with_token
-      {
-        headers: http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token),
-      }
+    def request_header
+      http_headers.merge(HTTP_X_DP_ACCESS_TOKEN: access_token)
     end
 
     let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }

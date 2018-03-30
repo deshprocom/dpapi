@@ -11,13 +11,13 @@ module V10
       end
 
       def create
-        followed_user = User.find(params[:target_id])
+        followed_user = User.by_uuid(params[:target_id])
         Followship.create(follower: @current_user, following: followed_user)
         render_api_success
       end
 
       def destroy
-        unfollowed_user = User.find(params[:target_id])
+        unfollowed_user = User.by_uuid(params[:target_id])
         followship = Followship.find_by!(follower: @current_user, following: unfollowed_user)
         followship.destroy!
         render_api_success
