@@ -107,6 +107,7 @@ GEM
     jbuilder (2.6.1)
       activesupport (>= 3.0.0, < 5.1)
       multi_json (~> 1.2)
+    jmessage (0.1.0)
     jpush (4.0.6)
     json (2.0.2)
     jwt (1.5.6)
@@ -326,6 +327,7 @@ DEPENDENCIES
   faraday
   hiredis
   jbuilder
+  jmessage
   jpush (~> 4.0, >= 4.0.6)
   jwt
   kaminari
