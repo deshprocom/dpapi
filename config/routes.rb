@@ -197,6 +197,7 @@ Rails.application.routes.draw do
       resources :user_topics, only: [] do
         get  'comments', on: :member
         post 'likes', on: :member
+        post 'image', on: :member
       end
     end
 

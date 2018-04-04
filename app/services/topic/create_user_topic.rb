@@ -18,6 +18,7 @@ module Services
       def create_long
         user_topic = UserTopic.new(init_topic_params)
         user_topic.title = @params[:title].lstrip
+        user_topic.cover_link = @params[:cover_link]
         user_topic.publish! if @params[:published]
         return ApiResult.error_result(SYSTEM_ERROR) unless user_topic.save
 
