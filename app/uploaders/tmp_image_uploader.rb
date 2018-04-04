@@ -3,10 +3,6 @@ class TmpImageUploader < BaseUploader
     'uploads/tmp'
   end
 
-  def size_range
-    1..2.megabytes
-  end
-
   def filename
     today = Time.zone.today
     # current_path 是 Carrierwave 上传过程临时创建的一个文件，有时间标记，所以它将是唯一的

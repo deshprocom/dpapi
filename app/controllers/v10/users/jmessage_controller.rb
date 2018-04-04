@@ -2,7 +2,15 @@ module V10
   module Users
     class JmessageController < ApplicationController
       include UserAccessible
-      before_action :login_required, :user_self_required
+      before_action :login_required, :user_self_required, only: [:create]
+
+      def index
+        user = User.by_uuid(params[:user_id])
+        return render_api_error(Constants::Error::Sign::USER_NOT_FOUND) if user.blank?
+        result = Services::Jmessage::CreateUser.call(user)
+        return render_api_error(result.code, result.msg) if result.failure?
+        render :index, locals: { j_user: result.data[:j_user] }
+      end
 
       def create
         jmessage_service = Services::Jmessage::CreateUser
