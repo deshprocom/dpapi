@@ -1,3 +1,9 @@
+GIT
+  remote: git@github.com:chenxiaojun/jmessage.git
+  revision: e6f1eb181182e39a678cc4726b1a499ec32453f9
+  specs:
+    jmessage (0.1.0)
+
 GEM
   remote: https://gems.ruby-china.org/
   specs:
@@ -326,6 +332,7 @@ DEPENDENCIES
   faraday
   hiredis
   jbuilder
+  jmessage!
   jpush (~> 4.0, >= 4.0.6)
   jwt
   kaminari

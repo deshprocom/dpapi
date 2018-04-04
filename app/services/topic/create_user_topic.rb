@@ -19,7 +19,7 @@ module Services
         user_topic = UserTopic.new(init_topic_params)
         user_topic.title = @params[:title].lstrip
         user_topic.publish! if @params[:published]
-        ApiResult.error_result(SYSTEM_ERROR) unless user_topic.save
+        return ApiResult.error_result(SYSTEM_ERROR) unless user_topic.save
 
         ApiResult.success_with_data(user_topic: user_topic)
       end
