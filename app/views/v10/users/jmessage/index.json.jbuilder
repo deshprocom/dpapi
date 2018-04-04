@@ -4,5 +4,5 @@ json.partial! 'common/meta'
 json.partial! 'common/api_result', api_result: ApiResult.success_result
 # data
 json.data do
-  json.username   j_user.username
+  json.username j_user.username
 end
