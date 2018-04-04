@@ -44,6 +44,12 @@ gem 'dotenv-rails'
 
 gem 'jwt'
 gem 'resque'
+
+# 压缩图片
+gem 'image_optim'
+gem 'image_optim_pack'
+gem 'carrierwave-imageoptim'
+
 gem 'jpush', '~> 4.0', '>= 4.0.6'
 gem 'awesome_nested_set' # 无限分类
 

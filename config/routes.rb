@@ -67,7 +67,7 @@ Rails.application.routes.draw do
         resources :receive_replies, only: [:index]
         resources :reply_unread_count, only: [:index]
         resources :user_topics, only: [:index, :create, :destroy]
-        resources :jmessage, only: [:create]
+        resources :jmessage, only: [:index, :create]
       end
       resources :poker_coins, only: :index do
         get 'numbers', on: :collection
@@ -197,6 +197,7 @@ Rails.application.routes.draw do
       resources :user_topics, only: [] do
         get  'comments', on: :member
         post 'likes', on: :member
+        post 'image', on: :member
       end
     end
 

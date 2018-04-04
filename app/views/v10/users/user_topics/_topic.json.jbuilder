@@ -3,6 +3,7 @@ json.user do
 end
 json.id               topic.id
 json.title            topic.title
+json.cover_link       topic.cover_link
 json.body             topic.body
 json.body_type        topic.body_type
 json.recommended      topic.recommended
@@ -18,7 +19,7 @@ json.deleted_at       topic.deleted_at.to_i
 json.deleted_reason   topic.deleted_reason
 json.created_at       topic.created_at.to_i
 
-if topic&.topic_images.present?
+if topic&.topic_images.present? && topic.short?
   json.images do
     json.array! topic.topic_images do |image|
       json.image_url image&.image_path.to_s
