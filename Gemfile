@@ -72,7 +72,7 @@ gem 'weixin_authorize'
 gem 'kuaidiniao'
 
 # 极光IM gem
-gem 'jmessage'
+gem 'jmessage', :git => 'git@github.com:chenxiaojun/jmessage.git'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
