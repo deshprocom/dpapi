@@ -66,7 +66,9 @@ Rails.application.routes.draw do
         resources :dynamics, only: [:index]
         resources :receive_replies, only: [:index]
         resources :reply_unread_count, only: [:index]
-        resources :user_topics, only: [:index, :create, :destroy]
+        resources :user_topics, only: [:index, :create, :destroy, :update] do
+          get  'drafts', on: :collection
+        end
         resources :jmessage, only: [:index, :create]
       end
       resources :poker_coins, only: :index do
