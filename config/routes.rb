@@ -69,7 +69,9 @@ Rails.application.routes.draw do
         resources :user_topics, only: [:index, :create, :destroy, :update] do
           get  'drafts', on: :collection
         end
-        resources :jmessage, only: [:index, :create]
+        resources :jmessage, only: [:index, :create] do
+          post 'delete', on: :collection
+        end
       end
       resources :poker_coins, only: :index do
         get 'numbers', on: :collection
