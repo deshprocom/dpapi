@@ -22,9 +22,7 @@ module V10
       def delete
         user = @current_user.j_user
         return render_api_error(Constants::Error::Sign::USER_NOT_FOUND) if user.blank?
-
-        ::Jmessage::User.delete_user(user.username)
-        user.destroy
+        user.delete_user
         render_api_success
       end
     end
