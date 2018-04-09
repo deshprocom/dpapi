@@ -15,11 +15,7 @@ json.data do
       json.topic_type typological.topic_type.downcase
       json.topic do
         if typological.topic_type.casecmp('usertopic').zero?
-          json.topic_id typological.topic_id
-          json.topic_title topic.title
-          json.topic_body_type topic.body_type
-          json.topic_body topic.body
-          json.topic_recommended topic.recommended
+          json.partial! 'v10/users/user_topics/topic', topic: topic
         else
           json.topic_id typological.topic_id
           json.topic_image topic.big_image
