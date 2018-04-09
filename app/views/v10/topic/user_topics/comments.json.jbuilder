@@ -15,7 +15,7 @@ json.data do
       json.total_count comment.replies.count
     end
   end
-  json.page_views @user_topic.counter.page_views
-  json.comments @user_topic.counter.comments
-  json.likes @user_topic.counter.comments
+  json.page_views @user_topic.total_views
+  json.comments @user_topic.total_comments
+  json.likes @user_topic.total_likes
 end

@@ -15,5 +15,5 @@ json.data do
       json.total_count comment.replies.count
     end
   end
-  json.total_count @video.comments.count
+  json.total_count @video.total_comments
 end
