@@ -2,7 +2,7 @@ module V10
   module Users
     class JmessageController < ApplicationController
       include UserAccessible
-      before_action :login_required, :user_self_required, only: [:create]
+      before_action :login_required, :user_self_required, only: [:create, :delete]
 
       def index
         user = User.by_uuid(params[:user_id])
@@ -17,6 +17,15 @@ module V10
         result = jmessage_service.call(@current_user)
         return render_api_error(result.code, result.msg) if result.failure?
         render :create, locals: { j_user: result.data[:j_user] }
+      end
+
+      def delete
+        user = @current_user.j_user
+        return render_api_error(Constants::Error::Sign::USER_NOT_FOUND) if user.blank?
+
+        ::Jmessage::User.delete_user(user.username)
+        user.destroy
+        render_api_success
       end
     end
   end
