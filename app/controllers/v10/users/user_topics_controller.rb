@@ -4,10 +4,13 @@ module V10
       include Constants::Error::Common
       include Constants::Error::Topic
       include UserAccessible
-      before_action :login_required, :user_self_required
+      before_action :login_required, :user_self_required, except: [:index]
 
       def index
-        @topics = @current_user.user_topics.undeleted.sorted.page(params[:page]).per(params[:page_size])
+        # 可以查看别人的
+        user = target_user
+        return render_api_error(Constants::Error::Sign::USER_NOT_FOUND) if user.blank?
+        @topics = user.user_topics.undeleted.sorted.page(params[:page]).per(params[:page_size])
       end
 
       def create
@@ -54,6 +57,10 @@ module V10
 
       def body_type_valid?
         %w(short long).include?(params[:body_type])
+      end
+
+      def target_user
+        User.by_uuid(params[:user_id])
       end
     end
   end
