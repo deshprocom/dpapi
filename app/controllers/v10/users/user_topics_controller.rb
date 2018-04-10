@@ -3,13 +3,14 @@ module V10
     class UserTopicsController < ApplicationController
       include Constants::Error::Common
       include Constants::Error::Topic
+      include Constants::Error::Sign
       include UserAccessible
-      before_action :login_required, :user_self_required, except: [:index]
+      before_action :login_required, :user_self_required, except: [:index, :search]
 
       def index
         # 可以查看别人的
         user = target_user
-        return render_api_error(Constants::Error::Sign::USER_NOT_FOUND) if user.blank?
+        return render_api_error(USER_NOT_FOUND) if user.blank?
         @topics = user.user_topics.undeleted.sorted.page(params[:page]).per(params[:page_size])
       end
 
@@ -40,6 +41,17 @@ module V10
 
       def drafts
         @topics = @current_user.user_topics.draft.undeleted.sorted.page(params[:page]).per(params[:page_size])
+        render :index
+      end
+
+      # 获取用户说说或长帖
+      def search
+        user = target_user
+        return render_api_error(USER_NOT_FOUND) if user.blank?
+        @topics = user.user_topics.undeleted
+                      .where(body_type: params[:keyword])
+                      .sorted
+                      .page(params[:page]).per(params[:page_size])
         render :index
       end
 

@@ -68,6 +68,7 @@ Rails.application.routes.draw do
         resources :reply_unread_count, only: [:index]
         resources :user_topics, only: [:index, :create, :destroy, :update] do
           get  'drafts', on: :collection
+          get  'search', on: :collection
         end
         resources :jmessage, only: [:index, :create] do
           post 'delete', on: :collection
