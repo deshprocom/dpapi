@@ -60,7 +60,10 @@ Rails.application.routes.draw do
           get 'unread_remind', on: :collection
           post 'read', on: :member
         end
-        resource :followships, only: [:show, :create, :destroy]
+        resource :followships, only: [:create, :destroy] do
+          get 'followings', on: :collection
+          get 'followers', on: :collection
+        end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
         resources :dynamics, only: [:index]
