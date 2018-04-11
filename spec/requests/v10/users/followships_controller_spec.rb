@@ -8,6 +8,14 @@ RSpec.describe "/v10/users/:user_id/followships", :type => :request do
   let(:follow_user) { FactoryGirl.create(:followship, {follower_id: user2.id, following_id: user.id}) }
   let(:follow_user2) { FactoryGirl.create(:followship, {follower_id: user.id, following_id: user2.id}) }
   
+  it '返回关注user_uuid列表' do
+    follow_user2
+    get following_ids_v10_user_followships_url(user.user_uuid), headers: request_header
+    expect(response).to have_http_status(200)
+    json = JSON.parse(response.body)
+    expect(json['data']['following_ids']).to eq([user2.user_uuid])
+  end
+
   it '返回关注列表' do
     follow_user2
     get followings_v10_user_followships_url(user.user_uuid), headers: request_header

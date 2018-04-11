@@ -61,6 +61,7 @@ Rails.application.routes.draw do
           post 'read', on: :member
         end
         resource :followships, only: [:create, :destroy] do
+          get 'following_ids', on: :collection
           get 'followings', on: :collection
           get 'followers', on: :collection
         end
