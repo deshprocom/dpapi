@@ -57,8 +57,7 @@ module Services
           body: @params[:body],
           body_type: @params[:body_type],
           lat: @params[:lat],
-          lng: @params[:lng],
-          location: @params[:location]
+          lng: @params[:lng]
         }
       end
     end
