@@ -2,18 +2,23 @@ module V10
   module Users
     class FollowshipsController < ApplicationController
       include UserAccessible
-      before_action :login_required, :user_self_required, only: [:create, :destroy]
+      before_action :login_required, :user_self_required, only: [:create, :destroy, :following_ids]
+
+      def following_ids
+        following_ids = User.where(id: @current_user.followings.pluck(:following_id)).pluck(:user_uuid)
+        render 'following_ids', locals: { following_ids: following_ids }
+      end
 
       def followings
         user = User.by_uuid(params[:user_id])
         followings = user.followings.includes(:following, following: [:counter]).page(params[:page]).per(params[:page_size])
-        render 'followings', locals: { api_result: ApiResult.success_result, followings: followings }
+        render 'followings', locals: { followings: followings }
       end
 
       def followers
         user = User.by_uuid(params[:user_id])
         followers = user.followers.includes(:follower, follower: [:counter]).page(params[:page]).per(params[:page_size])
-        render 'followers', locals: { api_result: ApiResult.success_result, followers: followers }
+        render 'followers', locals: { followers: followers }
       end
 
       def create
