@@ -13,6 +13,8 @@ json.abnormal         topic.abnormal
 json.location do
   json.lat topic.lat
   json.lng topic.lng
+  json.location topic.location.to_s
+  json.gc_business topic.gc_business.to_s
 end
 json.deleted          topic.deleted
 json.deleted_at       topic.deleted_at.to_i
