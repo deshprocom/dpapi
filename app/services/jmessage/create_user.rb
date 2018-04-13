@@ -22,19 +22,22 @@ module Services
 
         # 上传用户头像
         if @user.avatar_path.present?
-          close_buffer_limit
+          default_str_max = OpenURI::Buffer::StringMax
+          buffer_limit(0)
           img_result = ::Jmessage::User.upload_image(open(@user.avatar_path))
           params[:avatar] = img_result['media_id'] if img_result['media_id'].present?
-          open_buffer_limit
+          buffer_limit(default_str_max)
         end
 
         # 去极光注册用户信息
         result = ::Jmessage::User.register(params)
         Rails.logger.info "Jmessage service result: -> #{result}"
+
         # 说明注册失败
         if result.first['error'].present?
           return ApiResult.error_result(result.first['error']['code'], result.first['error']['message']) if user.nil?
         end
+
         # 在数据库创建该用户信息
         j_user = JUser.create(user_id: @user.id, username: params[:username], password: params[:password])
         ApiResult.success_with_data(j_user: j_user)
@@ -63,14 +66,9 @@ module Services
           password: ::Digest::MD5.hexdigest(SecureRandom.uuid) }
       end
 
-      def close_buffer_limit
+      def buffer_limit(number)
         OpenURI::Buffer.send :remove_const, 'StringMax' if string_max_defined?
-        OpenURI::Buffer.const_set 'StringMax', 0
-      end
-
-      def open_buffer_limit
-        OpenURI::Buffer.send :remove_const, 'StringMax' if string_max_defined?
-        OpenURI::Buffer.const_set 'StringMax', 10240
+        OpenURI::Buffer.const_set 'StringMax', number
       end
 
       def string_max_defined?
