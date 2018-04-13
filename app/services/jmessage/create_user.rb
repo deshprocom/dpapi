@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/CyclomaticComplexity
+# rubocop:disable Metrics/MethodLength
 module Services
   module Jmessage
     class CreateUser
@@ -16,8 +18,17 @@ module Services
 
         return ApiResult.error_result(SYSTEM_ERROR) if user_unnormal
 
-        # 去极光注册用户信息
         params = payload
+
+        # 上传用户头像
+        if @user.avatar_path.present?
+          close_buffer_limit
+          img_result = ::Jmessage::User.upload_image(open(@user.avatar_path))
+          params[:avatar] = img_result['media_id'] if img_result['media_id'].present?
+          open_buffer_limit
+        end
+
+        # 去极光注册用户信息
         result = ::Jmessage::User.register(params)
         Rails.logger.info "Jmessage service result: -> #{result}"
         # 说明注册失败
@@ -25,8 +36,7 @@ module Services
           return ApiResult.error_result(result.first['error']['code'], result.first['error']['message']) if user.nil?
         end
         # 在数据库创建该用户信息
-        params.delete(:nickname)
-        j_user = JUser.create(params.merge(user_id: @user.id))
+        j_user = JUser.create(user_id: @user.id, username: params[:username], password: params[:password])
         ApiResult.success_with_data(j_user: j_user)
       end
 
@@ -51,6 +61,20 @@ module Services
         { username: @user.user_name,
           nickname: @user.nick_name,
           password: ::Digest::MD5.hexdigest(SecureRandom.uuid) }
+      end
+
+      def close_buffer_limit
+        OpenURI::Buffer.send :remove_const, 'StringMax' if string_max_defined?
+        OpenURI::Buffer.const_set 'StringMax', 0
+      end
+
+      def open_buffer_limit
+        OpenURI::Buffer.send :remove_const, 'StringMax' if string_max_defined?
+        OpenURI::Buffer.const_set 'StringMax', 10240
+      end
+
+      def string_max_defined?
+        OpenURI::Buffer.const_defined?('StringMax')
       end
     end
   end
