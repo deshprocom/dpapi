@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       post 'register', to: 'accounts#create', as: :register
     end
 
+    namespace :third_party do
+      resources :locations, only: [:index]
+    end
+
     namespace :account do
       resource :reset_password, only: [:create]
       resource :v_codes, only: [:create]
