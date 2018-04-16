@@ -55,11 +55,17 @@ module V10
         render :index
       end
 
+      def my_focus
+        followings_ids = @current_user.followings.pluck(:following_id)
+        @topics = UserTopic.where(user_id: followings_ids).sorted.page(params[:page]).per(params[:page_size])
+        render 'v10/users/topics/index'
+      end
+
       private
 
       def params_blank?
         params[:body_type].blank? ||
-          params[:body].blank? ||
+          (params[:body].blank? && params[:body_type].eql?('long')) ||
           ![true, false].include?(params[:published])
       end
 
