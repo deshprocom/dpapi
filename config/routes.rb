@@ -90,6 +90,7 @@ Rails.application.routes.draw do
         get 'recommends', on: :collection
         get 'details', on: :member
       end
+      resources :report_templates, only: :index
     end
 
     scope module: 'orders' do
@@ -212,6 +213,7 @@ Rails.application.routes.draw do
         get  'comments', on: :member
         post 'likes', on: :member
         post 'image', on: :member
+        post 'report', on: :member
       end
     end
 
