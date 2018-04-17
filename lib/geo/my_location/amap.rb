@@ -15,6 +15,7 @@ module Geo
         }.to_query
       end
 
+      # rubocop:disable Metrics/MethodLength
       def parse_response(response)
         pois = JSON.parse(response.body)&.[]('pois') || []
         {
@@ -22,7 +23,15 @@ module Geo
             geo_type: 'amap',
             cityname: (pois[0]['cityname'] if pois.present?)
           },
-          nearbys: pois.map { |x| x.slice('name', 'address') }
+          nearbys: pois.map do |x|
+            latitude, longtitude = x['location'].split(',')
+            {
+              name: x['name'],
+              address: x['address'],
+              latitude: latitude.to_f,
+              longtitude: longtitude.to_f
+            }
+          end
         }
       end
     end
