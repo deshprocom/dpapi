@@ -9,14 +9,7 @@ RSpec.describe '/v10/activities', type: :request do
     FactoryGirl.create(:activity)
   end
 
-  let(:http_headers) do
-    {
-        ACCEPT: 'application/json',
-        HTTP_ACCEPT: 'application/json',
-        HTTP_X_DP_CLIENT_IP: 'localhost',
-        HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
-    }
-  end
+
 
   context '获取活动列表' do
     it '数据不存在，列表为空' do
