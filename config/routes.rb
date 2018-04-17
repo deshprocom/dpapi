@@ -82,6 +82,9 @@ Rails.application.routes.draw do
         resources :jmessage, only: [:index, :create] do
           post 'delete', on: :collection
         end
+        resources :im, only: [] do
+          post 'report', on: :collection
+        end
         resource :profile, only: [:show]
       end
       resources :poker_coins, only: :index do
@@ -91,6 +94,7 @@ Rails.application.routes.draw do
         get 'recommends', on: :collection
         get 'details', on: :member
       end
+      resources :report_templates, only: :index
     end
 
     scope module: 'orders' do
@@ -213,6 +217,7 @@ Rails.application.routes.draw do
         get  'comments', on: :member
         post 'likes', on: :member
         post 'image', on: :member
+        post 'report', on: :member
       end
     end
 
