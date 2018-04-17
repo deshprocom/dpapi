@@ -12,8 +12,10 @@ json.data do
   end
   json.nearbys do
     json.array! @locations[:nearbys] do |nearby|
-      json.name       nearby['name']
-      json.address    nearby['address']
+      json.name       nearby[:name]
+      json.address    nearby[:address]
+      json.latitude   nearby[:latitude]
+      json.longtitude nearby[:longtitude]
     end
   end
 end

@@ -23,8 +23,10 @@ module Geo
           },
           nearbys: body['results'].map do |x|
             {
-              'name' => x['name'],
-              'address' => x['vicinity']
+              name: x['name'],
+              address: x['vicinity'],
+              latitude: x['geometry']['location']['lat'],
+              longtitude: x['geometry']['location']['lng']
             }
           end
         }
