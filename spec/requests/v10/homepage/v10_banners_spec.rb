@@ -9,14 +9,7 @@ RSpec.describe '/v10/banners', :type => :request do
     FactoryGirl.create(:banner, source_type: 'video', source_id: 1, published: true, position: 2)
   end
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
-  let(:http_headers) do
-    {
-        ACCEPT: 'application/json',
-        HTTP_ACCEPT: 'application/json',
-        HTTP_X_DP_CLIENT_IP: 'localhost',
-        HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
-    }
-  end
+
 
   context '获取banner列表' do
     it '应过滤未发布的banner' do
