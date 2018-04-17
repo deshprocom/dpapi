@@ -3,7 +3,7 @@ module V10
     class UserTopicsController < ApplicationController
       before_action :set_user_topic
       include UserAccessible
-      before_action :login_required, only: [:likes, :image]
+      before_action :login_required, only: [:likes, :image, :report]
       include Constants::Error::File
 
       def comments
@@ -23,6 +23,17 @@ module V10
         end
         return render_api_error(UPLOAD_FAILED) unless @topic_image.save
         render 'v10/topic/image'
+      end
+
+      def report
+        @report = UserTopicReport.create(user_id: @user_topic.user.id,
+                                         user_topic_id: @user_topic.id,
+                                         report_user_id: @current_user.id,
+                                         body: params[:body],
+                                         report_type: @user_topic.body_type)
+
+        @user_topic.counter.increment!(:reports)
+        render 'v10/topic/report'
       end
 
       private
