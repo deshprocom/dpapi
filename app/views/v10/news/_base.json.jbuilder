@@ -13,5 +13,5 @@ json.top         list.top
 json.description list.description.to_s
 json.total_views list.total_views
 json.total_likes list.total_likes
-json.total_comments list.comments.count
+json.total_comments list.total_comments
 json.current_user_like list.topic_likes.find_by(user: @current_user).present?

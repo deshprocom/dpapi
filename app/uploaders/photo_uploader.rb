@@ -1,5 +1,6 @@
 class PhotoUploader < BaseUploader
-  process resize_to_limit: [1080, nil]
+  include CarrierWave::ImageOptim
+  process :optimize
 
   def filename
     today = Time.zone.today

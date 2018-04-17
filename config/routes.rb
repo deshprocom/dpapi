@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       post 'register', to: 'accounts#create', as: :register
     end
 
+    namespace :third_party do
+      resources :locations, only: [:index]
+    end
+
     namespace :account do
       resource :reset_password, only: [:create]
       resource :v_codes, only: [:create]
@@ -60,14 +64,32 @@ Rails.application.routes.draw do
           get 'unread_remind', on: :collection
           post 'read', on: :member
         end
+        resource :followships, only: [:create, :destroy] do
+          get 'following_ids', on: :collection
+          get 'followings', on: :collection
+          get 'followers', on: :collection
+        end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
         resources :dynamics, only: [:index]
         resources :receive_replies, only: [:index]
         resources :reply_unread_count, only: [:index]
+        resources :user_topics, only: [:index, :create, :destroy, :update] do
+          get 'my_focus', on: :collection
+          get  'drafts', on: :collection
+          get  'search', on: :collection
+        end
+        resources :jmessage, only: [:index, :create] do
+          post 'delete', on: :collection
+        end
+        resource :profile, only: [:show]
       end
       resources :poker_coins, only: :index do
         get 'numbers', on: :collection
+      end
+      resources :topics, only: :index do
+        get 'recommends', on: :collection
+        get 'details', on: :member
       end
     end
 
@@ -185,6 +207,12 @@ Rails.application.routes.draw do
       resources :videos, only: [] do
         get  'comments', on: :member
         post 'likes', on: :member
+      end
+
+      resources :user_topics, only: [] do
+        get  'comments', on: :member
+        post 'likes', on: :member
+        post 'image', on: :member
       end
     end
 

@@ -15,5 +15,5 @@ json.data do
       json.total_count comment.replies.count
     end
   end
-  json.total_count @info.comments.count
+  json.total_count @info.total_comments
 end
