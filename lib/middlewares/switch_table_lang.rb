@@ -9,7 +9,7 @@ module DpAPI
     end
 
     def call(env)
-      lang = env['HTTP_X_DP_LANG'].strip
+      lang = env['HTTP_X_DP_LANG'].to_s.strip
       lang = 'en' unless SUPPORT_HEADER_LANG.include?(lang)
       switch_lang lang
       @app.call(env)
