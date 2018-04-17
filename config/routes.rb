@@ -82,6 +82,9 @@ Rails.application.routes.draw do
         resources :jmessage, only: [:index, :create] do
           post 'delete', on: :collection
         end
+        resources :im, only: [] do
+          post 'report', on: :collection
+        end
         resource :profile, only: [:show]
       end
       resources :poker_coins, only: :index do
