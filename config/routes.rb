@@ -75,6 +75,7 @@ Rails.application.routes.draw do
         resources :receive_replies, only: [:index]
         resources :reply_unread_count, only: [:index]
         resources :user_topics, only: [:index, :create, :destroy, :update] do
+          get 'my_focus', on: :collection
           get  'drafts', on: :collection
           get  'search', on: :collection
         end
