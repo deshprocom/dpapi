@@ -8,7 +8,7 @@ module Geo
         URL + {
           key: KEY,
           location: params[:location],
-          radius: 1000,
+          radius: params[:radius] || 1000,
           keyword: params[:keyword],
           pagetoken: params[:pagetoken]
         }.to_query
