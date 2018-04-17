@@ -8,7 +8,7 @@ module Geo
         URL + {
           key: KEY,
           location: params[:location],
-          radius: 1000,
+          radius: params[:radius] || 1000,
           keyword: params[:keyword],
           pagetoken: params[:pagetoken]
         }.to_query
@@ -23,8 +23,10 @@ module Geo
           },
           nearbys: body['results'].map do |x|
             {
-              'name' => x['name'],
-              'address' => x['vicinity']
+              name: x['name'],
+              address: x['vicinity'],
+              latitude: x['geometry']['location']['lat'],
+              longtitude: x['geometry']['location']['lng']
             }
           end
         }
