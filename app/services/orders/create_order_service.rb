@@ -1,3 +1,5 @@
+# rubocop:disable Metrics/ClassLength
+# rubocop:disable Metrics/MethodLength
 module Services
   module Orders
     class CreateOrderService
@@ -22,10 +24,14 @@ module Services
         @ticket = ticket
         @user   = user
         @params = params
-        @invite_code = params[:invite_code]&.upcase
+        @invite_code = params[:invite_code]&.strip&.upcase
+        # 兼容老版本不传cert_it的情况，
+        if params[:cert_id].blank?
+          return @user_extra = UserExtra.find_by!(user_id: @user.id)
+        end
+        @user_extra = @user.user_extras.find(params[:cert_id])
       end
 
-      # rubocop:disable Metrics/CyclomaticComplexity
       def call
         unless @params[:ticket_type].in? TICKET_TYPES
           return ApiResult.error_result(UNSUPPORTED_TYPE)
@@ -39,12 +45,6 @@ module Services
           return ApiResult.error_result(TICKET_STATUS_ERRORS[@ticket.status.to_sym])
         end
 
-        return ApiResult.error_result(NO_CERTIFICATION) unless @user.user_extra
-
-        if @invite_code.present? && !InviteCode.exists?(code: @invite_code)
-          return ApiResult.error_result(INVITE_CODE_NOT_EXIST)
-        end
-
         ##
         # 放开购买次数限制
         # if PurchaseOrder.purchased?(@user.id, @race.id)
@@ -55,7 +55,7 @@ module Services
       end
 
       def ordering_e_ticket
-        unless UserValidator.email_valid?(@params[:email])
+        unless UserValidator.email_valid?(@params[:email].strip)
           return ApiResult.error_result(PARAM_FORMAT_ERROR)
         end
 
@@ -63,9 +63,7 @@ module Services
         return result if result.failure?
 
         order = PurchaseOrder.new(init_order_params)
-        return ApiResult.success_with_data(order: order) if order.save
-
-        ApiResult.error_result(SYSTEM_ERROR)
+        confirm_order order
       end
 
       def ordering_entity_ticket
@@ -77,9 +75,33 @@ module Services
         return result if result.failure?
 
         order = PurchaseOrder.new(init_order_params)
-        return ApiResult.success_with_data(order: order) if order.save
+        confirm_order order
+      end
 
-        ApiResult.error_result(SYSTEM_ERROR)
+      def confirm_order(order)
+        # 4 判断是否需要用到扑客币抵扣
+        deduction_flag = @params[:deduction] || @params[:deduction].eql?('true')
+
+        if deduction_flag
+          deduction_numbers = order.max_deduction_poker_coins.to_i
+          unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
+            return ApiResult.error_result(DEDUCTION_ERROR)
+          end
+          order.deduction = true
+          order.deduction_numbers = deduction_numbers
+          order.deduction_price = deduction_numbers.to_f / 100
+          order.final_price = order.price - order.deduction_price
+        end
+
+        ApiResult.error_result(SYSTEM_ERROR) unless order.save
+
+        if deduction_flag
+          # 将用户的扑客币冻结 扣除掉
+          PokerCoin.deduction(order, '赛票订单抵扣扑客币', order.deduction_numbers)
+          order.deduction_success
+        end
+
+        ApiResult.success_with_data(order: order)
       end
 
       def stale_ticket_info_retries
@@ -115,13 +137,27 @@ module Services
         ApiResult.success_result
       end
 
+      def discount_price
+        code_info = InviteCode.find_by(code: @invite_code)
+        # return @ticket.price if code_info.nil? || code_info.no_discount? || code_info.coupon_number.zero?
+        if code_info&.rebate?
+          return @ticket.price * (code_info.coupon_number / 100.to_f)
+        end
+
+        return (@ticket.price - code_info.coupon_number) if code_info&.reduce?
+
+        @ticket.price
+      end
+
       def init_order_params
         {
           user:           @user,
           race:           @race,
           ticket:         @ticket,
-          price:          @ticket.price,
+          user_extra:     @user_extra,
+          price:          discount_price,
           original_price: @ticket.original_price,
+          final_price:    discount_price,
           ticket_type:    @params[:ticket_type],
           email:          @params[:email],
           mobile:         @params[:mobile],

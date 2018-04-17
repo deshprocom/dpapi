@@ -12,6 +12,7 @@ json.data do
     json.logo            @race.preview_logo
     json.big_logo        @race.big_logo
     json.prize           @race.prize
+    json.blind           @race.blind
     json.location        @race.location.to_s
     json.participants    @race.participants.to_s
     json.begin_date      @race.begin_date
@@ -33,15 +34,18 @@ json.data do
     end
   end
 
-  json.schedules do
-    json.partial! 'v10/races/schedules', race_schedules: @race.race_schedules.default_order
-  end
-
   json.ranks do
     json.partial! 'v10/races/ranks', ranks: @race.race_ranks
   end
 
-  json.blinds do
-    json.partial! 'v10/races/blinds', blinds: @race.race_blinds.level_asc
+  json.schedules do
+    json.partial! 'v10/races/schedules', race_schedules: @race.race_schedules.default_order
   end
+
+  json.blinds do
+    json.partial! 'v10/races/blinds', blinds: @race.race_blinds.position_asc
+  end
+
+  json.schedule_memo @race.race_extra&.schedule_memo
+  json.blind_memo @race.race_extra&.blind_memo
 end

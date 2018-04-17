@@ -2,18 +2,20 @@ module V10
   module Races
     class TicketsController < ApplicationController
       include UserAccessible
-      before_action :login_required
-      before_action :set_race, only: [:index]
-      before_action :set_tickets, only: [:show]
+      before_action :current_user
+      before_action :set_race, only: [:index, :show]
+      before_action :set_ticket, only: [:show]
 
       # 选票页面所需数据
-      def index; end
+      def index
+        return @tickets = @race.tickets.tradable if @current_user&.tester?
+
+        @tickets = @race.tickets.tradable.everyone
+      end
 
       # 购票页面所需数据
       def show
-        return render_api_error(NOT_FOUND) unless @ticket.ticket_info
-
-        render 'new_order'
+        render_api_error(NOT_FOUND) unless @ticket.ticket_info
       end
 
       private
@@ -22,8 +24,8 @@ module V10
         @race = Race.find(params[:race_id])
       end
 
-      def set_tickets
-        @ticket = Ticket.find(params[:id])
+      def set_ticket
+        @ticket = @race.tickets.find(params[:id])
       end
     end
   end

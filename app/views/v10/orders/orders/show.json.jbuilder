@@ -13,5 +13,8 @@ json.data do
   json.ticket do
     json.partial! 'ticket', ticket: @order.ticket
   end
+  json.user_extra do
+    json.partial! 'user_extra', user_extra: @order.user_extra
+  end
 end
 

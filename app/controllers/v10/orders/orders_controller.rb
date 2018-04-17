@@ -11,7 +11,7 @@ module V10
 
         @orders = @current_user.orders.where('order_number < ?', params[:next_id])
                                .limit(params[:page_size])
-                               .order(order_number: :desc)
+                               .order(id: :desc)
         if PurchaseOrder.statuses.keys.include?(params[:status])
           status = params[:status] == 'paid' ? %w(paid delivered) : params[:status]
           @orders = @orders.where(status: status)

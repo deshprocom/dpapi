@@ -56,8 +56,6 @@ RSpec.describe 'v10_u_race_detail', :type => :request do
       # expect( %w(true false) ).to    include(race['ordered'].to_s)
 
       expect(get(race['big_logo'])).to eq(200)
-
-      expect(get(race['logo'])).to eq(200)
     end
   end
 

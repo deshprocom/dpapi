@@ -9,6 +9,7 @@ FactoryGirl.define do
     original_price 8888
     after(:build) do |order|
       order.ticket = FactoryGirl.create(:ticket, race: order.race)
+      order.user_extra = FactoryGirl.create(:user_extra, user: order.user)
     end
   end
 end

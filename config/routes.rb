@@ -11,7 +11,10 @@ Rails.application.routes.draw do
       resource :reset_password, only: [:create]
       resource :v_codes, only: [:create]
       resource :verify_vcode, only: [:create]
+      resource :test_user, only: [:show]
       resources :users, only: [] do
+        resource :dynamics, only: [:show]
+        resource :receives, only: [:show]
         resource :profile, only: [:show, :update]
         resource :change_password, only: [:create]
         resource :change_permission, only: [:create]
@@ -22,6 +25,10 @@ Rails.application.routes.draw do
           end
         end
         resources :certification, only: [:index, :create]
+        namespace :certification do
+          resources :delete, only: [:create]
+          resources :default, only: [:create]
+        end
         resources :change_account, only: [:create]
         resources :bind_account, only: [:create]
       end
@@ -55,6 +62,12 @@ Rails.application.routes.draw do
         end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
+        resources :dynamics, only: [:index]
+        resources :receive_replies, only: [:index]
+        resources :reply_unread_count, only: [:index]
+      end
+      resources :poker_coins, only: :index do
+        get 'numbers', on: :collection
       end
     end
 
@@ -73,6 +86,7 @@ Rails.application.routes.draw do
     namespace :uploaders do
       resources :avatar, only:[:create]
       resources :card_image, only:[:create]
+      resources :tmp_image, only: [:create]
     end
 
     scope module: 'players' do
@@ -86,11 +100,18 @@ Rails.application.routes.draw do
       resources :types, only: [:index, :show]
       resources :search, only: [:index]
       resources :infos, only: [:show]
+      resources :videos, only: [:show]
     end
 
     namespace :videos do
-      resources :types, only: [:index, :show]
+      resources :types, only: [:index, :show] do
+        resources :main_lists, only: [:index]
+      end
+      resources :group, only: [] do
+        resources :sub_videos, only: [:index]
+      end
       resources :search, only: [:index]
+      resources :search_main_videos, only: [:index]
     end
 
     namespace :weixin do
@@ -104,6 +125,14 @@ Rails.application.routes.draw do
       resources :notify_url, only: [:index, :create]
       resources :return_url, only: [:index, :create]
       resources :wx_notify, only: [:create]
+      resources :wx_shop_order_notify, only: [:create]
+      resources :wx_cf_order_notify, only: [:create]
+    end
+
+    scope module: :homepage do
+      resources :banners, only: [:index]
+      resources :headlines, only: [:index]
+      resources :hot_infos, only: [:index]
     end
 
     resources :app_versions, only:[:index]
@@ -112,7 +141,71 @@ Rails.application.routes.draw do
     resources :activities, only: [:index, :show] do
       get 'pushed', on: :collection
     end
+
+    scope module: :shop do
+      resources :categories, only: [:index] do
+        get 'children', on: :member
+        get 'products', on: :member
+      end
+
+      resources :products
+      resources :recommended_products, only:[:index]
     end
+
+    scope module: 'shop_orders' do
+      resources :product_orders do
+        post 'new', on: :collection, as: :new
+        get  'wx_paid_result', on: :member
+        resources :wx_pay, only: [:create]
+        resources :cancel, only: [:create]
+        resources :confirm, only: [:create]
+        resources :refund, only: [:create]
+      end
+
+      resources :refund_types, only: [:index]
+      resources :refund, only: [:show] do
+        resources :refund_record, only: [:index]
+      end
+    end
+
+    namespace :shipments do
+      resources :search, only: [:index]
+    end
+
+    namespace :topic do
+      resources :comments, only: [:create, :destroy] do
+        resources :replies, only: [:index, :create, :destroy] do
+          resources :replies, only: [:create]
+        end
+      end
+      resources :infos, only: [] do
+        get  'comments', on: :member
+        post  'likes', on: :member
+      end
+      resources :videos, only: [] do
+        get  'comments', on: :member
+        post 'likes', on: :member
+      end
+    end
+
+    scope module: :cf do
+      resources :crowdfundings, only: [:index, :show] do
+        resources :players, only: [:index, :show] do
+          get  'reports', on: :member
+          get 'user_order_count', on: :member
+        end
+        resources :reports, only: [:index]
+      end
+      resources :crowdfunding_orders, only: [:index, :show, :create, :destroy] do
+        get  'wx_paid_result', on: :member
+        resources :wx_pay, only: [:create]
+      end
+      resources :crowdfunding_banners, only: [:index]
+    end
+
+    resources :releases, only: [:index]
+  end
+
 
   unless Rails.env.production?
     namespace :factory do

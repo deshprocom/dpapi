@@ -14,7 +14,7 @@ module Services
 
       def call
         # 检查参数是否为空
-        if user_params[:consignee].blank? || user_params[:mobile].blank? || user_params[:address].blank?
+        if user_params[:consignee].blank? || user_params[:mobile].blank?
           return ApiResult.error_result(MISSING_PARAMETER)
         end
 

@@ -11,7 +11,7 @@ module Services
       end
 
       def call
-        nums = number.nil? ? '5' : number
+        nums = number.nil? ? '10' : number
         unless nums =~ /^[0-9]+$/
           return ApiResult.error_result(PARAM_FORMAT_ERROR)
         end

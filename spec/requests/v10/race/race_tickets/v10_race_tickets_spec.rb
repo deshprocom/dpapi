@@ -125,6 +125,4 @@ RSpec.describe 'v10_race_tickets', :type => :request do
       end
     end
   end
-
-
 end

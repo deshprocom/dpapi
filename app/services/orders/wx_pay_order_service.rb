@@ -16,9 +16,8 @@ module Services
         return ApiResult.error_result(CANNOT_PAY) unless order.status == 'unpaid'
         result = WxPay::Service.invoke_unifiedorder(pay_params(order))
         unless result.success?
-          # 支付失败
-          Rails.logger.info "WX_PAY ERROR: return_code:#{result['return_code']}, return_msg:#{result['return_msg']}, "\
-          "err_code: #{result['err_code']}, err_code_des: #{result['err_code_des']}"
+          # 微信统一下单失败
+          Rails.logger.info("WX_PAY ERROR number=#{order.order_number}: #{result}")
           return ApiResult.error_result(PAY_ERROR)
         end
         # 生成唤起支付需要的参数
@@ -32,7 +31,7 @@ module Services
         {
           body: order.ticket.try(:title),
           out_trade_no: order.order_number,
-          total_fee: order.price * 100,
+          total_fee: (order.final_price * 100).to_i,
           spbill_create_ip: CurrentRequestCredential.client_ip,
           notify_url: ENV['WX_NOTIFY_URL'],
           trade_type: 'APP'

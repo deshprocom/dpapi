@@ -25,3 +25,54 @@ unless AffiliateApp.exists?(app_key: '467109f4b44be6398c17f6c058dfa7ee')
   apps.status = 0
   apps.save
 end
+
+unless AffiliateApp.exists?(app_key: 'd4328ba02f33fdec44da3123b21facea')
+  apps = AffiliateApp.new
+  apps.affiliate = desh
+  apps.app_id = 'dpweb'
+  apps.app_name = '德尚网站(www.deshpro.com)'
+  apps.app_key = 'd4328ba02f33fdec44da3123b21facea'
+  apps.app_secret = '65bf536f908fc82f083bc7ffeca36936'
+  apps.status = 0
+  apps.save
+end
+
+if ExpressCode.unscoped.count.zero?
+  require './db/express_codes'
+  EXPRESS_CODE_JSON_LISTS.collect do |item|
+    ExpressCode.unscoped.create(id: item[:id], name: item[:name], express_code: item[:express_code], region: item[:region])
+  end
+end
+
+if Freight.unscoped.count.zero?
+  Freight.create(id: 1, name: '重量', first_cond: 1, first_price: 1, add_cond: 1, add_price: 1, freight_type: 'weight')
+  Freight.create(id: 2, name: '件数', first_cond: 1, first_price: 1, add_cond: 1, add_price: 1, freight_type: 'number')
+  Freight.create(id: 3, name: '体积', first_cond: 1, first_price: 1, add_cond: 1, add_price: 1, freight_type: 'volume')
+end
+
+if Province.count.zero?
+  require './db/provinces'
+  PROVINCE_LIST.collect do |item|
+    Province.create(id: item[:id], name: item[:name], province_id: item[:province_id])
+  end
+end
+
+if City.count.zero?
+  require './db/cities'
+  CITY_LIST.collect do |item|
+    City.create(id: item[:id], city_id: item[:city_id], name: item[:name], province_id: item[:province_id])
+  end
+end
+
+if Area.count.zero?
+  require './db/areas'
+  AREA_LIST.collect do |item|
+    Area.create(id: item[:id], name: item[:name], area_id: item[:area_id], city_id: item[:city_id])
+  end
+end
+
+if ProductRefundType.count.zero?
+  ProductRefundType.create(name: '退货退款')
+  ProductRefundType.create(name: '换货')
+end
+
