@@ -9,14 +9,7 @@ RSpec.describe '/v10/players', :type => :request do
     FactoryGirl.create(:player, name: 'poker_5', country: '美国')
   end
   let!(:dpapi_affiliate) { FactoryGirl.create(:affiliate_app) }
-  let(:http_headers) do
-    {
-        ACCEPT: 'application/json',
-        HTTP_ACCEPT: 'application/json',
-        HTTP_X_DP_CLIENT_IP: 'localhost',
-        HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
-    }
-  end
+
 
   context '获取牌手列表' do
     it '筛选关键字为 poker_1' do

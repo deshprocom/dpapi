@@ -9,14 +9,7 @@ RSpec.describe '/v10/players/:id/follow', :type => :request do
   let(:access_token) do
     AppAccessToken.jwt_create('18ca083547bb164b94a0f89a7959548b', user.user_uuid)
   end
-  let(:http_headers) do
-    {
-        ACCEPT: 'application/json',
-        HTTP_ACCEPT: 'application/json',
-        HTTP_X_DP_CLIENT_IP: 'localhost',
-        HTTP_X_DP_APP_KEY: '467109f4b44be6398c17f6c058dfa7ee'
-    }
-  end
+
 
   context '关注牌手' do
     it '关注成功' do
