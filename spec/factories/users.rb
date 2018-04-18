@@ -11,5 +11,7 @@ FactoryGirl.define do
     email 'ricky@deshpro.com'
     reg_date Time.now
     last_visit Time.now
+    latitude 26.56667
+    longitude 106.71667
   end
 end

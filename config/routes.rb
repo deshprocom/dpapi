@@ -60,6 +60,7 @@ Rails.application.routes.draw do
 
     scope module: 'users' do
       resources :users, only: :show do
+        resources :nearbys, only: [:index, :create]
         resources :notifications, only: [:index, :destroy] do
           get 'unread_remind', on: :collection
           post 'read', on: :member
