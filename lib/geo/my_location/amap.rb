@@ -24,12 +24,12 @@ module Geo
             cityname: (pois[0]['cityname'] if pois.present?)
           },
           nearbys: pois.map do |x|
-            latitude, longtitude = x['location'].split(',')
+            latitude, longitude = x['location'].split(',')
             {
               name: x['name'],
               address: x['address'],
               latitude: latitude.to_f,
-              longtitude: longtitude.to_f
+              longitude: longitude.to_f
             }
           end
         }

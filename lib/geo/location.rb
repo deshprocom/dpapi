@@ -1,11 +1,11 @@
 module Geo
   class Location
-    def self.nearby(latitude, longtitude, options = {})
+    def self.nearby(latitude, longitude, options = {})
       if options[:geo_type] == 'google'
-        location = "#{latitude},#{longtitude}"
+        location = "#{latitude},#{longitude}"
         ::Geo::MyLocation::Google.search(options.merge(location: location))
       else
-        location = "#{longtitude},#{latitude}"
+        location = "#{longitude},#{latitude}"
         ::Geo::MyLocation::Amap.search(options.merge(location: location))
       end
     end
