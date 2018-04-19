@@ -26,7 +26,7 @@ module Geo
               name: x['name'],
               address: x['vicinity'],
               latitude: x['geometry']['location']['lat'],
-              longtitude: x['geometry']['location']['lng']
+              longitude: x['geometry']['location']['lng']
             }
           end
         }

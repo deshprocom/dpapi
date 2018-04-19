@@ -15,7 +15,7 @@ json.data do
       json.name       nearby[:name]
       json.address    nearby[:address]
       json.latitude   nearby[:latitude]
-      json.longtitude nearby[:longtitude]
+      json.longitude nearby[:longitude]
     end
   end
 end
