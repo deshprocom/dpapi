@@ -13,7 +13,7 @@ module Services
 
       def call
         # 尝试从极光获取用户信息
-        @remote_user = ::Jmessage::User.user_info(@user.user_name)
+        @remote_user = ::Jmessage::User.user_info(@user.user_uuid)
         return ApiResult.success_with_data(j_user: @local_user) if user_exists?
 
         return ApiResult.error_result(SYSTEM_ERROR) if user_unnormal
@@ -61,7 +61,7 @@ module Services
       end
 
       def payload
-        { username: @user.user_name,
+        { username: @user.user_uuid,
           nickname: @user.nick_name,
           password: ::Digest::MD5.hexdigest(SecureRandom.uuid) }
       end
