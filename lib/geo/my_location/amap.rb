@@ -11,7 +11,7 @@ module Geo
           page: params[:page],
           keywords: params[:keyword],
           radius: params[:radius] || 1000,
-          types: params[:type] || '080307|100000|110000|120000' # 赌场／酒店／风景名胜／商业建筑
+          types: params[:keyword] || '080307|100000|110000|120000' # 赌场／酒店／风景名胜／商业建筑
         }.to_query
       end
 
