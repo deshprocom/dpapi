@@ -19,9 +19,9 @@ module Services
         user_topic = UserTopic.new(init_topic_params)
         user_topic.title = @params[:title].lstrip
         user_topic.cover_link = @params[:cover_link]
-        user_topic.publish! if @params[:published]
         return ApiResult.error_result(SYSTEM_ERROR) unless user_topic.save
 
+        @user.increase_long_topics
         ApiResult.success_with_data(user_topic: user_topic)
       end
 
@@ -32,7 +32,8 @@ module Services
         return ApiResult.error_result(SYSTEM_ERROR) unless user_topic.save
 
         upload_images(@params[:images], user_topic)
-        user_topic.publish!
+
+        @user.increase_short_topics
         ApiResult.success_with_data(user_topic: user_topic)
       end
 

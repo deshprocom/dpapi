@@ -30,20 +30,6 @@ module V10
         render_api_success
       end
 
-      def update
-        topic = @current_user.user_topics.find(params[:id])
-        user_topic_service = Services::Topic::UpdateUserTopic
-        api_result = user_topic_service.call(topic, params)
-        return render_api_error(api_result.code, api_result.msg) if api_result.failure?
-
-        render 'create', locals: { user_topic: api_result.data[:user_topic] }
-      end
-
-      def drafts
-        @topics = @current_user.user_topics.draft.undeleted.sorted.page(params[:page]).per(params[:page_size])
-        render :index
-      end
-
       # 获取用户说说或长帖
       def search
         user = target_user
@@ -65,8 +51,7 @@ module V10
 
       def params_blank?
         params[:body_type].blank? ||
-          (params[:body].blank? && params[:body_type].eql?('long')) ||
-          ![true, false].include?(params[:published])
+          (params[:body].blank? && params[:body_type].eql?('long'))
       end
 
       def title_blank?

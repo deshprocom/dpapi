@@ -7,8 +7,6 @@ json.cover_link       topic.cover_link
 json.body             topic.body
 json.body_type        topic.body_type
 json.recommended      topic.recommended
-json.published        topic.published
-json.published_time   topic.published_time.to_i
 json.abnormal         topic.abnormal
 json.location do
   json.lat topic.lat
