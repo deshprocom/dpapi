@@ -5,7 +5,7 @@ module V10
       before_action :login_required, :user_self_required
 
       def index
-        @nearby_users = @current_user.nearbys(500).limit(100)
+        @nearby_users = @current_user.nearbys(5000).limit(30)
         render 'index'
       end
 
