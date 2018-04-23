@@ -1,3 +1,4 @@
+# rubocop:disable Metrics/MethodLength
 module Services
   module Account
     class EmailLoginService
