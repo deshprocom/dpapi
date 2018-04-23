@@ -6,11 +6,12 @@ module Services
       include Constants::Error::Common
       include Constants::Error::Sign
 
-      attr_accessor :email, :password
+      attr_accessor :email, :password, :remote_ip
 
-      def initialize(email, password)
-        self.email = email.downcase
-        self.password = password
+      def initialize(params, remote_ip)
+        self.email = params[:email].downcase
+        self.password = params[:password]
+        self.remote_ip = remote_ip
       end
 
       def call
@@ -30,7 +31,7 @@ module Services
         end
 
         # 可以注册, 创建一个用户
-        user = User.create_by_email(email, password)
+        user = User.create_by_email(email, password, remote_ip)
 
         # 生成用户令牌
         secret = CurrentRequestCredential.affiliate_app.try(:app_secret)

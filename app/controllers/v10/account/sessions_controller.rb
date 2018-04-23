@@ -17,19 +17,19 @@ module V10
 
       def login_by_vcode
         vcode_service = Services::Account::VcodeLoginService
-        api_result = vcode_service.call(login_params[:mobile], login_params[:vcode])
+        api_result = vcode_service.call(login_params[:mobile], login_params[:vcode], request.remote_ip)
         render_api_result api_result
       end
 
       def login_by_email
         email_service = Services::Account::EmailLoginService
-        api_result = email_service.call(login_params[:email], login_params[:password])
+        api_result = email_service.call(login_params[:email], login_params[:password], request.remote_ip)
         render_api_result api_result
       end
 
       def login_by_mobile
         mobile_service = Services::Account::MobileLoginService
-        api_result = mobile_service.call(login_params[:mobile], login_params[:password])
+        api_result = mobile_service.call(login_params[:mobile], login_params[:password], request.remote_ip)
         render_api_result api_result
       end
 

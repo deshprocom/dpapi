@@ -6,12 +6,13 @@ module Services
       include Constants::Error::Common
       include Constants::Error::Sign
 
-      attr_accessor :mobile, :vcode, :password
+      attr_accessor :mobile, :vcode, :password, :remote_ip
 
-      def initialize(mobile, vcode, password = nil)
-        self.mobile = mobile
-        self.vcode = vcode
-        self.password = password
+      def initialize(params, remote_ip)
+        self.mobile = params[:mobile]
+        self.vcode = params[:vcode]
+        self.password = params[:password]
+        self.remote_ip = remote_ip || ''
       end
 
       def call
@@ -32,7 +33,7 @@ module Services
         end
 
         # 可以注册, 创建一个用户
-        user = User.create_by_mobile(mobile, password)
+        user = User.create_by_mobile(mobile, password, remote_ip)
 
         # 生成用户令牌
         secret = CurrentRequestCredential.affiliate_app.try(:app_secret)
