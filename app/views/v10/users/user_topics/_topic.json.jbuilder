@@ -26,5 +26,5 @@ if topic&.topic_images.present? && topic.short?
     end
   end
 end
-
 json.partial! 'v10/users/user_topics/counter', topic: topic
+json.is_like @user_like_ids.present? && @user_like_ids.include?(topic.id)
