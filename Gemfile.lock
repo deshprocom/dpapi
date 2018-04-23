@@ -248,6 +248,8 @@ GEM
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
       netrc (~> 0.8)
+    rollbar (2.15.6)
+      multi_json
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -368,6 +370,7 @@ DEPENDENCIES
   redis-rails (~> 5.0, >= 5.0.2)
   request_store
   resque
+  rollbar
   rspec-rails
   rubocop
   second_level_cache (~> 2.3.0)
