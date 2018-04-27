@@ -65,6 +65,9 @@ Rails.application.routes.draw do
           get 'unread_remind', on: :collection
           post 'read', on: :member
         end
+        resources :topic_notifications, only: [:index, :destroy] do
+          get 'unread_count', on: :collection
+        end
         resource :followships, only: [:create, :destroy] do
           get 'following_ids', on: :collection
           get 'followings', on: :collection
