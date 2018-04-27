@@ -6,6 +6,7 @@ json.partial! 'common/api_result', api_result: ApiResult.success_result
 json.data do
   json.notifications do
     json.array! @notifications do |notification|
+      next if notification.source.blank?
       json.id            notification.id
       json.notify_type   notification.notify_type
       json.read          notification.read
