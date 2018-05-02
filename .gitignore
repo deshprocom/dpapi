@@ -58,3 +58,5 @@
 # erd
 **/erd.*
 **/*.pdf
+
+.vscode/

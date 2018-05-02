@@ -48,6 +48,7 @@ module Services
         # 判断是否需要使用扑客币抵扣 ricky-2018-03-13
         if @params[:deduction] || @params[:deduction].eql?('true')
           deduction_poker_coins = deduction_numbers(order.total_product_price).to_i
+          Rails.logger.info "shop: deduction_poker_coins-> #{deduction_poker_coins}"
           unless @params[:deduction_numbers].to_i.eql?(deduction_poker_coins)
             return ApiResult.error_result(DEDUCTION_ERROR)
           end
@@ -104,6 +105,7 @@ module Services
       def deduction_numbers(total_price)
         user_account = @user.counter.total_poker_coins
         max_deduction = total_price * 100 * PokerCoinDiscount.first.discount
+        Rails.logger.info "shop model: user_account-> #{user_account}, max_deduction-> #{max_deduction}"
         user_account > max_deduction ? max_deduction : user_account
       end
     end

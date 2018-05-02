@@ -7,6 +7,10 @@ Rails.application.routes.draw do
       post 'register', to: 'accounts#create', as: :register
     end
 
+    namespace :third_party do
+      resources :locations, only: [:index]
+    end
+
     namespace :account do
       resource :reset_password, only: [:create]
       resource :v_codes, only: [:create]
@@ -56,19 +60,44 @@ Rails.application.routes.draw do
 
     scope module: 'users' do
       resources :users, only: :show do
+        resources :nearbys, only: [:index, :create]
         resources :notifications, only: [:index, :destroy] do
           get 'unread_remind', on: :collection
           post 'read', on: :member
+        end
+        resources :topic_notifications, only: [:index, :destroy] do
+          get 'unread_count', on: :collection
+        end
+        resource :followships, only: [:create, :destroy] do
+          get 'following_ids', on: :collection
+          get 'followings', on: :collection
+          get 'followers', on: :collection
         end
         resources :followed_players, only: [:index]
         resources :login_count, only: [:create]
         resources :dynamics, only: [:index]
         resources :receive_replies, only: [:index]
         resources :reply_unread_count, only: [:index]
+        resources :user_topics, only: [:index, :create, :destroy] do
+          get 'my_focus', on: :collection
+          get  'search', on: :collection
+        end
+        resources :jmessage, only: [:index, :create] do
+          post 'delete', on: :collection
+        end
+        resources :im, only: [] do
+          post 'report', on: :collection
+        end
+        resource :profile, only: [:show]
       end
       resources :poker_coins, only: :index do
         get 'numbers', on: :collection
       end
+      resources :topics, only: :index do
+        get 'recommends', on: :collection
+        get 'details', on: :member
+      end
+      resources :report_templates, only: :index
     end
 
     scope module: 'orders' do
@@ -185,6 +214,13 @@ Rails.application.routes.draw do
       resources :videos, only: [] do
         get  'comments', on: :member
         post 'likes', on: :member
+      end
+
+      resources :user_topics, only: [] do
+        get  'comments', on: :member
+        post 'likes', on: :member
+        post 'image', on: :member
+        post 'report', on: :member
       end
     end
 

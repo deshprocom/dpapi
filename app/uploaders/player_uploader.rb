@@ -20,22 +20,6 @@ class PlayerUploader < BaseUploader
     "#{secure_token(10)}.#{file.extension}" if original_filename.present?
   end
 
-  # rubocop:disable Style/GuardClause
-  def crop
-    if model.crop_x.present?
-      manipulate! do |img|
-        x = model.crop_x.to_s
-        y = model.crop_y.to_s
-        w = model.crop_w.to_s
-        h = model.crop_h.to_s
-        size = w << 'x' << h
-        offset = '+' << x << '+' << y
-        img.crop("#{size}#{offset}")
-        img
-      end
-    end
-  end
-
   protected
 
   def secure_token(length = 16)

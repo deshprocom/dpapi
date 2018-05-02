@@ -21,7 +21,7 @@ module Services
       private
 
       def topic_type_permit?
-        %w(info video).include?(@params[:topic_type])
+        %w(info video user_topic).include?(@params[:topic_type])
       end
 
       def set_topic
@@ -34,6 +34,10 @@ module Services
 
       def set_video
         Video.find(@params[:topic_id])
+      end
+
+      def set_user_topic
+        UserTopic.find(@params[:topic_id])
       end
     end
   end

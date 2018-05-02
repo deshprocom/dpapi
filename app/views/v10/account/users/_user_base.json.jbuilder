@@ -10,3 +10,5 @@ json.reg_date     user.reg_date.to_i
 json.last_visit   user.last_visit.to_i
 json.signature    user.signature.to_s
 json.total_poker_coins user&.counter&.total_poker_coins
+json.following_count user.counter.following_count
+json.follower_count user.counter.follower_count

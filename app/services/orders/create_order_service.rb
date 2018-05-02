@@ -84,6 +84,7 @@ module Services
 
         if deduction_flag
           deduction_numbers = order.max_deduction_poker_coins.to_i
+          Rails.logger.info "race: deduction_numbers-> #{deduction_numbers}"
           unless @params[:deduction_numbers].to_i.eql?(deduction_numbers)
             return ApiResult.error_result(DEDUCTION_ERROR)
           end

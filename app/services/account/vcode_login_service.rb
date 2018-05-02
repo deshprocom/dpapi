@@ -7,11 +7,12 @@ module Services
       include Constants::Error::Sign
       include Constants::Error::Http
 
-      attr_accessor :mobile, :vcode
+      attr_accessor :mobile, :vcode, :remote_ip
 
-      def initialize(mobile, vcode)
+      def initialize(mobile, vcode, remote_ip)
         self.mobile = mobile
         self.vcode = vcode
+        self.remote_ip = remote_ip
       end
 
       def call
@@ -30,6 +31,8 @@ module Services
 
         # 刷新上次访问时间
         user.touch_visit!
+
+        user.touch_login_ip!(remote_ip)
 
         # 生成用户令牌
         secret = CurrentRequestCredential.affiliate_app.try(:app_secret)

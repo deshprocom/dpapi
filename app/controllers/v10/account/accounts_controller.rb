@@ -17,13 +17,13 @@ module V10
 
       def register_by_mobile
         mobile_register_service = Services::Account::MobileRegisterService
-        api_result = mobile_register_service.call(user_params[:mobile], user_params[:vcode], user_params[:password])
+        api_result = mobile_register_service.call(user_params, request.remote_ip)
         render_api_result api_result
       end
 
       def register_by_email
         email_register_service = Services::Account::EmailRegisterService
-        api_result = email_register_service.call(user_params[:email], user_params[:password])
+        api_result = email_register_service.call(user_params, request.remote_ip)
         render_api_result api_result
       end
 

@@ -79,7 +79,7 @@ module Services
 
       def save_order_item(item, order)
         item.product_order = order
-        item.seven_days_return = item.variant.product.seven_days_return
+        item.syn_variant
         item.save
       end
     end
